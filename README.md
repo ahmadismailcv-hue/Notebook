@@ -8,6 +8,9 @@ A personal notebook app in the style of Notion: **Notebooks → Modules → Page
   - select text for a formatting toolbar: turn into, bold/italic/underline/strike, code, link, coloured highlights
   - drag handles to move blocks; `+` adds a block
 - On phone, a keyboard toolbar replaces the floating selection toolbar
+- **Mark mode** (pen button): the page becomes read-only, so a long-press selects text. A bottom bar holds Adler's seven marking tools:
+  red underline, vertical line, star, auto-numbered steps, `cf.` cross-references (between passages, across pages),
+  circled terms, and handwritten margin notes (in the margin on wide screens, under the passage on phone). **Key** shows the legend.
 
 - **Frontend:** React + TypeScript (Vite) with the TipTap editor
 - **Backend:** Supabase (Postgres + Auth + Storage), with row-level security so every row is visible only to its owner

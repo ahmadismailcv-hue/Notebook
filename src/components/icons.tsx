@@ -18,6 +18,7 @@ const paths: Record<string, string> = {
   check: 'M4.5 10.5 8 14l7.5-8',
   undo: 'M7 7h6a3.5 3.5 0 0 1 0 7H8M7 7l2.5-2.5M7 7l2.5 2.5',
   redo: 'M13 7H7a3.5 3.5 0 0 0 0 7h5M13 7l-2.5-2.5M13 7l-2.5 2.5',
+  pen: 'M12.5 4.5l3 3L8 15l-3.5.5L5 12zM11 6l3 3',
   keyboardHide: 'M3.5 4.5h13v8h-13zM6 7h1M9.5 7h1M13 7h1M6.5 10h7M8 15.5l2 2 2-2',
 }
 

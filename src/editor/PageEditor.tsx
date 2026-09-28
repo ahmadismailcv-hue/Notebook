@@ -18,16 +18,24 @@ import { BubbleToolbar } from './BubbleToolbar'
 import { Callout } from './Callout'
 import { SlashCommand } from './SlashCommand'
 import { Toolbar } from './Toolbar'
+import { MARKING_EXTENSIONS } from './marking'
+import { MarkingBar } from './MarkingBar'
+import { useMarkTaps } from './useMarkTaps'
 
 interface Props {
+  pageId: string
   initial: Snapshot
   onChange: (snap: Snapshot) => void
+  /** Mark mode: read-only page with Adler's marking tools. */
+  marking: boolean
+  /** Cross-reference to scroll to and flash once the page opens. */
+  focusRef?: string | null
 }
 
 // Stable plugin config: the drag handle re-registers its plugin when these props change.
 const HANDLE_POSITION = { placement: 'left-start' as const, strategy: 'absolute' as const }
 
-export const PageEditor = memo(function PageEditor({ initial, onChange }: Props) {
+export const PageEditor = memo(function PageEditor({ pageId, initial, onChange, marking, focusRef }: Props) {
   const popover = usePopover()
   const [title, setTitle] = useState(initial.title)
   const [icon, setIcon] = useState(initial.icon)
@@ -86,6 +94,7 @@ export const PageEditor = memo(function PageEditor({ initial, onChange }: Props)
       TaskList,
       TaskItem.configure({ nested: true }),
       Callout,
+      ...MARKING_EXTENSIONS,
       SlashCommand.configure({ onImage: () => void chooseImage() }),
       Placeholder.configure({
         includeChildren: true,
@@ -132,6 +141,28 @@ export const PageEditor = memo(function PageEditor({ initial, onChange }: Props)
   useEffect(() => {
     if (!initial.title && editor?.isEmpty) titleEl.current?.focus()
   }, [editor, initial.title])
+
+  // Mark mode makes the page read-only, so a long-press selects text instead of opening the keyboard.
+  useEffect(() => {
+    if (!editor) return
+    editor.setEditable(!marking, false)
+    if (marking) (document.activeElement as HTMLElement | null)?.blur?.()
+  }, [editor, marking])
+
+  useMarkTaps(editor, pageId, marking)
+
+  // Arriving from a cross-reference: bring the linked passage into view.
+  useEffect(() => {
+    if (!editor || !focusRef) return
+    const t = window.setTimeout(() => {
+      const el = editor.view.dom.querySelector<HTMLElement>(`[data-xref="${CSS.escape(focusRef)}"]`)
+      if (!el) return
+      el.scrollIntoView({ block: 'center', behavior: 'smooth' })
+      el.classList.add('flash')
+      window.setTimeout(() => el.classList.remove('flash'), 2200)
+    }, 150)
+    return () => window.clearTimeout(t)
+  }, [editor, focusRef])
 
   if (!editor) return null
 
@@ -260,7 +291,7 @@ export const PageEditor = memo(function PageEditor({ initial, onChange }: Props)
           </button>
         </div>
       )}
-      <article className={`doc page ${banner ? 'has-banner' : ''} ${icon ? 'has-icon' : ''}`}>
+      <article className={`doc page ${banner ? 'has-banner' : ''} ${icon ? 'has-icon' : ''} ${marking ? 'is-marking' : ''}`}>
         {icon && (
           <button className="page-icon" onClick={(e) => pickIcon(e.currentTarget)} aria-label="Change icon">
             {icon}
@@ -332,7 +363,7 @@ export const PageEditor = memo(function PageEditor({ initial, onChange }: Props)
         <EditorContent editor={editor} />
         <BubbleToolbar editor={editor} />
       </article>
-      <Toolbar editor={editor} uploading={uploading > 0} onImage={() => void chooseImage()} />
+      {marking ? <MarkingBar editor={editor} pageId={pageId} /> : <Toolbar editor={editor} uploading={uploading > 0} onImage={() => void chooseImage()} />}
     </>
   )
 })

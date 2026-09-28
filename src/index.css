@@ -1694,3 +1694,445 @@ a.crumb-link:hover {
     display: none;
   }
 }
+
+/* ============ Adler marking ============ */
+:root {
+  --mk-red: #d0342c;
+  --mk-green: #3f7d4f;
+  --mk-blue: #2f6292;
+  --hand: 'Caveat', 'Bradley Hand', 'Segoe Print', 'Comic Sans MS', cursive;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --mk-red: #ff6b61;
+    --mk-green: #7cc48d;
+    --mk-blue: #7fb2e5;
+  }
+}
+.main {
+  container-type: inline-size;
+}
+.handwriting {
+  font-family: var(--hand);
+  font-size: 1.15em;
+  color: var(--text-2);
+}
+.prose {
+  position: relative;
+  counter-reset: step;
+}
+.mk-key {
+  text-decoration-line: underline;
+  text-decoration-color: var(--mk-red);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  text-decoration-skip-ink: none;
+}
+.mk-circled {
+  border: 1.5px solid var(--mk-green);
+  border-radius: 999px;
+  padding: 0 5px;
+  margin: 0 1px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.mk-star {
+  color: var(--mk-red);
+  font-size: 0.95em;
+  margin: 0 1px 0 3px;
+  cursor: default;
+}
+.prose .mk-step,
+.mk-step.key-step {
+  display: inline-grid;
+  place-items: center;
+  width: 1.3em;
+  height: 1.3em;
+  margin-right: 0.45em;
+  border: 1.2px solid currentColor;
+  border-radius: 50%;
+  font-size: 0.72em;
+  line-height: 1;
+  vertical-align: 0.15em;
+  font-variant-numeric: tabular-nums;
+}
+.prose .mk-step::before {
+  counter-increment: step;
+  content: counter(step);
+}
+.mk-xref {
+  color: var(--mk-blue);
+  text-decoration: underline dotted var(--mk-blue);
+  text-underline-offset: 3px;
+}
+.prose .mk-xref:last-child::after,
+.prose .mk-xref:not(:has(+ .mk-xref))::after {
+  content: 'cf.';
+  font-size: 0.62em;
+  vertical-align: super;
+  margin-left: 2px;
+  text-decoration: none;
+  display: inline-block;
+}
+.prose .mk-note {
+  background: linear-gradient(transparent 62%, rgb(208 52 44 / 0.12) 62%);
+  border-bottom: 1px dashed rgb(208 52 44 / 0.45);
+}
+.is-marking .prose .mk-xref,
+.is-marking .prose .mk-note,
+.is-marking .prose .mk-star,
+.is-marking .prose .mk-step {
+  cursor: pointer;
+}
+.prose [data-margin-line='true'] {
+  position: relative;
+  padding-left: 16px !important;
+}
+.prose [data-margin-line='true']::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--text);
+}
+.flash {
+  animation: flash 2.2s ease-out;
+  border-radius: 3px;
+}
+@keyframes flash {
+  0%,
+  30% {
+    background: rgb(35 131 226 / 0.3);
+  }
+  100% {
+    background: transparent;
+  }
+}
+
+/* Handwritten notes: under the passage by default, in the right margin when there's room. */
+.note-widget {
+  display: block;
+  font-family: var(--hand);
+  font-size: 21px;
+  line-height: 1.25;
+  color: var(--text-2);
+  user-select: none;
+  -webkit-user-select: none;
+}
+.note-widget-item {
+  display: block;
+  cursor: pointer;
+  white-space: pre-wrap;
+  border-radius: 4px;
+}
+.note-widget-item:hover {
+  color: var(--text);
+}
+.note-below {
+  margin: 4px 0 14px;
+  padding-left: 2px;
+}
+.note-below .note-widget-item + .note-widget-item {
+  margin-top: 6px;
+}
+.note-margin {
+  display: none;
+}
+@container (min-width: 1080px) {
+  .page-main:has(.note-margin) .doc {
+    margin-left: max(56px, calc((100% - 708px - 272px) / 2));
+    margin-right: 0;
+  }
+  .page-main:has(.note-margin) .banner + .doc,
+  .page-main:has(.note-margin) .doc.page {
+    max-width: calc(708px + 96px);
+    padding-right: 0;
+  }
+  .note-below {
+    display: none;
+  }
+  .note-margin {
+    display: block;
+    position: absolute;
+    left: calc(100% + 36px);
+    width: 230px;
+    margin-top: 2px;
+    padding-left: 12px;
+    border-left: 1px solid var(--border-strong);
+  }
+  .note-margin .note-widget-item + .note-widget-item {
+    margin-top: 8px;
+  }
+}
+
+/* Mark mode chrome */
+.is-marking .drag-handle {
+  display: none !important;
+}
+.is-marking .prose {
+  cursor: text;
+  caret-color: transparent;
+}
+.is-marking .page-title {
+  pointer-events: none;
+}
+.mark-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 9px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--text-2);
+}
+.mark-toggle:hover {
+  background: var(--hover);
+}
+.mark-toggle.on {
+  background: var(--text);
+  color: var(--bg);
+}
+.marking-bar-wrap {
+  position: fixed;
+  z-index: 30;
+  left: 50%;
+  bottom: calc(16px + var(--safe-bottom));
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100vw - 16px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.app:not(.is-phone).sidebar-open .marking-bar-wrap {
+  left: calc(50% + var(--sidebar-w) / 2);
+}
+.marking-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px;
+  border-radius: 14px;
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-pop);
+  max-width: 100%;
+}
+.marking-tools {
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.marking-tools::-webkit-scrollbar {
+  display: none;
+}
+.mark-tool {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 56px;
+  height: 52px;
+  border-radius: 10px;
+  color: var(--text);
+}
+.mark-tool:hover:not(:disabled) {
+  background: var(--hover);
+}
+.mark-tool:disabled {
+  opacity: 0.35;
+}
+.mark-tool-glyph {
+  height: 24px;
+  display: grid;
+  place-items: center;
+  font-size: 17px;
+  font-weight: 500;
+}
+.mark-tool-label {
+  font-size: 10.5px;
+  color: var(--text-2);
+}
+.glyph-line {
+  width: 2.5px;
+  height: 20px;
+  border-radius: 2px;
+  background: var(--text);
+}
+.glyph-step {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 1.4px solid currentColor;
+  border-radius: 50%;
+  font-size: 11px;
+}
+.mk-xref-glyph {
+  color: var(--mk-blue);
+  font-size: 15px;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+.glyph-circled {
+  font-size: 13px;
+  line-height: 18px;
+}
+.glyph-note {
+  font-size: 18px;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+@keyframes hint-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+.marking-extra {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: 4px;
+  border-left: 1px solid var(--border);
+}
+.mark-mini {
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--text-2);
+}
+.mark-mini:hover:not(:disabled) {
+  background: var(--hover);
+}
+.mark-mini:disabled {
+  opacity: 0.35;
+}
+.marking-hint {
+  order: -1;
+  animation: hint-out 0.4s ease-in 4s forwards;
+  pointer-events: none;
+  font-size: 12px;
+  color: var(--text-2);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-card);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.xref-banner {
+  order: -1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: min(560px, calc(100vw - 16px));
+  padding: 8px 8px 8px 12px;
+  border-radius: 10px;
+  background: var(--mk-blue);
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.35;
+  box-shadow: var(--shadow-pop);
+}
+.xref-banner .chip {
+  color: #fff;
+  border-color: rgb(255 255 255 / 0.5);
+  flex-shrink: 0;
+}
+.marking-key {
+  width: 340px;
+  max-width: 100%;
+  padding: 6px 12px 12px;
+}
+.marking-key dl {
+  margin: 4px 0 0;
+  display: grid;
+  gap: 10px;
+}
+.marking-key dl > div {
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+.marking-key dt {
+  display: inline;
+  font-weight: 500;
+}
+.marking-key dd {
+  display: inline;
+  margin: 0;
+  color: var(--text-2);
+}
+.marking-key dd::before {
+  content: ' — ';
+}
+.key-line {
+  border-left: 2px solid var(--text);
+  padding-left: 6px;
+}
+.sheet .marking-key {
+  width: 100%;
+}
+.note-quote {
+  margin: 0 0 10px;
+  padding: 2px 0 2px 10px;
+  border-left: 2px solid var(--border-strong);
+  color: var(--text-2);
+  font-size: 13px;
+  max-height: 72px;
+  overflow: hidden;
+}
+.note-input {
+  height: auto;
+  min-height: 96px;
+  padding: 8px 10px;
+  resize: vertical;
+  font-family: var(--hand);
+  font-size: 22px;
+  line-height: 1.3;
+}
+.btn-ghost-danger {
+  border-color: transparent;
+  color: var(--danger);
+  padding: 0 6px;
+}
+@media (max-width: 760px) {
+  .mark-toggle-label {
+    display: none;
+  }
+  .marking-bar-wrap {
+    left: 0;
+    right: 0;
+    transform: none;
+    width: auto;
+    max-width: none;
+    bottom: 0;
+    gap: 6px;
+  }
+  .marking-bar {
+    width: 100%;
+    border-radius: 14px 14px 0 0;
+    padding: 6px 6px calc(6px + var(--safe-bottom));
+    box-shadow: 0 -1px 0 var(--border), 0 -6px 18px rgb(15 15 15 / 0.06);
+  }
+  .marking-tools {
+    flex: 1;
+    justify-content: space-between;
+  }
+  .mark-tool {
+    width: 46px;
+  }
+  .xref-banner,
+  .marking-hint {
+    margin: 0 8px;
+  }
+  .note-widget {
+    font-size: 20px;
+  }
+}

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useWorkspace } from '../lib/workspace'
 import { DEFAULT_ICON, type Page } from '../lib/types'
@@ -29,6 +29,24 @@ export function PageView() {
   const saver = usePageSaver(pageId)
   const [initial, setInitial] = useState<Snapshot | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [searchParams] = useSearchParams()
+  const focusRef = searchParams.get('ref')
+  const [marking, setMarking] = useState(() => {
+    try {
+      return localStorage.getItem('nb:marking') === 'on'
+    } catch {
+      return false
+    }
+  })
+  const toggleMarking = () =>
+    setMarking((m) => {
+      try {
+        localStorage.setItem('nb:marking', m ? 'off' : 'on')
+      } catch {
+        /* ignore */
+      }
+      return !m
+    })
 
   useEffect(() => {
     let cancelled = false
@@ -108,6 +126,16 @@ export function PageView() {
         }
         right={
           <>
+            <button
+              className={`mark-toggle ${marking ? 'on' : ''}`}
+              onClick={toggleMarking}
+              aria-pressed={marking}
+              aria-label={marking ? 'Done marking' : 'Mark mode'}
+              title={marking ? 'Back to writing' : 'Mark mode: underline, star, circle, notes…'}
+            >
+              <Icon name="pen" size={17} />
+              <span className="mark-toggle-label">{marking ? 'Done' : 'Mark'}</span>
+            </button>
             <span className={`save-state save-${saver.state}`} aria-live="polite">
               {SAVE_LABEL[saver.state]}
             </span>
@@ -121,7 +149,7 @@ export function PageView() {
       />
       <main className="page-main">
         {initial ? (
-          <PageEditor key={pageId} initial={initial} onChange={onChange} />
+          <PageEditor key={pageId} pageId={pageId} initial={initial} onChange={onChange} marking={marking} focusRef={focusRef} />
         ) : (
           <div className="doc">
             <p className={`status ${error ? 'error' : ''}`}>{error ? `Couldn’t load this page: ${error}` : 'Loading…'}</p>

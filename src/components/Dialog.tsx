@@ -6,11 +6,15 @@ type Request =
   | { kind: 'prompt'; title: string; initial: string; okLabel: string; resolve: (v: string | null) => void }
   | { kind: 'confirm'; title: string; message: string; okLabel: string; danger: boolean; resolve: (v: boolean) => void }
   | { kind: 'choose'; title: string; choices: Choice[]; resolve: (v: string | null) => void }
+  | { kind: 'note'; title: string; quote: string; initial: string; canDelete: boolean; resolve: (v: NoteResult) => void }
+
+export type NoteResult = { text: string } | { delete: true } | null
 
 interface DialogApi {
   prompt: (title: string, initial?: string, okLabel?: string) => Promise<string | null>
   confirm: (title: string, message: string, opts?: { okLabel?: string; danger?: boolean }) => Promise<boolean>
   choose: (title: string, choices: Choice[]) => Promise<string | null>
+  note: (opts: { title: string; quote: string; initial?: string; canDelete?: boolean }) => Promise<NoteResult>
 }
 
 const DialogContext = createContext<DialogApi | null>(null)
@@ -41,7 +45,13 @@ export function DialogProvider({ children }: { children: ReactNode }) {
     [],
   )
 
-  const [api] = useState<DialogApi>(() => ({ prompt, confirm, choose }))
+  const note = useCallback<DialogApi['note']>(
+    ({ title, quote, initial = '', canDelete = false }) =>
+      new Promise((resolve) => setReq({ kind: 'note', title, quote, initial, canDelete, resolve })),
+    [],
+  )
+
+  const [api] = useState<DialogApi>(() => ({ prompt, confirm, choose, note }))
 
   return (
     <DialogContext.Provider value={api}>
@@ -52,7 +62,7 @@ export function DialogProvider({ children }: { children: ReactNode }) {
 }
 
 function DialogView({ req, close }: { req: Request; close: () => void }) {
-  const [value, setValue] = useState(req.kind === 'prompt' ? req.initial : '')
+  const [value, setValue] = useState(req.kind === 'prompt' || req.kind === 'note' ? req.initial : '')
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -87,6 +97,45 @@ function DialogView({ req, close }: { req: Request; close: () => void }) {
             <div className="dialog-actions">
               <button type="button" className="btn" onClick={cancel}>Cancel</button>
               <button type="submit" className="btn btn-primary">{req.okLabel}</button>
+            </div>
+          </form>
+        )}
+        {req.kind === 'note' && (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault()
+              req.resolve({ text: value.trim() })
+              close()
+            }}
+          >
+            {req.quote && <blockquote className="note-quote">{req.quote}</blockquote>}
+            <textarea
+              className="input note-input"
+              autoFocus
+              rows={4}
+              placeholder="Your summary, question or reaction…"
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) e.currentTarget.form?.requestSubmit()
+              }}
+            />
+            <div className="dialog-actions">
+              {req.canDelete && (
+                <button
+                  type="button"
+                  className="btn btn-ghost-danger"
+                  onClick={() => {
+                    req.resolve({ delete: true })
+                    close()
+                  }}
+                >
+                  Delete note
+                </button>
+              )}
+              <span style={{ flex: 1 }} />
+              <button type="button" className="btn" onClick={cancel}>Cancel</button>
+              <button type="submit" className="btn btn-primary" disabled={!value.trim()}>Save</button>
             </div>
           </form>
         )}
