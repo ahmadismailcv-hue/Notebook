@@ -8,6 +8,8 @@ A personal notebook app in the style of Notion: **Notebooks → Modules → Page
   - select text for a formatting toolbar: turn into, bold/italic/underline/strike, code, link, coloured highlights
   - drag handles to move blocks; `+` adds a block
 - On phone, a keyboard toolbar replaces the floating selection toolbar
+- **Search** (sidebar, or ⌘K): searches page titles, text and margin notes, plus notebook and module names
+- **Move to…**: move a page to another module, or a module to another notebook, from its `⋯` menu
 - **Mark mode** (pen button): the page becomes read-only, so a long-press selects text. A bottom bar holds Adler's seven marking tools:
   red underline, vertical line, star, auto-numbered steps, `cf.` cross-references (between passages, across pages),
   circled terms, and handwritten margin notes (in the margin on wide screens, under the passage on phone). **Key** shows the legend.

@@ -33,6 +33,8 @@ interface Workspace {
   updateModule: (id: string, patch: Partial<Pick<Module, 'title' | 'icon'>>) => Promise<void>
   /** Local-only update, used while the page editor saves through its own queue. */
   patchPageLocal: (id: string, patch: Partial<TreePage>) => void
+  movePage: (id: string, moduleId: string) => Promise<void>
+  moveModule: (id: string, notebookId: string) => Promise<void>
   deleteNotebook: (id: string) => Promise<void>
   deleteModule: (id: string) => Promise<void>
   deletePage: (id: string) => Promise<void>
@@ -117,6 +119,37 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         setTree((cur) =>
           cur ? mapModules(cur, (m) => (m.pages.some((p) => p.id === id) ? { ...m, pages: m.pages.map((p) => (p.id === id ? { ...p, ...patch } : p)) } : m)) : cur,
         ),
+      movePage: async (id, moduleId) => {
+        // Goes to the end of the destination module.
+        const position = Date.now() / 1000
+        must(await supabase.from('pages').update({ module_id: moduleId, position }).eq('id', id))
+        setTree((cur) => {
+          if (!cur) return cur
+          let moved: TreePage | undefined
+          const without = mapModules(cur, (m) => {
+            const p = m.pages.find((x) => x.id === id)
+            if (!p) return m
+            moved = p
+            return { ...m, pages: m.pages.filter((x) => x.id !== id) }
+          })
+          if (!moved) return cur
+          const page = { ...moved, module_id: moduleId, position }
+          return mapModules(without, (m) => (m.id === moduleId ? { ...m, pages: [...m.pages, page] } : m))
+        })
+      },
+      moveModule: async (id, notebookId) => {
+        const position = Date.now() / 1000
+        must(await supabase.from('modules').update({ notebook_id: notebookId, position }).eq('id', id))
+        setTree((cur) => {
+          if (!cur) return cur
+          const mod = cur.flatMap((n) => n.modules).find((m) => m.id === id)
+          if (!mod) return cur
+          return cur.map((n) => {
+            const modules = n.modules.filter((m) => m.id !== id)
+            return n.id === notebookId ? { ...n, modules: [...modules, { ...mod, notebook_id: notebookId, position }] } : { ...n, modules }
+          })
+        })
+      },
       deleteNotebook: async (id) => {
         must(await supabase.from('notebooks').delete().eq('id', id))
         setTree((cur) => (cur ?? []).filter((n) => n.id !== id))

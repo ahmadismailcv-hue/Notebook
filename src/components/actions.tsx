@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useWorkspace } from '../lib/workspace'
-import { NOTEBOOK_COLORS } from '../lib/types'
+import { DEFAULT_ICON, NOTEBOOK_COLORS } from '../lib/types'
 import { useDialog } from './Dialog'
 import { EmojiPicker } from './EmojiPicker'
 import { Icon } from './icons'
@@ -89,6 +89,7 @@ export function useItemActions() {
           { label: 'Rename', icon: <Icon name="edit" />, onSelect: () => void rename('module', id, m.title) },
           { label: 'Change icon', icon: <Icon name="smile" />, onSelect: () => pickIcon(anchor, (icon) => void attempt(() => ws.updateModule(id, { icon }))) },
           { label: 'New page inside', icon: <Icon name="plus" />, onSelect: () => void attempt(async () => navigate(`/p/${await ws.createPage(id)}`)) },
+          { label: 'Move to…', icon: <span className="glyph">↗</span>, onSelect: () => moveModuleTo(anchor, id) },
           'divider',
           {
             label: 'Delete',
@@ -111,6 +112,41 @@ export function useItemActions() {
     ))
   }
 
+  const movePageTo = (anchor: HTMLElement, id: string) => {
+    const p = ws.findPage(id)
+    if (!p) return
+    const targets = (ws.tree ?? []).flatMap((n) => n.modules.filter((m) => m.id !== p.module_id).map((m) => ({ m, n })))
+    popover.open(anchor, (close) => (
+      <Menu
+        close={close}
+        title={targets.length ? 'Move to module' : 'No other modules yet'}
+        items={targets.map(({ m, n }) => ({
+          label: displayTitle(m.title),
+          icon: <span>{m.icon ?? DEFAULT_ICON.module}</span>,
+          hint: displayTitle(n.title),
+          onSelect: () => void attempt(() => ws.movePage(id, m.id)),
+        }))}
+      />
+    ))
+  }
+
+  const moveModuleTo = (anchor: HTMLElement, id: string) => {
+    const m = ws.findModule(id)
+    if (!m) return
+    const targets = (ws.tree ?? []).filter((n) => n.id !== m.notebook_id)
+    popover.open(anchor, (close) => (
+      <Menu
+        close={close}
+        title={targets.length ? 'Move to notebook' : 'No other notebooks yet'}
+        items={targets.map((n) => ({
+          label: displayTitle(n.title),
+          icon: <span>{n.icon ?? DEFAULT_ICON.notebook}</span>,
+          onSelect: () => void attempt(() => ws.moveModule(id, n.id)),
+        }))}
+      />
+    ))
+  }
+
   const pageMenu = (anchor: HTMLElement, id: string) => {
     const p = ws.findPage(id)
     if (!p) return
@@ -119,6 +155,8 @@ export function useItemActions() {
         close={close}
         title={displayTitle(p.title)}
         items={[
+          { label: 'Move to…', icon: <span className="glyph">↗</span>, onSelect: () => movePageTo(anchor, id) },
+          'divider',
           {
             label: 'Delete',
             icon: <Icon name="trash" />,

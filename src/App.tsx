@@ -5,6 +5,7 @@ import { LoginPage } from './auth/LoginPage'
 import { DialogProvider } from './components/Dialog'
 import { AppLayout } from './components/Layout'
 import { PopoverProvider } from './components/Popover'
+import { SearchProvider } from './components/Search'
 import { WorkspaceProvider } from './lib/workspace'
 import { HomeView } from './views/HomeView'
 import { NotebookView } from './views/NotebookView'
@@ -23,22 +24,24 @@ function Routed() {
   if (!session) return <LoginPage />
   return (
     <WorkspaceProvider key={session.user.id}>
-      <Routes>
-        <Route element={<AppLayout />}>
-          <Route path="/" element={<HomeView />} />
-          <Route path="/n/:notebookId" element={<NotebookView />} />
-          <Route path="/m/:moduleId" element={<ModuleView />} />
-          <Route
-            path="/p/:pageId"
-            element={
-              <Suspense fallback={null}>
-                <PageView />
-              </Suspense>
-            }
-          />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Route>
-      </Routes>
+      <SearchProvider>
+        <Routes>
+          <Route element={<AppLayout />}>
+            <Route path="/" element={<HomeView />} />
+            <Route path="/n/:notebookId" element={<NotebookView />} />
+            <Route path="/m/:moduleId" element={<ModuleView />} />
+            <Route
+              path="/p/:pageId"
+              element={
+                <Suspense fallback={null}>
+                  <PageView />
+                </Suspense>
+              }
+            />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Route>
+        </Routes>
+      </SearchProvider>
     </WorkspaceProvider>
   )
 }

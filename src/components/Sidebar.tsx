@@ -7,6 +7,7 @@ import { DEFAULT_ICON } from '../lib/types'
 import { displayTitle, useItemActions } from './actions'
 import { Icon } from './icons'
 import { useLayout } from './Layout'
+import { useOpenSearch } from './Search'
 
 function useExpanded() {
   const [open, setOpen] = useState<Set<string>>(() => {
@@ -93,6 +94,7 @@ export function Sidebar() {
   const { toggleSidebar, isPhone } = useLayout()
   const actions = useItemActions()
   const expanded = useExpanded()
+  const openSearch = useOpenSearch()
 
   const [, kind, id] = pathname.split('/')
 
@@ -132,6 +134,11 @@ export function Sidebar() {
       </div>
 
       <nav className="sb-scroll">
+        <button className="sb-nav" onClick={openSearch}>
+          <Icon name="search" size={17} />
+          <span>Search</span>
+          <kbd className="sb-kbd">⌘K</kbd>
+        </button>
         <Link to="/" className={`sb-nav ${pathname === '/' ? 'active' : ''}`}>
           <Icon name="home" size={17} />
           <span>Home</span>
