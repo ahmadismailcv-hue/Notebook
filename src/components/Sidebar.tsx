@@ -1,7 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthProvider'
-import { supabase } from '../lib/supabase'
 import { useWorkspace } from '../lib/workspace'
 import { DEFAULT_ICON } from '../lib/types'
 import { displayTitle, useItemActions } from './actions'
@@ -208,12 +207,6 @@ export function Sidebar() {
         </button>
       </nav>
 
-      <div className="sb-foot">
-        <button className="sb-nav" onClick={() => void supabase.auth.signOut()}>
-          <Icon name="logout" size={17} />
-          <span>Sign out</span>
-        </button>
-      </div>
     </aside>
   )
 }
