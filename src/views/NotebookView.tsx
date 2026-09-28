@@ -1,84 +1,64 @@
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { supabase } from '../lib/supabase'
-import type { Module, Notebook } from '../lib/types'
-import { useDialog } from '../components/Dialog'
-import { Collage, MoreButton, SignOutButton, Status, TopBar, must, safely, useLoad } from '../components/ui'
-
-type Row = Module & { pages: { cover_url: string | null }[] }
+import { useNavigate, useParams } from 'react-router-dom'
+import { useWorkspace } from '../lib/workspace'
+import { DEFAULT_ICON } from '../lib/types'
+import { TopBar } from '../components/Layout'
+import { displayTitle, useItemActions } from '../components/actions'
+import { GalleryCard, IconButton, InlineTitle, NewCard } from '../components/collection'
+import { Icon } from '../components/icons'
 
 export function NotebookView() {
   const { notebookId = '' } = useParams()
+  const ws = useWorkspace()
+  const actions = useItemActions()
   const navigate = useNavigate()
-  const dialog = useDialog()
-  const { data, error, reload } = useLoad(async () => {
-    const [nb, mods] = await Promise.all([
-      supabase.from('notebooks').select('*').eq('id', notebookId).single(),
-      supabase
-        .from('modules')
-        .select('*, pages(cover_url)')
-        .eq('notebook_id', notebookId)
-        .order('position')
-        .order('updated_at', { referencedTable: 'pages', ascending: false }),
-    ])
-    return { notebook: must(nb) as Notebook, modules: must(mods) as Row[] }
-  }, [notebookId])
+  const nb = ws.findNotebook(notebookId)
 
-  const create = () =>
-    safely(async () => {
-      const title = await dialog.prompt('New module', '', 'Create')
-      if (!title) return
-      const mod = must(await supabase.from('modules').insert({ title, notebook_id: notebookId }).select('id').single())
-      navigate(`/m/${mod.id}`)
-    })
+  if (!nb)
+    return (
+      <>
+        <TopBar crumbs={[]} />
+        <main className="doc">
+          <p className="status">{ws.tree ? 'This notebook doesn’t exist or was deleted.' : ws.error ?? 'Loading…'}</p>
+        </main>
+      </>
+    )
 
-  const options = (m: Module) =>
-    safely(async () => {
-      const action = await dialog.choose(m.title, [
-        { label: 'Rename', value: 'rename' },
-        { label: 'Delete module', value: 'delete', danger: true },
-      ])
-      if (action === 'rename') {
-        const title = await dialog.prompt('Rename module', m.title)
-        if (title) must(await supabase.from('modules').update({ title }).eq('id', m.id))
-      } else if (action === 'delete') {
-        const ok = await dialog.confirm('Delete module?', `“${m.title}” and every page inside it will be permanently deleted.`, {
-          okLabel: 'Delete',
-          danger: true,
-        })
-        if (ok) must(await supabase.from('modules').delete().eq('id', m.id))
-      }
-      if (action) void reload()
-    })
-
-  const title = data?.notebook.title ?? '…'
+  const icon = nb.icon ?? DEFAULT_ICON.notebook
+  const newModule = () => void actions.attempt(async () => navigate(`/m/${await ws.createModule(nb.id)}`))
 
   return (
-    <div className="shell">
-      <TopBar crumbs={[{ label: 'Notebooks', to: '/' }, { label: title }]} right={<SignOutButton />} />
-      <main className="content">
-        <div className="view-head">
-          <h1>{title}</h1>
-          <button className="btn btn-primary" onClick={create}>+ New module</button>
+    <>
+      <TopBar
+        crumbs={[{ label: displayTitle(nb.title), icon }]}
+        right={
+          <button className="icon-btn" aria-label="Notebook options" onClick={(e) => actions.notebookMenu(e.currentTarget, nb.id)}>
+            <Icon name="more" />
+          </button>
+        }
+      />
+      <main className="doc doc-wide">
+        <div className="collection-head">
+          <IconButton icon={icon} onPick={(a) => actions.pickIcon(a, (i) => void actions.attempt(() => ws.updateNotebook(nb.id, { icon: i })))} />
+          <InlineTitle key={nb.id} value={nb.title} autoFocus={!nb.title} onSave={(title) => void actions.attempt(() => ws.updateNotebook(nb.id, { title }))} />
+          <p className="collection-meta">
+            {nb.modules.length} {nb.modules.length === 1 ? 'module' : 'modules'}
+          </p>
         </div>
-        <Status error={error} loading={!data} empty={data?.modules.length === 0 && 'No modules yet. Modules group related pages, like chapters.'} />
-        <div className="grid">
-          {data?.modules.map((m) => {
-            const covers = m.pages.map((p) => p.cover_url).filter((u): u is string => !!u)
-            return (
-              <Link key={m.id} to={`/m/${m.id}`} className="card module-card">
-                <Collage urls={covers} />
-                <div className="card-body">
-                  <h3 className="card-title">{m.title}</h3>
-                  <p className="card-meta">
-                    {m.pages.length} {m.pages.length === 1 ? 'page' : 'pages'}
-                  </p>
-                </div>
-                <MoreButton label={m.title} onClick={() => void options(m)} />
-              </Link>
-            )
-          })}
+        <div className="gallery">
+          {nb.modules.map((m) => (
+            <GalleryCard
+              key={m.id}
+              to={`/m/${m.id}`}
+              icon={m.icon ?? DEFAULT_ICON.module}
+              title={m.title}
+              cover={{ collage: m.pages.map((p) => p.cover_url ?? '').filter(Boolean), color: 'var(--bg-soft)' }}
+              meta={`${m.pages.length} ${m.pages.length === 1 ? 'page' : 'pages'}`}
+              onMore={(a) => actions.moduleMenu(a, m.id)}
+            />
+          ))}
+          <NewCard label="New module" onClick={newModule} />
         </div>
       </main>
-    </div>
+    </>
   )
 }

@@ -1,50 +1,54 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
-import type { Page } from '../lib/types'
-import { clearDraft, readDraft, usePageSaver, type SaveState, type Snapshot } from '../lib/pageSaver'
+import { useWorkspace } from '../lib/workspace'
+import { DEFAULT_ICON, type Page } from '../lib/types'
+import { clearDraft, derivePageMeta, readDraft, usePageSaver, type SaveState, type Snapshot } from '../lib/pageSaver'
 import { useDialog } from '../components/Dialog'
-import { Status, TopBar, must } from '../components/ui'
+import { TopBar } from '../components/Layout'
+import { displayTitle, useItemActions } from '../components/actions'
+import { Icon } from '../components/icons'
 import { PageEditor } from '../editor/PageEditor'
-
-type PageRow = Page & { modules: { id: string; title: string; notebooks: { id: string; title: string } } }
 
 const SAVE_LABEL: Record<SaveState, string> = {
   saved: 'Saved',
   saving: 'Saving…',
-  unsaved: 'Unsaved',
+  unsaved: 'Editing',
   error: 'Save failed – retrying',
   offline: 'Offline – kept on this device',
 }
 
-const same = (a: Snapshot, b: Snapshot) => a.title === b.title && JSON.stringify(a.content) === JSON.stringify(b.content)
+const same = (a: Snapshot, b: Snapshot) =>
+  a.title === b.title && a.icon === b.icon && a.banner_url === b.banner_url && JSON.stringify(a.content) === JSON.stringify(b.content)
 
 export function PageView() {
   const { pageId = '' } = useParams()
+  const ws = useWorkspace()
   const dialog = useDialog()
+  const actions = useItemActions()
   const saver = usePageSaver(pageId)
-  const [row, setRow] = useState<PageRow | null>(null)
   const [initial, setInitial] = useState<Snapshot | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
-    setRow(null)
     setInitial(null)
+    setError(null)
     ;(async () => {
       try {
-        const page = must(
-          await supabase.from('pages').select('*, modules(id, title, notebooks(id, title))').eq('id', pageId).single(),
-        ) as PageRow
+        const res = await supabase.from('pages').select('*').eq('id', pageId).single()
+        if (res.error) throw new Error(res.error.message)
+        const page = res.data as Page
         if (cancelled) return
-        const server: Snapshot = { title: page.title, content: page.content }
+        const server: Snapshot = { title: page.title, icon: page.icon, banner_url: page.banner_url, content: page.content }
         let start = server
         let push = false
         const draft = readDraft(pageId)
         if (draft) {
-          if (same(draft, server)) clearDraft(pageId)
+          const local: Snapshot = { title: draft.title, icon: draft.icon ?? server.icon, banner_url: draft.banner_url ?? server.banner_url, content: draft.content }
+          if (same(local, server)) clearDraft(pageId)
           else if (!draft.base || draft.base === page.updated_at) {
-            start = { title: draft.title, content: draft.content }
+            start = local
             push = true
           } else {
             const keepLocal = await dialog.confirm(
@@ -53,14 +57,13 @@ export function PageView() {
               { okLabel: 'Keep this device’s version' },
             )
             if (keepLocal) {
-              start = { title: draft.title, content: draft.content }
+              start = local
               push = true
             } else clearDraft(pageId)
           }
         }
         if (cancelled) return
         saver.setBase(page.updated_at)
-        setRow(page)
         setInitial(start)
         if (push) saver.change(start)
       } catch (e) {
@@ -73,20 +76,58 @@ export function PageView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageId])
 
-  const mod = row?.modules
+  const { change } = saver
+  const { patchPageLocal } = ws
+  const lastMeta = useRef('')
+  const onChange = useCallback(
+    (snap: Snapshot) => {
+      change(snap)
+      // Keep the sidebar and cards in step, but only re-render them when something they show changed.
+      const next = { title: snap.title, icon: snap.icon, banner_url: snap.banner_url, cover_url: derivePageMeta(snap.content).cover_url }
+      const key = JSON.stringify(next)
+      if (key !== lastMeta.current) {
+        lastMeta.current = key
+        patchPageLocal(pageId, next)
+      }
+    },
+    [change, patchPageLocal, pageId],
+  )
+
+  const p = ws.findPage(pageId)
   return (
-    <div className="shell page-shell">
+    <>
       <TopBar
-        crumbs={[
-          { label: 'Notebooks', to: '/' },
-          { label: mod?.notebooks.title ?? '…', to: mod ? `/n/${mod.notebooks.id}` : undefined },
-          { label: mod?.title ?? '…', to: mod ? `/m/${mod.id}` : undefined },
-        ]}
-        right={<span className={`save-state save-${saver.state}`} aria-live="polite">{SAVE_LABEL[saver.state]}</span>}
+        crumbs={
+          p
+            ? [
+                { label: displayTitle(p.notebook.title), icon: p.notebook.icon ?? DEFAULT_ICON.notebook, to: `/n/${p.notebook.id}` },
+                { label: displayTitle(p.module.title), icon: p.module.icon ?? DEFAULT_ICON.module, to: `/m/${p.module.id}` },
+                { label: displayTitle(p.title), icon: p.icon ?? DEFAULT_ICON.page },
+              ]
+            : []
+        }
+        right={
+          <>
+            <span className={`save-state save-${saver.state}`} aria-live="polite">
+              {SAVE_LABEL[saver.state]}
+            </span>
+            {p && (
+              <button className="icon-btn" aria-label="Page options" onClick={(e) => actions.pageMenu(e.currentTarget, pageId)}>
+                <Icon name="more" />
+              </button>
+            )}
+          </>
+        }
       />
-      <main className="content content-page">
-        {initial ? <PageEditor key={pageId} initial={initial} onChange={saver.change} /> : <Status error={error} loading />}
+      <main className="page-main">
+        {initial ? (
+          <PageEditor key={pageId} initial={initial} onChange={onChange} />
+        ) : (
+          <div className="doc">
+            <p className={`status ${error ? 'error' : ''}`}>{error ? `Couldn’t load this page: ${error}` : 'Loading…'}</p>
+          </div>
+        )}
       </main>
-    </div>
+    </>
   )
 }

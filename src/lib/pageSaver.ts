@@ -6,6 +6,8 @@ export type SaveState = 'saved' | 'unsaved' | 'saving' | 'error' | 'offline'
 
 export interface Snapshot {
   title: string
+  icon: string | null
+  banner_url: string | null
   content: JSONContent
 }
 
@@ -84,7 +86,7 @@ export function usePageSaver(pageId: string) {
       const meta = derivePageMeta(snap.content)
       const { data, error } = await supabase
         .from('pages')
-        .update({ title: snap.title, content: snap.content, ...meta })
+        .update({ title: snap.title, icon: snap.icon, banner_url: snap.banner_url, content: snap.content, ...meta })
         .eq('id', pageId)
         .select('updated_at')
         .single()

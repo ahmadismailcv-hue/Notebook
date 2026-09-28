@@ -3,6 +3,9 @@ import { HashRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider, useAuth } from './auth/AuthProvider'
 import { LoginPage } from './auth/LoginPage'
 import { DialogProvider } from './components/Dialog'
+import { AppLayout } from './components/Layout'
+import { PopoverProvider } from './components/Popover'
+import { WorkspaceProvider } from './lib/workspace'
 import { HomeView } from './views/HomeView'
 import { NotebookView } from './views/NotebookView'
 import { ModuleView } from './views/ModuleView'
@@ -19,20 +22,24 @@ function Routed() {
   if (loading) return <div className="splash" />
   if (!session) return <LoginPage />
   return (
-    <Routes>
-      <Route path="/" element={<HomeView />} />
-      <Route path="/n/:notebookId" element={<NotebookView />} />
-      <Route path="/m/:moduleId" element={<ModuleView />} />
-      <Route
-        path="/p/:pageId"
-        element={
-          <Suspense fallback={<div className="splash" />}>
-            <PageView />
-          </Suspense>
-        }
-      />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <WorkspaceProvider key={session.user.id}>
+      <Routes>
+        <Route element={<AppLayout />}>
+          <Route path="/" element={<HomeView />} />
+          <Route path="/n/:notebookId" element={<NotebookView />} />
+          <Route path="/m/:moduleId" element={<ModuleView />} />
+          <Route
+            path="/p/:pageId"
+            element={
+              <Suspense fallback={null}>
+                <PageView />
+              </Suspense>
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
+      </Routes>
+    </WorkspaceProvider>
   )
 }
 
@@ -42,7 +49,9 @@ export default function App() {
     <AuthProvider>
       <DialogProvider>
         <HashRouter>
-          <Routed />
+          <PopoverProvider>
+            <Routed />
+          </PopoverProvider>
         </HashRouter>
       </DialogProvider>
     </AuthProvider>

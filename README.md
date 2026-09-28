@@ -1,6 +1,13 @@
 # Notebook
 
-A personal notebook app: **Notebooks → Modules → Pages**, with a rich-text editor, a card-grid layout, and cloud storage. It is built to be installed on an iPhone home screen.
+A personal notebook app in the style of Notion: **Notebooks → Modules → Pages**, with cloud storage. It is built to be installed on an iPhone home screen.
+
+- A sidebar tree (a slide-out drawer on phone), with gallery views for notebooks, modules and pages
+- Pages with emoji icons, cover banners and a block editor:
+  - type `/` for headings, to-dos, lists, quotes, callouts, code, dividers and images
+  - select text for a formatting toolbar: turn into, bold/italic/underline/strike, code, link, coloured highlights
+  - drag handles to move blocks; `+` adds a block
+- On phone, a keyboard toolbar replaces the floating selection toolbar
 
 - **Frontend:** React + TypeScript (Vite) with the TipTap editor
 - **Backend:** Supabase (Postgres + Auth + Storage), with row-level security so every row is visible only to its owner
