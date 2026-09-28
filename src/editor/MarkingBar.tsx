@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import type { Editor } from '@tiptap/react'
 import { useDialog } from '../components/Dialog'
-import { usePopover } from '../components/Popover'
 import { getPendingXref, linkXref, onPendingXref, setPendingXref, type PendingXref } from '../lib/xrefs'
 import {
   addAttrMark,
@@ -37,20 +36,73 @@ function usePending() {
   return pending
 }
 
-export function MarkingKey() {
+const GUIDE: { glyph: ReactNode; name: string; job: string; how: string }[] = [
+  { glyph: <span className="mk-key">U</span>, name: 'Underline', job: 'The key idea in a sentence.', how: 'Select the words that carry the idea.' },
+  { glyph: <span className="glyph-line" />, name: 'Line', job: 'Marks a long passage without underlining all of it.', how: 'Select anywhere in the paragraphs.' },
+  { glyph: <span className="mk-star">★</span>, name: 'Star', job: 'A very important idea. Only 10–20 per book.', how: 'Select the idea; the star goes after it.' },
+  { glyph: <span className="glyph-step">1</span>, name: 'Number', job: 'Steps in an argument. They count 1, 2, 3 on their own.', how: 'Select each step in turn.' },
+  { glyph: <span className="mk-xref-glyph">cf.</span>, name: 'cf.', job: 'Links two ideas, on this page or another.', how: 'Tap cf. on the first passage, then on the second.' },
+  { glyph: <span className="mk-circled glyph-circled">ab</span>, name: 'Circle', job: 'Key vocabulary and terms.', how: 'Select the word.' },
+  { glyph: <span className="handwriting glyph-note">note</span>, name: 'Note', job: 'Your own summary, question or reaction, in the margin.', how: 'Select the passage, then write.' },
+]
+
+const GUIDE_AUTO = 'nb:guide-auto'
+const guideAuto = () => {
+  try {
+    return localStorage.getItem(GUIDE_AUTO) !== 'off'
+  } catch {
+    return true
+  }
+}
+
+export function MarkingGuide({ close }: { close: () => void }) {
+  const [auto, setAuto] = useState(guideAuto)
   return (
-    <div className="marking-key">
-      <div className="menu-title">Key to the markings</div>
-      <dl>
-        <div><dt><span className="mk-key">Underline</span></dt><dd>the key idea in a sentence.</dd></div>
-        <div><dt><span className="key-line">Vertical line</span></dt><dd>marks a long passage without underlining all of it.</dd></div>
-        <div><dt><span className="mk-star">★</span> Star</dt><dd>a very important idea (only 10–20 per book).</dd></div>
-        <div><dt><span className="mk-step key-step">1</span> Numbers</dt><dd>show steps in an argument.</dd></div>
-        <div><dt><span className="mk-xref">cf.</span> Cross-reference</dt><dd>links ideas across pages.</dd></div>
-        <div><dt><span className="mk-circled">term</span> Circled term</dt><dd>key vocabulary.</dd></div>
-        <div><dt><span className="handwriting">handwritten note</span></dt><dd>Margin note: your own summaries, questions, reactions.</dd></div>
-      </dl>
-    </div>
+    <aside className="guide" role="dialog" aria-label="Marking tools guide">
+      <div className="guide-head">
+        <div>
+          <div className="guide-kicker">Mark mode</div>
+          <h2 className="guide-title">Adler’s 7 marking tools</h2>
+        </div>
+        <button className="icon-btn" onClick={close} aria-label="Close guide">
+          ✕
+        </button>
+      </div>
+      <p className="guide-intro">
+        Long-press or drag to select text, then tap a tool. Tap the same tool again to remove it.
+      </p>
+      <ol className="guide-list">
+        {GUIDE.map((g) => (
+          <li key={g.name}>
+            <span className="guide-glyph">{g.glyph}</span>
+            <span className="guide-text">
+              <b>{g.name}</b> — {g.job}
+              <span className="guide-how">{g.how}</span>
+            </span>
+          </li>
+        ))}
+      </ol>
+      <div className="guide-foot">
+        <label className="guide-auto">
+          <input
+            type="checkbox"
+            checked={auto}
+            onChange={(e) => {
+              setAuto(e.target.checked)
+              try {
+                localStorage.setItem(GUIDE_AUTO, e.target.checked ? 'on' : 'off')
+              } catch {
+                /* ignore */
+              }
+            }}
+          />
+          Show when I tap the pen
+        </label>
+        <button className="btn btn-primary" onClick={close}>
+          Got it
+        </button>
+      </div>
+    </aside>
   )
 }
 
@@ -74,7 +126,7 @@ function Tool({ label, children, onUse, disabled }: { label: string; children: R
 
 export function MarkingBar({ editor, pageId }: { editor: Editor; pageId: string }) {
   const dialog = useDialog()
-  const popover = usePopover()
+  const [showGuide, setShowGuide] = useState(guideAuto)
   const pending = usePending()
   const [hasSelection, setHasSelection] = useState(false)
   const last = useRef<Range | null>(null)
@@ -152,6 +204,13 @@ export function MarkingBar({ editor, pageId }: { editor: Editor; pageId: string 
 
   const dis = !hasSelection
   return (
+    <>
+    {showGuide && (
+      <>
+        <div className="guide-backdrop" onClick={() => setShowGuide(false)} />
+        <MarkingGuide close={() => setShowGuide(false)} />
+      </>
+    )}
     <div className="marking-bar-wrap" role="toolbar" aria-label="Marking tools">
       {pending && (
         <div className="xref-banner">
@@ -199,12 +258,13 @@ export function MarkingBar({ editor, pageId }: { editor: Editor; pageId: string 
           >
             Clear
           </button>
-          <button className="mark-mini" onClick={(e) => popover.open(e.currentTarget, () => <MarkingKey />, 'top-end')} aria-label="Key to the markings" title="Key to the markings">
+          <button className={`mark-mini ${showGuide ? 'on' : ''}`} onClick={() => setShowGuide((v) => !v)} aria-label="Key to the markings" aria-pressed={showGuide} title="What each tool does">
             Key
           </button>
         </div>
       </div>
-      {!hasSelection && !pending && <div className="marking-hint">Long-press or drag to select text, then pick a mark.</div>}
+      {!hasSelection && !pending && !showGuide && <div className="marking-hint">Long-press or drag to select text, then pick a mark.</div>}
     </div>
+    </>
   )
 }
