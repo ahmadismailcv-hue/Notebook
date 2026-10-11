@@ -231,7 +231,7 @@
  },
  "Iraq": {
   "polity": "Sasanian Empire (capital Ctesiphon), with the Lakhmid Arab client kingdom at al-Hira until c. 602; Kurdish tribes in the northern mountains",
-  "summary": "Mesopotamia was the rich farming heart of the Sasanian Empire and held its capital, Ctesiphon, also the centre of the Church of the East. Khosrow II ended the Lakhmid kingdom of al-Hira c. 602, weakening the desert frontier. The war with Byzantium ended in defeat and dynastic turmoil after 628. In the northern mountains, the edge of the Zagros, lived Kurdish tribes who herded sheep and goats. The name Kurd is securely attested from the 7th century, when these tribes converted to Islam; their earlier history is poorly known.",
+  "summary": "Mesopotamia was the rich farming heart of the Sasanian Empire and held its capital, Ctesiphon, also the centre of the Church of the East. Khosrow II ended the Lakhmid kingdom of al-Hira c. 602, weakening the desert frontier. The war with Byzantium ended in defeat and dynastic turmoil after 628. In the northern mountains, the edge of the Zagros, lived Kurdish tribes who herded sheep and goats. By the end of the Sasanian period the Kurds were a major people of the Zagros; the name Kurd is securely attested from the 7th century, when they converted to Islam.",
   "events": [
    {
     "y": 602,
@@ -281,12 +281,17 @@
     "title": "Kurd",
     "publisher": "Encyclopaedia Britannica",
     "url": "https://www.britannica.com/topic/Kurd"
+   },
+   {
+    "title": "Iran v. Peoples of Iran (2): Pre-Islamic (C. J. Brunner)",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/iran-v2-peoples-pre-islamic/"
    }
   ]
  },
  "Iran": {
-  "polity": "Sasanian Empire (Hormizd IV, Khosrow II, then rapid succession)",
-  "summary": "Iran was the core of the Sasanian Empire, with Zoroastrianism as the state faith and great fire temples such as Adur Gushnasp in Atropatene. Khosrow II won vast conquests from Byzantium after 603 but lost the war in 622–628 and was killed in 628. Short reigns followed until Yazdegerd III took the throne in 632.",
+  "polity": "Sasanian Empire (Hormizd IV, Khosrow II, then rapid succession); Kurdish tribes in the Zagros mountains",
+  "summary": "Iran was the core of the Sasanian Empire, with Zoroastrianism as the state faith and great fire temples such as Adur Gushnasp in Atropatene. Khosrow II won vast conquests from Byzantium after 603 but lost the war in 622–628 and was killed in 628. Short reigns followed until Yazdegerd III took the throne in 632. In the western mountains, the Zagros, the Kurds were by the end of the Sasanian period a major people, herding sheep and goats; they later fought against the Arab invaders.",
   "events": [
    {
     "y": 590,
@@ -331,6 +336,16 @@
     "title": "Safiur-Rahman Mubarakpuri, Ar-Raheeq Al-Makhtum (The Sealed Nectar)",
     "publisher": "Darussalam",
     "url": null
+   },
+   {
+    "title": "Iran v. Peoples of Iran (2): Pre-Islamic (C. J. Brunner)",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/iran-v2-peoples-pre-islamic/"
+   },
+   {
+    "title": "Kurd",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/Kurd"
    }
   ]
  },
@@ -526,7 +541,7 @@
  },
  "Turkey": {
   "polity": "Byzantine (Eastern Roman) Empire, capital Constantinople",
-  "summary": "Anatolia and Constantinople formed the heart of the Byzantine Empire, ruled by Maurice, then the usurper Phocas, then Heraclius from 610. Persian armies struck deep into Anatolia and reached Chalcedon, across from the capital. In 626 Constantinople survived an Avar siege while a Persian army waited at Chalcedon. Heraclius then struck into Persia and won the war.",
+  "summary": "Anatolia and Constantinople formed the heart of the Byzantine Empire, ruled by Maurice, then the usurper Phocas, then Heraclius from 610. Persian armies struck deep into Anatolia and reached Chalcedon, across from the capital. In 626 Constantinople survived an Avar siege while a Persian army waited at Chalcedon. Heraclius then struck into Persia and won the war. The Kurds, today a large population in the southeast, are documented in this period mainly in the Zagros mountains to the east, in what are now Iran and Iraq.",
   "events": [
    {
     "y": 602,
@@ -571,6 +586,16 @@
     "title": "Ibn Ishaq, The Life of Muhammad ﷺ (Sirat Rasul Allah, recension of Ibn Hisham), trans. A. Guillaume, 1955",
     "publisher": "Oxford University Press",
     "url": null
+   },
+   {
+    "title": "Iran v. Peoples of Iran (2): Pre-Islamic (C. J. Brunner)",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/iran-v2-peoples-pre-islamic/"
+   },
+   {
+    "title": "Kurd",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/Kurd"
    }
   ]
  },
