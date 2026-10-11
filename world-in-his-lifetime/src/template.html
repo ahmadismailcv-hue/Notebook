@@ -123,6 +123,13 @@ ul.sources { margin: 0; padding-left: 18px; font-size: .84rem; color: var(--mute
 ul.sources a { color: var(--accent); }
 .about p, .about li { font-size: .9rem; }
 .about ul { padding-left: 18px; display: grid; gap: 6px; }
+.report { margin-top: 12px; font-size: .84rem; }
+.report a, .about a { color: var(--accent); }
+details.all { margin-top: 14px; }
+details.all summary { cursor: pointer; font: 500 .74rem var(--font-data); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+ul.clist { list-style: none; padding: 0; margin: 10px 0 0; columns: 2; column-gap: 16px; }
+ul.clist li { break-inside: avoid; padding: 2px 0; }
+ul.clist .where { text-transform: none; letter-spacing: 0; font: .86rem var(--font-body); color: var(--accent); }
 .search { width: 100%; font: .88rem var(--font-body); padding: 8px 10px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); color: var(--fg); margin-bottom: 4px; }
 
 @media (max-width: 860px) {
@@ -171,6 +178,9 @@ ul.sources a { color: var(--accent); }
 <script>
 const TOPO = /*__TOPO__*/null;
 const DATA = /*__DATA__*/{};
+const SITE = /*__SITE__*/{};
+const slug = n => n.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const BY_SLUG = Object.fromEntries(Object.keys(DATA).map(n => [slug(n), n]));
 
 /* Seerah timeline: Ibn Hisham (tr. Guillaume) and al-Mubarakpuri, The Sealed Nectar. */
 const SIRA = /*__SIRA__*/[];
@@ -256,11 +266,8 @@ const gLand = gRoot.append("g");
 const gPins = gRoot.append("g");
 const nodes = gLand.selectAll("path").data(features).join("path")
   .attr("class", "country")
-  .attr("tabindex", 0)
-  .attr("role", "button")
-  .attr("aria-label", d => d.properties.name)
+  .attr("aria-hidden", "true")
   .on("click", (ev, d) => select(d.properties.name, false))
-  .on("keydown", (ev, d) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); select(d.properties.name, false); } })
   .on("mousemove", (ev, d) => showTip(ev, d))
   .on("mouseleave", () => tip.hidden = true);
 
@@ -389,8 +396,22 @@ function setYear(y) {
   document.getElementById("yrLabel").textContent = year;
   document.getElementById("yrAH").textContent = "CE · " + AH(year);
   document.getElementById("stage").innerHTML = fmt(stageFor(year));
-  save(); paint(); drawPins(); renderPanel();
+  save(); paint(); drawPins(); renderPanel(); writeHash();
 }
+/* Shareable links: #egypt-619, #egypt or #619 */
+function writeHash() {
+  const h = (selected ? slug(selected) + "-" : "") + year;
+  try { if (location.hash.slice(1) !== h) history.replaceState(null, "", "#" + h); } catch (e) {}
+}
+function readHash() {
+  const h = decodeURIComponent(location.hash.slice(1)).toLowerCase();
+  if (!h) return false;
+  const m = h.match(/^(?:(.*?)-)?(\d{3})$/) || [null, h, null];
+  if (m[1] && BY_SLUG[m[1]]) { selected = BY_SLUG[m[1]]; aboutOpen = false; }
+  if (m[2]) year = +m[2];
+  return true;
+}
+window.addEventListener("hashchange", () => { if (readHash()) setYear(year); });
 document.getElementById("play").onclick = function () {
   if (playing) { clearInterval(playing); playing = null; this.textContent = "Play"; this.setAttribute("aria-pressed", "false"); return; }
   if (year >= 632) setYear(570);
@@ -403,7 +424,7 @@ const panel = document.getElementById("panel");
 function select(name, fromList) {
   aboutOpen = false; syncAbout();
   selected = selected === name && !fromList ? null : name;
-  paint(); renderPanel();
+  paint(); renderPanel(); writeHash();
   if (window.innerWidth <= 860 && selected) panel.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 function evItem(e, showWhere) {
@@ -430,10 +451,11 @@ function renderPanel() {
       <h3>Timeline</h3>
       <ol class="ev">${(d?.events || []).map(e => evItem({ ...e, name: selected }, false)).join("") || `<li class="empty">${d?.pending ? "Awaiting verification." : "No securely dated events for this period."}</li>`}</ol>
       ${sourcesList(d?.sources)}
+      ${reportLink(selected)}
       <h3>Meanwhile in Arabia</h3>
       <ol class="ev">${SIRA.filter(s => Math.abs(s.y - year) <= 3).map(s => evItem({ ...s, sira: true }, false)).join("") || `<p class="empty">${fmt(stageFor(year))}</p>`}</ol>
       ${note()}`;
-    document.getElementById("back").onclick = () => { selected = null; paint(); renderPanel(); };
+    document.getElementById("back").onclick = () => { selected = null; paint(); renderPanel(); writeHash(); };
   } else {
     const near = eventsNear(year).filter(e => e.name !== "Saudi Arabia");
     const sira = SIRA.filter(s => Math.abs(s.y - year) <= WINDOW);
@@ -447,11 +469,20 @@ function renderPanel() {
       <h3>Find a country</h3>
       <input class="search" id="q" list="names" placeholder="Type a modern country name" autocomplete="off">
       <datalist id="names">${Object.keys(DATA).sort().map(n => `<option value="${esc(n)}">`).join("")}</datalist>
+      <details class="all"><summary>All countries (A–Z)</summary>
+        <ul class="clist">${Object.keys(DATA).sort((a, b) => a.localeCompare(b)).map(n => `<li><button type="button" class="where" data-n="${esc(n)}">${esc(n)}</button></li>`).join("")}</ul>
+      </details>
       ${note()}`;
     const q = document.getElementById("q");
     q.onchange = () => { if (DATA[q.value]) select(q.value, true); };
   }
   panel.querySelectorAll(".where").forEach(b => b.onclick = () => select(b.dataset.n, true));
+}
+function reportLink(name) {
+  if (!SITE.reportUrl) return "";
+  const title = `Correction: ${name}`;
+  const body = `Country: ${name}\nYear viewed: ${year}\nLink: ${SITE.baseUrl || ""}#${slug(name)}-${year}\n\nWhat is wrong:\n\nYour source (book, article or link):\n`;
+  return `<p class="report"><a href="${esc(SITE.reportUrl)}?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}" target="_blank" rel="noopener">Report an error in this entry</a></p>`;
 }
 function sourcesList(list) {
   if (!list || !list.length) return "";
@@ -467,7 +498,7 @@ function renderAbout() {
     <h3>The seerah</h3>
     <p>The timeline of the life of the Prophet Muhammad ﷺ follows two works:</p>
     <ul>
-      <li>Ibn Isḥāq, <i>al-Sīra al-Nabawiyya</i>, as edited by Ibn Hishām. English translation: A. Guillaume, <i>The Life of Muhammad</i> (Oxford University Press, 1955).</li>
+      <li>Ibn Isḥāq, <i>al-Sīra al-Nabawiyya</i>, as edited by Ibn Hishām. English translation: A. Guillaume, <i>The Life of Muhammad</i> ﷺ (Oxford University Press, 1955).</li>
       <li>Ṣafī al-Raḥmān al-Mubārakpūrī, <i>Ar-Raḥīq al-Makhtūm</i> (<i>The Sealed Nectar</i>), Darussalam. First prize, Muslim World League seerah competition, 1979.</li>
     </ul>
     <p>Hijri years are given where the sources date an event by the Islamic calendar. Where the two works differ, or the date is disputed, the event is marked “c.” and the difference is noted.</p>
@@ -477,10 +508,15 @@ function renderAbout() {
     <ul>
       <li>The pulsing ring marks Mecca; from 622 a second dot marks Medina.</li>
       <li>Countries are today’s borders, used only as a way to explore. No modern country existed then.</li>
+      <li>Country shapes and names come from the Natural Earth base map. Several present-day borders and names are disputed; showing them implies no position on those disputes.</li>
       <li>Many dates from this period are disputed by historians; disputed dates are marked “c.”.</li>
       <li>The “Powers” colours simplify: many lands were contested or shared.</li>
       <li>Much of Africa, the Americas, northern Eurasia and Oceania is known only through archaeology. The “How much we know” view shows this.</li>
     </ul>
+    <h3>Corrections</h3>
+    <p>${SITE.reportUrl ? `Found a mistake? <a href="${esc(SITE.reportUrl)}" target="_blank" rel="noopener">Report it</a> with a source, and we will check and correct it.` : "Corrections with a source are welcome."}</p>
+    <h3>Credits</h3>
+    <p class="note">Map data: Natural Earth (public domain) via world-atlas. Built with d3 and topojson (ISC licence). Fonts: Marcellus, Literata, IBM Plex Mono and Amiri (SIL Open Font Licence).</p>
   </div>`.replace(/\uFDFA/g, '<span class="saw" lang="ar">\uFDFA</span>');
   document.getElementById("back").onclick = () => { aboutOpen = false; syncAbout(); renderPanel(); };
 }
@@ -488,7 +524,7 @@ let aboutOpen = false;
 function syncAbout() { document.getElementById("aboutBtn").setAttribute("aria-pressed", aboutOpen); }
 document.getElementById("aboutBtn").onclick = () => { aboutOpen = !aboutOpen; syncAbout(); if (aboutOpen) { selected = null; paint(); } renderPanel(); };
 function note() {
-  return `<p class="note">Countries are today\'s borders, used only as a way in. Colours simplify a contested world. See <b>Sources &amp; method</b> for how this was checked.</p>`;
+  return `<p class="note">Countries are today\'s borders, used only as a way in, and imply no position on present-day disputes. Colours simplify a contested world. See <b>Sources &amp; method</b> for how this was checked.</p>`;
 }
 
 /* ---------- modes ---------- */
@@ -501,6 +537,7 @@ document.querySelectorAll(".modes button[data-mode]").forEach(x => x.setAttribut
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", paint);
 new MutationObserver(paint).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
+readHash();
 layout();
 setYear(year);
 </script>
