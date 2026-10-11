@@ -9,6 +9,8 @@ const rd = p => fs.readFileSync(path.join(__dirname, p), "utf8");
 const out = (p, s) => { const f = path.join(ROOT, p); fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, s); };
 
 const SITE = JSON.parse(rd("site.config.json"));
+// A custom domain (e.g. "example.org") overrides baseUrl and writes the CNAME file GitHub Pages needs.
+if (SITE.domain) SITE.baseUrl = `https://${SITE.domain}/`;
 const BASE = (SITE.baseUrl || "").replace(/\/?$/, "/");
 const topo = JSON.parse(rd("countries-110m.json"));
 const names = topo.objects.countries.geometries.map(g => g.properties.name).filter(Boolean);
@@ -158,6 +160,8 @@ ul.sources{padding-left:18px;font-size:.9rem}ul.clist{columns:2;column-gap:24px;
 footer{margin-top:40px;border-top:1px solid var(--line);padding-top:12px;font-size:.82rem;color:var(--muted)}
 @media (max-width:480px){ul.clist{columns:1}ol.ev li{grid-template-columns:3.5rem minmax(0,1fr)}}
 `);
+
+if (SITE.domain) out("CNAME", SITE.domain + "\n");
 
 // ---------- sitemap / robots ----------
 if (SITE.baseUrl) {

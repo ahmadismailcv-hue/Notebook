@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ahmadismailcv-hue.github.io/world-in-his-lifetime/sitemap.xml

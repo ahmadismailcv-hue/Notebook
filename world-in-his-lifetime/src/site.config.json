@@ -1,1 +1,5 @@
-{ "baseUrl": "", "reportUrl": "" }
+{
+  "domain": "",
+  "baseUrl": "https://ahmadismailcv-hue.github.io/world-in-his-lifetime/",
+  "reportUrl": "https://github.com/ahmadismailcv-hue/world-in-his-lifetime/issues/new"
+}

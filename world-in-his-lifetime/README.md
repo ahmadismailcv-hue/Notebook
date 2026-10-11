@@ -21,3 +21,20 @@ Map data: Natural Earth via world-atlas 2.0.2 (public domain).
 ## Rebuild
 
 Edit `data/*.json` or `src/template.html`, then run `node src/build.cjs`. It regenerates `index.html` and checks every entry for missing sources and the ﷺ honorific.
+
+## Deploy (GitHub Pages)
+
+1. This folder is the root of the `world-in-his-lifetime` repository.
+2. In the repo on GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+3. Every push to `main` runs `.github/workflows/pages.yml`, which builds and publishes the site.
+
+### Custom domain
+
+Set `"domain"` in `src/site.config.json` (for example `"example.org"`) and push. The build writes the
+`CNAME` file and uses the domain for links and the sitemap. Then add DNS records at your registrar:
+
+- Apex domain (`example.org`): four `A` records to `185.199.108.153`, `185.199.109.153`,
+  `185.199.110.153`, `185.199.111.153`.
+- Subdomain (`www.example.org`): one `CNAME` record to `ahmadismailcv-hue.github.io`.
+
+Then in **Settings → Pages**, enter the domain and tick **Enforce HTTPS** once the certificate is issued.
