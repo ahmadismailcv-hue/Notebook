@@ -20,4 +20,4 @@ Map data: Natural Earth via world-atlas 2.0.2 (public domain).
 
 ## Rebuild
 
-Edit `data/*.json` or `src/template.html`, then run `node src/build.js`. It regenerates `index.html` and checks every entry for missing sources and the ﷺ honorific.
+Edit `data/*.json` or `src/template.html`, then run `node src/build.cjs`. It regenerates `index.html` and checks every entry for missing sources and the ﷺ honorific.
