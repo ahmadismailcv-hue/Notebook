@@ -1,192 +1,537 @@
 {
-  "Afghanistan": {
-    "polity": "Post-Hephthalite principalities (including the Nezak of Kapisa) and Western Turkic rulers in Tokharistan; Sasanian frontier near Herat",
-    "summary": "After the Hephthalites were destroyed by the Western Turks and Sasanians in the 560s, the land was divided among local principalities. Tokharistan (Bactria) slipped from Sasanian control after 579 and came under Western Turkic power. Buddhism flourished: the colossal Bamiyan Buddhas, generally dated to the 6th–7th centuries, stood in the central mountains, and Xuanzang recorded Buddhist sites while crossing the region around 628–632.",
-    "events": [
-      { "y": 579, "approx": true, "t": "After 579, battles with the Western Turks cost the Sasanians control of Tokharistan (Bactria)." },
-      { "y": 588, "approx": false, "t": "Turk-backed Hephthalite forces reach Badghis and Herat; the Sasanian general Bahram Chobin defeats them and takes Balkh." },
-      { "y": 600, "approx": true, "t": "The colossal Bamiyan Buddhas belong to this era; sources date them to roughly the 6th–7th centuries (dating debated)." },
-      { "y": 630, "approx": true, "t": "Xuanzang crosses Tokharistan (c. 628–632), describing its Buddhist monasteries; his account is the earliest text describing the Bamiyan Buddhas." }
-    ],
-    "link": null,
-    "evidence": "moderate",
-    "sources": [
-      { "title": "Hephthalites", "publisher": "Encyclopaedia Iranica", "url": "https://www.iranicaonline.org/articles/hephthalites/" },
-      { "title": "Bahrām VI Čōbīn", "publisher": "Encyclopaedia Iranica", "url": "https://www.iranicaonline.org/articles/bahram-the-name-of-six-sasanian-kings/bahram-vi/" },
-      { "title": "Bamiyan Buddhas", "publisher": "Smarthistory", "url": "https://smarthistory.org/bamiyan-buddhas/" }
-    ]
-  },
-  "Pakistan": {
-    "polity": "Kingdom of Sindh ruled from Aror; local rulers in Gandhara and the Punjab",
-    "summary": "Sindh was ruled from Aror. The later Chachnama, a 13th-century Persian translation of an earlier Arabic history, preserves a local tradition that the Brahman Chach rose against the previous dynasty and founded his own line; its dates are uncertain. Gandhara's great Buddhist age was past, though monasteries such as Takht-i-Bahi remained in use into the 7th century. Multan was known for its ancient Sun Temple.",
-    "events": [
-      { "y": 630, "approx": true, "t": "Xuanzang passes through the northwest on his way to India, which he reaches by 633." },
-      { "y": 632, "approx": true, "t": "Around this time, by Chachnama tradition, the Brahman Chach takes power in Sindh; the dating is uncertain." }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": [
-      { "title": "Čač-nāma", "publisher": "Encyclopaedia Iranica", "url": "https://www.iranicaonline.org/articles/cac-nama/" },
-      { "title": "Buddhist Ruins of Takht-i-Bahi and Neighbouring City Remains at Sahr-i-Bahlol", "publisher": "UNESCO World Heritage Centre", "url": "https://whc.unesco.org/en/list/140/" },
-      { "title": "Multan", "publisher": "Encyclopaedia Britannica", "url": "https://www.britannica.com/place/Multan" }
-    ]
-  },
-  "India": {
-    "polity": "Harsha of Kannauj (north), Chalukyas of Badami (Deccan), Pallavas of Kanchi (southeast), Maitrakas of Valabhi (west)",
-    "summary": "After the Gupta collapse, regional dynasties competed. Harsha (r. 606–647) ruled from Thanesar and later Kannauj; his court author Bana wrote the Harshacharita. Pulakeshin II of the Chalukyas (r. 610–642) drove him back to the Narmada and fought the Pallava Mahendravarman I. Valabhi under the Maitrakas was a celebrated seat of learning. Xuanzang reached India by 633 and became close to Harsha.",
-    "events": [
-      { "y": 578, "approx": true, "t": "Shrines to Shiva and Vishnu are cut at Badami, base of the Early Chalukya dynasty." },
-      { "y": 606, "approx": false, "t": "Harsha is crowned at Thanesar after his elder brother Rajyavardhana is assassinated; the Harsha era begins." },
-      { "y": 610, "approx": true, "t": "Pulakeshin II begins his Chalukya reign; his early years are taken up by civil war." },
-      { "y": 620, "approx": true, "t": "Pulakeshin II drives Harsha back to the Narmada, ending his Deccan campaign (date disputed)." },
-      { "y": 630, "approx": true, "t": "Narasimhavarman I succeeds Mahendravarman I as Pallava king; he later avenges Pallava defeats by capturing the Chalukya capital Vatapi." }
-    ],
-    "link": null,
-    "evidence": "rich",
-    "sources": [
-      { "title": "Harsha", "publisher": "Encyclopaedia Britannica", "url": "https://www.britannica.com/biography/Harsha" },
-      { "title": "South Asia: South, 500–1000 A.D. (Heilbrunn Timeline of Art History)", "publisher": "The Metropolitan Museum of Art", "url": "https://www.metmuseum.org/toah/ht/06/sss.html" },
-      { "title": "Mahendravarman I", "publisher": "Encyclopaedia Britannica", "url": "https://www.britannica.com/biography/Mahendravarman-I" }
-    ]
-  },
-  "Nepal": {
-    "polity": "Licchavi kingdom of the Kathmandu Valley",
-    "summary": "The Kathmandu Valley was ruled by the Licchavi dynasty (c. 450–750), of Indian origin, which used Sanskrit as its court language and issued Indian-style coins. The powerful figure Amshuvarman is associated with the end of Licchavi dominance, but sources disagree on his dates and status. The Harsha era beginning in 606 was long used in Nepal.",
-    "events": [
-      { "y": 606, "approx": false, "t": "The Harsha era begins; it was long preserved in Nepal for dating." }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": [
-      { "title": "Licchavi era", "publisher": "Encyclopaedia Britannica", "url": "https://www.britannica.com/event/Licchavi-era" },
-      { "title": "Harṣa Dynasty", "publisher": "Encyclopaedia Britannica", "url": "https://www.britannica.com/topic/Harsa-Dynasty" }
-    ]
-  },
-  "Bhutan": {
-    "polity": "No recorded state",
-    "summary": "No written records are known for this land in 570–632, and its political organisation in this period is unknown.",
-    "events": [],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Bangladesh": {
-    "polity": "Gauda kingdom of Shashanka (west); Samatata (east)",
-    "summary": "The western delta formed part of Gauda, whose king Shashanka annexed much of the Ganges valley in the early 7th century and clashed with the Maukharis and Harsha's family. Pundranagara (Mahasthangarh), founded around the 4th–3rd century BCE, remained a centre of monasteries and temples. Samatata in the east was a famous Mahayana Buddhist centre, as Xuanzang's travel account attests.",
-    "events": [
-      { "y": 606, "approx": true, "t": "Shashanka of Gauda is held responsible for assassinating Rajyavardhana; Harsha allies with Bhaskaravarman of Kamarupa against him." },
-      { "y": 636, "approx": true, "t": "Shashanka dies, never defeated by Harsha, whose later eastern campaign meets little resistance." },
-      { "y": 638, "approx": true, "t": "Xuanzang's travels in India (630s–640s) include Pundravardhana and Samatata, which he describes as thriving religious centres." }
-    ],
-    "link": null,
-    "evidence": "moderate",
-    "sources": [
-      { "title": "Harsha", "publisher": "Encyclopaedia Britannica", "url": "https://www.britannica.com/biography/Harsha" },
-      { "title": "Cultural Landscape of Mahasthan and Karatoya River (Tentative List)", "publisher": "UNESCO World Heritage Centre", "url": "https://whc.unesco.org/en/tentativelists/6671/" },
-      { "title": "Archaeological sites of Lalmai-Mainamati (Tentative List)", "publisher": "UNESCO World Heritage Centre", "url": "https://whc.unesco.org/en/tentativelists/6670/" }
-    ]
-  },
-  "Sri Lanka": {
-    "polity": "Anuradhapura kingdom",
-    "summary": "The island was ruled from Anuradhapura by Sinhala kings, including Aggabodhi I and Aggabodhi II, whose reigns are recorded in the Pali chronicle Culavamsa. Its chronology for this period is only approximate. Theravada Buddhist monasteries dominated religious life.",
-    "events": [],
-    "link": null,
-    "evidence": "moderate",
-    "sources": [
-      { "title": "Cūlavaṃsa, being the more recent part of the Mahāvaṃsa, translated by Wilhelm Geiger (2 vols., 1929–1930)", "publisher": "Pali Text Society, London", "url": null }
-    ]
-  },
-  "Kazakhstan": {
-    "polity": "Western Turkic Khaganate",
-    "summary": "The steppes belonged to the western branch of the Turkic (Kök Türk) empire, first ruled by Bumin's brother Ishtemi and then by Tardu, under whom it expanded towards Byzantium. Nomadic pastoralism dominated, while Sogdian merchants supplied the Turks with administrators and trade links, persuading the khagan to open contact with Byzantium to sell silk. Tong Yabghu was supreme khagan in the 620s.",
-    "events": [
-      { "y": 573, "approx": true, "t": "Ishtemi's rule ends and Tardu succeeds him as ruler of the western Turks." },
-      { "y": 603, "approx": true, "t": "Tardu's reign ends, after the western Turkic realm has expanded to the borders of Byzantium." },
-      { "y": 627, "approx": false, "t": "A large Western Turkic army, allied with Heraclius against Persia, campaigns in the Caucasus and storms Darband." }
-    ],
-    "link": null,
-    "evidence": "moderate",
-    "sources": [
-      { "title": "History of Central Asia: The Middle Ages", "publisher": "Encyclopaedia Britannica", "url": "https://www.britannica.com/place/history-of-Central-Asia-102306/The-Middle-Ages" },
-      { "title": "Sogdian Trade", "publisher": "Encyclopaedia Iranica", "url": "https://www.iranicaonline.org/articles/sogdian-trade/" },
-      { "title": "Khazars", "publisher": "Encyclopaedia Iranica", "url": "https://www.iranicaonline.org/articles/khazars/" }
-    ]
-  },
-  "Kyrgyzstan": {
-    "polity": "Western Turkic Khaganate (Chu valley)",
-    "summary": "The Chu valley held Suyab (Ak-Beshim, east of modern Bishkek), a town probably founded by Sogdians in the 6th century. The district was densely settled, subject to the Turks, and dotted with trading colonies of Sogdian merchants, while Turkic nomads pastured the surrounding mountains. The Western Turkic khagan Tong Yabghu dominated the region until his assassination.",
-    "events": [
-      { "y": 628, "approx": true, "t": "Tong Yabghu, khagan of the Western Turks, is assassinated (628 or 630; date disputed)." },
-      { "y": 629, "approx": true, "t": "Xuanzang passes through Suyab, the town's first recorded mention." }
-    ],
-    "link": null,
-    "evidence": "moderate",
-    "sources": [
-      { "title": "Suyāb", "publisher": "Encyclopaedia Iranica", "url": "https://www.iranicaonline.org/articles/suyab/" },
-      { "title": "Khotan ii. History in the Pre-Islamic Period", "publisher": "Encyclopaedia Iranica", "url": "https://www.iranicaonline.org/articles/khotan-parent/khotan-ii-history-in-the-pre-islamic-period/" }
-    ]
-  },
-  "Tajikistan": {
-    "polity": "Sogdian towns (Panjikant) in the north; Tokharistan principalities in the south under Western Turkic power",
-    "summary": "The north lay in Sogdiana, where Panjikant was a prosperous town of merchants and landowners whose houses and two great temples were decorated with murals of deities, feasts and epic tales. The south belonged to upper Tokharistan, formerly Hephthalite and later under Western Turkic control. Caravan trade and irrigated farming sustained the region, and Buddhist monasteries existed in Tokharistan.",
-    "events": [
-      { "y": 565, "approx": true, "t": "The Hephthalites are destroyed by the Western Turks and Sasanians (c. 563–566), leaving the region to Turkic overlordship." },
-      { "y": 600, "approx": true, "t": "Panjikant flourishes; its temples and houses bear murals forming the fullest set of 5th–8th-century Sogdian painting." },
-      { "y": 630, "approx": true, "t": "Xuanzang crosses Tokharistan (c. 628–632), describing its Buddhist monasteries." }
-    ],
-    "link": null,
-    "evidence": "moderate",
-    "sources": [
-      { "title": "Panjikant", "publisher": "Encyclopaedia Iranica", "url": "https://www.iranicaonline.org/articles/panjikant/" },
-      { "title": "Hephthalites", "publisher": "Encyclopaedia Iranica", "url": "https://www.iranicaonline.org/articles/hephthalites/" },
-      { "title": "Buddhism iv. Buddhist Sites in Afghanistan and Central Asia", "publisher": "Encyclopaedia Iranica", "url": "https://www.iranicaonline.org/articles/buddhism-iv/" }
-    ]
-  },
-  "Turkmenistan": {
-    "polity": "Sasanian Empire (Merv, in Khorasan)",
-    "summary": "Merv was a major Sasanian city in Khorasan, with a mint and a population of Zoroastrians, Christians and Buddhists; a Buddhist stupa and monastery there are the westernmost excavated Buddhist buildings known. Khorasan faced repeated pressure from the Turks and their Hephthalite allies, and Merv profited from caravan trade.",
-    "events": [
-      { "y": 588, "approx": false, "t": "Bahram Chobin defeats a Turk-backed Hephthalite invasion of Khorasan that had reached Badghis and Herat." },
-      { "y": 590, "approx": false, "t": "Bahram Chobin rebels and Hormizd IV is killed; Khosrow II regains the throne in 591 with Byzantine help." },
-      { "y": 615, "approx": true, "t": "Turkic forces defeat the Armenian general Smbat Bagratuni and raid as far as Ray and Isfahan; Smbat later campaigns against them." }
-    ],
-    "link": null,
-    "evidence": "moderate",
-    "sources": [
-      { "title": "Khorasan iii. Historical Geography in the Late Sasanid-Early Islamic Periods", "publisher": "Encyclopaedia Iranica", "url": "https://www.iranicaonline.org/articles/khorasan-iii-historical-geography-in-the-late-sasanid-early-islamic-periods/" },
-      { "title": "Smbat Bagratuni", "publisher": "Encyclopaedia Iranica", "url": "https://www.iranicaonline.org/articles/smbat-bagratuni/" },
-      { "title": "Bahrām VI Čōbīn", "publisher": "Encyclopaedia Iranica", "url": "https://www.iranicaonline.org/articles/bahram-the-name-of-six-sasanian-kings/bahram-vi/" }
-    ]
-  },
-  "Uzbekistan": {
-    "polity": "Sogdian city-states (Samarkand, Bukhara) under Western Turkic overlordship",
-    "summary": "Sogdiana's city-states, led by Samarkand and Bukhara, were ruled by local kings who sent tribute to China and lived under Turkic overlordship. Sogdian merchants dominated Silk Road trade and gave the Turks their first chancellery language. Most Sogdians were Zoroastrians, though Buddhist monasteries stood at Termez in the south.",
-    "events": [
-      { "y": 568, "approx": true, "t": "Sogdian merchants persuade the Turkic khagan to open contact with Byzantium to sell Chinese silk (c. 568–575)." },
-      { "y": 630, "approx": true, "t": "Xuanzang passes through Samarkand, noting that the Sogdians were Zoroastrians, then crosses the Iron Gates into Bactria." }
-    ],
-    "link": null,
-    "evidence": "moderate",
-    "sources": [
-      { "title": "Sogdian Trade", "publisher": "Encyclopaedia Iranica", "url": "https://www.iranicaonline.org/articles/sogdian-trade/" },
-      { "title": "Xuanzang", "publisher": "Encyclopaedia Britannica", "url": "https://www.britannica.com/biography/Xuanzang" },
-      { "title": "Buddhism iv. Buddhist Sites in Afghanistan and Central Asia", "publisher": "Encyclopaedia Iranica", "url": "https://www.iranicaonline.org/articles/buddhism-iv/" }
-    ]
-  },
-  "Mongolia": {
-    "polity": "Turkic (Kök Türk) Khaganate, eastern branch",
-    "summary": "Mongolia was the centre of the eastern branch of the Turkic Khaganate founded by Bumin in the 550s, ruled first by his son Muhan. Mounted pastoralists ruled a vast tribal confederation, relying on Sogdians for their chancellery, while Sogdian merchants brought Buddhism and Manichaeism. The Eastern Turks fought the Chinese dynasties until 630, when Tang emperor Taizong defeated them and occupied Mongolia.",
-    "events": [
-      { "y": 572, "approx": false, "t": "Muhan, ruler of the eastern Turkic realm since 553, ends his reign." },
-      { "y": 581, "approx": true, "t": "The Bugut stele, written in Sogdian, is raised for the dead khagan Taspar, the oldest surviving inscription on Turkic rulers." },
-      { "y": 630, "approx": false, "t": "Tang emperor Taizong defeats the Eastern Turks and occupies Mongolia." }
-    ],
-    "link": null,
-    "evidence": "moderate",
-    "sources": [
-      { "title": "History of Central Asia: The Middle Ages", "publisher": "Encyclopaedia Britannica", "url": "https://www.britannica.com/place/history-of-Central-Asia-102306/The-Middle-Ages" },
-      { "title": "Khagan", "publisher": "Encyclopaedia Iranica", "url": "https://www.iranicaonline.org/articles/khagan/" },
-      { "title": "Chinese Turkestan viii. Turkish-Iranian Language Contacts", "publisher": "Encyclopaedia Iranica", "url": "https://www.iranicaonline.org/articles/chinese-turkestan-viii/" }
-    ]
-  }
+ "Afghanistan": {
+  "polity": "Post-Hephthalite principalities and Western Turkic rulers in Tokharistan; Sasanian frontier near Herat",
+  "summary": "After the Western Turks and Sasanians destroyed the Hephthalites around 560–566, the land was divided. After 579, battles with the Western Turks cost the Sasanians control of Tokharistan (Bactria). Buddhism flourished: Balkh had about 100 monasteries, and the colossal Bamiyan Buddhas, dated to the 6th–7th centuries, stood in the central mountains. Xuanzang described these Buddhist lands around 628–632.",
+  "events": [
+   {
+    "y": 579,
+    "approx": true,
+    "t": "After 579, battles with the Western Turks over former Hephthalite lands cost the Sasanians control of Tokharistan (Bactria)."
+   },
+   {
+    "y": 588,
+    "approx": false,
+    "t": "Turk-backed Hephthalite forces reach Badghis and Herat; the Sasanian general Bahram Chobin defeats the Western Turks and takes Balkh."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "The colossal Bamiyan Buddhas belong to this era; sources date them to the 6th–7th centuries (dating debated)."
+   },
+   {
+    "y": 630,
+    "approx": true,
+    "t": "Xuanzang describes Buddhist Kapisa, Bamiyan and Tokharistan (c. 628–632); his account is the earliest text describing the Bamiyan Buddhas."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Khorasan iii. Historical Geography in the Late Sasanid-Early Islamic Periods",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/khorasan-iii-historical-geography-in-the-late-sasanid-early-islamic-periods/"
+   },
+   {
+    "title": "Bahrām VI Čōbīn",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/bahram-the-name-of-six-sasanian-kings/bahram-vi/"
+   },
+   {
+    "title": "Bamiyan Buddhas",
+    "publisher": "Smarthistory",
+    "url": "https://smarthistory.org/bamiyan-buddhas/"
+   },
+   {
+    "title": "Buddhism iv. Buddhist Sites in Afghanistan and Central Asia",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/buddhism-iv/"
+   }
+  ]
+ },
+ "Pakistan": {
+  "polity": "Kingdom of Sindh centred on Aror; Buddhist Gandhara in the northwest",
+  "summary": "Sindh's early history is known mainly from the Chachnama, a 13th-century Persian translation of a lost Arabic history compiled at Aror. Its local tradition, which mixes history with legend, tells of a Buddhist dynasty overthrown by the Brahman Chach, whose line ruled until the Arab conquest. In Gandhara, the Buddhist monastery of Takht-i-Bahi, founded in the 1st century, remained in use until the 7th century.",
+  "events": [
+   {
+    "y": 630,
+    "approx": true,
+    "t": "Xuanzang, having described Buddhist Kapisa and Bamiyan, travels on into India, which he enters around 630."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Čač-nāma",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/cac-nama/"
+   },
+   {
+    "title": "Buddhist Ruins of Takht-i-Bahi and Neighbouring City Remains at Sahr-i-Bahlol",
+    "publisher": "UNESCO World Heritage Centre",
+    "url": "https://whc.unesco.org/en/list/140/"
+   },
+   {
+    "title": "Buddhism iv. Buddhist Sites in Afghanistan and Central Asia",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/buddhism-iv/"
+   },
+   {
+    "title": "Harsha",
+    "publisher": "World History Encyclopedia",
+    "url": "https://www.worldhistory.org/Harsha/"
+   }
+  ]
+ },
+ "India": {
+  "polity": "Harsha of Thanesar and Kannauj (north), Chalukyas of Badami (Deccan), Pallavas of Kanchi (southeast), Valabhi kingdom (west)",
+  "summary": "After the Gupta collapse, regional dynasties competed. Harsha (r. 606–647) ruled from Thanesar and later Kannauj; his court poet Bana wrote the Harshacharita. The Chalukya king Pulakeshin II (r. 609–642) defeated him on the Narmada, which became Harsha's southern frontier. Chalukyas and Pallavas, under Mahendravarman I (c. 600–630), fought over Vengi. Xuanzang reached India around 630 and presided over a great Buddhist assembly held by Harsha.",
+  "events": [
+   {
+    "y": 578,
+    "approx": true,
+    "t": "Shrines to Shiva and Vishnu are built at Badami, base of the Early Chalukya dynasty."
+   },
+   {
+    "y": 606,
+    "approx": false,
+    "t": "Harsha, aged 16, becomes king of Thanesar after Shashanka of Gauda kills his elder brother Rajyavardhana."
+   },
+   {
+    "y": 609,
+    "approx": false,
+    "t": "Pulakeshin II begins his reign as Chalukya king of Badami, ruling until 642."
+   },
+   {
+    "y": 630,
+    "approx": true,
+    "t": "Pulakeshin II defeats Harsha on the Narmada, which becomes the southern limit of Harsha's empire (date disputed; one source gives 630–634)."
+   }
+  ],
+  "link": null,
+  "evidence": "rich",
+  "sources": [
+   {
+    "title": "Harsha",
+    "publisher": "World History Encyclopedia",
+    "url": "https://www.worldhistory.org/Harsha/"
+   },
+   {
+    "title": "Gauda Kingdom",
+    "publisher": "World History Encyclopedia",
+    "url": "https://www.worldhistory.org/Gauda_Kingdom/"
+   },
+   {
+    "title": "South Asia: South, 500–1000 A.D. (Heilbrunn Timeline of Art History)",
+    "publisher": "The Metropolitan Museum of Art",
+    "url": "https://www.metmuseum.org/toah/ht/06/sss.html"
+   },
+   {
+    "title": "Mahendravarman I",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Mahendravarman-I"
+   }
+  ]
+ },
+ "Nepal": {
+  "polity": "Licchavi kingdom of the Kathmandu Valley",
+  "summary": "The Kathmandu Valley was ruled by the Licchavi dynasty (c. 450–750), of Indian origin, which used Sanskrit as its court language and issued Indian-style coins. It kept close ties with India and had economic and political relations with Tibet, making Nepal a cultural link between central and southern Asia. The Harsha era beginning in 606 was long used in Nepal.",
+  "events": [
+   {
+    "y": 606,
+    "approx": false,
+    "t": "The Harsha era begins; it was long preserved in Nepal for dating."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Licchavi era",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/event/Licchavi-era"
+   },
+   {
+    "title": "Harṣa Dynasty",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/Harsa-Dynasty"
+   }
+  ]
+ },
+ "Bhutan": {
+  "polity": "Unknown local societies (no recorded state)",
+  "summary": "The historical origins of Bhutan are obscure, and little is known of its early history; no written records survive for 570–632. The Bhutia (Ngalops), today's largest group, descend from migrants who came from Tibet starting in the 9th century. Legend says the Tibetan emperor Songtsen Gampo built Kyichu Lhakhang in the Paro valley in the 7th century, but this is tradition, not record.",
+  "events": [
+   {
+    "y": 630,
+    "approx": true,
+    "t": "Songtsen Gampo rules Tibet to the north (7th century); legend later credits him with founding Kyichu Lhakhang in Paro."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Bhutan: History",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Bhutan/History"
+   },
+   {
+    "title": "Bhutan (Britannica Students)",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://kids.britannica.com/students/article/Bhutan/273203"
+   },
+   {
+    "title": "Kyichu Lhakhang",
+    "publisher": "The Treasury of Lives: A Biographical Encyclopedia of Tibet, Inner Asia and the Himalayan Region",
+    "url": "https://treasuryoflives.org/institution/Kyichu-Lhakhang"
+   }
+  ]
+ },
+ "Bangladesh": {
+  "polity": "Gauda kingdom of Shashanka (north and west); Samatata (east)",
+  "summary": "Northern Bangladesh lay in Gauda, whose king Shashanka, ruling from Karnasuvarna, held Magadha and lands in Odisha and fought the Maukharis and Harsha's family. Pundranagara (Mahasthangarh), founded around the 4th–3rd century BCE, was long an administrative centre with Buddhist monasteries and Brahmanical temples. Samatata in the east was famed as a Mahayana Buddhist centre, as Xuanzang's travel account attests.",
+  "events": [
+   {
+    "y": 606,
+    "approx": true,
+    "t": "Shashanka is blamed for killing Rajyavardhana, Harsha's brother; Harsha allies with Bhaskaravarman of Kamarupa against him."
+   },
+   {
+    "y": 635,
+    "approx": true,
+    "t": "Xuanzang, travelling in India from about 630, records the fame of Samatata as a Mahayana Buddhist centre."
+   },
+   {
+    "y": 637,
+    "approx": false,
+    "t": "Shashanka dies after a long reign; only now does Harsha gain direct control of the Gauda lands."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Gauda Kingdom",
+    "publisher": "World History Encyclopedia",
+    "url": "https://www.worldhistory.org/Gauda_Kingdom/"
+   },
+   {
+    "title": "Cultural Landscape of Mahasthan and Karatoya River (Tentative List)",
+    "publisher": "UNESCO World Heritage Centre",
+    "url": "https://whc.unesco.org/en/tentativelists/6671/"
+   },
+   {
+    "title": "Archaeological sites of Lalmai-Mainamati (Tentative List)",
+    "publisher": "UNESCO World Heritage Centre",
+    "url": "https://whc.unesco.org/en/tentativelists/6670/"
+   }
+  ]
+ },
+ "Sri Lanka": {
+  "polity": "Anuradhapura kingdom (Sinhalese kings recorded in the Culavamsa)",
+  "summary": "Sinhalese Buddhist kings ruled from Anuradhapura; the Culavamsa chronicle records them, but its dates are approximate and must be checked against inscriptions. Aggabodhi I and his nephew Aggabodhi II are remembered for irrigation works. The 6th–8th centuries were otherwise marked by murder, revolt and civil war, and from the 7th century South Indian powers and Tamil mercenaries grew more involved. The island lay on Indian Ocean trade routes.",
+  "events": [
+   {
+    "y": 590,
+    "approx": true,
+    "t": "Reign of Aggabodhi I (6th–7th century; exact dates uncertain), who restores Mahasena's channel to Minneriya and builds the Kurunduvewa tank."
+   },
+   {
+    "y": 609,
+    "approx": true,
+    "t": "Under Aggabodhi II, credited with fourteen tanks, a fleeing Kalinga king takes refuge in Lanka and becomes a monk, possibly c. 609."
+   },
+   {
+    "y": 630,
+    "approx": true,
+    "t": "From the 7th century South Indian powers grow more involved in island politics, with Tamil mercenaries in and around the capital."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "History of Sri Lanka (Britannica Scholars)",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://kids.britannica.com/scholars/article/history-of-Sri-Lanka/638090"
+   },
+   {
+    "title": "Anurādhapura (historical state)",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Anuradhapura-historical-state-Sri-Lanka"
+   },
+   {
+    "title": "H. W. Codrington, A Short History of Ceylon (London: Macmillan, 1926), ch. III",
+    "publisher": "Macmillan (online edition at lakdiva.org.lk)",
+    "url": "https://lakdiva.org.lk/codrington/chap03.html"
+   }
+  ]
+ },
+ "Kazakhstan": {
+  "polity": "Western Turkic Khaganate",
+  "summary": "The steppes belonged to the Turkic (Kök Türk) empire founded in 552, which split into eastern and western halves in 583. Sogdian merchants gave the Turks their first chancellery language and, between 568 and 575, persuaded the khagan to open contact with Byzantium to sell silk. Early in the 7th century the Western Turks under Tong Yabghu extended their rule over the oasis states.",
+  "events": [
+   {
+    "y": 568,
+    "approx": true,
+    "t": "Sogdian merchants persuade the Turkic khagan to open contact with Byzantium to sell Chinese silk (between 568 and 575)."
+   },
+   {
+    "y": 583,
+    "approx": false,
+    "t": "Rivalries within the ruling dynasty split the Turkic khaganate into eastern and western halves."
+   },
+   {
+    "y": 627,
+    "approx": false,
+    "t": "Ziebel, brother of the supreme khagan Tong Yabghu, allies with Emperor Heraclius in the Caucasus and conquers Tiflis (627–628)."
+   },
+   {
+    "y": 628,
+    "approx": true,
+    "t": "Tong Yabghu is assassinated (628 or 630), and power struggles weaken the Western Turks' grip on the oasis states."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Sogdian Trade",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/sogdian-trade/"
+   },
+   {
+    "title": "Khagan",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/khagan/"
+   },
+   {
+    "title": "H. İ. Erkoç, The Impact of General Li Jing's Military Thought on the Fall of the Eastern Türk Qaghanate",
+    "publisher": "Çanakkale Araştırmaları Türk Yıllığı 22 (2017), Çanakkale Onsekiz Mart University",
+    "url": "https://cdn.comu.edu.tr/cms/ckalearastirma/files/515-2-hayrettin-ihsan-erkoc-the-impact-of-general-li-j.pdf"
+   },
+   {
+    "title": "Khotan ii. History in the Pre-Islamic Period",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/khotan-parent/khotan-ii-history-in-the-pre-islamic-period/"
+   }
+  ]
+ },
+ "Kyrgyzstan": {
+  "polity": "Western Turkic Khaganate (Chu valley)",
+  "summary": "The Chu valley held Suyab (Ak-Beshim, 60 km east of modern Bishkek), a town probably founded by Sogdians in the 6th century, where Sogdian and local Turkic cultures met. Chinese annals describe the district as densely settled, subject to the Turks and dotted with trading colonies of Sogdian merchants. The Western Turkic khagan Tong Yabghu dominated the region until his assassination.",
+  "events": [
+   {
+    "y": 628,
+    "approx": true,
+    "t": "Tong Yabghu, khagan of the Western Turks, is assassinated (628 or 630; date disputed)."
+   },
+   {
+    "y": 629,
+    "approx": false,
+    "t": "Xuanzang passes through Suyab, the town's first recorded mention."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Suyāb",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/suyab/"
+   },
+   {
+    "title": "Khotan ii. History in the Pre-Islamic Period",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/khotan-parent/khotan-ii-history-in-the-pre-islamic-period/"
+   }
+  ]
+ },
+ "Tajikistan": {
+  "polity": "Sogdian towns (Panjikant) in the north; Tokharistan principalities in the south under Western Turkic power",
+  "summary": "The north lay in Sogdiana, where Panjikant was a prosperous town of merchants and landowners; its two temples and many houses were decorated with murals of gods, royal feasts and epic heroes. The south belonged to Tokharistan, a hub of trade routes once dominated by the Hephthalites and later under Western Turkic control. Buddhist monasteries stood in northern Tokharistan.",
+  "events": [
+   {
+    "y": 565,
+    "approx": true,
+    "t": "The Western Turks and Sasanians destroy the Hephthalites (dated 558–561 or 563–566); the Turks take the lands north of the Oxus."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Panjikant flourishes; its temples and houses bear murals of gods, feasts, hunts and heroes such as Rostam."
+   },
+   {
+    "y": 628,
+    "approx": true,
+    "t": "Xuanzang, writing under the year 628, records Buddhist monasteries in northern Tokharistan."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Panjikant",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/panjikant/"
+   },
+   {
+    "title": "Khorasan iii. Historical Geography in the Late Sasanid-Early Islamic Periods",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/khorasan-iii-historical-geography-in-the-late-sasanid-early-islamic-periods/"
+   },
+   {
+    "title": "Buddhism iv. Buddhist Sites in Afghanistan and Central Asia",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/buddhism-iv/"
+   },
+   {
+    "title": "Hephthalites",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/hephthalites/"
+   }
+  ]
+ },
+ "Turkmenistan": {
+  "polity": "Sasanian Empire (Merv, in Khorasan)",
+  "summary": "Merv, an oasis city on the Silk Road, was one of the main population centres of Sasanian Khorasan; its walled city of Gyaur Kala contained a Buddhist stupa and monastery. Khorasan faced repeated pressure from the Western Turks and their Hephthalite subjects, and after 579 the Sasanians lost control of Tokharistan to the east.",
+  "events": [
+   {
+    "y": 588,
+    "approx": false,
+    "t": "Bahram Chobin defeats a Turk-backed Hephthalite invasion of the eastern provinces that had reached Badghis and Herat."
+   },
+   {
+    "y": 590,
+    "approx": false,
+    "t": "Bahram Chobin rebels and is proclaimed king after nobles kill Hormizd IV; Khosrow II, backed by a Byzantine army, ousts him in 591."
+   },
+   {
+    "y": 615,
+    "approx": true,
+    "t": "Late in his career (he died 616 or 617), the Armenian prince Smbat Bagratuni leads a Persian and Armenian army to victory over the Hephthalites."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Khorasan iii. Historical Geography in the Late Sasanid-Early Islamic Periods",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/khorasan-iii-historical-geography-in-the-late-sasanid-early-islamic-periods/"
+   },
+   {
+    "title": "Bahrām VI Čōbīn",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/bahram-the-name-of-six-sasanian-kings/bahram-vi/"
+   },
+   {
+    "title": "Smbat Bagratuni",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/smbat-bagratuni/"
+   },
+   {
+    "title": "State Historical and Cultural Park “Ancient Merv”",
+    "publisher": "UNESCO World Heritage Centre",
+    "url": "https://whc.unesco.org/en/list/886/"
+   }
+  ]
+ },
+ "Uzbekistan": {
+  "polity": "Sogdian city-states (Samarkand, Bukhara) under Western Turkic overlordship",
+  "summary": "Sogdiana's city-states lay north of the Oxus under Turkic overlordship; Samarkand was a major trading emporium, and Bukhara's rulers deferred to its ruler. Sogdian merchants dominated Silk Road trade and gave the Turks their first chancellery language. Samarkand hosted Zoroastrians, Christians, Buddhists and Manichaeans, and Buddhist monasteries stood at Termez in the south.",
+  "events": [
+   {
+    "y": 568,
+    "approx": true,
+    "t": "Sogdian merchants persuade the Turkic khagan to open contact with Byzantium to sell Chinese silk (between 568 and 575)."
+   },
+   {
+    "y": 628,
+    "approx": true,
+    "t": "Xuanzang passes through Samarkand and Termez, where he notes about a dozen Buddhist monasteries and some 1,000 monks."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Sogdian Trade",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/sogdian-trade/"
+   },
+   {
+    "title": "Khorasan iii. Historical Geography in the Late Sasanid-Early Islamic Periods",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/khorasan-iii-historical-geography-in-the-late-sasanid-early-islamic-periods/"
+   },
+   {
+    "title": "Buddhism iv. Buddhist Sites in Afghanistan and Central Asia",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/buddhism-iv/"
+   },
+   {
+    "title": "Panjikant",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/panjikant/"
+   }
+  ]
+ },
+ "Mongolia": {
+  "polity": "Turkic (Kök Türk) Khaganate, from 583 its eastern branch",
+  "summary": "Mongolia was the heartland of the Turkic khaganate founded in 552, which split into eastern and western halves in 583. Its nomadic rulers, whose economy rested on herding, first wrote in Sogdian. The Eastern Turks were strongest under Shibi Qaghan (609–619), but after disasters in 627 and revolts led by the Xueyantuo, the Tang general Li Jing destroyed the khaganate in 630.",
+  "events": [
+   {
+    "y": 581,
+    "approx": true,
+    "t": "The Bugut stele, written in Sogdian, is raised for a dead khagan; it is the oldest surviving inscription on the history of the Turkic rulers."
+   },
+   {
+    "y": 583,
+    "approx": false,
+    "t": "Rivalries within the ruling dynasty split the Turkic khaganate into eastern and western halves."
+   },
+   {
+    "y": 615,
+    "approx": false,
+    "t": "Shibi Qaghan besieges the Sui emperor Yangdi at Yanmen, triggering rebellions across China."
+   },
+   {
+    "y": 626,
+    "approx": false,
+    "t": "Illig Qaghan advances to the Tang capital Chang'an; the new emperor Taizong has to bribe the Turks to withdraw."
+   },
+   {
+    "y": 627,
+    "approx": false,
+    "t": "Heavy snowfall kills the Turks' herds; famine and heavy taxes spark revolts by vassal tribes, which unite under the Xueyantuo."
+   },
+   {
+    "y": 630,
+    "approx": false,
+    "t": "Tang general Li Jing destroys the Eastern Turkic khaganate in surprise raids; his subordinate Zhang Baoxiang captures Illig Qaghan."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "H. İ. Erkoç, The Impact of General Li Jing's Military Thought on the Fall of the Eastern Türk Qaghanate",
+    "publisher": "Çanakkale Araştırmaları Türk Yıllığı 22 (2017), Çanakkale Onsekiz Mart University",
+    "url": "https://cdn.comu.edu.tr/cms/ckalearastirma/files/515-2-hayrettin-ihsan-erkoc-the-impact-of-general-li-j.pdf"
+   },
+   {
+    "title": "Khagan",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/khagan/"
+   },
+   {
+    "title": "Chinese Turkestan viii. Turkish-Iranian Language Contacts",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/chinese-turkestan-viii/"
+   }
+  ]
+ }
 }

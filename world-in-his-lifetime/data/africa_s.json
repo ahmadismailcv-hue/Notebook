@@ -1,22 +1,11 @@
 {
  "Angola": {
-  "polity": "Iron-using farming communities",
-  "summary": "Most of the later population descends from farming cultures that appeared c. 1000-500 BCE and were working iron by the first centuries CE. Archaeology from this region is very scarce, so little can be said specifically about c. 570-632. The Kongo and Ndongo kingdoms lay centuries in the future.",
-  "events": [
-   {
-    "y": 600,
-    "approx": true,
-    "t": "Iron-using farming communities occupy the region; almost no sites from this period have been dated."
-   }
-  ],
+  "polity": "Farming and herding communities (poorly documented)",
+  "summary": "Angola is thought to be a potentially important route for the spread of herders, farmers and livestock into southern Africa, yet a 2018 survey of the evidence found hardly any archaeology from the region. Pottery from a shell midden at Benfica, on the northern coast, has been proposed as a possible origin of the Kalundu pottery tradition. Little can be said specifically about 570-632.",
+  "events": [],
   "link": null,
   "evidence": "sparse",
   "sources": [
-   {
-    "title": "History of Angola",
-    "publisher": "Encyclopaedia Britannica",
-    "url": "https://www.britannica.com/topic/history-of-Angola"
-   },
    {
     "title": "Lander & Russell, The archaeological evidence for the appearance of pastoralism and farming in southern Africa (PLoS ONE 13, 2018)",
     "publisher": "PLoS ONE, via PubMed Central",
@@ -25,63 +14,63 @@
   ]
  },
  "Benin": {
-  "polity": "Farming communities (poorly documented)",
-  "summary": "Iron-using farming communities lived in this part of West Africa during the first millennium CE, but archaeological evidence for the period is very limited. The later kingdoms of Allada and Dahomey were many centuries away.",
+  "polity": "Unrecorded local communities (no known state)",
+  "summary": "No written records survive for this land in 570–632, and its communities are known only in the most general terms. The kingdoms later associated with the area, such as Allada, Abomey (Dahomey), Ouidah, Nikki and Porto-Novo, arose only between the 12th or 13th century and the 19th century. Across Africa, iron smelting, known since the first millennium BCE, was still spreading.",
   "events": [
    {
     "y": 600,
     "approx": true,
-    "t": "Iron-using farming communities occupy the region; almost no sites from this era are published."
+    "t": "Iron and copper smelting, known in Africa since the first millennium BCE, continues to spread; by c. 1000 it is found across the continent."
    }
   ],
   "link": null,
   "evidence": "sparse",
   "sources": [
    {
-    "title": "Graham Connah, African Civilizations: An Archaeological Perspective, 3rd ed. (2016)",
-    "publisher": "Cambridge University Press",
-    "url": null
+    "title": "Benin (Britannica Students)",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://kids.britannica.com/students/article/Benin/273170"
+   },
+   {
+    "title": "Guinea Coast, 500–1000 A.D. (Heilbrunn Timeline of Art History)",
+    "publisher": "The Metropolitan Museum of Art",
+    "url": "https://www.metmuseum.org/toah/ht/06/afg.html"
    }
   ]
  },
  "Botswana": {
   "polity": "Foragers and herders; early iron-using farmers at Tsodilo",
-  "summary": "In the north-west, foraging dominated the Tsodilo Hills until about 600 CE; the Iron Age village of Divuyu there dates to roughly the 6th-8th centuries, with iron and copper working. The Toutswe farming tradition of the east began only around 700. No written records exist.",
+  "summary": "At the Tsodilo Hills in the north-west, with over 4,500 rock paintings and a long record of human occupation, the Early Iron Age village of Divuyu dates to the 6th-8th centuries; its people forged iron and worked copper into small ornaments. The nearby site of Nqoma dates to the 7th-10th centuries. No written records exist.",
   "events": [
    {
     "y": 600,
     "approx": true,
-    "t": "Divuyu at Tsodilo Hills is occupied by iron- and copper-working farmers, dated broadly to the 6th-8th centuries."
+    "t": "Divuyu at the Tsodilo Hills is occupied by iron- and copper-working people, dated to the 6th-8th centuries."
    }
   ],
   "link": null,
   "evidence": "sparse",
   "sources": [
    {
-    "title": "Tsodilo (nomination file / ICOMOS documentation, No. 1021)",
+    "title": "Tsodilo",
     "publisher": "UNESCO World Heritage Centre",
-    "url": "https://whc.unesco.org/document/151551"
+    "url": "https://whc.unesco.org/en/list/1021"
    },
    {
-    "title": "Iron age metal working at the Tsodilo Hills, Northwestern Botswana",
+    "title": "D. Miller, Iron age metal working at the Tsodilo Hills, Northwestern Botswana (PhD thesis, 1992)",
     "publisher": "University of Cape Town (OpenUCT)",
     "url": "https://open.uct.ac.za/items/a76a0330-0942-4851-8c32-da6b74587829"
-   },
-   {
-    "title": "Mookodi, article on Toutswe-tradition settlement, Pula: Botswana Journal of African Studies",
-    "publisher": "Pula (Michigan State University digital library)",
-    "url": "https://d.lib.msu.edu/pula/319/FULL_TEXT/view"
    }
   ]
  },
  "Burkina Faso": {
   "polity": "Iron-working farming communities",
-  "summary": "Iron production in the region was very old: Douroula, part of a UNESCO World Heritage property, dates back to the 8th century BCE. The property's other furnace sites show intensified production in the second millennium CE. Little is specifically dated to c. 570-632, and no written records survive.",
+  "summary": "Iron production in the region was very old: Douroula, part of a UNESCO World Heritage property, dates back to the 8th century BCE. The property's other furnace sites show intensified production in the second millennium CE. Little is specifically dated to c. 570-632.",
   "events": [
    {
     "y": 600,
     "approx": true,
-    "t": "Iron smelting, attested at Douroula since the 8th century BCE, is long established; specific sites of this era are poorly dated."
+    "t": "Iron smelting, attested at Douroula since the 8th century BCE, is long established; sites of this era are poorly dated."
    }
   ],
   "link": null,
@@ -95,28 +84,28 @@
   ]
  },
  "Burundi": {
-  "polity": "Iron-using farmers and forest foragers of the Great Lakes",
-  "summary": "Highland farmers here belonged to the Early Iron Age Urewe tradition of the Great Lakes region, where iron smelting began in the first millennium BCE. Forest foragers lived alongside them. The later kingdom of Burundi did not yet exist. Archaeology gives only a general picture.",
+  "polity": "Early Iron Age farming communities (Urewe culture and successors)",
+  "summary": "Burundi's Central Plateau, with good farming soils and easy access to iron ore and wood, was home to Early Iron Age communities of the Urewe culture. Radiocarbon dates suggest iron smelting began here early in the first millennium BCE at the latest and flourished until about the 7th century CE. No written sources exist, and the later kingdom of Burundi did not yet exist.",
   "events": [
    {
     "y": 600,
     "approx": true,
-    "t": "Iron-using highland farming communities continue the long Great Lakes iron tradition; few sites are dated to this era."
+    "t": "Iron smelting in the Rwanda–Burundi region, practised for over a millennium, reaches the end of its Early Iron Age flourishing (c. 7th century)."
    }
   ],
   "link": null,
   "evidence": "sparse",
   "sources": [
    {
-    "title": "David W. Phillipson, African Archaeology, 3rd ed. (2005)",
-    "publisher": "Cambridge University Press",
-    "url": null
+    "title": "P. Craddock, I. Freestone, A. Middleton and M.-C. Van Grunderbeek, 'Early Iron Age iron-smelting debris from Rwanda and Burundi, East Africa', Historical Metallurgy 41(1), 2007",
+    "publisher": "Historical Metallurgy Society",
+    "url": "https://hmsjournal.org/index.php/home/article/download/218/212"
    }
   ]
  },
  "Cameroon": {
-  "polity": "Farming and foraging communities; Lake Chad plain settlements in the north",
-  "summary": "The Cameroon-Nigeria borderlands are the likely homeland of the Bantu languages. In southern Cameroon, radiocarbon evidence shows a sharp population collapse c. 400-600 CE and low activity for centuries after. In the far north, settlement mounds of the Lake Chad plain were occupied. Archaeology is the only evidence.",
+  "polity": "Farming and foraging communities (much reduced in the south)",
+  "summary": "The border region of Nigeria and Cameroon is the homeland from which Bantu-speaking peoples spread. In southern Cameroon, radiocarbon evidence shows a population collapse c. 400-600 CE and very low activity for centuries after, reaching near-zero values about 900-1000 CE. Archaeology is the only evidence.",
   "events": [
    {
     "y": 600,
@@ -129,29 +118,19 @@
   "sources": [
    {
     "title": "Seidensticker et al., Population collapse in Congo rainforest from 400 CE urges reassessment of the Bantu Expansion (Science Advances 7, 2021)",
-    "publisher": "Science Advances (AAAS), open access via PubMed Central",
-    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7880602/"
-   },
-   {
-    "title": "David W. Phillipson, African Archaeology, 3rd ed. (2005)",
-    "publisher": "Cambridge University Press",
-    "url": null
-   },
-   {
-    "title": "Graham Connah, African Civilizations: An Archaeological Perspective, 3rd ed. (2016)",
-    "publisher": "Cambridge University Press",
-    "url": null
+    "publisher": "Science Advances (AAAS)",
+    "url": "https://www.science.org/doi/10.1126/sciadv.abd8352"
    }
   ]
  },
  "Central African Rep.": {
   "polity": "Savanna and forest communities (poorly documented)",
-  "summary": "Very little archaeology from this period has been dated in this region. To the south, studies of the wider Congo rainforest show a widespread population collapse between c. 400 and 600 CE. The megaliths near Bouar are of uncertain date and cannot be securely placed in this period. No written sources exist.",
+  "summary": "No written sources exist. Across the Congo rainforest to the south, radiocarbon evidence shows a widespread population collapse between c. 400 and 600 CE, followed by markedly low human activity until about 1000 CE; only 61 sites in the whole rainforest have well-dated evidence from 600-1000 CE.",
   "events": [
    {
     "y": 600,
     "approx": true,
-    "t": "In the wider Congo rainforest to the south, human activity is very low after a collapse c. 400-600 CE."
+    "t": "In the Congo rainforest to the south, human activity is very low after a collapse c. 400-600 CE."
    }
   ],
   "link": null,
@@ -159,19 +138,19 @@
   "sources": [
    {
     "title": "Seidensticker et al., Population collapse in Congo rainforest from 400 CE urges reassessment of the Bantu Expansion (Science Advances 7, 2021)",
-    "publisher": "Science Advances (AAAS), open access via PubMed Central",
-    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7880602/"
+    "publisher": "Science Advances (AAAS)",
+    "url": "https://www.science.org/doi/10.1126/sciadv.abd8352"
    }
   ]
  },
  "Congo": {
   "polity": "Forest and river communities (much reduced)",
-  "summary": "Iron-using Bantu-speaking communities had spread along the Congo's tributaries in earlier centuries, but radiocarbon evidence shows a widespread population collapse across the Congo rainforest c. 400-600 CE, strongest in the Lower Congo, with low activity until resettlement around 1000. The Kongo and Tio kingdoms came much later.",
+  "summary": "Early Iron Age communities had expanded across the Congo rainforest, including the western Congo basin, but radiocarbon evidence shows a widespread population collapse c. 400-600 CE, followed by markedly low human activity until about 1000 CE, when new pottery groups and a second expansion phase appear.",
   "events": [
    {
     "y": 600,
     "approx": true,
-    "t": "After a rainforest-wide population collapse c. 400-600 CE, human activity remains low; recovery comes around 1000 CE."
+    "t": "After a rainforest-wide population collapse c. 400-600 CE, human activity stays low until about 1000 CE."
    }
   ],
   "link": null,
@@ -179,39 +158,39 @@
   "sources": [
    {
     "title": "Seidensticker et al., Population collapse in Congo rainforest from 400 CE urges reassessment of the Bantu Expansion (Science Advances 7, 2021)",
-    "publisher": "Science Advances (AAAS), open access via PubMed Central",
-    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7880602/"
-   },
-   {
-    "title": "Central Africa: The Iron Age",
-    "publisher": "Encyclopaedia Britannica",
-    "url": "https://www.britannica.com/place/central-Africa/The-Iron-Age"
+    "publisher": "Science Advances (AAAS)",
+    "url": "https://www.science.org/doi/10.1126/sciadv.abd8352"
    }
   ]
  },
  "Côte d'Ivoire": {
-  "polity": "Farming communities (poorly documented)",
-  "summary": "Iron-using farming communities lived in the West African forest and savanna zones in the first millennium CE, but very few sites in this country have been excavated for this period. The Akan and other later states had not yet formed.",
+  "polity": "Unrecorded local communities (no known state)",
+  "summary": "No written records survive for this land in 570–632, and its peoples are known only in general terms. The states later found here came long afterwards: the Senufo founded the kingdom of Kong in the 11th century, and Akan and Anyi peoples migrated in and founded kingdoms much later still. Across Africa, iron smelting, known since the first millennium BCE, was still spreading.",
   "events": [
    {
     "y": 600,
     "approx": true,
-    "t": "Iron-using farmers occupy savanna and forest zones; few sites from this era have been excavated."
+    "t": "Iron and copper smelting, known in Africa since the first millennium BCE, continues to spread; by c. 1000 it is found across the continent."
    }
   ],
   "link": null,
   "evidence": "sparse",
   "sources": [
    {
-    "title": "Graham Connah, African Civilizations: An Archaeological Perspective, 3rd ed. (2016)",
-    "publisher": "Cambridge University Press",
-    "url": null
+    "title": "Côte d'Ivoire (Britannica Students)",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://kids.britannica.com/students/article/C%C3%B4te-dIvoire/273828"
+   },
+   {
+    "title": "Guinea Coast, 500–1000 A.D. (Heilbrunn Timeline of Art History)",
+    "publisher": "The Metropolitan Museum of Art",
+    "url": "https://www.metmuseum.org/toah/ht/06/afg.html"
    }
   ]
  },
  "Dem. Rep. Congo": {
   "polity": "Farming and foraging communities; Kamilambian iron-users in the Upemba",
-  "summary": "Across the Congo rainforest, including the inner basin, radiocarbon evidence shows a population collapse c. 400-600 CE and low activity until c. 1000. In the Upemba Depression in the south-east, the Kamilambian, the area's earliest ironworking culture (c. 6th-8th century), preceded the Kisalian, which began c. mid-8th century.",
+  "summary": "Across the Congo rainforest, including the inner Congo basin, radiocarbon evidence shows a population collapse c. 400-600 CE and low activity until c. 1000. In the Upemba Depression in the south-east, the Kamilambian, the area's earliest ironworking culture (c. 6th-8th century), relied on farming and fishing and preceded the Kisalian, which began c. mid-8th century.",
   "events": [
    {
     "y": 600,
@@ -229,14 +208,14 @@
    },
    {
     "title": "Seidensticker et al., Population collapse in Congo rainforest from 400 CE urges reassessment of the Bantu Expansion (Science Advances 7, 2021)",
-    "publisher": "Science Advances (AAAS), open access via PubMed Central",
-    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7880602/"
+    "publisher": "Science Advances (AAAS)",
+    "url": "https://www.science.org/doi/10.1126/sciadv.abd8352"
    }
   ]
  },
  "Eq. Guinea": {
   "polity": "Forest communities (poorly documented)",
-  "summary": "The mainland lies within the Congo rainforest, where radiocarbon studies covering neighbouring southern Cameroon and Gabon show a sharp population collapse c. 400-600 CE and low activity for centuries afterwards. The early history of Bioko island in this period is poorly known.",
+  "summary": "The mainland lies within the Congo rainforest between southern Cameroon and Gabon, where radiocarbon studies show a population collapse c. 400-600 CE and very low human activity for centuries afterwards. No written sources exist.",
   "events": [
    {
     "y": 600,
@@ -249,19 +228,19 @@
   "sources": [
    {
     "title": "Seidensticker et al., Population collapse in Congo rainforest from 400 CE urges reassessment of the Bantu Expansion (Science Advances 7, 2021)",
-    "publisher": "Science Advances (AAAS), open access via PubMed Central",
-    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7880602/"
+    "publisher": "Science Advances (AAAS)",
+    "url": "https://www.science.org/doi/10.1126/sciadv.abd8352"
    }
   ]
  },
  "Gabon": {
   "polity": "Forest communities (much reduced)",
-  "summary": "Iron smelting had reached Central Africa's western forest long before, but radiocarbon evidence shows a sharp population collapse in Gabon c. 400-600 CE, with very low human activity until a new expansion phase from c. 1000 CE. No written sources exist.",
+  "summary": "Iron working had reached Central Africa about 3,000 years ago, but radiocarbon evidence shows a sharp population collapse in Gabon c. 400-600 CE and very low human activity until about 1000 CE. Genetic data suggest that today's Bantu-speaking communities of Gabon arrived only in the second expansion phase (1000-1500 CE).",
   "events": [
    {
     "y": 600,
     "approx": true,
-    "t": "Gabon's forest is thinly occupied after a population collapse c. 400-600 CE; resettlement follows from c. 1000."
+    "t": "Gabon's forest is thinly occupied after a population collapse c. 400-600 CE; resettlement follows from about 1000."
    }
   ],
   "link": null,
@@ -269,8 +248,8 @@
   "sources": [
    {
     "title": "Seidensticker et al., Population collapse in Congo rainforest from 400 CE urges reassessment of the Bantu Expansion (Science Advances 7, 2021)",
-    "publisher": "Science Advances (AAAS), open access via PubMed Central",
-    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7880602/"
+    "publisher": "Science Advances (AAAS)",
+    "url": "https://www.science.org/doi/10.1126/sciadv.abd8352"
    },
    {
     "title": "Central Africa: The Iron Age",
@@ -301,26 +280,26 @@
  },
  "Ghana": {
   "polity": "Farming communities (not the medieval Ghana empire)",
-  "summary": "Modern Ghana lies far from the medieval Ghana (Wagadu) empire, which was in the western Sahel. Iron-using farmers lived in the savanna and forest, but sites of this period are few. The Koma Land terracotta mounds of the north are dated mainly to later centuries (c. 13th-19th) in published research.",
+  "summary": "Modern Ghana lies far from the medieval Ghana (Wagadu) empire, which was in southeastern Mauritania and Mali. In the Koma area of the north, stone-circle mounds with terracotta figurines were once dated to the 13th-19th centuries, but newer radiocarbon and thermoluminescence dates place occupation and mound building between the 6th and 10th centuries; they may have been shrines.",
   "events": [
    {
     "y": 600,
     "approx": true,
-    "t": "Iron-using farming communities occupy savanna and forest; few sites from this era are dated."
+    "t": "Koma Land mounds with terracotta figurines, possibly shrines, are being built in northern Ghana; dates span the 6th-10th centuries."
    }
   ],
   "link": null,
   "evidence": "sparse",
   "sources": [
    {
-    "title": "Graham Connah, African Civilizations: An Archaeological Perspective, 3rd ed. (2016)",
-    "publisher": "Cambridge University Press",
-    "url": null
-   },
-   {
-    "title": "Kankpeyeng & Nkumbaan, Ancient Shrines? New Insights on the Komaland Sites of Northern Ghana",
+    "title": "Kankpeyeng & Nkumbaan, Ancient Shrines? New Insights on the Komaland Sites of Northern Ghana (2009)",
     "publisher": "University of Ghana (UGSpace)",
     "url": "https://ugspace.ug.edu.gh/items/c592f7c2-448f-4cae-92af-16e24867e66d"
+   },
+   {
+    "title": "Ghana (historical West African empire)",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Ghana-historical-West-African-empire"
    }
   ]
  },
@@ -345,93 +324,76 @@
   ]
  },
  "Guinea-Bissau": {
-  "polity": "Coastal farming and fishing communities (poorly documented)",
-  "summary": "The coastal estuaries were home to farming and fishing communities, but no written record and very little archaeology survives for this period, so details of their life c. 570-632 are unknown.",
+  "polity": "Unrecorded local communities (no known state)",
+  "summary": "The precolonial history of this coast has not been fully documented in the archaeological record, and no written sources exist for 570–632. Little can be said with confidence about its communities in this period. Across Africa, iron smelting, known since the first millennium BCE, was still spreading.",
   "events": [
    {
     "y": 600,
     "approx": true,
-    "t": "Coastal communities farm and fish; little archaeology exists for the period."
+    "t": "Iron and copper smelting, known in Africa since the first millennium BCE, continues to spread; by c. 1000 it is found across the continent."
    }
   ],
   "link": null,
   "evidence": "sparse",
   "sources": [
    {
-    "title": "Graham Connah, African Civilizations: An Archaeological Perspective, 3rd ed. (2016)",
-    "publisher": "Cambridge University Press",
-    "url": null
+    "title": "Guinea-Bissau: History",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Guinea-Bissau/History"
+   },
+   {
+    "title": "Guinea Coast, 500–1000 A.D. (Heilbrunn Timeline of Art History)",
+    "publisher": "The Metropolitan Museum of Art",
+    "url": "https://www.metmuseum.org/toah/ht/06/afg.html"
    }
   ]
  },
  "Lesotho": {
   "polity": "San hunter-gatherers",
-  "summary": "The mountains were home to San hunter-gatherers, the makers of much of the rock art of southern Africa, including Lesotho. Iron Age farming communities settled the area only in later centuries. Evidence is archaeological and rock art.",
-  "events": [
-   {
-    "y": 600,
-    "approx": true,
-    "t": "San hunter-gatherers occupy mountain rock shelters; farming communities have not yet settled the area."
-   }
-  ],
+  "summary": "The mountains were home to San hunter-gatherers. The caves and rock shelters of the Maloti-Drakensberg, including Sehlabathebe National Park in Lesotho, hold the largest and most concentrated group of rock paintings in Africa south of the Sahara, representing the spiritual life of the San, who lived in the area over 4,000 years. Evidence is archaeological and rock art.",
+  "events": [],
   "link": null,
   "evidence": "sparse",
   "sources": [
    {
-    "title": "Rock art",
-    "publisher": "Encyclopaedia Britannica",
-    "url": "https://www.britannica.com/art/rock-art"
-   },
-   {
-    "title": "David W. Phillipson, African Archaeology, 3rd ed. (2005)",
-    "publisher": "Cambridge University Press",
-    "url": null
+    "title": "Maloti-Drakensberg Park",
+    "publisher": "UNESCO World Heritage Centre",
+    "url": "https://whc.unesco.org/en/list/985"
    }
   ]
  },
  "Liberia": {
-  "polity": "Forest farming and foraging communities (poorly documented)",
-  "summary": "Dense rainforest supported small farming and foraging communities. Archaeological research for this era is very limited, so little can be said with confidence.",
+  "polity": "Unrecorded local communities (no known state)",
+  "summary": "Almost nothing is known of this land in 570–632; no written records exist. The ancestors of most of Liberia's present indigenous peoples, such as the Kpelle, Bassa, Grebo, Kru and Mano, migrated here from the western Sudan only in the late Middle Ages, long after this period. Across Africa, iron smelting, known since the first millennium BCE, was still spreading.",
   "events": [
    {
     "y": 600,
     "approx": true,
-    "t": "Small forest communities farm and forage; the period is almost undocumented archaeologically."
+    "t": "Iron and copper smelting, known in Africa since the first millennium BCE, continues to spread; by c. 1000 it is found across the continent."
    }
   ],
   "link": null,
   "evidence": "sparse",
   "sources": [
    {
-    "title": "Graham Connah, African Civilizations: An Archaeological Perspective, 3rd ed. (2016)",
-    "publisher": "Cambridge University Press",
-    "url": null
+    "title": "Liberia (Britannica Students)",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://kids.britannica.com/students/article/Liberia/275461"
+   },
+   {
+    "title": "Guinea Coast, 500–1000 A.D. (Heilbrunn Timeline of Art History)",
+    "publisher": "The Metropolitan Museum of Art",
+    "url": "https://www.metmuseum.org/toah/ht/06/afg.html"
    }
   ]
  },
  "Malawi": {
-  "polity": "Early Iron Age farmers (Nkope tradition) and BaTwa foragers",
-  "summary": "Bantu-speaking farmers making Nkope-tradition pottery lived around Lake Malawi, and ironworking and slash-and-burn cultivation spread in the centuries to about 1200 CE. BaTwa hunter-gatherers, present since the late Stone Age, painted rock shelters such as those at Chongoni. The Chewa states came much later.",
-  "events": [
-   {
-    "y": 600,
-    "approx": true,
-    "t": "Nkope-tradition Early Iron Age farming villages occupy the Lake Malawi region; BaTwa foragers live alongside them."
-   }
-  ],
+  "polity": "BaTwa foragers and Iron Age farmers",
+  "summary": "BaTwa hunter-gatherers, present since the Late Stone Age, painted rock shelters such as those at Chongoni, the richest concentration of rock art in Central Africa. Farming peoples also made rock art there; the Chewa, whose ancestors lived in the area from the Iron Age, painted until the 20th century. Specific evidence for 570-632 is scarce.",
+  "events": [],
   "link": null,
   "evidence": "sparse",
   "sources": [
-   {
-    "title": "David W. Phillipson, African Archaeology, 3rd ed. (2005)",
-    "publisher": "Cambridge University Press",
-    "url": null
-   },
-   {
-    "title": "History of Malawi",
-    "publisher": "Encyclopaedia Britannica",
-    "url": "https://www.britannica.com/topic/history-of-Malawi"
-   },
    {
     "title": "Chongoni Rock-Art Area",
     "publisher": "UNESCO World Heritage Centre",
@@ -440,15 +402,9 @@
   ]
  },
  "Namibia": {
-  "polity": "San foragers and Khoe herders",
-  "summary": "The desert and dry savanna were home to San hunter-gatherers and herders of sheep and some cattle, part of an enduring pastoralist presence in the western half of southern Africa. Much of Namibia's rock art was made by San peoples. Metal-working sites are known but poorly classified. Evidence is archaeological.",
-  "events": [
-   {
-    "y": 600,
-    "approx": true,
-    "t": "Foragers and herders occupy the region; rock art traditions continue."
-   }
-  ],
+  "polity": "Hunter-gatherers and herders",
+  "summary": "The drier western half of southern Africa, including Namibia, shows an enduring presence of herders with sheep and some cattle, ahead of and during the spread of farming. Directly dated sheep bones and pottery come from Leopard Cave, and other sites have yielded metal-working and metal artefacts, though their occupants are unclassified. Evidence is archaeological.",
+  "events": [],
   "link": null,
   "evidence": "sparse",
   "sources": [
@@ -456,57 +412,62 @@
     "title": "Lander & Russell, The archaeological evidence for the appearance of pastoralism and farming in southern Africa (PLoS ONE 13, 2018)",
     "publisher": "PLoS ONE, via PubMed Central",
     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6002040/"
-   },
-   {
-    "title": "Rock art",
-    "publisher": "Encyclopaedia Britannica",
-    "url": "https://www.britannica.com/art/rock-art"
    }
   ]
  },
  "Nigeria": {
-  "polity": "Iron-using farming communities; Nok culture long ended",
-  "summary": "The Nok terracotta culture had ended centuries earlier, and the bronzes of Igbo-Ukwu belong to the 9th-10th centuries, so neither fits this period. Iron-using farming villages occupied forest and savanna. Daima near Lake Chad shows a long-lived mound settlement. Ile-Ife's urban growth came later.",
+  "polity": "Farming communities and the early town of Ife; Nok culture long ended",
+  "summary": "The Nok terracotta culture (c. 500 BCE–200 CE), one of Africa's earliest ironworking centres, had ended centuries before. Ife in the southwest, occupied since c. 350, was growing into an important urban centre in its Archaic period (to c. 800). Near Lake Chad, settlement mounds such as Daima record long-lived Iron Age farming villages. Igbo-Ukwu's famous copper-alloy castings date to about the 10th century, after this period.",
   "events": [
    {
     "y": 600,
     "approx": true,
-    "t": "Iron-using communities live at the Daima settlement mound near Lake Chad, occupied over many centuries."
+    "t": "Ife, in its Archaic period (to c. 800), develops as an important urban centre with sedentary farming and stone monoliths."
    }
   ],
   "link": null,
   "evidence": "sparse",
   "sources": [
    {
-    "title": "Graham Connah, African Civilizations: An Archaeological Perspective, 3rd ed. (2016)",
+    "title": "Guinea Coast, 500–1000 A.D. (Heilbrunn Timeline of Art History)",
+    "publisher": "The Metropolitan Museum of Art",
+    "url": "https://www.metmuseum.org/toah/ht/06/afg.html"
+   },
+   {
+    "title": "Nok Terracottas (500 B.C.–200 A.D.) (Heilbrunn Timeline of Art History)",
+    "publisher": "The Metropolitan Museum of Art",
+    "url": "https://www.metmuseum.org/essays/nok-terracottas-500-b-c-200-a-d"
+   },
+   {
+    "title": "Graham Connah, 'The Daima Sequence and the Prehistoric Chronology of the Lake Chad Region of Nigeria', Journal of African History",
     "publisher": "Cambridge University Press",
-    "url": null
+    "url": "https://resolve.cambridge.org/core/journals/journal-of-african-history/article/abs/daima-sequence-and-the-prehistoric-chronology-of-the-lake-chad-region-of-nigeria/CFBDEAA1165E352C8D7A4BC85CAF4F2C"
    }
   ]
  },
  "Rwanda": {
-  "polity": "Iron-using farmers and forest foragers of the Great Lakes",
-  "summary": "Hill farmers belonged to the Urewe tradition of the Great Lakes region, where iron smelting had begun in the first millennium BCE. Forest foragers lived alongside them. The later kingdom of Rwanda was centuries away. Knowledge comes from archaeology.",
+  "polity": "Early Iron Age farming communities (Urewe culture and successors)",
+  "summary": "Rwanda's Central Plateau, with good farming soils and easy access to iron ore and wood, was home to Early Iron Age communities of the Urewe culture. Iron smelting began here early in the first millennium BCE at the latest and flourished until about the 7th century CE. Non-Urewe Early Iron Age furnaces in the region date to about the 6th century. No written sources exist.",
   "events": [
    {
     "y": 600,
     "approx": true,
-    "t": "Iron-using farming communities continue the long Great Lakes iron tradition; few sites are dated to this era."
+    "t": "Early Iron Age iron smelting continues in the region; non-Urewe furnaces such as Kabuye II date to about the 6th century."
    }
   ],
   "link": null,
   "evidence": "sparse",
   "sources": [
    {
-    "title": "David W. Phillipson, African Archaeology, 3rd ed. (2005)",
-    "publisher": "Cambridge University Press",
-    "url": null
+    "title": "P. Craddock, I. Freestone, A. Middleton and M.-C. Van Grunderbeek, 'Early Iron Age iron-smelting debris from Rwanda and Burundi, East Africa', Historical Metallurgy 41(1), 2007",
+    "publisher": "Historical Metallurgy Society",
+    "url": "https://hmsjournal.org/index.php/home/article/download/218/212"
    }
   ]
  },
  "Senegal": {
   "polity": "Communities of the Senegambian megalithic zone",
-  "summary": "Communities in the Gambia river region raised circles of laterite pillars, quarried with iron tools, beside burial mounds, as at Sine Ngayene and Wanar. Excavated material suggests dates from the 3rd century BCE to the 16th century CE. Takrur appears in written sources only centuries later.",
+  "summary": "Communities in the Gambia river region raised circles of laterite pillars, quarried with iron tools, beside burial mounds, as at Sine Ngayene and Wanar. Excavated material suggests dates from the 3rd century BCE to the 16th century CE. No written sources describe them.",
   "events": [
    {
     "y": 600,
@@ -521,42 +482,42 @@
     "title": "Stone Circles of Senegambia",
     "publisher": "UNESCO World Heritage Centre",
     "url": "https://whc.unesco.org/en/list/1226/"
-   },
-   {
-    "title": "Graham Connah, African Civilizations: An Archaeological Perspective, 3rd ed. (2016)",
-    "publisher": "Cambridge University Press",
-    "url": null
    }
   ]
  },
  "Sierra Leone": {
-  "polity": "Forest and coastal farming and foraging communities (poorly documented)",
-  "summary": "Small farming and foraging communities lived in the forests and along the coast. Very little archaeology has been dated to this period, and no written sources exist.",
+  "polity": "Unrecorded local communities (no known state)",
+  "summary": "People had lived in what is now Sierra Leone for thousands of years, and the Bulom, Temne and Limba of the coast were probably its earliest inhabitants among present-day peoples. No written records exist for 570–632, and its communities in this period are known only in general terms. Across Africa, iron smelting, known since the first millennium BCE, was still spreading.",
   "events": [
    {
     "y": 600,
     "approx": true,
-    "t": "Forest and coastal communities farm and forage; few sites are dated to this era."
+    "t": "Iron and copper smelting, known in Africa since the first millennium BCE, continues to spread; by c. 1000 it is found across the continent."
    }
   ],
   "link": null,
   "evidence": "sparse",
   "sources": [
    {
-    "title": "Graham Connah, African Civilizations: An Archaeological Perspective, 3rd ed. (2016)",
-    "publisher": "Cambridge University Press",
-    "url": null
+    "title": "Sierra Leone (Britannica Kids)",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://kids.britannica.com/kids/article/Sierra-Leone/345782"
+   },
+   {
+    "title": "Guinea Coast, 500–1000 A.D. (Heilbrunn Timeline of Art History)",
+    "publisher": "The Metropolitan Museum of Art",
+    "url": "https://www.metmuseum.org/toah/ht/06/afg.html"
    }
   ]
  },
  "South Africa": {
-  "polity": "Iron-using farmers in the east; San foragers and Khoe herders",
-  "summary": "Iron-using farmers, ancestors of today's Bantu-speaking majority, had settled the eastern river valleys and coastal plain from c. 200 CE, keeping cattle and sheep. The Lydenburg Heads from Mpumalanga, the earliest sculpture known from southern Africa, date to c. 500-700 CE. Foragers and herders held the west. Mapungubwe came later.",
+  "polity": "Iron-using farmers in the east; herders and foragers in the west",
+  "summary": "Iron-using farmers, directly ancestral to the Bantu-speaking peoples who form South Africa's majority today, had arrived from about 200 CE. Their sites in the east show pottery, metal-working, cultivation and livestock. The Lydenburg Heads, the earliest sculpture found in southern Africa, date to c. 500-700 CE. Herders held an enduring presence in the drier west.",
   "events": [
    {
     "y": 600,
     "approx": true,
-    "t": "The Lydenburg Heads are made by farming communities in Mpumalanga, dated to c. 500-700 CE."
+    "t": "The Lydenburg Heads, terracotta heads found near Lydenburg, are made; they are dated c. 500-700 CE."
    }
   ],
   "link": null,
@@ -569,7 +530,7 @@
    },
    {
     "title": "Lydenburg heads",
-    "publisher": "University of Cape Town, Faculty of Humanities",
+    "publisher": "University of Cape Town, Centre for Curating the Archive",
     "url": "https://humanities.uct.ac.za/node/272910"
    },
    {
@@ -581,7 +542,7 @@
  },
  "Togo": {
   "polity": "Iron-working farming communities",
-  "summary": "Farming communities lived in the coastal plains and northern hills. In the Bassar region of the north, iron smelting began in the Early Iron Age, and production grew into a major regional industry in the later Iron Age. Written sources do not exist, and much of the period is undated.",
+  "summary": "In the Bassar region of the north, an iron production industry flourished from as early as the Early Iron Age; the large village of Dekpassanware worked iron through the Early and Later Iron Ages. Production grew rapidly in the Later Iron Age, feeding regional trade. Written sources do not exist, and much of the period is undated.",
   "events": [
    {
     "y": 600,
@@ -593,7 +554,7 @@
   "evidence": "sparse",
   "sources": [
    {
-    "title": "de Barros et al., The Early Iron Metallurgy of Bassar, Togo (Azania 55, 2020)",
+    "title": "de Barros et al., The early iron metallurgy of Bassar, Togo (Azania 55, 2020)",
     "publisher": "Azania (Taylor & Francis); White Rose eprints",
     "url": "https://eprints.whiterose.ac.uk/158986"
    }
@@ -626,69 +587,51 @@
  },
  "Zambia": {
   "polity": "Early Iron Age farmers and foragers",
-  "summary": "Ironworking in central and western Zambia dates to the first five or six centuries CE. Early Iron Age farming villages with distinctive pottery traditions occupied the plateau and valleys, and Kalambo Falls shows long Iron Age occupation. Foragers persisted in many areas. No written sources exist.",
-  "events": [
-   {
-    "y": 600,
-    "approx": true,
-    "t": "Early Iron Age farming villages occupy the Zambian plateau and the Kalambo Falls area."
-   }
-  ],
+  "summary": "Early farming in Zambia is attested by decorated pottery, though radiocarbon dating is often poor; rectangular hut floors are known from southern Zambia, and Kalambo Falls in the far north is among the recorded early sites. Pottery of ironworking groups in the Copperbelt and northern Zambia resembles that of the Kamilambian culture (c. 6th-8th century) of the Upemba. No written sources exist.",
+  "events": [],
   "link": null,
   "evidence": "sparse",
   "sources": [
    {
-    "title": "History of Zambia",
-    "publisher": "Encyclopaedia Britannica",
-    "url": "https://www.britannica.com/topic/history-of-Zambia"
+    "title": "Lander & Russell, The archaeological evidence for the appearance of pastoralism and farming in southern Africa (PLoS ONE 13, 2018)",
+    "publisher": "PLoS ONE, via PubMed Central",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6002040/"
    },
    {
-    "title": "David W. Phillipson, African Archaeology, 3rd ed. (2005)",
-    "publisher": "Cambridge University Press",
-    "url": null
+    "title": "Nicolas Nikis, Upemba Depression (The Encyclopedia of Ancient History, 2021)",
+    "publisher": "Wiley-Blackwell; author copy via Royal Museum for Central Africa",
+    "url": "https://www.africamuseum.be/publication_docs/Nikis 2021 Upemba depression.pdf"
    }
   ]
  },
  "Zimbabwe": {
-  "polity": "Early Iron Age farmers (Gokomere/Ziwa traditions); San foragers",
-  "summary": "Farmers of the Gokomere and Ziwa Early Iron Age traditions grew crops, kept livestock and worked iron. San foragers, makers of much of the region's rock art, still lived in the land. Great Zimbabwe was built only between the 11th and 15th centuries. Evidence is archaeological.",
-  "events": [
-   {
-    "y": 600,
-    "approx": true,
-    "t": "Gokomere/Ziwa farming villages occupy the plateau; San foragers live alongside them."
-   }
-  ],
+  "polity": "Early farming communities and foragers",
+  "summary": "Across the eastern half of southern Africa, early farmers left sites with pottery, metal-working, cultivation and livestock. In Zimbabwe, the granite shelters of the Matobo Hills, occupied from the Early Stone Age into historical times, hold an outstanding collection of rock paintings. Great Zimbabwe flourished only from the 11th to the 15th century. Evidence is archaeological.",
+  "events": [],
   "link": null,
   "evidence": "sparse",
   "sources": [
    {
-    "title": "David W. Phillipson, African Archaeology, 3rd ed. (2005)",
-    "publisher": "Cambridge University Press",
-    "url": null
+    "title": "Lander & Russell, The archaeological evidence for the appearance of pastoralism and farming in southern Africa (PLoS ONE 13, 2018)",
+    "publisher": "PLoS ONE, via PubMed Central",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6002040/"
+   },
+   {
+    "title": "Matobo Hills",
+    "publisher": "UNESCO World Heritage Centre",
+    "url": "https://whc.unesco.org/en/list/306"
    },
    {
     "title": "Great Zimbabwe",
     "publisher": "Encyclopaedia Britannica",
     "url": "https://www.britannica.com/place/Great-Zimbabwe"
-   },
-   {
-    "title": "Rock art",
-    "publisher": "Encyclopaedia Britannica",
-    "url": "https://www.britannica.com/art/rock-art"
    }
   ]
  },
  "eSwatini": {
   "polity": "Iron-using farmers and San foragers (poorly documented)",
-  "summary": "Iron-using farmers had settled the eastern lowlands of southern Africa, including neighbouring Mpumalanga and KwaZulu-Natal, from c. 200 CE, while San hunter-gatherers lived in the region. Evidence specific to eSwatini in this period is scanty. The Swazi kingdom formed much later.",
-  "events": [
-   {
-    "y": 600,
-    "approx": true,
-    "t": "Iron-using farming communities occupy the wider eastern lowlands; San foragers remain in the region."
-   }
-  ],
+  "summary": "Iron-using farmers, ancestors of South Africa's Bantu-speaking majority, had settled South Africa from about 200 CE, and decorated pottery and iron-working appear along the coast from southern Mozambique to KwaZulu-Natal. San hunter-gatherers lived in the nearby Drakensberg. No site in eSwatini itself is discussed in the sources consulted.",
+  "events": [],
   "link": null,
   "evidence": "sparse",
   "sources": [
@@ -698,9 +641,14 @@
     "url": "https://www.britannica.com/place/South-Africa/The-Iron-Age"
    },
    {
-    "title": "David W. Phillipson, African Archaeology, 3rd ed. (2005)",
-    "publisher": "Cambridge University Press",
-    "url": null
+    "title": "Lander & Russell, The archaeological evidence for the appearance of pastoralism and farming in southern Africa (PLoS ONE 13, 2018)",
+    "publisher": "PLoS ONE, via PubMed Central",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6002040/"
+   },
+   {
+    "title": "Maloti-Drakensberg Park",
+    "publisher": "UNESCO World Heritage Centre",
+    "url": "https://whc.unesco.org/en/list/985"
    }
   ]
  }

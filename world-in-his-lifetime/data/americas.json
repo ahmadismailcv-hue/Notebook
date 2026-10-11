@@ -1,686 +1,956 @@
 {
-  "Canada": {
-    "polity": "Hunter-gatherer and fishing peoples (Dorset in the Arctic, Woodland and Plains groups, Northwest Coast societies)",
-    "summary": "No states or writing; everything known comes from archaeology. Dorset Paleo-Inuit hunted seals across the eastern Arctic; the Thule ancestors of the Inuit had not yet arrived. Northwest Coast peoples lived in plank-house villages built on salmon. Plains bison hunters and eastern Woodland groups making pottery were adopting the bow and arrow. Dates and group identities are broad estimates.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Dorset Paleo-Inuit occupy much of the Arctic coast from Labrador to the high islands, hunting seals and walrus."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "The bow and arrow spreads across the Plains and eastern woodlands, replacing the spear-thrower; on the northern Plains it is linked to the Avonlea complex."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Northwest Coast villages with large plank houses, salmon storage and marked social ranking continue on the Fraser River and the coast."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "United States of America": {
-    "polity": "Diverse Native American societies (Late Woodland, Basketmaker III, Hohokam, Weeden Island and others)",
-    "summary": "No states, cities or writing. In the East, the Hopewell mound-building network had faded and Late Woodland villages spread, using the bow and arrow and growing native seed crops with some maize. In the Southwest, Basketmaker III Ancestral Puebloans lived in pithouse villages and made pottery, and Hohokam farmers dug irrigation canals near Phoenix. Gulf coast Weeden Island peoples built platform mounds. Hawaii was probably not yet settled.",
-    "events": [
-      {
-        "y": 575,
-        "approx": true,
-        "t": "Late Woodland period: the Hopewell exchange network has ended and smaller dispersed villages are typical in the Ohio and Mississippi valleys."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "The bow and arrow becomes common across much of the continent, changing hunting and warfare."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Basketmaker III Ancestral Puebloans on the Colorado Plateau live in pithouse villages, grow maize and beans, and make fired pottery."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Hohokam farmers in the Sonoran Desert expand irrigation canals along the Salt and Gila rivers."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Weeden Island culture flourishes on the Gulf coast of Florida and Georgia, with burial mounds and fine ceremonial pottery; Coles Creek follows from c. 700."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Mexico": {
-    "polity": "Teotihuacan in decline; Maya kingdoms such as Palenque and the Kaanul (Snake) kingdom",
-    "summary": "Teotihuacan, once the largest city in the Americas, had its major buildings burned around 600 (date debated) and lost its regional dominance, though people kept living there. In the Maya south, the Kaanul (Snake) kingdom, then based at Dzibanché, attacked Palenque in 599 and sacked it in 611. Pakal, born 603, became king of Palenque aged twelve in 615. In the 630s the Kaanul royal seat moved to Calakmul.",
-    "events": [
-      {
-        "y": 599,
-        "approx": false,
-        "t": "Kaanul (Snake) forces from Dzibanché attack Palenque, a defeat recorded in Palenque's inscriptions."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Teotihuacan's major buildings are burned and sculptures smashed (date debated); the city stays inhabited but loses its regional dominance."
-      },
-      {
-        "y": 603,
-        "approx": false,
-        "t": "K'inich Janaab Pakal, the future king of Palenque, is born."
-      },
-      {
-        "y": 611,
-        "approx": false,
-        "t": "Palenque is sacked a second time by the Kaanul king Scroll Serpent."
-      },
-      {
-        "y": 612,
-        "approx": false,
-        "t": "Muwaan Mat becomes ruler of Palenque after the death of Aj Ne' Yohl Mat."
-      },
-      {
-        "y": 615,
-        "approx": false,
-        "t": "Pakal, aged twelve, becomes king of Palenque; he rules until 683."
-      },
-      {
-        "y": 635,
-        "approx": true,
-        "t": "The Kaanul royal seat moves from Dzibanché to Calakmul (c. 631–636, debated); Yuknoom Ch'een II takes the throne in 636."
-      }
-    ],
-    "link": null,
-    "evidence": "moderate",
-    "sources": [
-      {
-        "title": "Table of Palenque Rulers",
-        "publisher": "Mesoweb",
-        "url": "https://www.mesoweb.com/palenque/resources/rulers/rulers_table.html"
-      },
-      {
-        "title": "In search of the serpent kings: From Dzibanche to Calakmul",
-        "publisher": "Ancient Mesoamerica (Cambridge University Press)",
-        "url": "https://www.cambridge.org/core/journals/ancient-mesoamerica/article/in-search-of-the-serpent-kings-from-dzibanche-to-calakmul/CA64F5753086F211D772C2B38DFF46CF"
-      },
-      {
-        "title": "Teotihuacan",
-        "publisher": "World History Encyclopedia",
-        "url": "https://www.worldhistory.org/Teotihuacan/"
-      }
-    ]
-  },
-  "Guatemala": {
-    "polity": "Maya kingdoms (Tikal, Naranjo and others) under pressure from the Kaanul (Snake) kingdom and Caracol",
-    "summary": "The Petén lowlands were divided among rival Maya kingdoms that recorded dynastic history in hieroglyphic inscriptions. Tikal's king Wak Chan K'awiil had been defeated in a 'star war' in 562, and the city raised almost no monuments for about 130 years. The Kaanul (Snake) kingdom and its ally Caracol dominated the region, and Naranjo was defeated by Caracol between 626 and 631.",
-    "events": [
-      {
-        "y": 575,
-        "approx": true,
-        "t": "Tikal's 'hiatus' (557–692) continues after its defeat in 562: almost no dated monuments are raised there."
-      },
-      {
-        "y": 625,
-        "approx": false,
-        "t": "B'ajlaj Chan K'awiil, a Tikal prince who later rules from Dos Pilas and sides with Calakmul, is born at Tikal."
-      },
-      {
-        "y": 626,
-        "approx": false,
-        "t": "Caracol attacks Naranjo, the first of three assaults recorded for 626–627."
-      },
-      {
-        "y": 631,
-        "approx": false,
-        "t": "Naranjo is conquered in a 'star war'; inscriptions credit Caracol's K'an II and the Kaanul ruler Yuknoom Head."
-      }
-    ],
-    "link": null,
-    "evidence": "moderate",
-    "sources": [
-      {
-        "title": "In search of the serpent kings: From Dzibanche to Calakmul",
-        "publisher": "Ancient Mesoamerica (Cambridge University Press)",
-        "url": "https://www.cambridge.org/core/journals/ancient-mesoamerica/article/in-search-of-the-serpent-kings-from-dzibanche-to-calakmul/CA64F5753086F211D772C2B38DFF46CF"
-      },
-      {
-        "title": "Stanley Guenter, The Inscriptions of Dos Pilas Associated with B'ajlaj Chan K'awiil",
-        "publisher": "Mesoweb",
-        "url": "https://www.mesoweb.com/features/guenter/DosPilas.pdf"
-      },
-      {
-        "title": "A. F. Chase and D. Z. Chase, The Materialization of Classic Period Maya Warfare: Caracol Stranger-Kings at Tikal",
-        "publisher": "Caracol Archaeological Project (book chapter)",
-        "url": "https://caracol.org/wp-content/uploads/2020/04/Chases20war.pdf"
-      }
-    ]
-  },
-  "Belize": {
-    "polity": "Maya kingdom of Caracol, ally of the Kaanul (Snake) kingdom",
-    "summary": "Caracol, in the Maya Mountains, was rising. It took part in the 562 'star war' defeat of Tikal, though some scholars now credit a Kaanul (Snake) king as the main victor. Under K'an II, who ruled 618–658, Caracol repeatedly attacked Naranjo. Archaeology shows rapid population growth and an expanding causeway system after these wars.",
-    "events": [
-      {
-        "y": 599,
-        "approx": false,
-        "t": "A ruler known as Knot Ajaw (also read Flame Ajaw) is seated at Caracol, between Yajaw Te' K'inich II and his son K'an II."
-      },
-      {
-        "y": 618,
-        "approx": false,
-        "t": "K'an II becomes king of Caracol; he rules until his death in 658."
-      },
-      {
-        "y": 626,
-        "approx": false,
-        "t": "K'an II's forces make the first of three attacks on Naranjo (626–627)."
-      },
-      {
-        "y": 631,
-        "approx": false,
-        "t": "Caracol defeats Naranjo in a 'star war', recorded on Caracol Stela 3 and Naranjo's hieroglyphic stairway."
-      }
-    ],
-    "link": null,
-    "evidence": "moderate",
-    "sources": [
-      {
-        "title": "A. F. Chase and D. Z. Chase, The Materialization of Classic Period Maya Warfare: Caracol Stranger-Kings at Tikal",
-        "publisher": "Caracol Archaeological Project (book chapter)",
-        "url": "https://caracol.org/wp-content/uploads/2020/04/Chases20war.pdf"
-      },
-      {
-        "title": "In search of the serpent kings: From Dzibanche to Calakmul",
-        "publisher": "Ancient Mesoamerica (Cambridge University Press)",
-        "url": "https://www.cambridge.org/core/journals/ancient-mesoamerica/article/in-search-of-the-serpent-kings-from-dzibanche-to-calakmul/CA64F5753086F211D772C2B38DFF46CF"
-      },
-      {
-        "title": "Simon Martin and Nikolai Grube, Chronicle of the Maya Kings and Queens, 2nd ed. (2008)",
-        "publisher": "Thames & Hudson",
-        "url": null
-      }
-    ]
-  },
-  "Honduras": {
-    "polity": "Maya kingdom of Copán; non-Maya societies elsewhere",
-    "summary": "Copán, in the far southeast of the Maya world, was a royal city whose dynasty traced its founding to K'inich Yax K'uk' Mo', inaugurated in 426. Butz' Chan ruled from 578 to 628. He was followed by K'ahk' Uti' Witz' K'awiil ('Smoke Imix'), the 12th ruler, who reigned from 628 to 695.",
-    "events": [
-      {
-        "y": 578,
-        "approx": false,
-        "t": "Butz' Chan, the eleventh ruler, becomes king of Copán."
-      },
-      {
-        "y": 628,
-        "approx": false,
-        "t": "K'ahk' Uti' Witz' K'awiil ('Smoke Imix'), the 12th ruler, becomes king of Copán; he reigns until 695."
-      }
-    ],
-    "link": null,
-    "evidence": "moderate",
-    "sources": [
-      {
-        "title": "Copan Monument Manual, Part 2 (Stela E)",
-        "publisher": "FAMSI",
-        "url": "https://www.famsi.org/research/copan/monuments/CopanMonumentManualPart2.pdf"
-      },
-      {
-        "title": "Time of Kings and Queens",
-        "publisher": "Expedition Magazine, Penn Museum",
-        "url": "https://www.penn.museum/sites/expedition/time-of-kings-and-queens/"
-      },
-      {
-        "title": "Simon Martin and Nikolai Grube, Chronicle of the Maya Kings and Queens, 2nd ed. (2008)",
-        "publisher": "Thames & Hudson",
-        "url": null
-      }
-    ]
-  },
-  "El Salvador": {
-    "polity": "Maya and non-Maya farming communities (e.g., Chalchuapa, San Andrés, Joya de Cerén)",
-    "summary": "The region was recovering from the huge Ilopango eruption, now often dated to about 431, though some scholars argue for c. 539. Farming villages and towns such as San Andrés and Tazumal at Chalchuapa grew up again. Around 600 the small village of Joya de Cerén was buried under ash from the nearby Loma Caldera vent. Its houses, gardens and tools are preserved.",
-    "events": [
-      {
-        "y": 575,
-        "approx": true,
-        "t": "Settlement and maize farming recover in the valleys around Lake Ilopango after the great eruption (dated c. 431 or c. 539)."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Loma Caldera erupts and buries Joya de Cerén; villagers escape but leave behind houses, crops and tools (date estimated, c. 600–660)."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "San Andrés grows into a regional centre in the Zapotitán valley."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Nicaragua": {
-    "polity": "Chiefdom societies of Greater Nicoya (Pacific side); forest peoples of the Caribbean side",
-    "summary": "There were no states or writing. Farming villages around the Pacific-side lakes belonged to the Greater Nicoya cultural area and made polychrome pottery and carved stone. The Chorotega and Nicarao groups known to the Spanish arrived later. The Caribbean lowlands are poorly known archaeologically.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Greater Nicoya villages near Lakes Nicaragua and Managua farm maize and make painted pottery (Bagaces period, c. 300–800)."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Costa Rica": {
-    "polity": "Chiefdoms of Greater Nicoya, the Central Highlands and Atlantic watershed, and Diquís",
-    "summary": "Ranked chiefdoms farmed maize and root crops and buried elites with prestige goods. Around this time, jade ornaments were being replaced by gold and tumbaga work, a technology spreading north from Colombia and Panama. In the Arenal area, people of the Silencio phase walked the same footpaths to cemeteries for generations. Evidence is purely archaeological.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Gold and tumbaga ornaments, influenced by Panama and Colombia, begin to replace jade as the main elite treasure."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "The Silencio phase begins at Arenal, with hilltop cemeteries reached by deeply worn footpaths."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Panama": {
-    "polity": "Chiefdoms of the Gran Coclé and Gran Chiriquí traditions",
-    "summary": "Central Panama's Gran Coclé tradition had farming villages, ranked chiefs and boldly painted pottery. Goldwork was already made, though the richest burials at Sitio Conte and El Caño come mostly after c. 700. Western Panama belonged to the Gran Chiriquí sphere. No writing exists; all knowledge comes from excavation.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Gran Coclé communities, such as at Cerro Juan Díaz, produce polychrome pottery and gold ornaments and bury chiefs with grave goods."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Cuba": {
-    "polity": "Archaic (pre-ceramic) foraging peoples",
-    "summary": "Cuba was occupied by Archaic peoples who fished, gathered shellfish, hunted and made ground-stone and shell tools, mostly without pottery. Farming potters of the Ostionoid tradition, ancestors of the Taíno, did not reach Cuba in strength until a few centuries later. Little can be dated precisely.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Archaic foraging communities live along Cuba's coasts and rivers, with little or no pottery or farming."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Bahamas": {
-    "polity": "Probably uninhabited",
-    "summary": "No secure evidence shows people living in the Bahamas at this time. The islands were probably settled from about 700–900 by Ostionoid potters from Hispaniola or Cuba, ancestors of the Lucayans whom Columbus met. Dating of the earliest settlement is still debated.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "The Bahama islands appear to be still unsettled; the first Lucayan ancestors arrive some time after c. 700."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Jamaica": {
-    "polity": "Probably uninhabited until first Ostionoid settlers",
-    "summary": "Jamaica seems to have been first settled around 600–650 by pottery-making farmers of the Ostionoid tradition, the so-called Redware people, probably from Hispaniola. Their small coastal villages relied on fish, shellfish and root crops. Earlier occupation has not been securely shown.",
-    "events": [
-      {
-        "y": 625,
-        "approx": true,
-        "t": "First known settlers, Ostionoid 'Redware' potters, establish coastal villages such as Little River (date approximate, c. 600–650)."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Haiti": {
-    "polity": "Archaic foragers, with ceramic Ostionoid farmers arriving",
-    "summary": "Western Hispaniola was home to Archaic foraging peoples using stone and shell tools. Around this period, pottery-making farmers of the Ostionoid tradition were spreading west from Puerto Rico across Hispaniola, beginning the line that led to the Taíno. Detailed dates are scarce.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Ostionoid farmers who grew cassava begin to spread into Hispaniola alongside long-established Archaic foragers."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Dominican Rep.": {
-    "polity": "Archaic foragers, with ceramic Ostionoid farmers arriving",
-    "summary": "Eastern Hispaniola, closest to Puerto Rico, received pottery-making, cassava-growing Ostionoid settlers around 600, who lived alongside or replaced older Archaic foraging groups. These communities were the ancestors of the Taíno chiefdoms that the Spanish met. Earlier Saladoid influence was limited.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Ostionoid settlers from the Puerto Rico area establish farming villages in eastern Hispaniola."
-      },
-      {
-        "y": 630,
-        "approx": true,
-        "t": "Archaic foraging traditions continue in parts of the island beside the newcomers."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Puerto Rico": {
-    "polity": "Village societies in transition from Saladoid to Ostionoid",
-    "summary": "Puerto Rico had been farmed for about a thousand years by Saladoid peoples from South America, who lived in round plaza villages and made fine white-on-red pottery. Around 600, archaeologists see a shift to the Ostionoid tradition, with plainer redware, larger populations and early ball courts and ceremonial plazas, which later developed into Taíno society.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "The Saladoid tradition gives way to the Ostionoid; pottery styles simplify and settlements spread inland."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Early stone-lined plazas and ball courts begin to appear in village centres."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Trinidad and Tobago": {
-    "polity": "Saladoid and Barrancoid-influenced village societies",
-    "summary": "Trinidad, close to the Orinoco delta, was a gateway for peoples moving into the Caribbean. Farming and fishing villages made pottery in the Saladoid style, with strong Barrancoid influence from the mainland, at sites such as Palo Seco and Cedros. These were later followed by Arauquinoid and Troumassoid traditions. Dating is approximate.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Villages on Trinidad's coast make Saladoid pottery influenced by Barrancoid styles from the Orinoco and keep close contact with the mainland."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Colombia": {
-    "polity": "Regional chiefdoms (San Agustín, Tierradentro, Quimbaya, Zenú and others)",
-    "summary": "Colombia had many chiefdom societies but no empire or writing. In the south, the San Agustín culture carved large stone statues and Tierradentro dug painted underground tombs. In the central Cauca valley, Quimbaya goldsmiths cast fine gold work. In the north, Zenú communities drained the San Jorge floodplains with huge systems of canals and ridges. Dating rests on radiocarbon.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "San Agustín's Regional Classic period continues, with stone statues and tombs in the upper Magdalena valley."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Tierradentro communities cut painted underground tomb chambers (hypogea) into the hillsides."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Zenú farmers maintain vast ridged fields and canals in the San Jorge floodplain to manage seasonal floods."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Venezuela": {
-    "polity": "Village and chiefdom societies of the Orinoco, Llanos and Andes",
-    "summary": "There were no states. Along the middle and lower Orinoco, villages made pottery in the Barrancoid style, while the Arauquinoid tradition was growing. In the western Llanos, communities began to build mounds, causeways and raised fields. Andean valleys held small farming villages. Knowledge is entirely archaeological and dates are broad.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Arauquinoid pottery traditions spread along the middle Orinoco, gradually replacing Barrancoid styles."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Communities in the Barinas Llanos begin building earthen mounds and causeways."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Guyana": {
-    "polity": "Village societies of the coast and interior",
-    "summary": "Very little is known. In the northwest, coastal people of the Mabaruma phase, connected to Barrancoid traditions of the Orinoco, built shell middens and made pottery. Interior savanna and forest groups farmed manioc and fished. Dates are rough and the sites few.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Mabaruma-phase villages in northwest Guyana make Barrancoid-related pottery and farm manioc."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Suriname": {
-    "polity": "Village societies of the coast and rainforest",
-    "summary": "The archaeological record is thin. Coastal and riverine villages farmed manioc, fished and made pottery. The best-known site, the Hertenrits raised-field mound complex, dates mainly from about 700 onward, just after this period. The interior forests were home to small farming and foraging groups.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Pottery-making farming villages occupy the coastal plain; large raised-field works like Hertenrits come slightly later, from c. 700."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Ecuador": {
-    "polity": "Regional chiefdoms of the coast and highlands (late Regional Development period)",
-    "summary": "Ecuador was divided among regional cultures such as Jama-Coaque and Bahía on the coast and Cerro Narrío and Panzaleo in the highlands. Around this time, the coast was moving into the 'Integration period' of larger chiefdoms, such as Milagro-Quevedo. Spondylus shells from Ecuador's warm waters were valued trade goods in Peru.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Coastal societies move toward the Integration period, with larger chiefdoms; Milagro-Quevedo builds mounds in the Guayas basin."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Spondylus shell harvested off the Ecuadorian coast is traded south to Andean peoples for ritual use."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Peru": {
-    "polity": "Late Moche (Pampa Grande), the rising Wari state, late Nazca, Recuay, Lima culture",
-    "summary": "A time of upheaval. Severe drought and El Niño floods in the late 500s, seen in the Quelccaya ice cores, strained the coastal Moche. Their late capital moved inland to Pampa Grande. In the highlands, the Wari state was rising from its capital Huari near Ayacucho. Nazca culture was ending in the south, and Recuay in the north was fading. Tiwanaku settled colonies in Moquegua.",
-    "events": [
-      {
-        "y": 570,
-        "approx": true,
-        "t": "Quelccaya ice cores record a severe drought (c. 562–594), alongside El Niño floods on the north coast."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Late Moche (Phase V) centres shift inland; Pampa Grande in the Lambayeque valley becomes a large capital with the Huaca Fortaleza platform."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "The Wari state expands from its capital Huari near Ayacucho, building a highland network that becomes the first Andean empire."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Tiwanaku colonists from the Titicaca basin farm the Moquegua valley (Omo settlements)."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Recuay culture in the Callejón de Huaylas declines as Wari influence grows."
-      },
-      {
-        "y": 625,
-        "approx": true,
-        "t": "Nazca culture comes to an end on the south coast as Wari influence spreads (Loro style)."
-      }
-    ],
-    "link": null,
-    "evidence": "moderate",
-    "sources": []
-  },
-  "Bolivia": {
-    "polity": "Tiwanaku (Lake Titicaca basin); Casarabe culture in the Llanos de Mojos",
-    "summary": "Tiwanaku, near the south shore of Lake Titicaca, was at its height as a religious and political centre with monumental platforms such as the Akapana and Puma Punku. It was fed by raised-field farming and herding and linked by llama caravans to colonies in Moquegua and San Pedro de Atacama. In the Amazonian lowlands, the Casarabe culture began building mound settlements and causeways.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Tiwanaku expands its monumental core, including the Akapana and Puma Punku platforms, with carved stone gateways."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Raised-field farming around Lake Titicaca and llama caravans support Tiwanaku's growth and its colonies on the Pacific slope."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "The Casarabe culture in the Llanos de Mojos builds platform mounds, causeways and canals (c. 500–1400)."
-      }
-    ],
-    "link": null,
-    "evidence": "moderate",
-    "sources": []
-  },
-  "Chile": {
-    "polity": "Atacama oasis communities linked to Tiwanaku; Llolleo farmers; southern foragers",
-    "summary": "In the north, the oasis people of San Pedro de Atacama traded with Tiwanaku by llama caravan, and their graves contain Tiwanaku textiles and snuff kits. Central Chile's Llolleo communities grew maize and squash and made pottery. In the south lived Pitrén pottery makers, probably ancestors of the Mapuche, and in the far south, canoe-using marine foragers. No writing; knowledge is archaeological.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "San Pedro de Atacama elites are buried with Tiwanaku-style textiles, cups and snuff trays, showing caravan links to the Titicaca basin."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Pitrén-complex groups in the southern forests combine foraging with small-scale farming and pottery."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Argentina": {
-    "polity": "Northwest Andean farming societies (early Aguada); Pampas and Patagonian hunter-gatherers",
-    "summary": "In the northwest Andean valleys, farming and herding communities were forming the Aguada culture, known for jaguar imagery and fine engraved pottery. The Chaco, Pampas and Patagonia were home to mobile hunter-gatherers who hunted guanaco and rhea. Tierra del Fuego had foot and canoe foragers. Evidence is archaeological, with broad dates.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "The Aguada culture emerges in Catamarca and La Rioja, with ceremonial centres and jaguar-themed art (c. 600–900)."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Patagonian and Pampas hunter-gatherers follow guanaco herds, using bolas and, increasingly, the bow."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Paraguay": {
-    "polity": "Guarani-speaking farmers (Tupi-Guarani tradition); Chaco hunter-gatherers",
-    "summary": "Pottery-making farmers of the Tupi-Guarani tradition, ancestors of the Guarani, lived in forested river valleys of the Paraná and Paraguay basins and grew manioc and maize in swidden plots. West of the Paraguay River, the Chaco was home to mobile foraging peoples. Precise dates for this period are few.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Guarani-ancestral farming villages, with painted corrugated pottery and urn burials, spread along the rivers of eastern Paraguay."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Uruguay": {
-    "polity": "Mound-building hunter-gatherer and horticulturalist groups ('cerritos de indios')",
-    "summary": "In the wetlands of eastern Uruguay, around Laguna Merín, people built and used earth mounds known as 'cerritos de indios' for living, burial and ceremony over thousands of years. They mixed hunting, fishing and gathering with some plant cultivation. Elsewhere, mobile hunter-gatherers lived on the grasslands. Evidence is archaeological only.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Mound-building communities continue to raise and reuse cerritos in the eastern wetlands, a tradition dating back to c. 3000 years ago."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Brazil": {
-    "polity": "Diverse Amazonian, Atlantic and highland societies (Marajoara, Tupi-Guarani, southern Jê and others)",
-    "summary": "On Marajó Island, the Marajoara culture built large earth mounds and made elaborate painted funerary urns. Across Amazonia, settled communities enriched soils into dark terra preta and, in Acre, dug geometric ditched enclosures (geoglyphs). Tupi-Guarani farmers were expanding along rivers and the Atlantic coast, while southern Jê ancestors built pit houses in the highlands. No writing; dates come from excavation.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Marajoara communities on Marajó Island build habitation and burial mounds and produce polychrome funerary urns (c. 400–1400)."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Long-term Amazonian settlements create fertile terra preta soils from household waste and charcoal."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Geometric ditched enclosures (geoglyphs) are built and used in eastern Acre, in managed forest."
-      },
-      {
-        "y": 600,
-        "approx": true,
-        "t": "Southern highland groups of the Itararé-Taquara tradition, ancestors of Jê speakers, live in clusters of pit houses."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  },
-  "Falkland Is.": {
-    "polity": "Uninhabited",
-    "summary": "The islands had no human inhabitants. There is no accepted evidence of people living there before European visits. The only native land mammal was the warrah, a fox-like canid, and the coasts held large seabird, penguin and sea lion colonies.",
-    "events": [
-      {
-        "y": 600,
-        "approx": true,
-        "t": "The islands are uninhabited, home to the warrah and large colonies of seabirds and sea lions."
-      }
-    ],
-    "link": null,
-    "evidence": "sparse",
-    "sources": []
-  }
+ "Canada": {
+  "polity": "Hunter-gatherer and fishing peoples (Dorset Paleo-Inuit in the eastern Arctic, Plains bison hunters, Northwest Coast societies)",
+  "summary": "No states or writing; everything known comes from archaeology. The eastern Arctic was home to the Dorset Paleo-Inuit, then in their Late Dorset period; the early Inuit (Thule) arrived only centuries later. On the northern Plains, bison hunters had used the bow and arrow since about 200 CE. Northwest Coast peoples lived in permanent settlements built on salmon and cedar, with considerable wealth and political complexity.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Late Dorset period (from c. 500): Dorset exchange networks span the eastern Arctic, though they have left Newfoundland and much of southern Labrador."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "On the northern Plains, bison hunting with the bow and arrow, associated with the Avonlea people since about 200 CE, continues."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Northwest Coast peoples live in permanent settlements supported by salmon runs and cedar, without farming."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Geographic Distribution of the Dorset Culture",
+    "publisher": "The Canadian Encyclopedia",
+    "url": "https://www.thecanadianencyclopedia.ca/en/article/geographic-distribution-of-the-dorset-culture"
+   },
+   {
+    "title": "Plains Indigenous Peoples in Canada",
+    "publisher": "The Canadian Encyclopedia",
+    "url": "https://thecanadianencyclopedia.ca/en/article/aboriginal-people-plains"
+   },
+   {
+    "title": "Northwest Coast Indigenous Peoples in Canada",
+    "publisher": "The Canadian Encyclopedia",
+    "url": "https://thecanadianencyclopedia.ca/en/article/aboriginal-people-northwest-coast"
+   }
+  ]
+ },
+ "United States of America": {
+  "polity": "Diverse Native American societies (Late Woodland, Basketmaker III Ancestral Puebloans, Hohokam, Weeden Island and others)",
+  "summary": "No states, cities or writing. In the East, Late Woodland peoples (c. 600–900) built fewer burial mounds and long-distance trade declined, but the bow and arrow and new crop varieties spread and sites multiplied. On the Colorado Plateau, Basketmaker III Ancestral Puebloans farmed and lived in pithouse villages. Hohokam farmers lived along the Salt and Gila rivers. Weeden Island villages in north Florida and Georgia built mounds.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Late Woodland period begins in the Southeast: Middle Woodland mound building and long-distance trade decline, while settlements become more numerous."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "The bow and arrow spreads in the East and replaces the atlatl among Ancestral Puebloans; new varieties of maize, beans and squash gain importance."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Basketmaker III Ancestral Puebloans (settled at Mesa Verde from c. 550) live in pithouse villages, farm corn, beans and squash, and make pottery."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Hohokam farming villages occupy the Phoenix Basin along the Salt and Gila rivers, a culture famed for extensive irrigation canals."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Weeden Island I culture (c. 250–700) in north Florida and south Georgia: villages with mounds, charnel houses and elaborate ceremonial pottery."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Woodland Culture",
+    "publisher": "US National Park Service, Ocmulgee Mounds National Historical Park",
+    "url": "https://www.nps.gov/ocmu/learn/historyculture/woodland-culture.htm"
+   },
+   {
+    "title": "Ancestral Pueblo People and Their World",
+    "publisher": "US National Park Service, Mesa Verde National Park",
+    "url": "https://www.nps.gov/meve/learn/historyculture/upload/ancestral_pueblo_people_2018_508_01-24-18-2.pdf"
+   },
+   {
+    "title": "Hohokam Culture",
+    "publisher": "US National Park Service",
+    "url": "https://home.nps.gov/articles/hohokam-culture.htm"
+   },
+   {
+    "title": "McKeithen Weeden Island: The Culture of Northern Florida, A.D. 200-900 (Milanich et al., Academic Press, 1984), eHRAF summary",
+    "publisher": "eHRAF Archaeology, Yale University",
+    "url": "https://ehrafarchaeology.yale.edu/traditions/nn64/documents/008"
+   }
+  ]
+ },
+ "Mexico": {
+  "polity": "Teotihuacan in decline; Maya kingdoms such as Palenque and the Kaanul (Snake) kingdom",
+  "summary": "Teotihuacan, once the largest city in the Americas, had its major buildings deliberately burned around 600 and lost its regional dominance, though people kept living there. In the Maya south, the Kaanul (Snake) kingdom, then based at Dzibanché, attacked Palenque in 599 and again in 611. Pakal, born 603, became king of Palenque aged twelve in 615. In the 630s the Kaanul royal seat shifted to Calakmul.",
+  "events": [
+   {
+    "y": 599,
+    "approx": false,
+    "t": "Kaanul (Snake) forces from Dzibanché attack Palenque; the attack is credited to the Kaanul king Sky Witness, though this placement is chronologically puzzling."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Teotihuacan's major buildings are deliberately burned and sculptures smashed; the city stays inhabited but loses its regional dominance."
+   },
+   {
+    "y": 603,
+    "approx": false,
+    "t": "K'inich Janaab Pakal, the future king of Palenque, is born."
+   },
+   {
+    "y": 611,
+    "approx": false,
+    "t": "The Kaanul king Scroll Serpent attacks Palenque, the second Kaanul assault there, as recorded in Palenque's Temple of the Inscriptions."
+   },
+   {
+    "y": 612,
+    "approx": false,
+    "t": "Muwaan Mat becomes ruler of Palenque after the death of Aj Ne' Yohl Mat."
+   },
+   {
+    "y": 615,
+    "approx": false,
+    "t": "Pakal, aged twelve, becomes king of Palenque; he rules until 683."
+   },
+   {
+    "y": 636,
+    "approx": false,
+    "t": "After a Kaanul civil war (630–640), Yuknoom Ch'een II accedes as founder of a reconstituted Kaanul kingdom whose capital has shifted from Dzibanché to Calakmul."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Table of Palenque Rulers",
+    "publisher": "Mesoweb",
+    "url": "https://www.mesoweb.com/palenque/resources/rulers/rulers_table.html"
+   },
+   {
+    "title": "In search of the serpent kings: From Dzibanche to Calakmul",
+    "publisher": "Ancient Mesoamerica (Cambridge University Press)",
+    "url": "https://www.cambridge.org/core/journals/ancient-mesoamerica/article/in-search-of-the-serpent-kings-from-dzibanche-to-calakmul/CA64F5753086F211D772C2B38DFF46CF"
+   },
+   {
+    "title": "Teotihuacan",
+    "publisher": "World History Encyclopedia",
+    "url": "https://www.worldhistory.org/Teotihuacan/"
+   }
+  ]
+ },
+ "Guatemala": {
+  "polity": "Maya kingdoms (Tikal, Naranjo and others) under pressure from the Kaanul (Snake) kingdom and Caracol",
+  "summary": "The Petén lowlands were divided among rival Maya kingdoms that recorded dynastic history in hieroglyphic inscriptions. Tikal's king Wak Chan K'awiil suffered a 'star war' defeat in 562, after which no monuments are known at Tikal for about 130 years. The Kaanul (Snake) kingdom and its ally Caracol dominated the region; Caracol attacked Naranjo from 626, and Naranjo fell in 631.",
+  "events": [
+   {
+    "y": 575,
+    "approx": true,
+    "t": "Tikal's long monument hiatus continues after its 562 defeat: no monuments are known there for about 130 years."
+   },
+   {
+    "y": 625,
+    "approx": false,
+    "t": "B'ajlaj Chan K'awiil, a Tikal prince who later rules from Dos Pilas and submits to Calakmul, is born at Tikal."
+   },
+   {
+    "y": 626,
+    "approx": false,
+    "t": "Caracol's king K'an II attacks Naranjo, the first of three assaults recorded for 626–627."
+   },
+   {
+    "y": 631,
+    "approx": false,
+    "t": "Naranjo is conquered; inscriptions credit Caracol's K'an II with a 'star war' and the Kaanul lord Yuknoom Head, aided by fighters from Calakmul, with its seizure."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "In search of the serpent kings: From Dzibanche to Calakmul",
+    "publisher": "Ancient Mesoamerica (Cambridge University Press)",
+    "url": "https://www.cambridge.org/core/journals/ancient-mesoamerica/article/in-search-of-the-serpent-kings-from-dzibanche-to-calakmul/CA64F5753086F211D772C2B38DFF46CF"
+   },
+   {
+    "title": "Stanley Guenter, The Inscriptions of Dos Pilas Associated with B'ajlaj Chan K'awiil",
+    "publisher": "Mesoweb",
+    "url": "https://www.mesoweb.com/features/guenter/DosPilas.pdf"
+   },
+   {
+    "title": "A. F. Chase and D. Z. Chase, The Materialization of Classic Period Maya Warfare: Caracol Stranger-Kings at Tikal",
+    "publisher": "Caracol Archaeological Project (book chapter)",
+    "url": "https://caracol.org/wp-content/uploads/2020/04/Chases20war.pdf"
+   },
+   {
+    "title": "Time of Kings and Queens",
+    "publisher": "Expedition Magazine, Penn Museum",
+    "url": "https://www.penn.museum/sites/expedition/time-of-kings-and-queens/"
+   }
+  ]
+ },
+ "Belize": {
+  "polity": "Maya kingdom of Caracol, ally of the Kaanul (Snake) kingdom",
+  "summary": "Caracol was a rising Maya kingdom. Its inscriptions record the 562 'star war' defeat of Tikal, though the damaged victor's name on Caracol Altar 21 may be that of a Kaanul (Snake) king. Under K'an II, who ruled 618–658, Caracol repeatedly attacked Naranjo. Archaeology shows prosperity and rapid population growth at the start of the Late Classic period, when most of Caracol's causeways were built.",
+  "events": [
+   {
+    "y": 599,
+    "approx": true,
+    "t": "Caracol Stela 6 records the seating of a figure called Flame Ajaw for a bloodletting rite, during an interregnum before K'an II's accession."
+   },
+   {
+    "y": 618,
+    "approx": false,
+    "t": "K'an II, son of Yajaw Te' K'inich II, becomes king of Caracol; he rules until his death in 658."
+   },
+   {
+    "y": 626,
+    "approx": false,
+    "t": "K'an II's forces make the first of three attacks on Naranjo (626–627), recorded at both Naranjo and Caracol."
+   },
+   {
+    "y": 631,
+    "approx": false,
+    "t": "Caracol under K'an II defeats Naranjo in a 'star war', probably bringing it under his direct control."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "A. F. Chase and D. Z. Chase, The Materialization of Classic Period Maya Warfare: Caracol Stranger-Kings at Tikal",
+    "publisher": "Caracol Archaeological Project (book chapter)",
+    "url": "https://caracol.org/wp-content/uploads/2020/04/Chases20war.pdf"
+   },
+   {
+    "title": "In search of the serpent kings: From Dzibanche to Calakmul",
+    "publisher": "Ancient Mesoamerica (Cambridge University Press)",
+    "url": "https://www.cambridge.org/core/journals/ancient-mesoamerica/article/in-search-of-the-serpent-kings-from-dzibanche-to-calakmul/CA64F5753086F211D772C2B38DFF46CF"
+   }
+  ]
+ },
+ "Honduras": {
+  "polity": "Maya kingdom of Copán",
+  "summary": "Copán, in western Honduras on the southeastern frontier of the Maya world, was a royal city whose dynasty traced its founding to K'inich Yax K'uk' Mo', inaugurated in 426. With its subordinate centre Quiriguá, Copán controlled the Motagua River trade route. In 628 K'ahk' Uti' Witz' K'awiil, the 12th ruler, began a reign that lasted until 695.",
+  "events": [
+   {
+    "y": 628,
+    "approx": false,
+    "t": "K'ahk' Uti' Witz' K'awiil (also called 'Smoke Imix'), the 12th ruler, becomes king of Copán; he reigns until 695."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Copan Monument Manual, Part 2 (Stela E)",
+    "publisher": "FAMSI",
+    "url": "https://www.famsi.org/research/copan/monuments/CopanMonumentManualPart2.pdf"
+   },
+   {
+    "title": "Time of Kings and Queens",
+    "publisher": "Expedition Magazine, Penn Museum",
+    "url": "https://www.penn.museum/sites/expedition/time-of-kings-and-queens/"
+   }
+  ]
+ },
+ "El Salvador": {
+  "polity": "Maya and other farming communities (e.g., San Andrés, Joya de Cerén)",
+  "summary": "The region had recovered from the huge Tierra Blanca Joven eruption of Ilopango, now dated to 431 ± 2 CE (it was once linked to c. 540). Ash-covered land was resettled once it weathered into fertile soil. San Andrés was reoccupied and urbanised, becoming the centre of the Zapotitán valley. Around 600 the farming village of Joya de Cerén was buried by the Loma Caldera eruption, preserving houses, fields and tools.",
+  "events": [
+   {
+    "y": 575,
+    "approx": true,
+    "t": "San Andrés, reoccupied after the Ilopango eruption (431 CE), grows into the political, economic and religious centre of the Zapotitán valley."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Loma Caldera erupts and buries Joya de Cerén, preserving buildings, maize fields and household goods (dated c. 600; also given as 590 ± 90)."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Joya de Cerén Archaeological Site",
+    "publisher": "UNESCO World Heritage Centre",
+    "url": "https://whc.unesco.org/en/list/675"
+   },
+   {
+    "title": "The magnitude and impact of the 431 CE Tierra Blanca Joven eruption of Ilopango, El Salvador (Smith et al. 2020)",
+    "publisher": "Proceedings of the National Academy of Sciences (PMC)",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7584997"
+   },
+   {
+    "title": "Investigaciones recientes en el sitio arqueológico San Andrés, El Salvador (Ichikawa and Camacho 2016)",
+    "publisher": "XXIX Simposio de Investigaciones Arqueológicas en Guatemala, Museo Nacional de Arqueología y Etnología (Mesoweb)",
+    "url": "https://www.mesoweb.com/Simposio/pdf/29/Ichikawa_y_Camacho.2016.pdf"
+   }
+  ]
+ },
+ "Nicaragua": {
+  "polity": "Farming communities of the Greater Nicoya cultural area (Pacific side)",
+  "summary": "There were no states or writing, and everything known comes from archaeology. Pacific Nicaragua belonged to the Greater Nicoya cultural area. During the Bagaces period its potters made Tola Trichrome, painted pottery whose designs are closely linked to Carrillo Polychrome from neighbouring Costa Rica. The Caribbean side is little known.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Bagaces period: potters in Pacific Nicaragua produce Tola Trichrome painted pottery, linked in style to Costa Rican wares."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Tripod Jar with Costumed Bat-Man (Carrillo Polychrome, Greater Nicoya, AD 500-800)",
+    "publisher": "Denver Art Museum",
+    "url": "https://denverartmuseum.org/object/1993.728"
+   }
+  ]
+ },
+ "Costa Rica": {
+  "polity": "Ranked farming societies of Greater Nicoya, the central and eastern regions, and Greater Chiriquí in the south",
+  "summary": "Settlements grew in number and size, and rich elite burials show growing social distinctions, with contacts to Mesoamerica and Colombia. Jade carving, a status marker for a thousand years, died out (by about 700) as gold became the preferred prestige material. Polychrome pottery and finely carved effigy metates flourished. Near Arenal, villagers wore deep footpaths walking to distant cemeteries for generations. Evidence is archaeological.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Gold replaces jade as the main prestige material; Maya jade is still traded in and recarved (jade use ends c. 700)."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Improved stone carving produces elaborate effigy metates with human, animal and composite figures."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Near Arenal volcano, generations of walking between villages and cemeteries such as Silencio wear footpaths metres deep."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Central America and the Caribbean, 500–1000 A.D.",
+    "publisher": "The Metropolitan Museum of Art, Heilbrunn Timeline of Art History",
+    "url": "https://www.metmuseum.org/toah/ht/06/cac"
+   },
+   {
+    "title": "Jade in Costa Rica",
+    "publisher": "The Metropolitan Museum of Art",
+    "url": "https://www.metmuseum.org/essays/jade-in-costa-rica"
+   },
+   {
+    "title": "Modern Technology Reveals Ancient Footpaths Buried in 2,500 Years Worth of Volcanic Ash",
+    "publisher": "US National Science Foundation",
+    "url": "https://www.nsf.gov/news/modern-technology-reveals-ancient-footpaths-buried"
+   }
+  ]
+ },
+ "Panama": {
+  "polity": "Ranked societies of the Conte phase (central Panama)",
+  "summary": "Central Panama was in the Conte phase (c. 500–800). Goldworking was fully established, and boldly drawn Conte polychrome pottery showed creatures perhaps linked to myth or cosmology. Elite burials grew richer: the El Hatillo cemetery came into use around 700, and the famous chiefly burial at Sitio Conte dates to about 750. There was no writing; all knowledge comes from excavation.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Conte polychrome pottery, boldly painted with mythical creatures, is made in central Panama, where goldworking is well established."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Central America and the Caribbean, 500–1000 A.D.",
+    "publisher": "The Metropolitan Museum of Art, Heilbrunn Timeline of Art History",
+    "url": "https://www.metmuseum.org/toah/ht/06/cac"
+   }
+  ]
+ },
+ "Cuba": {
+  "polity": "Archaic (Casimiroid) peoples; Ostionoid farmers beginning to arrive in the east",
+  "summary": "Cuba had long been home to Archaic (Casimiroid) peoples whose ancestors came from Central America. From about 600, pottery-making Ostionoid farmers expanding from Hispaniola began to colonise eastern Cuba, the start of the line that led to the Taíno. Whether the Ostionoids grew mainly from Saladoid or from Archaic roots is debated. Little can be dated precisely.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Ostionoid peoples expanding through northern Hispaniola begin to colonise eastern Cuba; Archaic communities continue elsewhere on the island."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "The Ostionoids (Basil A. Reid)",
+    "publisher": "Florida International University, Island Luminous",
+    "url": "https://islandluminous.fiu.edu/part01-slide02.html"
+   },
+   {
+    "title": "The Native Peoples of Turks and Caicos",
+    "publisher": "Florida Museum of Natural History, Caribbean Archaeology Program",
+    "url": "https://www.floridamuseum.ufl.edu/caribarch/education/tc-peoples/"
+   }
+  ]
+ },
+ "Bahamas": {
+  "polity": "Not yet settled, or only just being reached",
+  "summary": "The Bahamas were the last part of the Caribbean to be settled. Ancestors of the Lucayans began colonising the Turks and Caicos and the Bahamas from about 600, coming from the Greater Antilles. The oldest sites, in the Turks and Caicos, suggest arrival by about 700; on Great Abaco, burning for farming appears around 830. Dates of first settlement remain debated.",
+  "events": [
+   {
+    "y": 630,
+    "approx": true,
+    "t": "Ostionoid seafarers from the Greater Antilles may be starting to reach the southern Bahama islands; secure evidence of settlement dates from c. 700."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "The Native Peoples of Turks and Caicos",
+    "publisher": "Florida Museum of Natural History, Caribbean Archaeology Program",
+    "url": "https://www.floridamuseum.ufl.edu/caribarch/education/tc-peoples/"
+   },
+   {
+    "title": "Humans settled the Bahamas earlier than we thought",
+    "publisher": "Futurity (Texas A&M University)",
+    "url": "https://www.futurity.org/?p=2526542"
+   }
+  ]
+ },
+ "Jamaica": {
+  "polity": "Probably uninhabited until the first Ostionan settlers in the 7th century",
+  "summary": "Jamaica is believed to have been uninhabited until the 7th century, when it was colonised by Ostionan Ostionoids, probably moving along the south coast of Hispaniola. Known locally as the Little River Complex or 'Redware' people for their red pottery, they lived mainly near the coast and depended heavily on marine resources. Exact dates are uncertain.",
+  "events": [
+   {
+    "y": 630,
+    "approx": true,
+    "t": "First known settlers, Ostionan 'Redware' potters, colonise Jamaica in the 7th century (exact date uncertain)."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Predictive Modeling of Pre-Columbian Sites in Jamaica Using Multi-Criteria Analysis (James-Williamson et al. 2022)",
+    "publisher": "Journal of Caribbean Archaeology (Florida Museum of Natural History)",
+    "url": "https://www.floridamuseum.ufl.edu/wp-content/uploads/sites/44/2022/07/JCA-James-Williamson-Predictive.pdf"
+   },
+   {
+    "title": "The Native Peoples of Turks and Caicos",
+    "publisher": "Florida Museum of Natural History, Caribbean Archaeology Program",
+    "url": "https://www.floridamuseum.ufl.edu/caribarch/education/tc-peoples/"
+   }
+  ]
+ },
+ "Haiti": {
+  "polity": "Archaic (Casimiroid) peoples and expanding Ostionoid farmers",
+  "summary": "Western Hispaniola had long been home to Archaic (Casimiroid) peoples. By about 600, pottery-making Ostionoid farmers were expanding along both coasts of Hispaniola, the line that led to the Taíno. Their simple red-slipped Ostionan pottery is called redware. Scholars debate whether the Ostionoids derived mainly from Saladoid settlers or from local Archaic peoples. Detailed dates are scarce.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Ostionoid peoples expand westward along both coasts of Hispaniola, alongside long-established Archaic communities."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "The Ostionoids (Basil A. Reid)",
+    "publisher": "Florida International University, Island Luminous",
+    "url": "https://islandluminous.fiu.edu/part01-slide02.html"
+   },
+   {
+    "title": "The Native Peoples of Turks and Caicos",
+    "publisher": "Florida Museum of Natural History, Caribbean Archaeology Program",
+    "url": "https://www.floridamuseum.ufl.edu/caribarch/education/tc-peoples/"
+   }
+  ]
+ },
+ "Dominican Rep.": {
+  "polity": "Ostionoid farming villages and Archaic (Casimiroid) peoples",
+  "summary": "Eastern Hispaniola was the western limit of the earlier Saladoid expansion, whose advance stalled there, perhaps because of established Archaic populations. By about 600, Ostionoid farmers with simpler red-slipped pottery were expanding across Hispaniola. These communities were ancestors of the Taíno whom the Spanish met. Whether they grew from Saladoid or Archaic roots is debated.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Ostionoid farming communities spread through Hispaniola from the east, beside older Archaic groups; Ostionoid origins are debated."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "The Native Peoples of Turks and Caicos",
+    "publisher": "Florida Museum of Natural History, Caribbean Archaeology Program",
+    "url": "https://www.floridamuseum.ufl.edu/caribarch/education/tc-peoples/"
+   },
+   {
+    "title": "The Ostionoids (Basil A. Reid)",
+    "publisher": "Florida International University, Island Luminous",
+    "url": "https://islandluminous.fiu.edu/part01-slide02.html"
+   },
+   {
+    "title": "Caribbean Trade and Networks",
+    "publisher": "US National Park Service",
+    "url": "https://www.nps.gov/articles/caribbean-trade-and-networks.htm"
+   }
+  ]
+ },
+ "Puerto Rico": {
+  "polity": "Village societies in transition from Saladoid to Ostionoid",
+  "summary": "Puerto Rico had been farmed for about a thousand years by Saladoid peoples from South America, who lived in villages around central plazas and made fine white-on-red pottery. Around 600, archaeologists see major social reorganisation and a shift to the Ostionoid tradition, named after the Ostiones site in western Puerto Rico, with plainer red-slipped pottery. Ball courts and plazas belong to this Ostionoid era and later Taíno society.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "The Saladoid tradition gives way to the Ostionoid; pottery decoration simplifies and leadership and social status are reorganised."
+   },
+   {
+    "y": 620,
+    "approx": true,
+    "t": "Ball court and plaza sites begin in the Early Ostionoid period (c. 600–1200); centres such as Tibes develop over the following centuries."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "The Native Peoples of Turks and Caicos",
+    "publisher": "Florida Museum of Natural History, Caribbean Archaeology Program",
+    "url": "https://www.floridamuseum.ufl.edu/caribarch/education/tc-peoples/"
+   },
+   {
+    "title": "Caribbean Trade and Networks",
+    "publisher": "US National Park Service",
+    "url": "https://www.nps.gov/articles/caribbean-trade-and-networks.htm"
+   },
+   {
+    "title": "Ball Court / Plaza Sites of Puerto Rico and the U.S. Virgin Islands, National Register Multiple Property Documentation Form",
+    "publisher": "US National Park Service",
+    "url": "https://npgallery.nps.gov/NRHP/GetAsset/NRHP/64500749_text"
+   }
+  ]
+ },
+ "Trinidad and Tobago": {
+  "polity": "Saladoid and Barrancoid-related village societies",
+  "summary": "Trinidad, near the Orinoco, lay on the route by which Saladoid pottery-making farmers spread from South America into the Caribbean. Saladoid and Barrancoid ceramic traditions are both found in Trinidad and Tobago in the period up to about AD 750, reflecting close ties with the mainland. Dating is approximate.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Villages in Trinidad and Tobago make pottery in the Saladoid and Barrancoid traditions, linked to the South American mainland."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "The Native Peoples of Turks and Caicos",
+    "publisher": "Florida Museum of Natural History, Caribbean Archaeology Program",
+    "url": "https://www.floridamuseum.ufl.edu/caribarch/education/tc-peoples/"
+   },
+   {
+    "title": "Representations of cosmology: a study of the Saladoid and Barrancoid adornos of Trinidad and Tobago, 500 BC - AD 750 (James-Williams, M.Phil. thesis)",
+    "publisher": "University of the West Indies, St Augustine",
+    "url": "https://uwispace.sta.uwi.edu/items/7acc1b97-4506-4ba0-907e-d3834b350173/full"
+   }
+  ]
+ },
+ "Colombia": {
+  "polity": "Regional chiefdom societies (San Agustín, Tierradentro, San Jorge floodplain and others)",
+  "summary": "Colombia had chiefdom societies but no empire or writing. Around San Agustín in the upper Magdalena, the Regional Classic period (c. 1–900) saw elite burial mounds with stone tombs and large carved statues. At Tierradentro, monumental painted shaft-and-chamber tombs (hypogea) were cut into volcanic tuff from about 600. In the San Jorge floodplain of the north, ridges and canals managed floodwaters, with the region at its height c. 400–1000.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "San Agustín's Regional Classic period (c. 1–900) continues, with burial mounds over stone tombs guarded by large carved statues."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "At Tierradentro, communities begin cutting decorated underground tomb chambers (hypogea) into volcanic tuff (c. 600–900)."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "In the San Jorge floodplain, ridges and drainage canals manage seasonal floods; the region is at its height c. 5th–10th centuries."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "San Agustín Archaeological Park",
+    "publisher": "UNESCO World Heritage Centre",
+    "url": "https://whc.unesco.org/en/list/744"
+   },
+   {
+    "title": "National Archeological Park of Tierradentro",
+    "publisher": "UNESCO World Heritage Centre",
+    "url": "https://whc.unesco.org/en/list/743"
+   },
+   {
+    "title": "Pre-Hispanic Hydraulic System of the San Jorge River (Tentative List)",
+    "publisher": "UNESCO World Heritage Centre",
+    "url": "https://whc.unesco.org/en/tentativelists/5764"
+   }
+  ]
+ },
+ "Venezuela": {
+  "polity": "Village and early chiefdom societies (e.g. western Llanos of Barinas)",
+  "summary": "There were no states or writing. The best-studied area is Barinas in the western Llanos and Andean piedmont. There, occupation was sparse in 300–550, but in the following phase (550–1000) the number of settlements rose sharply and chiefdoms with centralized authority began to form. Petroglyphs in the piedmont may mark a trade route between the Llanos and the high Andes. Knowledge is entirely archaeological.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "In Barinas, settlements multiply (to 32 in the Llanos and six in the piedmont in 550–1000) and chiefdoms begin to form."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Archaeology of the Western Venezuelan Llanos: The Barinas Project",
+    "publisher": "American Museum of Natural History",
+    "url": "https://www.amnh.org/research/anthropology/curatorial-research/meso-american-archaeology/projects/7.-western-venezuelan-llanos"
+   }
+  ]
+ },
+ "Guyana": {
+  "polity": "Village societies of the coast and interior",
+  "summary": "Very little is known. In the northwest, coastal people of the Mabaruma phase, connected to Barrancoid traditions of the Orinoco, built shell middens and made pottery. Interior savanna and forest groups farmed manioc and fished. Dates are rough and the sites few.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Mabaruma-phase villages in northwest Guyana make Barrancoid-related pottery and farm manioc."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": []
+ },
+ "Suriname": {
+  "polity": "Village societies of the coast and interior",
+  "summary": "The record is thin and dates are broad. On the swampy coastal plain of western Suriname, people built raised fields (mounds and ridges with ditches and canals) linked to habitation mounds. According to Rostain, the first raised fields were made by migrants from the lower Orinoco from about 1,800 years ago, and the tradition later spread east into French Guiana. Knowledge is archaeological only.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Raised-field farming, introduced from the lower Orinoco from about 1,800 years ago, is practised on the western coastal plain."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "La mise en culture des marécages littoraux de Guyane à la période précolombienne récente (Stéphen Rostain)",
+    "publisher": "IRD (ORSTOM) documentation",
+    "url": "https://horizon.documentation.ird.fr/exl-doc/pleins_textes/pleins_textes_7/b_fdi_03_04/42067.pdf"
+   }
+  ]
+ },
+ "Ecuador": {
+  "polity": "Regional coastal and highland societies (late Regional Development period)",
+  "summary": "Ecuador had regional societies but no state. On the coast this was the end of the Regional Development period, which lasted until about 700; the Integration period that followed brought population growth and sharper social ranking. Spondylus shell, found off the warm Ecuadorian coast but scarce in Peru's cold waters, had great ritual value in the Central Andes, and Peruvian demand rose sharply after about 600.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Peruvian demand for Ecuadorian Spondylus shell rises considerably after Moche V (c. 600)."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "In southern Manabí, settlements stay small with little stratification until the end of the Regional Development period (c. 700)."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "La trayectoria del desarrollo social precolombino en el sur de Manabí (Martín & Lara 2009)",
+    "publisher": "Antropología: Cuadernos de Investigación (PUCE), via Dialnet",
+    "url": "https://dialnet.unirioja.es/descarga/articulo/7609614.pdf"
+   }
+  ]
+ },
+ "Peru": {
+  "polity": "Late Moche polities (Pampa Grande), the expanding Wari state, late Nazca, Recuay; Tiwanaku colonies in Moquegua",
+  "summary": "A time of upheaval. Severe droughts and El Niño floods strained the north-coast Moche; new inland centres such as Pampa Grande rose as the old southern capital declined. In the highlands, the Wari state was expanding from its capital near Ayacucho. Nazca culture was in its late phase on the south coast and Recuay persisted in the north highlands. Tiwanaku colonists from the Titicaca basin farmed the Moquegua valley.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Droughts and El Niño floods (dated c. 560–600 by some, c. 630 by others) strain the Moche; the southern capital at Moche is largely abandoned."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Pampa Grande (c. 550–700), with the huge Huaca Fortaleza platform, becomes the largest Moche city, in the Lambayeque valley."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Wari, north of modern Ayacucho, is a prosperous metropolis and capital of a rapidly expanding state, with specialized craft compounds."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Tiwanaku colonists from the altiplano farm the Moquegua valley, beginning with Omo-style settlements."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Late Nazca culture (c. 100–700) continues on the south coast; Nasca styles shape Wari's Chakipampa ceramics."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Central and Southern Andes, 500–1000 A.D. (Heilbrunn Timeline of Art History)",
+    "publisher": "The Metropolitan Museum of Art",
+    "url": "https://www.metmuseum.org/toah/ht/06/sac"
+   },
+   {
+    "title": "Late Moche Society: Disruption, Reconstitution, and End (Garth Bawden, course notes)",
+    "publisher": "University of New Mexico",
+    "url": "https://www.unm.edu/~gbawden/324-MLateA/324-MLateA.htm"
+   },
+   {
+    "title": "Pampa Grande and the Mochica Culture (Izumi Shimada)",
+    "publisher": "University of Texas Press (via UBC Press)",
+    "url": "https://www.ubcpress.ca/pampa-grande-and-the-mochica-culture"
+   },
+   {
+    "title": "Wari Imperial Art (José Ochatoma Paravicino)",
+    "publisher": "The Metropolitan Museum of Art",
+    "url": "https://www.metmuseum.org/en/essays/wari-imperial-art"
+   },
+   {
+    "title": "The Tiwanaku 'Empire' (Garth Bawden, course notes)",
+    "publisher": "University of New Mexico",
+    "url": "https://www.unm.edu/~gbawden/324-TEmp/324-TEmp.htm"
+   }
+  ]
+ },
+ "Bolivia": {
+  "polity": "Tiwanaku (Lake Titicaca basin); Casarabe culture in the Llanos de Mojos",
+  "summary": "Tiwanaku, near the south shore of Lake Titicaca, was in its apogee (c. 500–900) as a ceremonial and political centre with monuments such as the Akapana, Kalasasaya and Pumapunku. Raised-field farming and lake resources supported it, and its influence reached colonies in Moquegua and Cochabamba and, through caravan trade, distant oases. In the Amazonian lowlands, the Casarabe culture (c. 500–1400) built platform mounds, causeways and canals.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "A major construction programme begins at Tiwanaku, including the Akapana pyramid with seven stone-walled platforms and an expanded drainage system."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Monumental human-form stone sculptures, including the Bennett Stela, are erected at Tiwanaku."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "The Casarabe culture (c. 500–1400) in the Llanos de Mojos develops settlements that later include platform mounds, raised causeways and canals."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Tiwanaku: Spiritual and Political Centre of the Tiwanaku Culture",
+    "publisher": "UNESCO World Heritage Centre",
+    "url": "https://whc.unesco.org/en/list/567"
+   },
+   {
+    "title": "Central and Southern Andes, 500–1000 A.D. (Heilbrunn Timeline of Art History)",
+    "publisher": "The Metropolitan Museum of Art",
+    "url": "https://www.metmuseum.org/toah/ht/06/sac"
+   },
+   {
+    "title": "The Tiwanaku 'Empire' (Garth Bawden, course notes)",
+    "publisher": "University of New Mexico",
+    "url": "https://www.unm.edu/~gbawden/324-TEmp/324-TEmp.htm"
+   },
+   {
+    "title": "Lidar reveals pre-Hispanic low-density urbanism in the Bolivian Amazon (Prümers et al. 2022)",
+    "publisher": "Nature",
+    "url": "https://www.nature.com/articles/s41586-022-04780-4"
+   }
+  ]
+ },
+ "Chile": {
+  "polity": "Atacama oasis communities linked to Tiwanaku; Bato and Llolleo horticulturalists in central Chile",
+  "summary": "In the north, the San Pedro de Atacama oases were drawn into Tiwanaku's economic and ideological sphere, probably through caravan trade rather than conquest; Tiwanaku-style goods appear mainly in burials. In central Chile, Bato and Llolleo groups of the Early Ceramic period lived in the Santiago basin; Llolleo numbers grew after about 700 with greater reliance on maize. Knowledge is archaeological only.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "San Pedro de Atacama burials include Tiwanaku-style textiles, drinking cups and hallucinogen paraphernalia, reflecting links with the Titicaca basin (c. 400–1000)."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Bato and Llolleo horticultural groups occupy the Santiago basin during the Early Ceramic period (c. 200 BC–AD 1300)."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "The Tiwanaku 'Empire' (Garth Bawden, course notes)",
+    "publisher": "University of New Mexico",
+    "url": "https://www.unm.edu/~gbawden/324-TEmp/324-TEmp.htm"
+   },
+   {
+    "title": "Trends in thermoluminescence date distributions for the Angostura micro region in Central Chile (Falabella et al. 2015)",
+    "publisher": "Quaternary International, via Repositorio Universidad de Chile",
+    "url": "https://repositorio.uchile.cl/handle/2250/133252"
+   }
+  ]
+ },
+ "Argentina": {
+  "polity": "Northwest Andean farming societies (Aguada)",
+  "summary": "In the northwest Andean valleys, the Aguada peoples built on earlier Condorhuasi-phase developments. Their gray and polychrome ceramics, incised with dragonlike creatures and staff-bearing figures, suggest they shared in a wider pan-Andean mythology; Aguada bronzeworking became highly developed somewhat later. There was no writing, and evidence is archaeological, with broad dates.",
+  "events": [
+   {
+    "y": 650,
+    "approx": true,
+    "t": "Aguada peoples of northwest Argentina build on Condorhuasi traditions, making incised ceramics with dragonlike creatures and staff-bearing figures."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Central and Southern Andes, 500–1000 A.D. (Heilbrunn Timeline of Art History)",
+    "publisher": "The Metropolitan Museum of Art",
+    "url": "https://www.metmuseum.org/toah/ht/06/sac"
+   }
+  ]
+ },
+ "Paraguay": {
+  "polity": "Early Guaraní forager-horticulturalists (Upper Paraná)",
+  "summary": "Guaraní-ancestral groups, originating in southwestern Amazonia, were beginning to settle the Plata basin; the earliest Guaraní sites there date to about 500 ± 100 CE along the Upper Paraná River. They hunted, fished, gathered and grew maize, tubers, beans, squash and peanuts, made corrugated and painted pottery and often buried the dead in urns. Precise dates for this period are few.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "The earliest Guaraní sites in the Plata basin, along the Upper Paraná River, date to about 500 ± 100 CE."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "At the Southern limit: the Arenal Central site and the Guaraní occupation of the Paraná Delta (Loponte et al. 2025)",
+    "publisher": "Frontiers in Environmental Archaeology",
+    "url": "https://www.frontiersin.org/journals/environmental-archaeology/articles/10.3389/fearc.2025.1535551/full"
+   }
+  ]
+ },
+ "Uruguay": {
+  "polity": "Mound-building groups of the eastern lowlands ('cerritos de indios')",
+  "summary": "In the Laguna Merín lowlands of eastern Uruguay, people built earthen mounds known as 'cerritos de indios', a tradition dated from about 5,000 to 250 radiocarbon years ago. Older models saw the mound builders as specialised hunters; newer fish-bone evidence suggests fishing was also important. Evidence is archaeological only.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "The cerrito mound-building tradition of the Laguna Merín lowlands (c. 5000–250 radiocarbon years BP) continues."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Aproximación a la pesca indígena en las tierras bajas de la Laguna Merín (Bica-Méndez 2022)",
+    "publisher": "Revista Chakiñan de Ciencias Sociales y Humanidades, via Redalyc",
+    "url": "https://www.redalyc.org/journal/5717/571772328005/571772328005.pdf"
+   }
+  ]
+ },
+ "Brazil": {
+  "polity": "Diverse Amazonian and highland societies (Marajoara, Acre geoglyph builders, southern proto-Jê and others)",
+  "summary": "On Marajó Island, the Marajoara (c. 300–1350) lived on large earth mounds, built fishponds, and made elaborate pottery and burial urns. In Acre, people used huge geometric ditched enclosures (geoglyphs) as ceremonial gathering places within long-managed forest. In the southern highlands, proto-Jê groups of the Taquara-Itararé tradition, ancestors of the Kaingang and Xokleng, built pit-house villages and earthworks. No writing; dates come from excavation.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Marajoara communities on Marajó Island live on raised mounds, manage fishponds and bury ancestors in decorated urns (c. 300–1350)."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Geometric ditched enclosures (geoglyphs) in Acre are built and used sporadically as ceremonial sites (c. 2000–650 years ago)."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Southern proto-Jê groups of the Taquara-Itararé tradition (c. 380 BC–17th century) live in pit-house villages in the southern highlands."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Ancient Marajó",
+    "publisher": "ORIAS, University of California, Berkeley",
+    "url": "https://orias.berkeley.edu/resources-teachers/societies-americas/ancient-maraj%C3%B3"
+   },
+   {
+    "title": "Impact of pre-Columbian 'geoglyph' builders on Amazonian forests (Watling et al. 2017)",
+    "publisher": "PNAS",
+    "url": "https://www.pnas.org/doi/10.1073/pnas.1614359114"
+   },
+   {
+    "title": "Understanding the Chronology and Occupation Dynamics of Oversized Pit Houses in the Southern Brazilian Highlands (de Souza et al. 2016)",
+    "publisher": "PLOS ONE, via PubMed Central",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4934860"
+   }
+  ]
+ },
+ "Falkland Is.": {
+  "polity": "Uninhabited (no known settlement)",
+  "summary": "No settlement is known. Europeans arriving in 1690 found no people. A 2021 study found evidence of pre-European visits by Indigenous South Americans, probably short stays, most likely between about 1275 and 1420, though earlier dates cannot be ruled out. The only native land mammal was the warrah, a fox-like canid.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "No settlement is known; the main evidence for human visits points to c. 1275–1420, centuries later."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Evidence of prehistoric human activity in the Falkland Islands (Hamley et al. 2021)",
+    "publisher": "Science Advances",
+    "url": "https://www.science.org/doi/10.1126/sciadv.abh3803"
+   },
+   {
+    "title": "Evidence of prehistoric human activity in Falkland Islands (University of Maine release)",
+    "publisher": "ScienceDaily",
+    "url": "https://sciencedaily.com/releases/2021/10/211027150706.htm"
+   }
+  ]
+ }
 }

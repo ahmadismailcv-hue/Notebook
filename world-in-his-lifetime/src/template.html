@@ -211,7 +211,7 @@ const STATIC = {
   berber: ["Algeria","Morocco"],
   meso: ["Mexico","Guatemala","Belize","Honduras","El Salvador"],
   andes: ["Peru","Bolivia"],
-  none: ["Antarctica","Fr. S. Antarctic Lands","New Zealand","Iceland","Falkland Is.","Greenland","Bahamas"],
+  none: ["Antarctica","Fr. S. Antarctic Lands","New Zealand","Iceland","Falkland Is.","Greenland"],
 };
 const STATIC_LOOKUP = {};
 for (const [k, arr] of Object.entries(STATIC)) for (const n of arr) STATIC_LOOKUP[n] = k;
@@ -220,7 +220,7 @@ function sphereAt(name, y) {
   /* Rules checked against Encyclopaedia Iranica (Abnāʾ; Arabia; Oman; Egypt iv; Armenia ii; Ḵosrow II) and Britannica. */
   switch (name) {
     case "Saudi Arabia": return y >= 630 ? "islam" : "arabia";               // Medina's community from 622; Mecca and most tribes follow from 630
-    case "Yemen": return y >= 628 ? "islam" : y >= 570 ? "sas" : "aksum";        // Persian conquest c. 570; Badhan accepts Islam 628 (tradition) or 631 (Iranica)
+    case "Yemen": return y >= 631 ? "islam" : y >= 570 ? "sas" : "aksum";        // Persian conquest c. 570; Badhan accepts Islam, recorded under 10 AH (631) (Iranica, Abnāʾ)
     case "Oman": case "United Arab Emirates": case "Qatar":
       return y >= 630 ? "islam" : "sas";                                      // submission to Medina after the fall of Mecca, 630
     case "Kuwait": return "sas";                                              // Sasanian frontier until Khalid's campaign of 633
