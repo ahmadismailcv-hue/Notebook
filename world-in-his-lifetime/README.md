@@ -17,3 +17,7 @@ browser, or host the folder on any static host (GitHub Pages, Netlify, Cloudflar
 - Entries not yet checked against an online source are marked "Under review" and their details are withheld.
 
 Map data: Natural Earth via world-atlas 2.0.2 (public domain).
+
+## Rebuild
+
+Edit `data/*.json` or `src/template.html`, then run `node src/build.js`. It regenerates `index.html` and checks every entry for missing sources and the ﷺ honorific.

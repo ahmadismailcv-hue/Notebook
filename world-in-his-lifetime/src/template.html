@@ -1,0 +1,506 @@
+<!--HEAD-->
+<style>
+/* Layout: full-height atlas. Map left, reading panel right; year rail under the map. Stacks on phones. */
+:root {
+  --bg: #eef0ee;
+  --surface: #f8f9f7;
+  --sea: #d6dfe2;
+  --fg: #1d2326;
+  --muted: #5b666b;
+  --line: #c4ccce;
+  --accent: #1d4f7a;      /* lapis */
+  --gold: #a87411;        /* Arabia / the Prophet's track */
+  --land-edge: #f8f9f7;
+  --hl: #1d2326;
+  --font-display: "Marcellus", "Trajan Pro", Georgia, serif;
+  --font-body: "Literata", Georgia, "Times New Roman", serif;
+  --font-data: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  /* sphere palette */
+  --c-islam: #c8952b; --c-arabia: #e2c98f; --c-byz: #8a5a9e; --c-sas: #b5523b;
+  --c-latin: #4f7fae; --c-slav: #8fae7a; --c-north: #9bb8c4; --c-turk: #c9a27a;
+  --c-india: #d9845a; --c-china: #c4443f; --c-eastasia: #d78d97; --c-seasia: #5f9e8f;
+  --c-aksum: #6c7f3c; --c-berber: #b8a36a; --c-meso: #3f8f7a; --c-andes: #9a6b4f;
+  --c-other: #cfd3cc; --c-none: #e9ebe8;
+  --c-rich: #1d4f7a; --c-moderate: #7ea3c2; --c-sparse: #d2d8dc;
+  --c-link: #c8952b; --c-nolink: #d5d9d6; --c-pending: #eef0ee;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #12171b; --surface: #182026; --sea: #0d1316; --fg: #e4e8ea; --muted: #94a1a7; --line: #2d383f;
+  --accent: #7fb0dc; --gold: #e0b250; --land-edge: #12171b; --hl: #ffffff;
+  --c-islam: #d9a73a; --c-arabia: #a8925e; --c-byz: #8c66a0; --c-sas: #b05a45;
+  --c-latin: #4c78a3; --c-slav: #6f8d5d; --c-north: #5f7f8c; --c-turk: #9c7d5c;
+  --c-india: #b8714d; --c-china: #b04440; --c-eastasia: #a8707a; --c-seasia: #4c8578;
+  --c-aksum: #687a3c; --c-berber: #8f804f; --c-meso: #3a7f6d; --c-andes: #84604a;
+  --c-other: #3a4348; --c-none: #262e33;
+  --c-rich: #7fb0dc; --c-moderate: #4a6d8a; --c-sparse: #2f3a41;
+  --c-link: #d9a73a; --c-nolink: #2f383d; --c-pending: #1b2227;
+  color-scheme: dark;
+} }
+:root[data-theme="dark"] {
+  --bg: #12171b; --surface: #182026; --sea: #0d1316; --fg: #e4e8ea; --muted: #94a1a7; --line: #2d383f;
+  --accent: #7fb0dc; --gold: #e0b250; --land-edge: #12171b; --hl: #ffffff;
+  --c-islam: #d9a73a; --c-arabia: #a8925e; --c-byz: #8c66a0; --c-sas: #b05a45;
+  --c-latin: #4c78a3; --c-slav: #6f8d5d; --c-north: #5f7f8c; --c-turk: #9c7d5c;
+  --c-india: #b8714d; --c-china: #b04440; --c-eastasia: #a8707a; --c-seasia: #4c8578;
+  --c-aksum: #687a3c; --c-berber: #8f804f; --c-meso: #3a7f6d; --c-andes: #84604a;
+  --c-other: #3a4348; --c-none: #262e33;
+  --c-rich: #7fb0dc; --c-moderate: #4a6d8a; --c-sparse: #2f3a41;
+  --c-link: #d9a73a; --c-nolink: #2f383d; --c-pending: #1b2227;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
+.app { display: grid; grid-template-columns: minmax(0, 1fr) 380px; grid-template-rows: auto minmax(0, 1fr) auto; height: 100%; padding-inline: 16px; gap: 0 20px; }
+header { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; padding-block: 14px 10px; border-bottom: 1px solid var(--line); }
+h1 { font-family: var(--font-display); font-weight: 400; font-size: 1.7rem; letter-spacing: .02em; margin: 0; text-wrap: balance; }
+h1 small { font-family: var(--font-data); font-size: .72rem; color: var(--muted); letter-spacing: .06em; margin-left: 10px; white-space: nowrap; }
+.modes { display: flex; gap: 4px; flex-wrap: wrap; }
+.modes button, .chip, .back { font: 500 .74rem/1 var(--font-data); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 3px; padding: 7px 10px; cursor: pointer; }
+.modes button[aria-pressed="true"] { color: var(--surface); background: var(--fg); border-color: var(--fg); }
+button:focus-visible, input:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.mapwrap { position: relative; min-height: 0; padding-block: 12px 0; display: flex; flex-direction: column; }
+#map { flex: 1; min-height: 300px; width: 100%; background: var(--sea); border-radius: 4px; display: block; cursor: grab; touch-action: none; }
+#map:active { cursor: grabbing; }
+.country { stroke: var(--land-edge); stroke-width: .5; transition: fill .35s ease; cursor: pointer; }
+.country:hover { filter: brightness(1.08); }
+.country.sel { stroke: var(--hl); stroke-width: 1.6; }
+.country.dim { opacity: .28; }
+.grat { fill: none; stroke: var(--line); stroke-width: .4; opacity: .6; }
+.pin { fill: var(--surface); stroke: var(--fg); stroke-width: 1.2; pointer-events: none; }
+.pin.arabia { fill: var(--gold); stroke: var(--surface); }
+.pulse { fill: none; stroke: var(--gold); stroke-width: 1.2; pointer-events: none; animation: pulse 2.4s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes pulse { from { opacity: .9; transform: scale(.6); } to { opacity: 0; transform: scale(2.6); } }
+@media (prefers-reduced-motion: reduce) { .pulse { animation: none; opacity: .5; } .country { transition: none; } }
+.zoombtns { position: absolute; right: 10px; top: 22px; display: flex; flex-direction: column; gap: 4px; }
+.zoombtns button { width: 30px; height: 30px; font: 500 1rem/1 var(--font-data); background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: 3px; cursor: pointer; }
+.tip { position: absolute; pointer-events: none; background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: 3px; padding: 6px 9px; font-size: .82rem; line-height: 1.35; max-width: 240px; box-shadow: 0 4px 14px rgb(0 0 0 / .12); }
+.tip b { font-family: var(--font-display); font-weight: 400; font-size: .95rem; display: block; }
+.tip span { color: var(--muted); }
+
+.legend { display: flex; flex-wrap: wrap; gap: 4px 12px; padding-block: 8px 0; font: .72rem/1.3 var(--font-data); color: var(--muted); }
+.legend button { all: unset; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; padding: 2px 0; }
+.legend button[aria-pressed="true"] { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; }
+.legend i { width: 11px; height: 11px; border-radius: 2px; display: inline-block; flex: none; }
+
+.rail { grid-column: 1 / 2; padding-block: 10px 14px; }
+.rail-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.yr { font-family: var(--font-display); font-size: 2.2rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.yr em { font: .8rem var(--font-data); font-style: normal; color: var(--muted); margin-left: 6px; }
+.stage { font-size: .9rem; color: var(--gold); font-style: italic; text-align: right; max-width: 34em; }
+.track { position: relative; height: 44px; margin-top: 6px; }
+#year { position: absolute; inset: 18px 0 auto 0; width: 100%; margin: 0; accent-color: var(--gold); }
+.tick { position: absolute; top: 0; width: 1px; height: 12px; background: var(--gold); opacity: .9; }
+.tick button { all: unset; position: absolute; top: -4px; left: -6px; width: 13px; height: 16px; cursor: pointer; }
+.life { position: absolute; top: 13px; height: 2px; background: var(--gold); opacity: .35; }
+.scale { position: absolute; top: 34px; font: .66rem var(--font-data); color: var(--muted); transform: translateX(-50%); }
+.play { margin-left: 8px; }
+
+aside { grid-row: 2 / 4; grid-column: 2; min-height: 0; overflow-y: auto; padding-block: 16px 24px; border-left: 1px solid var(--line); padding-left: 20px; }
+aside h2 { font-family: var(--font-display); font-weight: 400; font-size: 1.55rem; margin: 0 0 2px; line-height: 1.15; text-wrap: balance; }
+aside h3 { font: 500 .7rem var(--font-data); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 20px 0 8px; }
+.polity { color: var(--muted); font-style: italic; margin: 0 0 12px; }
+.badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.badge { font: .68rem/1 var(--font-data); letter-spacing: .05em; text-transform: uppercase; padding: 5px 7px; border-radius: 3px; border: 1px solid var(--line); color: var(--muted); display: inline-flex; gap: 6px; align-items: center; }
+.badge i { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+.summary { margin: 0; }
+.link { margin-top: 14px; padding: 10px 12px; border-left: 2px solid var(--gold); background: color-mix(in srgb, var(--gold) 9%, transparent); font-size: .92rem; }
+.link b { font: 500 .68rem var(--font-data); letter-spacing: .1em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 3px; }
+ol.ev { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+ol.ev li { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 10px; font-size: .92rem; line-height: 1.45; }
+ol.ev li.near .y { color: var(--surface); background: var(--fg); }
+ol.ev li.far { opacity: .62; }
+.y { font: 500 .78rem/1 var(--font-data); font-variant-numeric: tabular-nums; padding: 4px 0; text-align: center; border-radius: 3px; align-self: start; color: var(--fg); border: 1px solid var(--line); }
+.y.ar { border-color: var(--gold); color: var(--gold); }
+ol.ev .where { all: unset; cursor: pointer; font: 500 .7rem var(--font-data); letter-spacing: .05em; text-transform: uppercase; color: var(--accent); display: block; }
+ol.ev .where:hover { text-decoration: underline; }
+.back { margin-bottom: 14px; }
+.note { font-size: .8rem; color: var(--muted); margin-top: 22px; border-top: 1px solid var(--line); padding-top: 12px; }
+.empty { color: var(--muted); font-style: italic; font-size: .9rem; }
+.saw { font-family: "Amiri", "Scheherazade New", "Noto Naskh Arabic", serif; font-size: 1.15em; line-height: 1; margin-inline: .08em; }
+.src { display: block; font: .7rem/1.4 var(--font-data); color: var(--muted); margin-top: 3px; }
+ul.sources { margin: 0; padding-left: 18px; font-size: .84rem; color: var(--muted); display: grid; gap: 6px; }
+ul.sources a { color: var(--accent); }
+.about p, .about li { font-size: .9rem; }
+.about ul { padding-left: 18px; display: grid; gap: 6px; }
+.search { width: 100%; font: .88rem var(--font-body); padding: 8px 10px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); color: var(--fg); margin-bottom: 4px; }
+
+@media (max-width: 860px) {
+  html, body { height: auto; }
+  .app { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; height: auto; }
+  #map { height: auto; aspect-ratio: 1.9 / 1; min-height: 0; max-width: 100%; flex: none; }
+  aside { grid-row: auto; grid-column: 1; border-left: 0; padding-left: 0; border-top: 1px solid var(--line); overflow: visible; }
+  .rail { grid-column: 1; }
+  .stage { text-align: left; }
+  h1 { font-size: 1.35rem; }
+}
+</style>
+
+<div class="app">
+  <header>
+    <h1>The World in His Lifetime <small>570 – 632 CE</small></h1>
+    <div class="modes" role="group" aria-label="Colour the map by">
+      <button type="button" data-mode="sphere" aria-pressed="true">Powers</button>
+      <button type="button" data-mode="link" aria-pressed="false">Contact with Arabia</button>
+      <button type="button" data-mode="evidence" aria-pressed="false">How much we know</button>
+      <button type="button" id="aboutBtn" aria-pressed="false">Sources &amp; method</button>
+    </div>
+  </header>
+
+  <div class="mapwrap">
+    <svg id="map" role="img" aria-label="World map coloured by the powers of c. 570–632 CE. Select a country for details."></svg>
+    <div class="zoombtns"><button type="button" id="zin" aria-label="Zoom in">+</button><button type="button" id="zout" aria-label="Zoom out">−</button><button type="button" id="zreset" aria-label="Reset view">⟲</button></div>
+    <div class="tip" id="tip" hidden></div>
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <div class="rail">
+    <div class="rail-top">
+      <div><span class="yr" id="yrLabel">610</span><em id="yrAH"></em><button type="button" class="chip play" id="play" aria-pressed="false">Play</button></div>
+      <div class="stage" id="stage"></div>
+    </div>
+    <div class="track" id="track">
+      <input type="range" id="year" min="565" max="640" step="1" value="610" aria-label="Year (CE)">
+    </div>
+  </div>
+
+  <aside id="panel" aria-live="polite"></aside>
+</div>
+
+<!--LIBS-->
+<script>
+const TOPO = /*__TOPO__*/null;
+const DATA = /*__DATA__*/{};
+
+/* Seerah timeline: Ibn Hisham (tr. Guillaume) and al-Mubarakpuri, The Sealed Nectar. */
+const SIRA = /*__SIRA__*/[];
+
+/* Simplified dominant sphere per modern country. Modern borders rarely match; this is a guide, not a border map. */
+const SPHERES = {
+  islam:   ["Muslim community (Medina)", "--c-islam"],
+  arabia:  ["Arabian tribes", "--c-arabia"],
+  byz:     ["Eastern Roman (Byzantine)", "--c-byz"],
+  sas:     ["Sasanian Persia", "--c-sas"],
+  latin:   ["Latin-Christian West", "--c-latin"],
+  slav:    ["Avars & Slavs", "--c-slav"],
+  north:   ["Norse, Finnic & Baltic peoples", "--c-north"],
+  turk:    ["Turkic khaganates & Sogdia", "--c-turk"],
+  india:   ["South Asian kingdoms", "--c-india"],
+  china:   ["Sui / Tang China & Tibet", "--c-china"],
+  eastasia:["Korea & Japan", "--c-eastasia"],
+  seasia:  ["Southeast Asian states", "--c-seasia"],
+  aksum:   ["Aksum & Nubia", "--c-aksum"],
+  berber:  ["Berber kingdoms", "--c-berber"],
+  meso:    ["Maya & Mesoamerica", "--c-meso"],
+  andes:   ["Andean states", "--c-andes"],
+  other:   ["Chiefdoms & non-state societies", "--c-other"],
+  none:    ["No human settlement", "--c-none"],
+};
+const STATIC = {
+  byz: ["Turkey","Greece","Cyprus","N. Cyprus","Tunisia","Libya","Albania"],
+  latin: ["France","Spain","Portugal","United Kingdom","Ireland","Belgium","Netherlands","Germany","Switzerland","Luxembourg","Austria","Italy"],
+  slav: ["Hungary","Serbia","Croatia","Bosnia and Herz.","Slovenia","Slovakia","Czechia","Poland","Romania","Bulgaria","Moldova","Ukraine","Belarus","Montenegro","Kosovo","Macedonia"],
+  north: ["Norway","Sweden","Denmark","Finland","Estonia","Latvia","Lithuania","Russia"],
+  turk: ["Kazakhstan","Kyrgyzstan","Uzbekistan","Tajikistan","Turkmenistan","Mongolia","Afghanistan"],
+  sas: ["Iran","Iraq","Azerbaijan"],
+  india: ["India","Pakistan","Nepal","Bangladesh","Sri Lanka","Bhutan"],
+  china: ["China"],
+  eastasia: ["Japan","North Korea","South Korea"],
+  seasia: ["Myanmar","Thailand","Laos","Cambodia","Vietnam","Malaysia","Brunei","Indonesia","Philippines"],
+  aksum: ["Ethiopia","Eritrea","Sudan","Djibouti"],
+  berber: ["Algeria","Morocco"],
+  meso: ["Mexico","Guatemala","Belize","Honduras","El Salvador"],
+  andes: ["Peru","Bolivia"],
+  none: ["Antarctica","Fr. S. Antarctic Lands","New Zealand","Iceland","Falkland Is.","Greenland","Bahamas"],
+};
+const STATIC_LOOKUP = {};
+for (const [k, arr] of Object.entries(STATIC)) for (const n of arr) STATIC_LOOKUP[n] = k;
+
+function sphereAt(name, y) {
+  /* Rules checked against Encyclopaedia Iranica (Abnāʾ; Arabia; Oman; Egypt iv; Armenia ii; Ḵosrow II) and Britannica. */
+  switch (name) {
+    case "Saudi Arabia": return y >= 630 ? "islam" : "arabia";               // Medina's community from 622; Mecca and most tribes follow from 630
+    case "Yemen": return y >= 628 ? "islam" : y >= 570 ? "sas" : "aksum";        // Persian conquest c. 570; Badhan accepts Islam 628 (tradition) or 631 (Iranica)
+    case "Oman": case "United Arab Emirates": case "Qatar":
+      return y >= 630 ? "islam" : "sas";                                      // submission to Medina after the fall of Mecca, 630
+    case "Kuwait": return "sas";                                              // Sasanian frontier until Khalid's campaign of 633
+    case "Egypt": return (y >= 619 && y < 629) ? "sas" : "byz";               // Alexandria falls 619; Persian withdrawal c. June 629
+    case "Syria": case "Lebanon": return (y >= 613 && y < 629) ? "sas" : "byz";
+    case "Israel": case "Palestine": case "Jordan": return (y >= 614 && y < 629) ? "sas" : "byz"; // Jerusalem 614
+    case "Armenia": return (y >= 591 && y < 607) || y >= 628 ? "byz" : "sas";   // western Armenia ceded 591; Persian reconquest c. 607–608
+    case "Georgia": return y >= 628 ? "byz" : "sas";                          // Kartli (Tiflis) Persian until Heraclius 627–628; Lazica Byzantine throughout
+  }
+  return STATIC_LOOKUP[name] || "other";
+}
+const EVIDENCE = { rich: ["Well documented", "--c-rich"], moderate: ["Partly documented", "--c-moderate"], sparse: ["Mostly archaeology", "--c-sparse"], pending: ["Under review", "--c-pending"] };
+const LINK = { yes: ["Attested contact with Arabia", "--c-link"], no: ["No attested contact", "--c-nolink"], pending: ["Under review", "--c-pending"] };
+
+/* ---------- state ---------- */
+const css = getComputedStyle(document.documentElement);
+const col = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+let year = 610, mode = "sphere", selected = null, filterKey = null, playing = null;
+try { const s = localStorage.getItem("wihl"); if (s) { const o = JSON.parse(s); if (o.year) year = o.year; if (o.mode) mode = o.mode; } } catch (e) {}
+const save = () => { try { localStorage.setItem("wihl", JSON.stringify({ year, mode })); } catch (e) {} };
+const AH = y => { const h = Math.round((y - 622) * 33 / 32); return h >= 0 ? (h + 1) + " AH" : Math.abs(h) + " BH"; };
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const fmt = s => esc(s).replace(/\uFDFA/g, '<span class="saw" lang="ar">\uFDFA</span>');
+
+/* ---------- map ---------- */
+const svg = d3.select("#map");
+const features = topojson.feature(TOPO, TOPO.objects.countries).features.filter(f => f.properties.name);
+const projection = d3.geoNaturalEarth1();
+const path = d3.geoPath(projection);
+const gRoot = svg.append("g");
+const gGrat = gRoot.append("path").attr("class", "grat");
+const gLand = gRoot.append("g");
+const gPins = gRoot.append("g");
+const nodes = gLand.selectAll("path").data(features).join("path")
+  .attr("class", "country")
+  .attr("tabindex", 0)
+  .attr("role", "button")
+  .attr("aria-label", d => d.properties.name)
+  .on("click", (ev, d) => select(d.properties.name, false))
+  .on("keydown", (ev, d) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); select(d.properties.name, false); } })
+  .on("mousemove", (ev, d) => showTip(ev, d))
+  .on("mouseleave", () => tip.hidden = true);
+
+function mainPolygon(f) {
+  if (f.geometry.type !== "MultiPolygon") return f;
+  let best = null, area = -1;
+  for (const coords of f.geometry.coordinates) {
+    const g = { type: "Feature", geometry: { type: "Polygon", coordinates: coords } };
+    const a = d3.geoArea(g); if (a > area) { area = a; best = g; }
+  }
+  return best;
+}
+const anchors = new Map(features.map(f => [f.properties.name, mainPolygon(f)]));
+
+let W = 0, H = 0, zoomK = 1;
+const zoom = d3.zoom().scaleExtent([1, 12]).on("zoom", ev => {
+  zoomK = ev.transform.k;
+  gRoot.attr("transform", ev.transform);
+  gLand.selectAll("path").attr("stroke-width", .5 / zoomK);
+  drawPins();
+});
+svg.call(zoom);
+function layout() {
+  const r = svg.node().getBoundingClientRect(); W = r.width; H = r.height;
+  svg.attr("viewBox", `0 0 ${W} ${H}`);
+  projection.fitExtent([[8, 8], [W - 8, H - 8]], { type: "Sphere" });
+  gGrat.attr("d", path(d3.geoGraticule10()));
+  nodes.attr("d", path);
+  zoom.translateExtent([[0, 0], [W, H]]).extent([[0, 0], [W, H]]);
+  drawPins();
+}
+new ResizeObserver(layout).observe(svg.node());
+d3.select("#zin").on("click", () => svg.transition().duration(300).call(zoom.scaleBy, 1.6));
+d3.select("#zout").on("click", () => svg.transition().duration(300).call(zoom.scaleBy, 1 / 1.6));
+d3.select("#zreset").on("click", () => svg.transition().duration(400).call(zoom.transform, d3.zoomIdentity));
+
+/* ---------- colouring ---------- */
+function keyFor(name) {
+  const d = DATA[name];
+  if (mode === "sphere") return sphereAt(name, year);
+  if (mode === "evidence") return d?.pending ? "pending" : (d?.evidence || "sparse");
+  return d?.pending ? "pending" : d?.link ? "yes" : "no";
+}
+function table() { return mode === "sphere" ? SPHERES : mode === "evidence" ? EVIDENCE : LINK; }
+function paint() {
+  const T = table();
+  nodes.attr("fill", d => col(T[keyFor(d.properties.name)][1]))
+       .classed("sel", d => d.properties.name === selected)
+       .classed("dim", d => filterKey && keyFor(d.properties.name) !== filterKey);
+  nodes.filter(d => d.properties.name === selected).raise();
+  renderLegend();
+}
+function renderLegend() {
+  const T = table();
+  const present = new Set(features.map(f => keyFor(f.properties.name)));
+  const el = document.getElementById("legend");
+  el.innerHTML = Object.entries(T).filter(([k]) => present.has(k)).map(([k, [label, v]]) =>
+    `<button type="button" data-k="${k}" aria-pressed="${filterKey === k}"><i style="background:var(${v})"></i>${esc(label)}</button>`).join("")
+    + (mode === "sphere" ? `<span>· simplified; modern borders</span>` : "");
+  el.querySelectorAll("button").forEach(b => b.onclick = () => { filterKey = filterKey === b.dataset.k ? null : b.dataset.k; paint(); });
+}
+
+/* ---------- pins: places with events near the chosen year ---------- */
+const WINDOW = 2;
+function eventsNear(y) {
+  const out = [];
+  for (const [name, d] of Object.entries(DATA)) for (const e of d.events || []) if (Math.abs(e.y - y) <= WINDOW) out.push({ name, ...e });
+  return out.sort((a, b) => Math.abs(a.y - y) - Math.abs(b.y - y) || a.y - b.y);
+}
+function drawPins() {
+  if (!W) return;
+  const names = [...new Set(eventsNear(year).map(e => e.name))];
+  const pts = names.map(n => { const a = anchors.get(n); if (!a) return null; const c = path.centroid(a); return isFinite(c[0]) ? { n, c } : null; }).filter(Boolean);
+  const r = 3.2 / zoomK;
+  gPins.selectAll("circle.pin").data(pts, d => d.n).join("circle")
+    .attr("class", d => "pin" + (d.n === "Saudi Arabia" ? " arabia" : ""))
+    .attr("cx", d => d.c[0]).attr("cy", d => d.c[1]).attr("r", r).attr("stroke-width", 1.2 / zoomK);
+  const medina = projection([39.61, 24.47]);
+  gPins.selectAll("circle.medina").data(year >= 622 ? [medina] : []).join("circle").attr("class", "pin arabia medina")
+    .attr("cx", d => d[0]).attr("cy", d => d[1]).attr("r", 2.6 / zoomK).attr("stroke-width", 1 / zoomK);
+  const mecca = projection([39.83, 21.42]);
+  gPins.selectAll("circle.pulse").data([mecca]).join("circle").attr("class", "pulse")
+    .attr("cx", d => d[0]).attr("cy", d => d[1]).attr("r", 6 / zoomK).attr("stroke-width", 1.2 / zoomK);
+}
+
+/* ---------- tooltip ---------- */
+const tip = document.getElementById("tip");
+function showTip(ev, d) {
+  const n = d.properties.name, info = DATA[n];
+  const [mx, my] = d3.pointer(ev, document.querySelector(".mapwrap"));
+  tip.innerHTML = `<b>${esc(n)}</b><span>${fmt(info?.polity || SPHERES[sphereAt(n, year)][0])}</span>`;
+  tip.hidden = false;
+  const w = tip.offsetWidth, box = document.querySelector(".mapwrap").clientWidth;
+  tip.style.left = Math.min(mx + 14, box - w - 8) + "px";
+  tip.style.top = (my + 14) + "px";
+}
+
+/* ---------- year rail ---------- */
+const slider = document.getElementById("year");
+const MIN = +slider.min, MAX = +slider.max;
+const pct = y => ((y - MIN) / (MAX - MIN)) * 100;
+(function buildTrack() {
+  const tr = document.getElementById("track");
+  const life = document.createElement("div"); life.className = "life";
+  life.style.left = pct(570) + "%"; life.style.width = (pct(632) - pct(570)) + "%"; tr.appendChild(life);
+  for (const s of SIRA) {
+    const t = document.createElement("div"); t.className = "tick"; t.style.left = pct(s.y) + "%";
+    const b = document.createElement("button"); b.type = "button"; b.title = s.y + ": " + s.t; b.setAttribute("aria-label", "Jump to " + s.y);
+    b.onclick = () => setYear(s.y); t.appendChild(b); tr.appendChild(t);
+  }
+  for (const y of [570, 580, 590, 600, 610, 620, 632]) {
+    const l = document.createElement("div"); l.className = "scale"; l.style.left = pct(y) + "%"; l.textContent = y; tr.appendChild(l);
+  }
+})();
+slider.oninput = () => setYear(+slider.value);
+function stageFor(y) {
+  if (y < 570) return "Before the birth of the Prophet Muhammad ﷺ (c. 570–571).";
+  if (y > 632) return "After the death of the Prophet ﷺ in 632 (11 AH): the caliphate of Abu Bakr.";
+  const age = y - 570;
+  const last = [...SIRA].reverse().find(s => s.y <= y);
+  const lead = age === 0 ? "Muhammad ﷺ is born around this year." : `Muhammad ﷺ is about ${age}.`;
+  return last && y - last.y <= 1 ? last.t : lead;
+}
+function setYear(y) {
+  year = Math.max(MIN, Math.min(MAX, y)); slider.value = year;
+  document.getElementById("yrLabel").textContent = year;
+  document.getElementById("yrAH").textContent = "CE · " + AH(year);
+  document.getElementById("stage").innerHTML = fmt(stageFor(year));
+  save(); paint(); drawPins(); renderPanel();
+}
+document.getElementById("play").onclick = function () {
+  if (playing) { clearInterval(playing); playing = null; this.textContent = "Play"; this.setAttribute("aria-pressed", "false"); return; }
+  if (year >= 632) setYear(570);
+  this.textContent = "Pause"; this.setAttribute("aria-pressed", "true");
+  playing = setInterval(() => { if (year >= 632) { this.click(); return; } setYear(year + 1); }, 1100);
+};
+
+/* ---------- side panel ---------- */
+const panel = document.getElementById("panel");
+function select(name, fromList) {
+  aboutOpen = false; syncAbout();
+  selected = selected === name && !fromList ? null : name;
+  paint(); renderPanel();
+  if (window.innerWidth <= 860 && selected) panel.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+function evItem(e, showWhere) {
+  const near = Math.abs(e.y - year) <= WINDOW;
+  const cls = near ? "near" : (showWhere ? "" : "far");
+  const ar = e.name === "Saudi Arabia" || e.sira;
+  const where = showWhere ? `<button type="button" class="where" data-n="${esc(e.name)}">${esc(e.name)}</button>` : "";
+  const meta = e.sira && (e.ah || e.src) ? `<span class="src">${esc([e.ah, e.src].filter(Boolean).join(" · "))}</span>` : "";
+  return `<li class="${cls}"><span class="y${ar ? " ar" : ""}">${e.approx ? "c." : ""}${e.y}</span><div>${where}${fmt(e.t)}${meta}</div></li>`;
+}
+function renderPanel() {
+  if (aboutOpen && !selected) { renderAbout(); return; }
+  if (selected) {
+    const d = DATA[selected];
+    const sp = SPHERES[sphereAt(selected, year)];
+    const ev = d ? EVIDENCE[d.evidence] : null;
+    panel.innerHTML = `
+      <button type="button" class="back" id="back">← The world in ${year}</button>
+      <h2>${esc(selected)}</h2>
+      <p class="polity">${fmt(d?.polity || SPHERES[sphereAt(selected, year)][0])}</p>
+      <div class="badges"><span class="badge"><i style="background:var(${sp[1]})"></i>${esc(sp[0])} in ${year}</span>${ev ? `<span class="badge"><i style="background:var(${ev[1]})"></i>${esc(ev[0])}</span>` : ""}</div>
+      ${d?.pending ? `<p class="link"><b>Under review</b>This entry has not yet been checked against reliable sources, so its details are not shown. The colour on the map is a general guide only.</p>` : `<p class="summary">${fmt(d?.summary || "")}</p>`}
+      ${d?.link ? `<div class="link"><b>Connection to Arabia</b>${fmt(d.link)}</div>` : ""}
+      <h3>Timeline</h3>
+      <ol class="ev">${(d?.events || []).map(e => evItem({ ...e, name: selected }, false)).join("") || `<li class="empty">${d?.pending ? "Awaiting verification." : "No securely dated events for this period."}</li>`}</ol>
+      ${sourcesList(d?.sources)}
+      <h3>Meanwhile in Arabia</h3>
+      <ol class="ev">${SIRA.filter(s => Math.abs(s.y - year) <= 3).map(s => evItem({ ...s, sira: true }, false)).join("") || `<p class="empty">${fmt(stageFor(year))}</p>`}</ol>
+      ${note()}`;
+    document.getElementById("back").onclick = () => { selected = null; paint(); renderPanel(); };
+  } else {
+    const near = eventsNear(year).filter(e => e.name !== "Saudi Arabia");
+    const sira = SIRA.filter(s => Math.abs(s.y - year) <= WINDOW);
+    panel.innerHTML = `
+      <h2>The world in ${year}</h2>
+      <p class="polity">${fmt(stageFor(year))}</p>
+      <h3>In Arabia (${year - WINDOW}–${year + WINDOW})</h3>
+      <ol class="ev">${sira.map(s => evItem({ ...s, sira: true }, false)).join("") || `<li class="empty">No major dated events in the traditional chronology.</li>`}</ol>
+      <h3>Elsewhere (${year - WINDOW}–${year + WINDOW})</h3>
+      <ol class="ev">${near.map(e => evItem(e, true)).join("") || `<li class="empty">Nothing dated within two years. Try another year.</li>`}</ol>
+      <h3>Find a country</h3>
+      <input class="search" id="q" list="names" placeholder="Type a modern country name" autocomplete="off">
+      <datalist id="names">${Object.keys(DATA).sort().map(n => `<option value="${esc(n)}">`).join("")}</datalist>
+      ${note()}`;
+    const q = document.getElementById("q");
+    q.onchange = () => { if (DATA[q.value]) select(q.value, true); };
+  }
+  panel.querySelectorAll(".where").forEach(b => b.onclick = () => select(b.dataset.n, true));
+}
+function sourcesList(list) {
+  if (!list || !list.length) return "";
+  return `<h3>Sources</h3><ul class="sources">${list.map(s => {
+    const label = esc(s.title) + (s.publisher ? `, <i>${esc(s.publisher)}</i>` : "");
+    return `<li>${s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener">${label}</a>` : label}</li>`;
+  }).join("")}</ul>`;
+}
+function renderAbout() {
+  panel.innerHTML = `<div class="about">
+    <button type="button" class="back" id="back">← The world in ${year}</button>
+    <h2>Sources &amp; method</h2>
+    <h3>The seerah</h3>
+    <p>The timeline of the life of the Prophet Muhammad ﷺ follows two works:</p>
+    <ul>
+      <li>Ibn Isḥāq, <i>al-Sīra al-Nabawiyya</i>, as edited by Ibn Hishām. English translation: A. Guillaume, <i>The Life of Muhammad</i> (Oxford University Press, 1955).</li>
+      <li>Ṣafī al-Raḥmān al-Mubārakpūrī, <i>Ar-Raḥīq al-Makhtūm</i> (<i>The Sealed Nectar</i>), Darussalam. First prize, Muslim World League seerah competition, 1979.</li>
+    </ul>
+    <p>Hijri years are given where the sources date an event by the Islamic calendar. Where the two works differ, or the date is disputed, the event is marked “c.” and the difference is noted.</p>
+    <h3>The rest of the world</h3>
+    <p>Each country entry lists its sources. We use scholarly reference works (Encyclopaedia Britannica, Encyclopaedia Iranica, the Metropolitan Museum’s Heilbrunn Timeline, UNESCO, university and museum publications, peer‑reviewed studies) and avoid Wikipedia and unsourced websites. Claims that could not be confirmed in a reliable source were removed.</p>
+    <h3>What to keep in mind</h3>
+    <ul>
+      <li>The pulsing ring marks Mecca; from 622 a second dot marks Medina.</li>
+      <li>Countries are today’s borders, used only as a way to explore. No modern country existed then.</li>
+      <li>Many dates from this period are disputed by historians; disputed dates are marked “c.”.</li>
+      <li>The “Powers” colours simplify: many lands were contested or shared.</li>
+      <li>Much of Africa, the Americas, northern Eurasia and Oceania is known only through archaeology. The “How much we know” view shows this.</li>
+    </ul>
+  </div>`.replace(/\uFDFA/g, '<span class="saw" lang="ar">\uFDFA</span>');
+  document.getElementById("back").onclick = () => { aboutOpen = false; syncAbout(); renderPanel(); };
+}
+let aboutOpen = false;
+function syncAbout() { document.getElementById("aboutBtn").setAttribute("aria-pressed", aboutOpen); }
+document.getElementById("aboutBtn").onclick = () => { aboutOpen = !aboutOpen; syncAbout(); if (aboutOpen) { selected = null; paint(); } renderPanel(); };
+function note() {
+  return `<p class="note">Countries are today\'s borders, used only as a way in. Colours simplify a contested world. See <b>Sources &amp; method</b> for how this was checked.</p>`;
+}
+
+/* ---------- modes ---------- */
+document.querySelectorAll(".modes button[data-mode]").forEach(b => b.onclick = () => {
+  mode = b.dataset.mode; filterKey = null;
+  document.querySelectorAll(".modes button[data-mode]").forEach(x => x.setAttribute("aria-pressed", x === b));
+  save(); paint();
+});
+document.querySelectorAll(".modes button[data-mode]").forEach(x => x.setAttribute("aria-pressed", x.dataset.mode === mode));
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", paint);
+new MutationObserver(paint).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+layout();
+setYear(year);
+</script>
