@@ -1,0 +1,568 @@
+{
+ "Algeria": {
+  "polity": "Byzantine Africa (coast and eastern Numidia) and independent Moorish (Berber) kingdoms in the interior",
+  "summary": "Byzantine Africa held the coastal towns and the east, while independent Moorish kingdoms, which had emerged in the Mauretanias by the end of Vandal rule, held the interior, including the region of Altava, the Ouarsenis, the Hodna and the Aures. In some of these kingdoms Latin epitaphs and Roman names survived. Written sources are thin and mostly Byzantine or Latin.",
+  "events": [
+   {
+    "y": 570,
+    "approx": true,
+    "t": "John of Biclaro records Byzantine commanders in Africa, including the prefect Theodore, killed by the Moors under King Garmul, c. 570-572."
+   },
+   {
+    "y": 578,
+    "approx": true,
+    "t": "The Byzantine commander Gennadius defeats the Moors and kills Garmul, c. 578-579, per John of Biclaro."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "North Africa: The Vandal conquest",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/North-Africa/The-Vandal-conquest"
+   },
+   {
+    "title": "Berber",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/Berber"
+   },
+   {
+    "title": "Conquerors and Chroniclers of Early Medieval Spain (trans. of the Chronicle of John of Biclaro), K. B. Wolf, 1990",
+    "publisher": "Liverpool University Press (Translated Texts for Historians 9)",
+    "url": null
+   }
+  ]
+ },
+ "Libya": {
+  "polity": "Byzantine provinces of Tripolitania and Cyrenaica; Garamantes in Fezzan",
+  "summary": "The Libyan coast was Byzantine territory after the reconquest of 533, with Tripolitania tied to Carthage. Inland, the Garamantes of Fezzan, an old Saharan oasis people, remained in contact with the Mediterranean world until the Arab conquest of the region in the 660s. Sources for the period are scarce.",
+  "events": [
+   {
+    "y": 568,
+    "approx": true,
+    "t": "John of Biclaro records that the Garamantes sought peace with the empire and the Christian faith, c. 568-569."
+   },
+   {
+    "y": 609,
+    "approx": true,
+    "t": "Nicetas, cousin of Heraclius, leads a force through Libya toward Alexandria against the forces of Phocas, c. 609-610."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Garamantes",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/Garamantes"
+   },
+   {
+    "title": "Nicetas",
+    "publisher": "Oxford Reference (Oxford Dictionary of Byzantium)",
+    "url": "https://www.oxfordreference.com/display/10.1093/acref/9780198662778.001.0001/acref-9780198662778-e-3346"
+   },
+   {
+    "title": "Conquerors and Chroniclers of Early Medieval Spain (trans. of the Chronicle of John of Biclaro), K. B. Wolf, 1990",
+    "publisher": "Liverpool University Press (Translated Texts for Historians 9)",
+    "url": null
+   }
+  ]
+ },
+ "Morocco": {
+  "polity": "Moorish (Berber) principalities",
+  "summary": "Beyond Byzantine control, the land was held by Moorish (Berber) rulers. At Volubilis, an old Roman town, a cemetery has yielded Christian funerary inscriptions in Latin dated 599-655 CE, showing that a Latin-using Christian community survived under local rule. Very little was written about the region in this period.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Christian Latin epitaphs at Volubilis, dated 599-655 CE, attest a surviving Romanised Christian community."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "The History of Volubilis",
+    "publisher": "Volubilis Project (UCL / INSAP excavations)",
+    "url": "https://volubilis.lparchaeology.com/www/english/about/history.htm"
+   },
+   {
+    "title": "North Africa: The Vandal conquest",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/North-Africa/The-Vandal-conquest"
+   }
+  ]
+ },
+ "Tunisia": {
+  "polity": "Byzantine Exarchate of Africa (capital Carthage)",
+  "summary": "Carthage was the capital of Byzantine Africa. Emperor Maurice reorganised it as an exarchate, giving one governor both civil and military power. In 610 the exarch of Carthage sent his son Heraclius with a fleet to Constantinople, where he overthrew Phocas and founded a new dynasty. The exarchate lasted until the Arab conquest of 697-698.",
+  "events": [
+   {
+    "y": 591,
+    "approx": true,
+    "t": "Emperor Maurice joins civil and military power under an exarch at Carthage, c. 590-591."
+   },
+   {
+    "y": 608,
+    "approx": true,
+    "t": "The exarch Heraclius the Elder rebels against Emperor Phocas from Carthage, c. 608."
+   },
+   {
+    "y": 610,
+    "approx": false,
+    "t": "The younger Heraclius sails from Carthage, overthrows Phocas and is proclaimed emperor in October."
+   },
+   {
+    "y": 619,
+    "approx": true,
+    "t": "With Persians overrunning the east, Heraclius considers moving to Carthage, but popular feeling in Constantinople prevents it."
+   }
+  ],
+  "link": null,
+  "evidence": "rich",
+  "sources": [
+   {
+    "title": "Exarchate of Carthage",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Exarchate-of-Carthage"
+   },
+   {
+    "title": "Phocas",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Phocas"
+   },
+   {
+    "title": "North Africa: The Vandal conquest",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/North-Africa/The-Vandal-conquest"
+   }
+  ]
+ },
+ "W. Sahara": {
+  "polity": "Berber nomadic groups",
+  "summary": "This desert and Atlantic coastline was used by Berber-speaking herding groups. No written sources describe the region in this period, and archaeological work is limited, so little can be said with confidence.",
+  "events": [],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Berber",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/Berber"
+   }
+  ]
+ },
+ "Mauritania": {
+  "polity": "Berber nomads in the north; Soninke farming communities in the south",
+  "summary": "The southern Sahel was home to Soninke communities, the founders of the empire of Ghana (Wagadu), which Britannica dates from about the 7th to the 13th century in what is now southeastern Mauritania and part of Mali. Its origins are uncertain; Soninke tradition places them earlier, but this is unconfirmed. Evidence for 570-632 itself is very thin.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "The Ghana (Wagadu) state may be taking shape in the southern Sahel; its origins are uncertain."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Ghana (historical West African empire)",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Ghana-historical-West-African-empire?anchor=ref1118"
+   },
+   {
+    "title": "Soninke",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/Soninke"
+   }
+  ]
+ },
+ "Sudan": {
+  "polity": "Nubian kingdoms: Nobadia, Makuria and Alodia",
+  "summary": "Three Christian Nubian kingdoms lined the Nile: Nobadia in the north (capital Pachoras, modern Faras), Makuria (capital Dongola) and Alodia (capital Soba). Missionaries converted Nobadia and Alodia to Miaphysite Christianity, while a contemporary report says Makuria adopted the Diophysite (Chalcedonian) faith. Nobadia and Makuria later merged, probably in the 7th century; the date is uncertain.",
+  "events": [
+   {
+    "y": 569,
+    "approx": false,
+    "t": "The Miaphysite missionary Longinus arrives in Nobadia, where he works until about 575."
+   },
+   {
+    "y": 570,
+    "approx": true,
+    "t": "John of Biclaro records the conversion of Makuria to the Diophysite (Chalcedonian) faith, c. 570."
+   },
+   {
+    "y": 578,
+    "approx": true,
+    "t": "Longinus carries Miaphysite Christianity to Alodia, c. 575-580; sources differ on the date."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "A monastery is founded on Kom H at Old Dongola, the Makurian capital, in the 6th-7th century."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Nobatia",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Nobatia"
+   },
+   {
+    "title": "Alwah",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Alwah"
+   },
+   {
+    "title": "Makouria (Research Starters)",
+    "publisher": "EBSCO",
+    "url": "https://www.ebsco.com/research-starters/religion-and-philosophy/makouria"
+   }
+  ]
+ },
+ "S. Sudan": {
+  "polity": "Unknown; no recorded states",
+  "summary": "The swamps and savannas of the upper Nile were inhabited, but no written records exist for this period and archaeological research is very limited, so the societies of the region cannot be described with confidence.",
+  "events": [],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "History of Sudan",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/history-of-Sudan"
+   }
+  ]
+ },
+ "Eritrea": {
+  "polity": "Kingdom of Aksum (Red Sea coast and highlands)",
+  "summary": "The highlands and coast were Aksumite lands. Its port Adulis had long carried Red Sea trade, but lost importance as trade routes shifted and was cut off from Mediterranean trade by the rise of Arab powers in the 7th and 8th centuries. Christianity and the Ge'ez language marked Aksumite culture.",
+  "events": [
+   {
+    "y": 570,
+    "approx": true,
+    "t": "Sasanian Persian forces end Ethiopian-backed rule in Yemen in the 570s (dates vary), ending Aksumite influence across the Red Sea."
+   },
+   {
+    "y": 615,
+    "approx": true,
+    "t": "Muslim emigrants from Mecca cross the Red Sea to the Aksumite kingdom in the first Hijra."
+   },
+   {
+    "y": 630,
+    "approx": true,
+    "t": "Adulis declines in the 7th century as Red Sea trade shifts; the exact chronology is uncertain."
+   }
+  ],
+  "link": "The first Muslim emigrants c. 615 crossed the Red Sea to the Aksumite kingdom, whose coast and port of Adulis lay here; their exact landing place is not securely recorded.",
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Adulis",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Adulis"
+   },
+   {
+    "title": "Arabia ii. The Sasanians and Arabia",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/arabia-ii-sasanians-and-arabia/"
+   },
+   {
+    "title": "The Life of Muhammad ﷺ: A Translation of Ibn Ishaq's Sirat Rasul Allah, trans. A. Guillaume, 1955",
+    "publisher": "Oxford University Press",
+    "url": null
+   }
+  ]
+ },
+ "Ethiopia": {
+  "polity": "Kingdom of Aksum (ruler known in Islamic tradition as al-Najashi, Ashama)",
+  "summary": "Aksum was an old Christian kingdom in the northern Ethiopian highlands, trading via the Red Sea. Its power was waning after Persia took Yemen in the 570s, and its coinage was increasingly debased. According to the Islamic tradition, its ruler, the Negus Ashama ibn Abjar (al-Najashi), sheltered persecuted early Muslims from c. 615.",
+  "events": [
+   {
+    "y": 570,
+    "approx": true,
+    "t": "Abraha, the Aksumite commander ruling Yemen, leads the Year of the Elephant expedition against Mecca; the traditional date of 570 is disputed."
+   },
+   {
+    "y": 615,
+    "approx": true,
+    "t": "First Hijra (5th year of prophethood): Muslim emigrants take refuge with the Negus, per Ibn Hisham and The Sealed Nectar."
+   },
+   {
+    "y": 616,
+    "approx": true,
+    "t": "Quraysh envoys, including Amr ibn al-As, fail to persuade the Negus to hand over the refugees, per Ibn Ishaq."
+   },
+   {
+    "y": 628,
+    "approx": true,
+    "t": "Ja'far ibn Abi Talib and remaining emigrants rejoin Muhammad ﷺ around the time of Khaybar, per Islamic sources."
+   },
+   {
+    "y": 630,
+    "approx": true,
+    "t": "The Negus dies (9 AH); Islamic tradition reports that Muhammad ﷺ prayed the funeral prayer for him in absentia."
+   }
+  ],
+  "link": "According to Islamic sources (Ibn Hisham, The Sealed Nectar), the Negus, identified in the Islamic tradition as Ashama, sheltered Muslim emigrants from c. 615, including Ja'far ibn Abi Talib and Uthman ibn Affan.",
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "The Life of Muhammad ﷺ: A Translation of Ibn Ishaq's Sirat Rasul Allah, trans. A. Guillaume, 1955",
+    "publisher": "Oxford University Press",
+    "url": null
+   },
+   {
+    "title": "The Sealed Nectar (Ar-Raheeq Al-Makhtum), Safiur Rahman al-Mubarakpuri",
+    "publisher": "Darussalam",
+    "url": null
+   },
+   {
+    "title": "Negash (Al-Nejashi) Village: Sanctuary of the First Hijra (Tentative List)",
+    "publisher": "UNESCO World Heritage Centre",
+    "url": "https://whc.unesco.org/en/tentativelists/7015/"
+   }
+  ]
+ },
+ "Djibouti": {
+  "polity": "Unknown; pastoralist peoples on the fringe of Aksum",
+  "summary": "This arid coast lies at the Bab el-Mandeb strait between the Horn of Africa and Yemen, on Red Sea shipping lanes. No written or archaeological record gives a clear picture of its people or rulers in this period.",
+  "events": [],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Eastern Africa: The Horn of Africa",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/eastern-Africa/The-Horn-of-Africa"
+   }
+  ]
+ },
+ "Somalia": {
+  "polity": "Pastoralists and coastal trading settlements",
+  "summary": "Ras Hafun, identified with Opone of the 1st-century Periplus, holds the oldest archaeological evidence of long-distance trade on this coast. Between the 7th and 12th centuries, Indian Ocean towns such as Marka, Baraawe and Mogadishu served as trading ports, though their early history is poorly known. Evidence for 570-632 is very limited.",
+  "events": [],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Long Distance Trade in Somalia, 1st-19th Centuries AD",
+    "publisher": "Oxford Research Encyclopedia of African History",
+    "url": "https://oxfordre.com/africanhistory/display/10.1093/acrefore/9780190277734.001.0001/acrefore-9780190277734-e-1306?d=/10.1093/acrefore/9780190277734.001.0001/acrefore-9780190277734-e-1306&p=emailAicxSLIYWoGjU"
+   },
+   {
+    "title": "Somaliland",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Somaliland"
+   }
+  ]
+ },
+ "Somaliland": {
+  "polity": "Gulf of Aden trading ports (Zeila, Berbera) and pastoralists",
+  "summary": "The 1st-century Periplus describes 'Far-Side Ports' along this shore trading with Arabia and Egypt. Between the 7th and 12th centuries, Zeila (Seylac) and Berbera served as Gulf of Aden trading ports; Islam was firmly established there by the 10th century. Little is known about these towns in 570-632 specifically.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Zeila and Berbera are among Gulf of Aden trading ports from about the 7th century."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Somaliland",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Somaliland"
+   },
+   {
+    "title": "Seylac",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Seylac"
+   },
+   {
+    "title": "Long Distance Trade in Somalia, 1st-19th Centuries AD",
+    "publisher": "Oxford Research Encyclopedia of African History",
+    "url": "https://oxfordre.com/africanhistory/display/10.1093/acrefore/9780190277734.001.0001/acrefore-9780190277734-e-1306?d=/10.1093/acrefore/9780190277734.001.0001/acrefore-9780190277734-e-1306&p=emailAicxSLIYWoGjU"
+   }
+  ]
+ },
+ "Kenya": {
+  "polity": "Coastal communities of the early Tana Tradition",
+  "summary": "From about 600 CE, coastal and inland sites across eastern Africa share pottery known as the early Tana Tradition or Triangular-Incised Ware. Its recognition has led archaeologists to stress the indigenous African roots of later Swahili coastal culture. Evidence for the period is entirely archaeological.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Communities making early Tana Tradition (Triangular-Incised Ware) pottery spread along the coast, c. 600-900."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Ceramics and the Early Swahili: Deconstructing the Early Tana Tradition (Fleisher and Wynne-Jones, 2011)",
+    "publisher": "African Archaeological Review (Springer)",
+    "url": "https://link.springer.com/article/10.1007/s10437-011-9104-6"
+   }
+  ]
+ },
+ "Tanzania": {
+  "polity": "Bantu-speaking farmers; early coastal trading villages",
+  "summary": "Early coastal villages were forerunners of Swahili culture. On Zanzibar, Unguja Ukuu was first settled in the 6th-7th centuries and was tied to Indian Ocean trade from its earliest levels. On Pemba, the trade village of Tumbe dates to c. 600-950. Evidence is archaeological.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Unguja Ukuu on Zanzibar is founded as a trading settlement, 6th-7th century; its start date is debated."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Understanding the layout of early coastal settlement at Unguja Ukuu, Zanzibar",
+    "publisher": "Antiquity (Cambridge University Press)",
+    "url": "https://www.cambridge.org/core/journals/antiquity/article/understanding-the-layout-of-early-coastal-settlement-at-unguja-ukuu-zanzibar/A93E817CE0D498CB706CAFCB0DDB0308"
+   },
+   {
+    "title": "The early Swahili trade village of Tumbe, Pemba Island, Tanzania, AD 600-950",
+    "publisher": "Antiquity (Cambridge University Press)",
+    "url": "https://www.cambridge.org/core/journals/antiquity/article/abs/early-swahili-trade-village-of-tumbe-pemba-island-tanzania-ad-600950/96E5356A34B749A056921E27371A05A0"
+   }
+  ]
+ },
+ "Madagascar": {
+  "polity": "Early Austronesian settlers (dates debated)",
+  "summary": "The Malagasy language is related to Ma'anyan of southern Borneo, and Malagasy people have both Southeast Asian and African ancestry. When Austronesian seafarers arrived is debated: estimates range from the mid first millennium CE to the 7th-8th centuries, and Southeast Asian crops found at early sites give the first archaeological evidence of their presence.",
+  "events": [
+   {
+    "y": 630,
+    "approx": true,
+    "t": "Austronesian settlers may be reaching Madagascar around the 7th-8th centuries; dates remain debated."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Ancient crops provide first archaeological signature of the westward Austronesian expansion (Crowther et al., 2016)",
+    "publisher": "PNAS",
+    "url": "https://www.pnas.org/doi/10.1073/pnas.1522714113"
+   },
+   {
+    "title": "Contrasting Linguistic and Genetic Origins of the Asian Source Populations of Malagasy (2016)",
+    "publisher": "Scientific Reports (Nature)",
+    "url": "https://www.nature.com/articles/srep26066"
+   }
+  ]
+ },
+ "Mozambique": {
+  "polity": "Bantu-speaking farmers; early coastal trading sites",
+  "summary": "Chibuene, on the southern coast, was occupied from about the 7th century and became the main entry point for Indian Ocean trade into southern Africa from about the 8th to mid-10th century. Glass beads of a distinctive Chibuene series suggest imports may have begun in the 7th century. Evidence is archaeological.",
+  "events": [
+   {
+    "y": 630,
+    "approx": true,
+    "t": "Chibuene may begin receiving Indian Ocean glass beads in the 7th century; dating is debated."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "The glass of Chibuene, Mozambique: new insights into early Indian Ocean trade (Wood, Dussubieux and Robertshaw, 2012)",
+    "publisher": "DiVA (Uppsala University)",
+    "url": "http://www.diva-portal.org/smash/record.jsf?pid=diva2:573788&dswid=2248"
+   },
+   {
+    "title": "Trade and society on the south-east African coast in the later first millennium AD: the case of Chibuene",
+    "publisher": "Antiquity (Cambridge University Press)",
+    "url": "https://www.cambridge.org/core/journals/antiquity/article/abs/trade-and-society-on-the-southeast-african-coast-in-the-later-first-millennium-ad-the-case-of-chibuene/3433E399B0D88DD2F85E266BADAD80C8"
+   }
+  ]
+ },
+ "Chad": {
+  "polity": "Sao communities of the Lake Chad basin",
+  "summary": "The Sao culture arose near Lake Chad, probably in the 5th century CE, and peaked later, from the 9th to the 15th century. The modern Kotoko are believed to descend from them. The Kanem kingdom east of the lake is first noted by Arabic writers in the 9th century. The period 570-632 is known only through archaeology.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Sao communities live in the Lake Chad basin, a culture that probably arose in the 5th century."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Sao",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/Sao-people"
+   },
+   {
+    "title": "Nigeria: History",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Nigeria/History"
+   }
+  ]
+ },
+ "Niger": {
+  "polity": "Bura culture of the Niger valley; Saharan nomads",
+  "summary": "In the Niger River valley, the Bura culture made terracotta funerary jars and figures marking graves, dated by the Met to the 3rd-11th centuries and by UNESCO's tentative listing to roughly the 3rd-13th centuries. The necropolis at Bura is the key site. Evidence is archaeological only.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "The Bura culture continues its burials with terracotta jars and figures in the Niger valley."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Grave Marker, Bura peoples",
+    "publisher": "The Metropolitan Museum of Art",
+    "url": "https://www.metmuseum.org/art/collection/search/317898"
+   },
+   {
+    "title": "Site archeologique de Bura (Tentative List)",
+    "publisher": "UNESCO World Heritage Centre",
+    "url": "https://whc.unesco.org/en/tentativelists/5045/"
+   }
+  ]
+ },
+ "Mali": {
+  "polity": "Djenne-Djeno and Inland Niger Delta settlements; possible early Ghana (Wagadu)",
+  "summary": "Djenne-Djeno (Jenne-jeno) in the Inland Niger Delta, inhabited from about the 3rd century BCE, preserves a pre-Islamic urban settlement of round and rectangular mud-brick buildings, funerary jars and metalworking debris; it is part of a UNESCO World Heritage property. To the north-west, the Soninke state of Ghana (Wagadu) may have been forming. Evidence is archaeological.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Djenne-Djeno is a large settled town on the Inland Niger Delta."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Soninke communities in the Sahel may be organising the early Ghana (Wagadu) state; origins are uncertain."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Old Towns of Djenne",
+    "publisher": "UNESCO World Heritage Centre",
+    "url": "https://whc.unesco.org/en/list/116"
+   },
+   {
+    "title": "Ghana (historical West African empire)",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Ghana-historical-West-African-empire?anchor=ref1118"
+   }
+  ]
+ }
+}

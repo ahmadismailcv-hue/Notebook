@@ -1,0 +1,687 @@
+{
+ "Albania": {
+  "polity": "Eastern Roman (Byzantine) Empire",
+  "summary": "Still Roman (Byzantine) territory ruled from Constantinople, with Dyrrachium (Durrës) as its chief Adriatic city. Much of the population descended from the Illyrians. Avar and Slav pressure on the Balkans grew from the 580s, and Slavs came to occupy much of the peninsula, while older populations held out in the mountains. Cemeteries such as Komani, used from the 6th to 8th centuries, attest a continuing local population.",
+  "events": [
+   {
+    "y": 582,
+    "approx": false,
+    "t": "The Avars capture Sirmium, the empire's main stronghold on the middle Danube, opening the Balkans to deeper raiding."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "The large Komani cemetery in the north (6th–8th centuries) shows a local population persisting through the period."
+   },
+   {
+    "y": 610,
+    "approx": false,
+    "t": "Heraclius becomes emperor; the Balkan frontier, crumbling since 602, is not restored while he fights Persia."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "History of Albania",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/history-of-Albania"
+   },
+   {
+    "title": "Durrës",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Durres"
+   },
+   {
+    "title": "Early Medieval North Albania: New Discoveries, Remodeling Connections. The Case of Medieval Komani",
+    "publisher": "Edizioni Ca' Foscari (Ca' Foscari University of Venice)",
+    "url": "https://edizionicafoscari.unive.it/en/edizioni4/libri/978-88-6969-114-0/early-medieval-north-albania-new-discoveries-remod/"
+   }
+  ]
+ },
+ "Belarus": {
+  "polity": "Baltic-speaking peoples, with Slavs beginning to arrive (no state)",
+  "summary": "No written sources describe this region in these decades. Archaeology shows Baltic-speaking farming communities, such as the Bancer-Tushemlya culture of the upper Dnieper and Neman, with hillforts used as refuges, mixed farming and cremation burials under mounds. Slavic settlement of the region began in the 6th to 8th centuries, and the Balts were gradually Slavicized. Religion was local and pagan.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Bancer-Tushemlya culture (6th–8th centuries): hillforts, farming and barrow cremations across the upper Dnieper, upper Neman and Daugava."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "History of Belarus",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/history-of-Belarus"
+   },
+   {
+    "title": "Bancerovo-Tušemlios kultūra",
+    "publisher": "Visuotinė lietuvių enciklopedija (Universal Lithuanian Encyclopedia)",
+    "url": "https://www.vle.lt/straipsnis/bancerovo-tusemlios-kultura/"
+   },
+   {
+    "title": "Balt",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/Balt"
+   }
+  ]
+ },
+ "Bosnia and Herz.": {
+  "polity": "Eastern Roman Empire in name (inland Dalmatia); Avar raids and Slav settlement",
+  "summary": "Most of this land lay in the Roman province of Dalmatia, and after Justinian expelled the Goths it was, at least on paper, part of the Byzantine Empire. Avar raids hit Dalmatia in the late 500s, and Slavs settled widely in the following decades; a second wave in the 7th century included Croats and Serbs. Written sources are almost silent, so the picture comes mainly from archaeology.",
+  "events": [
+   {
+    "y": 582,
+    "approx": false,
+    "t": "Fall of Sirmium to the Avars exposes the western Balkans to raiding."
+   },
+   {
+    "y": 614,
+    "approx": true,
+    "t": "Salona, capital of Dalmatia, is sacked by Avars and Slavs (c. 614–615, date disputed); Roman rule inland effectively ends."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Bosnia and Herzegovina: History",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Bosnia-and-Herzegovina/History"
+   },
+   {
+    "title": "Montenegro: History",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Montenegro/History"
+   },
+   {
+    "title": "Palace of Diocletian",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/Palace-of-Diocletian"
+   }
+  ]
+ },
+ "Bulgaria": {
+  "polity": "Eastern Roman Empire (Thrace and Moesia), under Avar and Slav pressure",
+  "summary": "This was Roman Thrace and Moesia, close to Constantinople and defended along the Danube. From the 580s Slavs pushed into the Balkans, and the Avars pressed the frontier. Emperor Maurice campaigned constantly and drove the Avars back across the Danube, but his order for troops to winter north of the river caused the mutiny of 602 that put Phocas on the throne. After 602 the frontier crumbled.",
+  "events": [
+   {
+    "y": 585,
+    "approx": true,
+    "t": "After the Avar and Slav sieges of Sirmium and Singidunum in the 580s, Slavs push deep into the Balkans."
+   },
+   {
+    "y": 595,
+    "approx": true,
+    "t": "Maurice's armies campaign repeatedly against Avars and Slavs, forcing the Avars back across the Danube by 602."
+   },
+   {
+    "y": 602,
+    "approx": false,
+    "t": "Army on the Danube mutinies over wintering north of the river; Phocas marches on Constantinople and Maurice is overthrown."
+   },
+   {
+    "y": 626,
+    "approx": false,
+    "t": "The Avars and their Slav allies, coordinating with a Persian army, besiege Constantinople and fail."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Byzantine Empire: The successors of Justinian, 565–610",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Byzantine-Empire/The-successors-of-Justinian-565-610"
+   },
+   {
+    "title": "Maurice (Byzantine emperor)",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Maurice-Byzantine-emperor"
+   },
+   {
+    "title": "Avar",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/Avar"
+   }
+  ]
+ },
+ "Croatia": {
+  "polity": "Eastern Roman Empire (Dalmatia and Istria), collapsing before Avars and Slavs",
+  "summary": "Roman Dalmatia, centred on Salona, remained Christian under Constantinople, and its church was in contact with Pope Gregory I. Avar and Slav raids devastated the region from the late 500s. Around 614–615 Salona was sacked, and its people built a new town inside Diocletian's palace at Split. Byzantine tradition says Heraclius later allowed Croats to settle in the northwest Balkans.",
+  "events": [
+   {
+    "y": 595,
+    "approx": true,
+    "t": "Pope Gregory I contests the irregular consecration of Maximus as bishop of Salona; Maximus clears himself by oath at Ravenna c. 599."
+   },
+   {
+    "y": 614,
+    "approx": true,
+    "t": "Avars sack Salona; refugees build a new town inside Diocletian's palace at Split (614 or 615, date disputed)."
+   },
+   {
+    "y": 630,
+    "approx": true,
+    "t": "Croats settle in the northwest Balkans with the consent of Heraclius, according to Byzantine tradition (date disputed)."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Palace of Diocletian",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/Palace-of-Diocletian"
+   },
+   {
+    "title": "Split (Croatia) summary",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/summary/Split-Croatia"
+   },
+   {
+    "title": "E06384: Two letters and a memorandum of Pope Gregory the Great (Register 9.178, 9.179 and Appendix V) of 598/599 on the oath of Maximus, bishop of Salona",
+    "publisher": "The Cult of Saints in Late Antiquity database, University of Oxford",
+    "url": "https://portal.sds.ox.ac.uk/articles/online_resource/E06384_Two_letters_and_a_memorandum_of_Pope_Gregory_the_Great_Register_9_178_9_179_and_Appendix_V_of_598_599_require_and_describe_the_oath_that_Maximus_bishop_of_Salona_had_to_swear_in_order_to_absolve_himself_of_excommunication_at_the_grav/13902206"
+   }
+  ]
+ },
+ "Czechia": {
+  "polity": "Slavic tribes; probably part of Samo's realm (c. 623–658)",
+  "summary": "Slavic farmers lived in small villages of sunken-floor houses, as excavated at Roztoky near Prague, many under Avar domination. Around 623 a Frankish merchant named Samo was chosen king by the Slavs (Wends) after their revolt against the Avars, and he ruled until 658. His realm probably included part of Bohemia, but its centre is debated. The main source is the Frankish Chronicle of Fredegar.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Early Slavic villages of sunken-floor houses spread in Bohemia, as at Roztoky in the Vltava valley."
+   },
+   {
+    "y": 623,
+    "approx": true,
+    "t": "Samo is chosen king by the Slavs after their revolt against the Avars (623 or 624)."
+   },
+   {
+    "y": 631,
+    "approx": true,
+    "t": "Samo defeats the army of the Frankish king Dagobert I at Wogastisburg (location unknown)."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Samo",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Samo-Frankish-merchant"
+   },
+   {
+    "title": "Samo",
+    "publisher": "World History Encyclopedia",
+    "url": "https://www.worldhistory.org/Samo/"
+   },
+   {
+    "title": "The Early Medieval Site of Roztoky: A Puzzle in the Vltava Valley",
+    "publisher": "Czech Academy of Sciences (ASEP repository)",
+    "url": "https://asep.lib.cas.cz/arl-cav/cs/detail-cav_un_epca-0550946-The-Early-Medieval-Site-of-Roztoky-A-Puzzle-in-the-Vltava-Valley"
+   }
+  ]
+ },
+ "Greece": {
+  "polity": "Eastern Roman (Byzantine) Empire, with Slav settlement inland",
+  "summary": "Greece was Greek-speaking, Christian Roman territory ruled from Constantinople. Thessalonica was the great city of the region and, like Corinth, held out as a fortified port. Slavs, often allied with the Avars, overran much of the interior, and new populations reached deep into the Peloponnese, while building largely stopped. Heraclius became emperor in 610.",
+  "events": [
+   {
+    "y": 586,
+    "approx": false,
+    "t": "Avars and Slavs besiege Thessalonica; the city credits its deliverance to Saint Demetrius."
+   },
+   {
+    "y": 610,
+    "approx": false,
+    "t": "Heraclius overthrows Phocas and becomes emperor."
+   },
+   {
+    "y": 615,
+    "approx": true,
+    "t": "Further Slav and Avar attacks on Thessalonica in the 610s (dates disputed); the city holds."
+   },
+   {
+    "y": 620,
+    "approx": true,
+    "t": "Newcomers settle deep in the Peloponnese; the later, controversial Chronicle of Monemvasia describes Greek flight (dates disputed)."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Greece",
+    "publisher": "Encyclopaedia Britannica (Britannica Scholars)",
+    "url": "https://kids.britannica.com/scholars/article/Greece/106266"
+   },
+   {
+    "title": "The festival of Saint Demetrios, the Timarion, and the Aithiopika",
+    "publisher": "Byzantine and Modern Greek Studies (Cambridge University Press)",
+    "url": "https://www.cambridge.org/core/journals/byzantine-and-modern-greek-studies/article/abs/festival-of-saint-demetrios-the-timarion-and-the-aithiopika/FA9627E1318C114553DDCB0BE7BE419B"
+   },
+   {
+    "title": "Chronicle of Monemvasia, in A Guide to Byzantine Historical Writing",
+    "publisher": "Cambridge University Press",
+    "url": "https://www.cambridge.org/core/books/abs/guide-to-byzantine-historical-writing/chronicle-of-monemvasia/05A19DE94B1B38F98EC673EA242079E6"
+   }
+  ]
+ },
+ "Hungary": {
+  "polity": "Avar Khaganate (heartland in the Carpathian Basin)",
+  "summary": "From 567–568 the Carpathian Basin was the centre of the Avar Khaganate, a steppe empire ruled by a khagan over Gepids, Slavs, and other peoples. The Avars took Sirmium in 582 and extracted tribute from Constantinople. After their failed siege of Constantinople in 626 their raids into the Balkans ended. Rich elite graves, such as Kunbábony, reflect their wealth.",
+  "events": [
+   {
+    "y": 582,
+    "approx": false,
+    "t": "The Avars take Sirmium after a siege."
+   },
+   {
+    "y": 604,
+    "approx": false,
+    "t": "Phocas makes peace with the Avars by agreeing to a larger annual tribute."
+   },
+   {
+    "y": 626,
+    "approx": false,
+    "t": "The Avar khagan leads a failed siege of Constantinople with Slav allies, coordinated with a Persian army."
+   },
+   {
+    "y": 631,
+    "approx": true,
+    "t": "After strife within the khaganate, a group of Bulgars flees Avar Pannonia to the Frankish king Dagobert I (Fredegar)."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Avar",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/Avar"
+   },
+   {
+    "title": "Byzantine Empire: The successors of Justinian, 565–610",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Byzantine-Empire/The-successors-of-Justinian-565-610"
+   },
+   {
+    "title": "Genetic insights into the social organisation of the Avar period elite in the 7th century AD Carpathian Basin",
+    "publisher": "Scientific Reports (PubMed Central)",
+    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6976699/"
+   }
+  ]
+ },
+ "Kosovo": {
+  "polity": "Eastern Roman Empire (Dardania), giving way to Slav settlement",
+  "summary": "This was part of the Roman province of Dardania, with towns such as Ulpiana, which Justinian rebuilt as Justiniana Secunda. From the 580s Avar and Slav pressure on the Balkans grew, and after 602 imperial control faded. Slavic groups eventually settled the land. Written evidence is thin, so the picture relies mostly on archaeology.",
+  "events": [
+   {
+    "y": 585,
+    "approx": true,
+    "t": "Slavs, following Avar and Slav sieges on the Danube, push deep into the central Balkans."
+   },
+   {
+    "y": 602,
+    "approx": false,
+    "t": "Mutiny on the Danube topples Maurice; afterwards the Balkan frontier crumbles."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Mosaic Inscription Connects Justinian to Ancient City in Kosovo",
+    "publisher": "Archaeology (Archaeological Institute of America)",
+    "url": "https://archaeology.org/news/2025/08/08/mosaic-inscription-connects-justinian-to-ancient-city-in-kosovo/"
+   },
+   {
+    "title": "Ulpiana / Iustiniana secunda",
+    "publisher": "ChronoCarto, École normale supérieure",
+    "url": "https://www.chronocarto.ens.fr/wpchrono/?p=1363"
+   },
+   {
+    "title": "Byzantine Empire: The successors of Justinian, 565–610",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Byzantine-Empire/The-successors-of-Justinian-565-610"
+   }
+  ]
+ },
+ "Macedonia": {
+  "polity": "Eastern Roman Empire, with growing Slav settlement",
+  "summary": "This upper Vardar region belonged to the Roman provinces of Macedonia. Slavic tribes began settling Macedonia in the 6th century, and Avar and Slav raids hit the Balkans from the 580s. Towns declined: Stobi was abandoned around the end of the 6th century. The empire held on to Thessalonica to the south. Evidence is fragmentary.",
+  "events": [
+   {
+    "y": 586,
+    "approx": false,
+    "t": "Avars and Slavs besiege Thessalonica, the great city to the south."
+   },
+   {
+    "y": 595,
+    "approx": true,
+    "t": "Stobi is abandoned around the last decade of the 6th century (date disputed)."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Macedonia (region, Europe)",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Macedonia-region-Europe"
+   },
+   {
+    "title": "Taking care of an archaeological site (Stobi)",
+    "publisher": "Istorijski zapisi (journal)",
+    "url": "https://istorijskizapisi.me/wp-content/uploads/2021/01/Nikolovski-Taking-care-of-an-archaeological-site.pdf"
+   },
+   {
+    "title": "The festival of Saint Demetrios, the Timarion, and the Aithiopika",
+    "publisher": "Byzantine and Modern Greek Studies (Cambridge University Press)",
+    "url": "https://www.cambridge.org/core/journals/byzantine-and-modern-greek-studies/article/abs/festival-of-saint-demetrios-the-timarion-and-the-aithiopika/FA9627E1318C114553DDCB0BE7BE419B"
+   }
+  ]
+ },
+ "Moldova": {
+  "polity": "Slavic communities (Antes nearby) under Avar and steppe pressure",
+  "summary": "Slavs began entering this area in the 6th century. To the east, the Antes, an eastern Slavic tribal alliance between the Dnieper and Dniester, fought the Avars from the late 500s. There were no towns or kings recorded here, and sources say almost nothing specific about this territory.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Wars with the Avars break up the Antes alliance; Byzantine writers stop mentioning the Antes in the early 7th century."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Bessarabia",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Bessarabia"
+   },
+   {
+    "title": "Antes",
+    "publisher": "Internet Encyclopedia of Ukraine (Canadian Institute of Ukrainian Studies)",
+    "url": "https://www.encyclopediaofukraine.com/display.asp?linkpath=pages\\A\\N\\Antes.htm"
+   }
+  ]
+ },
+ "Montenegro": {
+  "polity": "Eastern Roman Empire, giving way to Slav settlement",
+  "summary": "Before the Slavs arrived, the area was inhabited mainly by Illyrians and formed part of the Roman world. Avars raided the Adriatic coast in the 6th century as Roman power declined, and Slavs became widely established in Dalmatia by the mid-7th century. Serbs settled inland, including northern Montenegro. The rugged terrain sheltered older groups. Written sources are very thin.",
+  "events": [
+   {
+    "y": 590,
+    "approx": true,
+    "t": "Avar raids strike the Adriatic coast as Roman power declines."
+   },
+   {
+    "y": 630,
+    "approx": true,
+    "t": "Serbs settle inland of the Dalmatian coast, including northern Montenegro (date disputed)."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Montenegro: History",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Montenegro/History"
+   },
+   {
+    "title": "Serbia: History",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Serbia/History"
+   }
+  ]
+ },
+ "Poland": {
+  "polity": "Slavic tribes and Baltic peoples (no state)",
+  "summary": "Slavs enter the written record in the 6th century, and when they reached this region is debated: some scholars favour migration from the 6th century, others longer local roots. Material culture across the region became more uniform after the Migration Period. Baltic peoples lived as far west as the mouth of the Vistula. There were no towns, kings, or writing, and religion was pagan.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Material cultures across the region grow more uniform, a change archaeologists link to Slavs (date of arrival debated)."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Slav",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/Slav"
+   },
+   {
+    "title": "Balt",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/Balt"
+   },
+   {
+    "title": "Genetic history of East-Central Europe in the first millennium CE",
+    "publisher": "Peer-reviewed article (PubMed Central)",
+    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10364380/"
+   }
+  ]
+ },
+ "Romania": {
+  "polity": "Slavs and Avars north of the Danube; Byzantine frontier on the river",
+  "summary": "North of the Danube lived Slavic groups, often under Avar power, who raided the empire. Emperor Maurice campaigned constantly against Avars and Slavs and pushed the Avars back across the Danube, but his order to winter beyond the river in 602 caused a mutiny that toppled him. After 602 the Danube frontier crumbled.",
+  "events": [
+   {
+    "y": 595,
+    "approx": true,
+    "t": "Maurice's armies campaign along and across the Danube against Slavs and Avars."
+   },
+   {
+    "y": 602,
+    "approx": false,
+    "t": "Maurice orders the army to winter north of the Danube, triggering the mutiny that topples him."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Byzantine Empire: The successors of Justinian, 565–610",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Byzantine-Empire/The-successors-of-Justinian-565-610"
+   },
+   {
+    "title": "Maurice (Byzantine emperor)",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Maurice-Byzantine-emperor"
+   }
+  ]
+ },
+ "Russia": {
+  "polity": "Turkic powers and emerging Khazars in the south; Great Bulgaria (c. 635); northern forest peoples",
+  "summary": "The southern steppe and north Caucasus were under Turkic powers, from which the Khazars emerged as a major force. Khazar forces allied with Heraclius against Persia in 627. Around 635 the Bulgar ruler Kubrat revolted against the Avars and formed Great Bulgaria, bounded to the south by the Kuban River. Little is recorded of the vast northern forest zone.",
+  "events": [
+   {
+    "y": 627,
+    "approx": false,
+    "t": "Khazar forces allied to Heraclius invade the Caucasus, taking Darband and Tiflis (627–628)."
+   },
+   {
+    "y": 635,
+    "approx": true,
+    "t": "Kubrat leads the Bulgars in revolt against the Avars and forms Great Bulgaria (date disputed)."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Khazars",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/khazars/"
+   },
+   {
+    "title": "Khagan",
+    "publisher": "Encyclopaedia Iranica",
+    "url": "https://www.iranicaonline.org/articles/khagan/"
+   },
+   {
+    "title": "Kurt (Kubrat), Bulgar khan",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Kurt"
+   }
+  ]
+ },
+ "Serbia": {
+  "polity": "Eastern Roman Empire (Danube frontier), contested by Avars and Slavs",
+  "summary": "This was the Danube frontier of the Roman Empire, guarded by cities such as Singidunum (Belgrade), with Sirmium nearby. Justiniana Prima (Caričin Grad), built by Justinian near his birthplace, was an archbishopric seat. Avar and Slav sieges in the 580s broke the frontier, which crumbled after 602. The Serbs, once Avar vassals, later became clients of Heraclius.",
+  "events": [
+   {
+    "y": 582,
+    "approx": false,
+    "t": "Sirmium falls to the Avars."
+   },
+   {
+    "y": 584,
+    "approx": true,
+    "t": "Singidunum falls during the Avar and Slav sieges of the 580s."
+   },
+   {
+    "y": 602,
+    "approx": false,
+    "t": "Mutiny on the Danube topples Maurice; afterwards the frontier crumbles."
+   },
+   {
+    "y": 615,
+    "approx": true,
+    "t": "Justiniana Prima (Caričin Grad) is abandoned under Heraclius amid Slavic invasions (date approximate)."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Byzantine Empire: The successors of Justinian, 565–610",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Byzantine-Empire/The-successors-of-Justinian-565-610"
+   },
+   {
+    "title": "Caričin Grad (Tentative List)",
+    "publisher": "UNESCO World Heritage Centre",
+    "url": "https://whc.unesco.org/en/tentativelists/5539/"
+   },
+   {
+    "title": "Serbia: History",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Serbia/History"
+   }
+  ]
+ },
+ "Slovakia": {
+  "polity": "Slavs under Avar rule; possibly part of Samo's realm (c. 623–658)",
+  "summary": "By the 6th century Slavs lived between the Avar Khaganate in the Carpathian Basin and the Frankish kingdom, many under Avar domination. Around 623 Samo, a Frankish merchant, became king of Slavs who had revolted against the Avars; Slovakia is among the proposed centres of his realm. There were no towns, and religion was pagan.",
+  "events": [
+   {
+    "y": 623,
+    "approx": true,
+    "t": "Samo is chosen king by the Slavs after their revolt against the Avars (623 or 624)."
+   },
+   {
+    "y": 631,
+    "approx": true,
+    "t": "Samo defeats the Frankish king Dagobert I at Wogastisburg (location unknown)."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Samo",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Samo-Frankish-merchant"
+   },
+   {
+    "title": "Samo",
+    "publisher": "World History Encyclopedia",
+    "url": "https://www.worldhistory.org/Samo/"
+   },
+   {
+    "title": "Ancient genomes provide evidence of demographic shift to Slavic-associated groups in Moravia",
+    "publisher": "Peer-reviewed article (PubMed Central)",
+    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12409924/"
+   }
+  ]
+ },
+ "Slovenia": {
+  "polity": "Alpine Slavs under Avar overlordship; former Roman Noricum and Pannonia",
+  "summary": "In the 6th century Alpine Slavs, ancestors of the Slovenes, moved up the Sava, Drava and Mura valleys into the Eastern Alps and the Karst, mixing with the Romano-Celtic-Illyrian population. They owed allegiance to the Avar khans. Around 623 a Slavic realm formed under Samo, reaching from the Sava valley northward. Bavarian expansion pressed them over the following centuries.",
+  "events": [
+   {
+    "y": 590,
+    "approx": true,
+    "t": "Alpine Slavs settle the Sava, Drava and Mura valleys under Avar overlordship."
+   },
+   {
+    "y": 623,
+    "approx": true,
+    "t": "Samo's Slavic realm forms, reportedly extending from the Sava valley northward."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "History of Slovenia",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/history-of-Slovenia"
+   },
+   {
+    "title": "Samo",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Samo-Frankish-merchant"
+   }
+  ]
+ },
+ "Ukraine": {
+  "polity": "Antes and other Slavs; Pontic steppe nomads; Great Bulgaria (c. 635)",
+  "summary": "The Antes, an eastern Slavic tribal alliance between the Dnieper and Dniester, at times fought and at times sided with Byzantium. The Avars crossed their lands in the 560s and the Antes fought them stubbornly; the alliance broke up, and the Antes vanish from the sources in the early 7th century. Around 635 Kubrat formed Great Bulgaria on the steppe to the east.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Wars with the Avars break up the Antes alliance; Byzantine writers stop mentioning them in the early 7th century."
+   },
+   {
+    "y": 635,
+    "approx": true,
+    "t": "Kubrat leads the Bulgars in revolt against the Avars and forms Great Bulgaria (date disputed)."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Antes",
+    "publisher": "Internet Encyclopedia of Ukraine (Canadian Institute of Ukrainian Studies)",
+    "url": "https://www.encyclopediaofukraine.com/display.asp?linkpath=pages\\A\\N\\Antes.htm"
+   },
+   {
+    "title": "Antae",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/Antae"
+   },
+   {
+    "title": "Kurt (Kubrat), Bulgar khan",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Kurt"
+   }
+  ]
+ }
+}

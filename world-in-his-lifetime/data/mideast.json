@@ -1,0 +1,767 @@
+{
+  "Saudi Arabia": {
+    "polity": "Independent Arabian tribes and towns (Quraysh of Mecca, Aws and Khazraj of Yathrib); Muslim community at Medina from 622",
+    "summary": "The Hijaz had no state: Mecca, led by the Quraysh, was a sanctuary town around the Kaaba, while Yathrib (Medina) was an oasis of Arab and Jewish clans. Muhammad ﷺ, born in Mecca, received his first revelation c. 610, emigrated to Medina in 622, entered Mecca in 630 and by his death in 632 led much of Arabia.",
+    "events": [
+      {
+        "y": 570,
+        "approx": true,
+        "t": "Muhammad ﷺ is born in Mecca (c. 570/571), in what tradition calls the 'Year of the Elephant', named for Abraha's march on Mecca."
+      },
+      {
+        "y": 610,
+        "approx": true,
+        "t": "Muhammad ﷺ receives the first revelation in the cave of Hira near Mecca, at about the age of forty."
+      },
+      {
+        "y": 622,
+        "approx": false,
+        "t": "The Hijra: Muhammad ﷺ and his followers emigrate from Mecca to Yathrib (Medina); this later became year one of the Islamic calendar."
+      },
+      {
+        "y": 624,
+        "approx": false,
+        "t": "In 2 AH the Muslims of Medina defeat a larger Meccan force at Badr."
+      },
+      {
+        "y": 630,
+        "approx": false,
+        "t": "In 8 AH Mecca submits to Muhammad ﷺ with little fighting, and the idols around the Kaaba are destroyed."
+      },
+      {
+        "y": 632,
+        "approx": false,
+        "t": "Muhammad ﷺ dies in Medina (11 AH); Abu Bakr becomes the first caliph and confronts the tribal revolts known as the Ridda."
+      }
+    ],
+    "link": "This was the homeland of Muhammad ﷺ and of the first Muslim community, at Mecca and Medina.",
+    "evidence": "moderate",
+    "sources": [
+      {
+        "title": "Muhammad ﷺ",
+        "publisher": "Encyclopaedia Britannica",
+        "url": "https://www.britannica.com/biography/Muhammad"
+      },
+      {
+        "title": "Battle of Badr",
+        "publisher": "Encyclopaedia Britannica",
+        "url": "https://britannica.com/print/article/48575"
+      },
+      {
+        "title": "Ibn Ishaq, The Life of Muhammad ﷺ (Sirat Rasul Allah, recension of Ibn Hisham), trans. A. Guillaume, 1955",
+        "publisher": "Oxford University Press",
+        "url": null
+      },
+      {
+        "title": "Safiur-Rahman Mubarakpuri, Ar-Raheeq Al-Makhtum (The Sealed Nectar)",
+        "publisher": "Darussalam",
+        "url": null
+      },
+      {
+        "title": "Riddah",
+        "publisher": "Encyclopaedia Britannica",
+        "url": "https://www.britannica.com/topic/riddah"
+      }
+    ]
+  },
+  "Yemen": {
+    "polity": "Former Himyarite kingdom under Aksumite rule (Abraha and his sons), then a Sasanian Persian dependency from c. 570",
+    "summary": "Christian Aksum had conquered Himyar in 525, and the Aksumite commander Abraha came to rule Yemen. About 570 a Persian force under Vahriz, backing Sayf ibn Dhi Yazan, expelled the Aksumites. Persian governors then ruled, supported by settlers whose descendants were called the Abna. The last governor, Badhan, accepted Islam.",
+    "events": [
+      {
+        "y": 570,
+        "approx": true,
+        "t": "Abraha leads an expedition north toward Mecca, remembered in Islamic tradition as the 'Year of the Elephant'; its exact date is disputed."
+      },
+      {
+        "y": 570,
+        "approx": true,
+        "t": "A Persian force under Vahriz defeats and kills Abraha's son Masruq, ending Aksumite rule (c. 570; some sources date it to the later 570s)."
+      },
+      {
+        "y": 628,
+        "approx": true,
+        "t": "Badhan, Persian governor of Yemen, accepts Islam after the death of Khosrow II, according to tradition; another report dates his conversion to 631."
+      },
+      {
+        "y": 632,
+        "approx": true,
+        "t": "Al-Aswad al-Ansi, claiming prophethood, leads a revolt in Yemen and is killed around the time of the death of the Prophet."
+      }
+    ],
+    "link": "Yemen's Persian governor Badhan and many Yemenis accepted Islam in the lifetime of Muhammad ﷺ, who sent Mu'adh ibn Jabal there as a teacher, according to tradition.",
+    "evidence": "moderate",
+    "sources": [
+      {
+        "title": "Yemen: History",
+        "publisher": "Encyclopaedia Britannica",
+        "url": "https://www.britannica.com/place/Yemen/History"
+      },
+      {
+        "title": "Abnāʾ",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/abna-term/"
+      },
+      {
+        "title": "Ibn Ishaq, The Life of Muhammad ﷺ (Sirat Rasul Allah, recension of Ibn Hisham), trans. A. Guillaume, 1955",
+        "publisher": "Oxford University Press",
+        "url": null
+      }
+    ]
+  },
+  "Oman": {
+    "polity": "Azd tribes under the Julanda family, Sasanian vassals; the coast part of the Sasanian province of Mazun",
+    "summary": "The Julanda family led the Arab tribes of Oman as vassals of Sasanian Persia, whose province of Mazun took in the coast. After Mecca submitted in 630, the Julanda rulers accepted Islam through Amr ibn al-As, envoy of Muhammad ﷺ. Written sources are thin and mostly from later Islamic histories.",
+    "events": [
+      {
+        "y": 600,
+        "approx": true,
+        "t": "The Julanda rulers lead Oman's Arabs as Sasanian vassals, while the coast forms part of the Sasanian province of Mazun."
+      },
+      {
+        "y": 630,
+        "approx": true,
+        "t": "Jayfar and Abd, sons of al-Julanda, accept Islam after Amr ibn al-As arrives as envoy of Muhammad ﷺ, according to tradition."
+      }
+    ],
+    "link": "The Julanda rulers of Oman accepted Islam c. 630 through Amr ibn al-As, envoy of Muhammad ﷺ.",
+    "evidence": "sparse",
+    "sources": [
+      {
+        "title": "Arabia ii. The Sasanians and Arabia",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/arabia-ii-sasanians-and-arabia/"
+      },
+      {
+        "title": "Oman",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/oman/"
+      },
+      {
+        "title": "ʿAmr ibn al-ʿĀṣ",
+        "publisher": "Encyclopaedia Britannica",
+        "url": "https://www.britannica.com/biography/Amr-ibn-al-As"
+      }
+    ]
+  },
+  "United Arab Emirates": {
+    "polity": "Arab tribes of the wider Oman region, within the Sasanian sphere",
+    "summary": "This coast formed part of the wider Oman region, where the Julanda family led Arab tribes as Sasanian vassals and the Persian province of Mazun reached the shore. Written evidence for this area in the period is very sparse.",
+    "events": [
+      {
+        "y": 630,
+        "approx": true,
+        "t": "The Julanda rulers, leaders of the Oman region's Arab tribes, accept Islam through an envoy of Muhammad ﷺ, according to tradition."
+      }
+    ],
+    "link": "As part of the Oman region, its tribes came under the Julanda rulers, who accepted Islam c. 630 according to tradition.",
+    "evidence": "sparse",
+    "sources": [
+      {
+        "title": "Arabia ii. The Sasanians and Arabia",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/arabia-ii-sasanians-and-arabia/"
+      },
+      {
+        "title": "Oman",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/oman/"
+      },
+      {
+        "title": "ʿArab ii. Arab conquest of Iran",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/arab-ii/"
+      }
+    ]
+  },
+  "Qatar": {
+    "polity": "Arab communities of eastern Arabia (al-Bahrayn) within the Sasanian sphere",
+    "summary": "Qatar belonged to the eastern Arabian region of al-Bahrayn, which Sasanian Persia controlled through a governor at Hajar and Arab allies. After Mecca submitted in 630, that governor recognized Muhammad ﷺ, according to Islamic tradition. Evidence for the period is sparse.",
+    "events": [
+      {
+        "y": 600,
+        "approx": true,
+        "t": "Eastern Arabia, including this peninsula, lies within the Sasanian sphere, overseen by a Persian-appointed governor at Hajar."
+      },
+      {
+        "y": 630,
+        "approx": true,
+        "t": "The governor at Hajar recognizes Muhammad ﷺ; tradition names him al-Mundhir ibn Sawa, visited by the envoy al-Ala al-Hadrami."
+      }
+    ],
+    "link": "Eastern Arabia's governor recognized Muhammad ﷺ c. 630, according to tradition after the envoy al-Ala al-Hadrami arrived.",
+    "evidence": "sparse",
+    "sources": [
+      {
+        "title": "ʿArab ii. Arab conquest of Iran",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/arab-ii/"
+      },
+      {
+        "title": "Ibn Ishaq, The Life of Muhammad ﷺ (Sirat Rasul Allah, recension of Ibn Hisham), trans. A. Guillaume, 1955",
+        "publisher": "Oxford University Press",
+        "url": null
+      }
+    ]
+  },
+  "Kuwait": {
+    "polity": "Arab tribes on the Sasanian frontier of southern Mesopotamia",
+    "summary": "The Kuwait coast lay at the southern edge of Sasanian Mesopotamia, between eastern Arabia and the port of Ubulla. Bedouin tribes such as the Bakr ibn Wa'il ranged along this frontier, and their victory at Dhi Qar showed Persian weakness. Written evidence for the area itself is sparse.",
+    "events": [
+      {
+        "y": 633,
+        "approx": true,
+        "t": "Khalid ibn al-Walid defeats the Sasanian frontier commander Hormoz at Dhat al-Salasil, between Bahrain and Ubulla, opening the Muslim campaign in Iraq."
+      }
+    ],
+    "link": null,
+    "evidence": "sparse",
+    "sources": [
+      {
+        "title": "ʿArab i. Arabs and Iran in the pre-Islamic period",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/arab-i/"
+      },
+      {
+        "title": "ʿArab ii. Arab conquest of Iran",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/arab-ii/"
+      }
+    ]
+  },
+  "Iraq": {
+    "polity": "Sasanian Empire (capital Ctesiphon), with the Lakhmid Arab client kingdom at al-Hira until c. 602",
+    "summary": "Mesopotamia was the rich farming heart of the Sasanian Empire and held its capital, Ctesiphon, also the centre of the Church of the East. Khosrow II ended the Lakhmid kingdom of al-Hira c. 602, weakening the desert frontier. The war with Byzantium ended in defeat and dynastic turmoil after 628.",
+    "events": [
+      {
+        "y": 602,
+        "approx": true,
+        "t": "Khosrow II deposes and kills al-Nu'man III, ending the Lakhmid kingdom of al-Hira."
+      },
+      {
+        "y": 604,
+        "approx": true,
+        "t": "Arab tribes led by the Bakr ibn Wa'il defeat a Persian force at Dhi Qar near Kufa; the date is disputed, c. 604–613."
+      },
+      {
+        "y": 627,
+        "approx": false,
+        "t": "Heraclius defeats the Persian army near Nineveh on 12 December and advances toward Ctesiphon."
+      },
+      {
+        "y": 628,
+        "approx": false,
+        "t": "Khosrow II is overthrown and executed; his son Kavad II makes peace with Byzantium and dies later that year."
+      },
+      {
+        "y": 637,
+        "approx": true,
+        "t": "Arab Muslim armies win at al-Qadisiyya and take Ctesiphon (dates disputed, c. 636–637)."
+      }
+    ],
+    "link": "The end of the Lakhmids and the Arab victory at Dhi Qar weakened Persia's Arabian frontier, which Muslim armies crossed in 633.",
+    "evidence": "moderate",
+    "sources": [
+      {
+        "title": "Lakhmids",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/lakhmids/"
+      },
+      {
+        "title": "Ḵosrow II",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/khosrow-ii/"
+      },
+      {
+        "title": "ʿArab ii. Arab conquest of Iran",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/arab-ii/"
+      }
+    ]
+  },
+  "Iran": {
+    "polity": "Sasanian Empire (Hormizd IV, Khosrow II, then rapid succession)",
+    "summary": "Iran was the core of the Sasanian Empire, with Zoroastrianism as the state faith and great fire temples such as Adur Gushnasp in Atropatene. Khosrow II won vast conquests from Byzantium after 603 but lost the war in 622–628 and was killed in 628. Short reigns followed until Yazdegerd III took the throne in 632.",
+    "events": [
+      {
+        "y": 590,
+        "approx": false,
+        "t": "The general Bahram Chobin rebels and Hormizd IV is deposed and killed; Khosrow II flees to Byzantine territory."
+      },
+      {
+        "y": 591,
+        "approx": false,
+        "t": "With help from the Byzantine emperor Maurice, Khosrow II defeats Bahram Chobin and regains the throne."
+      },
+      {
+        "y": 624,
+        "approx": true,
+        "t": "Heraclius invades Atropatene and sacks the fire temple of Adur Gushnasp near Ganzak (623 or 624, date disputed)."
+      },
+      {
+        "y": 628,
+        "approx": false,
+        "t": "Khosrow II is deposed and executed; his son Kavad II makes peace with Byzantium."
+      },
+      {
+        "y": 632,
+        "approx": false,
+        "t": "Yazdegerd III, the last Sasanian king, comes to the throne after years of turmoil."
+      }
+    ],
+    "link": "Islamic tradition says Muhammad ﷺ sent a letter inviting Khosrow II to Islam c. 628, which the king tore up.",
+    "evidence": "moderate",
+    "sources": [
+      {
+        "title": "Ḵosrow II",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/khosrow-ii/"
+      },
+      {
+        "title": "Byzantine-Iranian Relations",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/byzantine-iranian-relations/"
+      },
+      {
+        "title": "Safiur-Rahman Mubarakpuri, Ar-Raheeq Al-Makhtum (The Sealed Nectar)",
+        "publisher": "Darussalam",
+        "url": null
+      }
+    ]
+  },
+  "Syria": {
+    "polity": "Byzantine Empire, with Ghassanid Arab allies; Persian occupation c. 611–628",
+    "summary": "Syria was a rich Byzantine land of cities such as Antioch, Damascus and Bostra, guarded on the desert side by Ghassanid Arab allies. Persian armies took Antioch c. 610–612 and Damascus in 613, holding Syria until the peace of 628. Meccan caravans traded here.",
+    "events": [
+      {
+        "y": 611,
+        "approx": true,
+        "t": "Persian armies under Shahrbaraz take Antioch (date disputed, 610–612)."
+      },
+      {
+        "y": 613,
+        "approx": false,
+        "t": "Damascus falls to the Persians, who occupy Syria."
+      },
+      {
+        "y": 628,
+        "approx": true,
+        "t": "Under the peace made by Kavad II, Persia gives up its conquests and Byzantine rule over Syria is restored."
+      },
+      {
+        "y": 637,
+        "approx": true,
+        "t": "Antioch falls to the Arab Muslim armies (c. 637–638)."
+      }
+    ],
+    "link": "Meccan caravans traded in Syria, and tradition says the young Muhammad ﷺ travelled to Bostra, where the monk Bahira met him.",
+    "evidence": "moderate",
+    "sources": [
+      {
+        "title": "Antioch (1)",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/antioch-1-northern-syria/"
+      },
+      {
+        "title": "Ḵosrow II",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/khosrow-ii/"
+      },
+      {
+        "title": "Byzantine Empire: The successors of Justinian, 565–610",
+        "publisher": "Encyclopaedia Britannica",
+        "url": "https://www.britannica.com/place/Byzantine-Empire/The-successors-of-Justinian-565-610"
+      }
+    ]
+  },
+  "Lebanon": {
+    "polity": "Byzantine Empire (province of Phoenicia), under Persian occupation c. 613–628",
+    "summary": "The Lebanese coast held Byzantine port cities such as Tyre, Sidon and Beirut. During the great war Persian armies pushed through Syria to the Mediterranean coast c. 612 and occupied the region, which Byzantium regained under the peace of 628.",
+    "events": [
+      {
+        "y": 612,
+        "approx": true,
+        "t": "Persian armies take Antioch and push on to the Mediterranean coast during their conquest of Syria."
+      },
+      {
+        "y": 628,
+        "approx": true,
+        "t": "Under the peace of 628, Persia gives up its conquests and Byzantine authority returns."
+      }
+    ],
+    "link": null,
+    "evidence": "moderate",
+    "sources": [
+      {
+        "title": "Ḵosrow II",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/khosrow-ii/"
+      },
+      {
+        "title": "Byzantine-Iranian Relations",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/byzantine-iranian-relations/"
+      }
+    ]
+  },
+  "Israel": {
+    "polity": "Byzantine Empire (Palaestina Prima and Secunda), under Persian occupation 614–c. 628",
+    "summary": "This land was part of Byzantine Palestine, with Christian pilgrimage sites and Jewish communities. When Persia took Jerusalem in 614, Jews were allowed to settle in the city, but this was reversed within two years under Christian pressure. Persia placed Palestine under direct rule in 616 and gave it up under the peace of 628.",
+    "events": [
+      {
+        "y": 614,
+        "approx": false,
+        "t": "Persian forces under Shahrbaraz conquer Palestine and capture Jerusalem."
+      },
+      {
+        "y": 616,
+        "approx": true,
+        "t": "Persia places Palestine under direct rule, having reversed its permission for Jews to settle in Jerusalem."
+      },
+      {
+        "y": 628,
+        "approx": true,
+        "t": "Persia gives up its conquests under the peace of 628, and Byzantine rule returns."
+      }
+    ],
+    "link": null,
+    "evidence": "moderate",
+    "sources": [
+      {
+        "title": "Ḵosrow II",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/khosrow-ii/"
+      },
+      {
+        "title": "Byzantine-Iranian Relations",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/byzantine-iranian-relations/"
+      }
+    ]
+  },
+  "Palestine": {
+    "polity": "Byzantine Empire (Palaestina Prima), under Persian occupation 614–c. 628",
+    "summary": "Jerusalem, Bethlehem and Gaza were Byzantine Christian centres full of churches, monasteries and pilgrims. In 614 Persian forces captured Jerusalem and carried the True Cross to Ctesiphon, a shock to the Christian world. Heraclius restored the Cross to Jerusalem c. 630, a few years before the Arab Muslim conquest.",
+    "events": [
+      {
+        "y": 614,
+        "approx": false,
+        "t": "Persian forces take Jerusalem and carry the True Cross to Ctesiphon."
+      },
+      {
+        "y": 624,
+        "approx": true,
+        "t": "In Medina, the Muslim direction of prayer changes from Jerusalem to the Kaaba in Mecca, according to tradition (2 AH, c. 623–624)."
+      },
+      {
+        "y": 630,
+        "approx": true,
+        "t": "Heraclius restores the True Cross to Jerusalem (dated 629 or 630)."
+      }
+    ],
+    "link": "Jerusalem was the first direction of prayer of the early Muslims, and tradition says Hashim, great-grandfather of Muhammad ﷺ, died while trading at Gaza.",
+    "evidence": "rich",
+    "sources": [
+      {
+        "title": "Byzantine Empire: The successors of Justinian, 565–610",
+        "publisher": "Encyclopaedia Britannica",
+        "url": "https://www.britannica.com/place/Byzantine-Empire/The-successors-of-Justinian-565-610"
+      },
+      {
+        "title": "Ḵosrow II",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/khosrow-ii/"
+      },
+      {
+        "title": "Ibn Ishaq, The Life of Muhammad ﷺ (Sirat Rasul Allah, recension of Ibn Hisham), trans. A. Guillaume, 1955",
+        "publisher": "Oxford University Press",
+        "url": null
+      }
+    ]
+  },
+  "Jordan": {
+    "polity": "Byzantine Empire (Palaestina Tertia and Arabia), with Ghassanid Arab allies; Persian occupation c. 614–628",
+    "summary": "Jordan's towns, such as Gerasa, Madaba and Ayla (Aqaba), lay in Byzantine provinces, while Arab allies, chiefly the Ghassanids, guarded the desert edge. Persia held the region during the great war. Here Muslim and Byzantine forces first fought, at Mu'ta in 629.",
+    "events": [
+      {
+        "y": 614,
+        "approx": true,
+        "t": "Persian forces occupy the region during their conquest of Palestine."
+      },
+      {
+        "y": 629,
+        "approx": false,
+        "t": "A Muslim force sent by Muhammad ﷺ is defeated at Mu'ta by Byzantine troops and Arab allies; Zayd ibn Haritha is killed (8 AH)."
+      },
+      {
+        "y": 630,
+        "approx": true,
+        "t": "During the Tabuk expedition (9 AH), Ayla, Adhruh and Jarba agree to pay tribute to Muhammad ﷺ, according to tradition."
+      }
+    ],
+    "link": "Muslim and Byzantine forces first fought at Mu'ta in 629, and Ayla and nearby towns submitted to Muhammad ﷺ during the Tabuk expedition of 630.",
+    "evidence": "moderate",
+    "sources": [
+      {
+        "title": "Ḵosrow II",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/khosrow-ii/"
+      },
+      {
+        "title": "Arabia ii. The Sasanians and Arabia",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/arabia-ii-sasanians-and-arabia/"
+      },
+      {
+        "title": "Ibn Ishaq, The Life of Muhammad ﷺ (Sirat Rasul Allah, recension of Ibn Hisham), trans. A. Guillaume, 1955",
+        "publisher": "Oxford University Press",
+        "url": null
+      }
+    ]
+  },
+  "Turkey": {
+    "polity": "Byzantine (Eastern Roman) Empire, capital Constantinople",
+    "summary": "Anatolia and Constantinople formed the heart of the Byzantine Empire, ruled by Maurice, then the usurper Phocas, then Heraclius from 610. Persian armies struck deep into Anatolia and reached Chalcedon, across from the capital. In 626 Constantinople survived an Avar siege while a Persian army waited at Chalcedon. Heraclius then struck into Persia and won the war.",
+    "events": [
+      {
+        "y": 602,
+        "approx": false,
+        "t": "An army mutiny brings Phocas to power, and the emperor Maurice is executed, giving Khosrow II a pretext for war."
+      },
+      {
+        "y": 610,
+        "approx": false,
+        "t": "Heraclius overthrows Phocas and becomes emperor."
+      },
+      {
+        "y": 615,
+        "approx": false,
+        "t": "A Persian army under Shahin reaches Chalcedon, within sight of Constantinople."
+      },
+      {
+        "y": 622,
+        "approx": false,
+        "t": "Heraclius begins annual campaigns against Persia."
+      },
+      {
+        "y": 626,
+        "approx": false,
+        "t": "Constantinople withstands a siege by the Avars while a Persian army waits at Chalcedon."
+      }
+    ],
+    "link": "Islamic tradition says Muhammad ﷺ sent a letter to Heraclius inviting him to Islam c. 628.",
+    "evidence": "rich",
+    "sources": [
+      {
+        "title": "Ḵosrow II",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/khosrow-ii/"
+      },
+      {
+        "title": "Byzantine-Iranian Relations",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/byzantine-iranian-relations/"
+      },
+      {
+        "title": "Ibn Ishaq, The Life of Muhammad ﷺ (Sirat Rasul Allah, recension of Ibn Hisham), trans. A. Guillaume, 1955",
+        "publisher": "Oxford University Press",
+        "url": null
+      }
+    ]
+  },
+  "Cyprus": {
+    "polity": "Byzantine Empire; self-governing (autocephalous) Church of Cyprus",
+    "summary": "Cyprus was a Byzantine island of coastal cities such as Paphos, Kourion and Amathus, with its own self-governing church. It escaped Persian occupation. John the Almsgiver, born at Amathus, became Patriarch of Alexandria and returned to die on Cyprus. Arab raids began only after 640.",
+    "events": [
+      {
+        "y": 610,
+        "approx": true,
+        "t": "John the Almsgiver of Amathus becomes Chalcedonian Patriarch of Alexandria, famous for his charity."
+      },
+      {
+        "y": 619,
+        "approx": true,
+        "t": "John the Almsgiver leaves Alexandria as the Persians advance on Egypt and dies on Cyprus, in his home town of Amathus."
+      }
+    ],
+    "link": null,
+    "evidence": "moderate",
+    "sources": [
+      {
+        "title": "A. P. Kazhdan (ed.), The Oxford Dictionary of Byzantium, 1991",
+        "publisher": "Oxford University Press",
+        "url": null
+      }
+    ]
+  },
+  "N. Cyprus": {
+    "polity": "Byzantine Empire; the island's capital Constantia (Salamis) lay here",
+    "summary": "Northern Cyprus held the island's capital, Constantia (old Salamis), seat of the archbishop, and coastal towns such as Lapethos (Lambousa). The area shared in Byzantine trade and church life and escaped Persian occupation. The 'David Plates', silver dishes made in Constantinople in Heraclius's reign and later found at Lambousa, show the island's wealth.",
+    "events": [
+      {
+        "y": 630,
+        "approx": true,
+        "t": "Silver plates showing the life of King David are made in Constantinople (c. 629–630); they were later found at Lambousa."
+      }
+    ],
+    "link": null,
+    "evidence": "moderate",
+    "sources": [
+      {
+        "title": "A. P. Kazhdan (ed.), The Oxford Dictionary of Byzantium, 1991",
+        "publisher": "Oxford University Press",
+        "url": null
+      }
+    ]
+  },
+  "Armenia": {
+    "polity": "Divided between the Byzantine Empire and Sasanian Persia (Persarmenia); Armenian noble houses",
+    "summary": "Armenia was ruled by noble families such as the Bagratunis and Mamikonians under two empires. In 591 Khosrow II ceded western Persian Armenia to Byzantium, but Persia retook it after 603. A council at Dvin in 596 rejected Chalcedon. Heraclius campaigned through Armenia in the 620s, and the peace of 628 restored the 591 frontier.",
+    "events": [
+      {
+        "y": 591,
+        "approx": false,
+        "t": "Khosrow II cedes western Persian Armenia, up to the river Azat, to Byzantium in return for help in regaining his throne."
+      },
+      {
+        "y": 596,
+        "approx": false,
+        "t": "A church council at Dvin, sponsored by Sembat Bagratuni, rejects the doctrines of the Council of Chalcedon."
+      },
+      {
+        "y": 607,
+        "approx": true,
+        "t": "Persian forces take Karin (Theodosiopolis, modern Erzurum) as they reconquer Byzantine Armenia (c. 607–608)."
+      },
+      {
+        "y": 623,
+        "approx": true,
+        "t": "Heraclius campaigns through Armenia into Atropatene against Persian forces (623–624)."
+      },
+      {
+        "y": 628,
+        "approx": true,
+        "t": "The peace with Persia restores the Armenian frontier fixed in 591."
+      }
+    ],
+    "link": null,
+    "evidence": "moderate",
+    "sources": [
+      {
+        "title": "Armenia and Iran ii. The pre-Islamic period",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/armenia-ii/"
+      },
+      {
+        "title": "Ḵosrow II",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/khosrow-ii/"
+      }
+    ]
+  },
+  "Azerbaijan": {
+    "polity": "Caucasian Albania (Aghvank) under Sasanian rule, with the Mihranid princes",
+    "summary": "This land was Caucasian Albania, a Christian land under Persian rule with its capital at Partaw (Barda); it is distinct from Iranian Azerbaijan (Atropatene) to the south. Khosrow II strengthened the Darband defences against steppe peoples. Heraclius wintered here in 624, and Khazar allies of Byzantium raided in 626–629. The Mihranid family then rose to rule.",
+    "events": [
+      {
+        "y": 624,
+        "approx": false,
+        "t": "Heraclius winters his army in Caucasian Albania after striking into Persian Atropatene."
+      },
+      {
+        "y": 626,
+        "approx": true,
+        "t": "Khazar allies of Heraclius break through the Darband pass, and the Persian governor of Albania flees."
+      },
+      {
+        "y": 628,
+        "approx": true,
+        "t": "A second Khazar invasion: their leader declares himself lord of Albania."
+      },
+      {
+        "y": 630,
+        "approx": true,
+        "t": "Varaz Grigor of the Mihranid family is consecrated prince of Albania (c. 628–630)."
+      }
+    ],
+    "link": null,
+    "evidence": "sparse",
+    "sources": [
+      {
+        "title": "Albania (Caucasian Albania / Arran)",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/albania-iranian-aran/"
+      }
+    ]
+  },
+  "Georgia": {
+    "polity": "Kartli (Iberia) under presiding princes, caught between Byzantium and Persia; Lazica (Egrisi) in the west a Byzantine client",
+    "summary": "Kartli, centred on Tbilisi (Tiflis) and Mtskheta, was a Christian principality caught between the two empires, while western Georgia (Lazica) was a Byzantine client. The settlement of 591 divided Iberia between Byzantium and Persia, with Tiflis on the Persian side. In 627 Heraclius met the Western Turkish ruler outside Tiflis and besieged the city.",
+    "events": [
+      {
+        "y": 591,
+        "approx": true,
+        "t": "Khosrow II and Maurice divide Iberia, with Tiflis remaining on the Persian side."
+      },
+      {
+        "y": 627,
+        "approx": false,
+        "t": "Heraclius meets the Western Turkish ruler outside Tiflis, and their forces besiege the city."
+      }
+    ],
+    "link": null,
+    "evidence": "moderate",
+    "sources": [
+      {
+        "title": "Ḵosrow II",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/khosrow-ii/"
+      },
+      {
+        "title": "A. P. Kazhdan (ed.), The Oxford Dictionary of Byzantium, 1991",
+        "publisher": "Oxford University Press",
+        "url": null
+      }
+    ]
+  },
+  "Egypt": {
+    "polity": "Byzantine Empire; Persian occupation c. 619–629",
+    "summary": "Egypt was Byzantium's granary, its grain feeding Constantinople. Most Egyptians followed the Coptic church, which rejected the imperial Chalcedonian church. Persia invaded in 618–619, took Alexandria in 619 and held Egypt until 629. Amr ibn al-As later led the Arab Muslim conquest of the province.",
+    "events": [
+      {
+        "y": 619,
+        "approx": true,
+        "t": "Persian forces, invading from 618–619, take Alexandria (c. June 619) and soon control all Egypt."
+      },
+      {
+        "y": 626,
+        "approx": true,
+        "t": "Benjamin I becomes Coptic patriarch of Alexandria (date disputed, 623 or 626)."
+      },
+      {
+        "y": 629,
+        "approx": true,
+        "t": "Persian troops withdraw from Alexandria (c. June 629), and Byzantine rule returns."
+      }
+    ],
+    "link": "Tradition says Muhammad ﷺ wrote to al-Muqawqis, ruler in Egypt, who sent gifts including Maria the Copt, mother of his son Ibrahim.",
+    "evidence": "moderate",
+    "sources": [
+      {
+        "title": "Egypt iv. Relations in the Sasanian period",
+        "publisher": "Encyclopaedia Iranica",
+        "url": "https://www.iranicaonline.org/articles/egypt-iv/"
+      },
+      {
+        "title": "ʿAmr ibn al-ʿĀṣ",
+        "publisher": "Encyclopaedia Britannica",
+        "url": "https://www.britannica.com/biography/Amr-ibn-al-As"
+      },
+      {
+        "title": "Ibn Ishaq, The Life of Muhammad ﷺ (Sirat Rasul Allah, recension of Ibn Hisham), trans. A. Guillaume, 1955",
+        "publisher": "Oxford University Press",
+        "url": null
+      }
+    ]
+  }
+}

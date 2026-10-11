@@ -1,0 +1,403 @@
+{
+  "China": {
+    "polity": "Northern Zhou and Chen, then Sui (581-618) and Tang (618-); Tibetan kingdom of Songtsen Gampo in the west",
+    "summary": "Yang Jian (Emperor Wen) founded the Sui in 581 and reunified China by conquering the southern Chen in 589. His son Yangdi extended the canal system linking north and south but exhausted the realm with failed wars on Goguryeo in 612-614. Yangdi was killed in 618 and Li Yuan founded the Tang. His son Taizong took power in 626. In Tibet, Songtsen Gampo built an expanding kingdom ruled from Lhasa.",
+    "events": [
+      {
+        "y": 589,
+        "approx": false,
+        "t": "Sui armies overthrow the southern Chen dynasty, reunifying China under Emperor Wen."
+      },
+      {
+        "y": 605,
+        "approx": false,
+        "t": "Yangdi begins the New Bian Canal, the first great section of the Grand Canal, linking the Yellow River region with the Huai."
+      },
+      {
+        "y": 612,
+        "approx": false,
+        "t": "Yangdi's huge invasion of Goguryeo is defeated at the Salsu River; further campaigns in 613 and 614 also fail."
+      },
+      {
+        "y": 618,
+        "approx": false,
+        "t": "Yangdi is murdered by his own entourage at Jiangdu; Li Yuan proclaims the Tang dynasty and reigns as Gaozu."
+      },
+      {
+        "y": 626,
+        "approx": false,
+        "t": "Li Shimin kills his rival brothers in a palace coup; Gaozu abdicates and Li Shimin reigns as Taizong."
+      },
+      {
+        "y": 629,
+        "approx": true,
+        "t": "Songtsen Gampo is crowned king of Tibet (traditional date; sources differ) and later extends Tibetan rule."
+      }
+    ],
+    "link": null,
+    "evidence": "rich",
+    "sources": [
+      {
+        "title": "China: The Sui dynasty",
+        "publisher": "Encyclopaedia Britannica",
+        "url": "https://www.britannica.com/place/China/The-Sui-dynasty"
+      },
+      {
+        "title": "Gaozu, emperor of Tang dynasty",
+        "publisher": "Encyclopaedia Britannica",
+        "url": "https://www.britannica.com/biography/Gaozu-emperor-of-Tang-dynasty"
+      },
+      {
+        "title": "Srong-brtsan-sgam-po",
+        "publisher": "Encyclopaedia Britannica",
+        "url": "https://www.britannica.com/biography/Srong-brtsan-sgam-po"
+      }
+    ]
+  },
+  "Taiwan": {
+    "polity": "Indigenous Austronesian peoples",
+    "summary": "Taiwan was home to indigenous Austronesian-speaking peoples living in village communities. There was no state, and the island has no written records of its own for this period.",
+    "events": [],
+    "link": null,
+    "evidence": "sparse",
+    "sources": []
+  },
+  "Japan": {
+    "polity": "Yamato court (Asuka period) under Empress Suiko, then Emperor Jomei",
+    "summary": "The Yamato court ruled from the Asuka area. After defeating the rival Mononobe clan in 587, the Soga clan dominated the court. Empress Suiko (r. 592-628) reigned with Prince Shotoku as regent. Buddhism was patronised and temples such as Asuka-dera and Horyu-ji were built, while Chinese writing and administrative methods were adopted. Official embassies to Sui China began about 607.",
+    "events": [
+      {
+        "y": 587,
+        "approx": false,
+        "t": "The Soga clan under Soga no Umako defeats the Mononobe, opponents of Buddhism, and comes to dominate the court."
+      },
+      {
+        "y": 593,
+        "approx": true,
+        "t": "Prince Shotoku becomes regent for Empress Suiko, Japan's first empress (sources give 593 or 594)."
+      },
+      {
+        "y": 604,
+        "approx": false,
+        "t": "The Seventeen-Article Constitution, attributed to Prince Shotoku though his authorship is doubted, sets out Buddhist and Confucian principles of government."
+      },
+      {
+        "y": 607,
+        "approx": true,
+        "t": "Horyu-ji temple is completed, and the first official Japanese embassy is sent to the Sui court."
+      },
+      {
+        "y": 622,
+        "approx": false,
+        "t": "Death of Prince Shotoku."
+      },
+      {
+        "y": 629,
+        "approx": false,
+        "t": "Jomei becomes emperor, reigning until 641."
+      }
+    ],
+    "link": null,
+    "evidence": "moderate",
+    "sources": [
+      {
+        "title": "Asuka period",
+        "publisher": "Encyclopaedia Britannica",
+        "url": "https://www.britannica.com/event/Asuka-period"
+      },
+      {
+        "title": "Taishi Shotoku",
+        "publisher": "Encyclopaedia Britannica",
+        "url": "https://www.britannica.com/biography/Taishi-Shotoku"
+      },
+      {
+        "title": "Asuka Period",
+        "publisher": "World History Encyclopedia",
+        "url": "https://www.worldhistory.org/Asuka_Period/"
+      }
+    ]
+  },
+  "North Korea": {
+    "polity": "Goguryeo kingdom (capital Pyongyang)",
+    "summary": "This land was the heart of Goguryeo, the northernmost of Korea's Three Kingdoms, ruled from Pyongyang since 427. Under King Yeongyang (r. 590-618) it repelled Sui invasions in 598 and 612-614, most famously when general Eulji Mundeok won a great victory at the Salsu River in 612. Goguryeo was a Buddhist state, and many tombs of its elite were decorated with painted murals.",
+    "events": [
+      {
+        "y": 598,
+        "approx": false,
+        "t": "A Sui invasion of Goguryeo fails after the army runs short of supplies and meets heavy rains."
+      },
+      {
+        "y": 612,
+        "approx": false,
+        "t": "General Eulji Mundeok wins a great victory over a huge Sui army at the Salsu River."
+      },
+      {
+        "y": 614,
+        "approx": false,
+        "t": "After a failed attack in 613, a further Sui campaign in 614 is also repelled."
+      },
+      {
+        "y": 618,
+        "approx": false,
+        "t": "King Yeongnyu succeeds Yeongyang, reigning until 642."
+      },
+      {
+        "y": 628,
+        "approx": true,
+        "t": "Goguryeo builds a defensive wall some 480 km long against China (date disputed; often given as 631)."
+      }
+    ],
+    "link": null,
+    "evidence": "moderate",
+    "sources": [
+      {
+        "title": "Goguryeo",
+        "publisher": "World History Encyclopedia",
+        "url": "https://www.worldhistory.org/Goguryeo/"
+      },
+      {
+        "title": "Sui Dynasty",
+        "publisher": "World History Encyclopedia",
+        "url": "https://www.worldhistory.org/Sui_Dynasty/"
+      },
+      {
+        "title": "List of Rulers of Korea (Heilbrunn Timeline of Art History)",
+        "publisher": "The Metropolitan Museum of Art",
+        "url": "https://www.metmuseum.org/toah/hd/koru/hd_koru.htm"
+      }
+    ]
+  },
+  "South Korea": {
+    "polity": "Silla (southeast) and Baekje (southwest), two of Korea's Three Kingdoms",
+    "summary": "The south was divided between Silla, ruled from Geumseong (modern Gyeongju), which had absorbed the Gaya confederation by 562, and Baekje in the southwest, ruled from Sabi (modern Buyeo) since 538. They had been enemies since Silla seized the lower Han River valley in the 550s. Both were Buddhist kingdoms; Baekje sent teachers, scholars and craftsmen to Japan. Silla's King Jinpyeong (r. 579-632) was succeeded by his daughter Seondeok.",
+    "events": [
+      {
+        "y": 579,
+        "approx": false,
+        "t": "King Jinpyeong begins a long reign in Silla."
+      },
+      {
+        "y": 600,
+        "approx": false,
+        "t": "King Mu takes the throne of Baekje (r. 600-641); he builds Mireuksa at Iksan, the largest Buddhist temple in East Asia."
+      },
+      {
+        "y": 632,
+        "approx": false,
+        "t": "Seondeok succeeds her father Jinpyeong, becoming the first female sovereign in ancient Korea."
+      }
+    ],
+    "link": null,
+    "evidence": "moderate",
+    "sources": [
+      {
+        "title": "Silla",
+        "publisher": "World History Encyclopedia",
+        "url": "https://www.worldhistory.org/Silla/"
+      },
+      {
+        "title": "Baekje",
+        "publisher": "World History Encyclopedia",
+        "url": "https://www.worldhistory.org/Baekje/"
+      },
+      {
+        "title": "Three Kingdoms Period in Korea",
+        "publisher": "World History Encyclopedia",
+        "url": "https://www.worldhistory.org/Three_Kingdoms_Period_in_Korea/"
+      }
+    ]
+  },
+  "Myanmar": {
+    "polity": "Pyu city-states in the Irrawaddy valley; Mon communities in the south",
+    "summary": "The Irrawaddy valley was home to the Pyu, who built walled brick cities and practised Buddhism. Rulers and dates for this period are poorly known and rest mainly on archaeology and a few inscriptions.",
+    "events": [],
+    "link": null,
+    "evidence": "sparse",
+    "sources": []
+  },
+  "Thailand": {
+    "polity": "Mon-speaking Dvaravati towns in the centre; Khmer influence in the northeast",
+    "summary": "Central Thailand held towns of the Mon-speaking Dvaravati culture, which was Buddhist. The northeast came under Khmer influence. Evidence for this period is mostly archaeological.",
+    "events": [],
+    "link": null,
+    "evidence": "sparse",
+    "sources": []
+  },
+  "Laos": {
+    "polity": "Early Khmer kingdom in the south; local chiefdoms elsewhere",
+    "summary": "Southern Laos, around Wat Phu near Champasak, lay within the early Khmer world; Wat Phu was one of the important early Khmer centres along the Mekong. Elsewhere lived upland farming peoples with no recorded states.",
+    "events": [
+      {
+        "y": 600,
+        "approx": true,
+        "t": "Wat Phu is an important centre of the early Khmer people along the Mekong."
+      }
+    ],
+    "link": null,
+    "evidence": "sparse",
+    "sources": [
+      {
+        "title": "Khmer Empire",
+        "publisher": "World History Encyclopedia",
+        "url": "https://www.worldhistory.org/Khmer_Empire/"
+      }
+    ]
+  },
+  "Cambodia": {
+    "polity": "Early Khmer kingdom",
+    "summary": "By the 7th century Khmer people inhabited lands along the Mekong, and Sambor Prei Kuk was among their important early cities, alongside Angkor Borei and Banteay Prei Nokor. Details of rulers and dates for this period could not be confirmed in this check.",
+    "events": [
+      {
+        "y": 600,
+        "approx": true,
+        "t": "Sambor Prei Kuk flourishes as one of the important early Khmer cities."
+      }
+    ],
+    "link": null,
+    "evidence": "moderate",
+    "sources": [
+      {
+        "title": "Khmer Empire",
+        "publisher": "World History Encyclopedia",
+        "url": "https://www.worldhistory.org/Khmer_Empire/"
+      }
+    ]
+  },
+  "Vietnam": {
+    "polity": "North: Chinese-ruled Annam region under Sui, then Tang; centre: Champa; far south: Khmer lands",
+    "summary": "In the early 7th century Sui armies campaigned in the region, taking territory in the north (Annam) and from the kingdom of Champa on the central coast. The Mekong delta in the far south lay within the Khmer world along the Mekong.",
+    "events": [
+      {
+        "y": 605,
+        "approx": true,
+        "t": "Sui armies take territory from Annam and Champa (early 7th century; exact dates vary)."
+      }
+    ],
+    "link": null,
+    "evidence": "moderate",
+    "sources": [
+      {
+        "title": "Sui Dynasty",
+        "publisher": "World History Encyclopedia",
+        "url": "https://www.worldhistory.org/Sui_Dynasty/"
+      },
+      {
+        "title": "Khmer Empire",
+        "publisher": "World History Encyclopedia",
+        "url": "https://www.worldhistory.org/Khmer_Empire/"
+      }
+    ]
+  },
+  "Malaysia": {
+    "polity": "Small Malay trading ports; Austronesian and Orang Asli peoples",
+    "summary": "The Malay Peninsula held small trading ports on the sea route between India and China, where Hindu and Buddhist influences were present. Borneo's Sarawak and Sabah held Austronesian communities. Documentation for this period is very thin.",
+    "events": [],
+    "link": null,
+    "evidence": "sparse",
+    "sources": []
+  },
+  "Brunei": {
+    "polity": "Austronesian coastal communities",
+    "summary": "Northwest Borneo was home to Austronesian-speaking peoples living by fishing, farming and trade. There is little documentary or archaeological evidence for this period.",
+    "events": [],
+    "link": null,
+    "evidence": "sparse",
+    "sources": []
+  },
+  "Indonesia": {
+    "polity": "Indianised kingdoms in Java and Sumatra; many local chiefdoms",
+    "summary": "Java and Sumatra held Indianised kingdoms engaged in sea trade between India and China. Austronesian seafarers linked the islands. The eastern islands had independent communities with little documentation.",
+    "events": [],
+    "link": null,
+    "evidence": "sparse",
+    "sources": []
+  },
+  "Philippines": {
+    "polity": "Independent Austronesian communities",
+    "summary": "The islands were home to Austronesian-speaking communities of farmers, fishers and seafarers living in villages led by local chiefs. There are no written records for this period; evidence comes from archaeology.",
+    "events": [],
+    "link": null,
+    "evidence": "sparse",
+    "sources": []
+  },
+  "Timor-Leste": {
+    "polity": "Independent Austronesian and Papuan-speaking communities",
+    "summary": "Timor was inhabited by Austronesian-speaking and Papuan-speaking peoples living in small farming and fishing communities. There was no state and no written record.",
+    "events": [],
+    "link": null,
+    "evidence": "sparse",
+    "sources": []
+  },
+  "Papua New Guinea": {
+    "polity": "Independent Papuan and Austronesian communities",
+    "summary": "New Guinea's highlands had been farmed for thousands of years, and many Papuan-speaking groups lived in independent clans. Coasts and islands held Austronesian-speaking communities. No written records exist.",
+    "events": [],
+    "link": null,
+    "evidence": "sparse",
+    "sources": []
+  },
+  "Australia": {
+    "polity": "Aboriginal and Torres Strait Islander peoples",
+    "summary": "Australia was home to many Aboriginal peoples with their own languages, laws and lands, continuing a presence of tens of thousands of years. Specific events for this period cannot be dated.",
+    "events": [],
+    "link": null,
+    "evidence": "sparse",
+    "sources": []
+  },
+  "New Zealand": {
+    "polity": "Uninhabited",
+    "summary": "No humans lived in New Zealand in this period; Polynesian settlement came several centuries later.",
+    "events": [],
+    "link": null,
+    "evidence": "sparse",
+    "sources": []
+  },
+  "Fiji": {
+    "polity": "Independent chiefdoms descended from Lapita settlers",
+    "summary": "Fiji had been settled long before by Lapita pottery-makers. Its people lived in villages by farming and fishing. There are no written records.",
+    "events": [],
+    "link": null,
+    "evidence": "sparse",
+    "sources": []
+  },
+  "Vanuatu": {
+    "polity": "Independent island communities descended from Lapita settlers",
+    "summary": "Vanuatu had been settled long before by Lapita people. Its communities farmed, fished and traded between islands. Evidence for this period comes only from archaeology.",
+    "events": [],
+    "link": null,
+    "evidence": "sparse",
+    "sources": []
+  },
+  "Solomon Is.": {
+    "polity": "Independent Papuan and Austronesian island communities",
+    "summary": "The Solomon Islands were home to Papuan-speaking and Austronesian-speaking communities who farmed, fished and traded by canoe. No written records exist for this period.",
+    "events": [],
+    "link": null,
+    "evidence": "sparse",
+    "sources": []
+  },
+  "New Caledonia": {
+    "polity": "Independent communities (ancestors of the Kanak)",
+    "summary": "New Caledonia had been settled long before by Lapita people, whose descendants, ancestors of the Kanak, lived in farming and fishing villages. The period is known only through archaeology.",
+    "events": [],
+    "link": null,
+    "evidence": "sparse",
+    "sources": []
+  },
+  "Antarctica": {
+    "polity": "No human presence",
+    "summary": "Antarctica was uninhabited and unknown to any human society.",
+    "events": [],
+    "link": null,
+    "evidence": "sparse",
+    "sources": []
+  },
+  "Fr. S. Antarctic Lands": {
+    "polity": "No human presence",
+    "summary": "The Kerguelen, Crozet and other southern Indian Ocean islands had no human inhabitants and were unknown to any society.",
+    "events": [],
+    "link": null,
+    "evidence": "sparse",
+    "sources": []
+  }
+}

@@ -1,0 +1,722 @@
+{
+ "Belgium": {
+  "polity": "Merovingian Franks (Neustria and Austrasia)",
+  "summary": "The region lay in the Frankish heartland, divided between the Merovingian kingdoms of Neustria and Austrasia during decades of civil war. Chlothar II reunited the Frankish lands in 613, and his son Dagobert I ruled them all from 629. Much of the countryside was still pagan, and the missionary Amand worked around Ghent, where he founded two abbeys in the early 7th century.",
+  "events": [
+   {
+    "y": 584,
+    "approx": false,
+    "t": "Chilperic I of Neustria is assassinated; his infant son Chlothar II succeeds, protected by his mother Fredegund."
+   },
+   {
+    "y": 613,
+    "approx": false,
+    "t": "Chlothar II reunites the Frankish kingdoms after the fall of Brunhild."
+   },
+   {
+    "y": 629,
+    "approx": false,
+    "t": "Dagobert I becomes king of all the Franks."
+   },
+   {
+    "y": 630,
+    "approx": true,
+    "t": "Amand founds two abbeys in and near Ghent (early 7th century; exact dates uncertain)."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Chilperic I",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Chilperic-I"
+   },
+   {
+    "title": "Chlotar II",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Chlotar-II"
+   },
+   {
+    "title": "History of the Low Countries",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/history-of-the-Low-Countries-prehistoric-times-to-1579-2157575"
+   }
+  ]
+ },
+ "Denmark": {
+  "polity": "Magnates and chieftains (Late Germanic Iron Age)",
+  "summary": "This is the Late Germanic Iron Age (c. 550–800). Magnates ran power centres that controlled religion, trade, and crafts. Gudme on Funen, a wealthy centre with a magnate's hall, gold hoards, and a coastal trading place at Lundeborg, lasted into the 7th century. A rich Nordic animal art style developed. There are almost no written sources; knowledge is archaeological.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Gudme on Funen, a magnate's seat and cult centre with its trading place at Lundeborg, is in its final phase (3rd–7th centuries)."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "The Late Iron Age",
+    "publisher": "National Museum of Denmark",
+    "url": "https://en.natmus.dk/historical-knowledge/denmark/prehistoric-period-until-1050-ad/the-late-iron-age/"
+   },
+   {
+    "title": "Gudme – gold, gods and people",
+    "publisher": "National Museum of Denmark",
+    "url": "https://en.natmus.dk/historical-knowledge/denmark/prehistoric-period-until-1050-ad/the-late-iron-age/gudme-gold-gods-and-people/"
+   },
+   {
+    "title": "Iron Age gods",
+    "publisher": "National Museum of Denmark",
+    "url": "https://en.natmus.dk/historical-knowledge/denmark/prehistoric-period-until-1050-ad/the-late-iron-age/iron-age-gods/"
+   }
+  ]
+ },
+ "Finland": {
+  "polity": "Finnic and Sámi communities (no state)",
+  "summary": "Southwestern and coastal Finland held Finnic farming and fishing communities, while Sámi hunters lived across the interior and north. Finnish archaeologists call this the Merovingian period, when weapons and jewellery show contacts with Scandinavia and the eastern Baltic. There were no towns, kings, or writing; evidence is almost entirely archaeological.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Cemeteries in southwest Finland contain weapons and jewellery reflecting contacts across the Baltic."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Knut Helle (ed.), The Cambridge History of Scandinavia, Vol. 1: Prehistory to 1520 (2003)",
+    "publisher": "Cambridge University Press",
+    "url": null
+   }
+  ]
+ },
+ "France": {
+  "polity": "Merovingian Franks (Neustria, Austrasia, Burgundy, Aquitaine)",
+  "summary": "Gaul was ruled by Merovingian kings whose kingdoms fought bitter civil wars, shaped partly by the rivalry of Queens Fredegund and Brunhild. Chlothar II reunited the Frankish lands in 613 and issued a wide-ranging edict at Paris in 614. His son Dagobert I moved his capital to Paris. Gregory of Tours wrote his Histories, and the Irish monk Columbanus founded Luxeuil.",
+  "events": [
+   {
+    "y": 587,
+    "approx": false,
+    "t": "Treaty of Andelot: Guntram of Burgundy settles remaining differences with his nephew Childebert II."
+   },
+   {
+    "y": 591,
+    "approx": true,
+    "t": "Columbanus arrives in Gaul (c. 590–591) and founds Annegray, then Luxeuil, in the Vosges."
+   },
+   {
+    "y": 594,
+    "approx": true,
+    "t": "Gregory of Tours, author of the Histories, dies (c. 594)."
+   },
+   {
+    "y": 613,
+    "approx": false,
+    "t": "Chlothar II has Brunhild killed and becomes sole ruler of the Franks."
+   },
+   {
+    "y": 614,
+    "approx": false,
+    "t": "Chlothar II issues the Edict of Paris after a church council, settling problems left by years of turmoil."
+   },
+   {
+    "y": 629,
+    "approx": false,
+    "t": "Dagobert I becomes king of all the Franks and later moves his capital to Paris."
+   }
+  ],
+  "link": null,
+  "evidence": "rich",
+  "sources": [
+   {
+    "title": "Chlotar II",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Chlotar-II"
+   },
+   {
+    "title": "Guntram",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Guntram-king-of-Burgundy"
+   },
+   {
+    "title": "Saint Gregory of Tours",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Saint-Gregory-of-Tours"
+   }
+  ]
+ },
+ "Germany": {
+  "polity": "Merovingian Franks (Austrasia) with subject Alamanni, Bavarians and Thuringians; independent Saxons",
+  "summary": "The Rhineland formed part of Frankish Austrasia. Further east, Alamanni, Bavarians, and Thuringians were governed by dukes who represented the Frankish king, while the Saxons in the north stayed independent and mostly pagan. Dagobert I was made king of Austrasia in 623 and campaigned against Slavs on the eastern frontier.",
+  "events": [
+   {
+    "y": 612,
+    "approx": false,
+    "t": "Theuderic II of Burgundy, backed by Brunhild, overthrows his brother Theudebert II of Austrasia."
+   },
+   {
+    "y": 623,
+    "approx": false,
+    "t": "Chlothar II makes his son Dagobert I king of Austrasia."
+   },
+   {
+    "y": 631,
+    "approx": true,
+    "t": "Dagobert I campaigns against the Slavs under Samo on the eastern frontier (c. 631)."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "History of Germany",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/history-of-Germany"
+   },
+   {
+    "title": "Theodoric II",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Theodoric-II"
+   },
+   {
+    "title": "Dagobert I",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Dagobert-I"
+   }
+  ]
+ },
+ "Iceland": {
+  "polity": "Uninhabited",
+  "summary": "No evidence shows a human population in Iceland in these decades. Irish hermits (papar) are first reported by the monk Dicuil around 825, describing visits of the 790s; any earlier presence is speculation. The island remained wilderness until Norse settlement began around 870.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "No archaeological trace of human presence on the island."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Jesse Byock, Viking Age Iceland (2001)",
+    "publisher": "Penguin Books",
+    "url": null
+   }
+  ]
+ },
+ "Ireland": {
+  "polity": "Irish kingdoms (Uí Néill and many others)",
+  "summary": "Ireland was a patchwork of small kingdoms under over-kings such as the Uí Néill, with an already Christian elite. Monasticism flourished: Columba, founder of Iona, died there in 597, and Columbanus left Bangor for the Continent around 590, founding Luxeuil and Bobbio. Irish churchmen debated the date of Easter, and Latin learning thrived.",
+  "events": [
+   {
+    "y": 575,
+    "approx": true,
+    "t": "Assembly of Druim Cett, attended by Columba (traditionally dated 575)."
+   },
+   {
+    "y": 590,
+    "approx": true,
+    "t": "Columbanus leaves Ireland for Gaul with twelve companions (c. 590–591)."
+   },
+   {
+    "y": 597,
+    "approx": false,
+    "t": "Columba dies on Iona."
+   },
+   {
+    "y": 632,
+    "approx": true,
+    "t": "Cummian's letter on the Easter controversy defends the Roman reckoning (c. 632–633)."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Dallán Forgaill",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Dallan-Forgaill"
+   },
+   {
+    "title": "St. Columban",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Saint-Columban"
+   },
+   {
+    "title": "Maura Walsh and Dáibhí Ó Cróinín (eds.), Cummian's Letter De controversia paschali (1988)",
+    "publisher": "Pontifical Institute of Mediaeval Studies, Toronto",
+    "url": null
+   }
+  ]
+ },
+ "Italy": {
+  "polity": "Lombard kingdom and duchies; Byzantine Exarchate of Ravenna; papal Rome",
+  "summary": "Italy was divided after the Lombards invaded in 568. Lombard kings ruled the north, while the duchies of Spoleto and Benevento were largely separate; Byzantium held Ravenna, Rome, and other territories. Pope Gregory I (590–604) organised Rome's defence and food supply and sent missions. Queen Theodelinda, a Catholic, eased relations with the Church, and Columbanus founded Bobbio.",
+  "events": [
+   {
+    "y": 568,
+    "approx": false,
+    "t": "The Lombards under Alboin invade Italy."
+   },
+   {
+    "y": 590,
+    "approx": false,
+    "t": "Gregory I becomes pope; Agilulf becomes Lombard king."
+   },
+   {
+    "y": 593,
+    "approx": true,
+    "t": "Lombards threaten Rome; Gregory twice saves the city from sack through payments and diplomacy (590s)."
+   },
+   {
+    "y": 609,
+    "approx": false,
+    "t": "The Pantheon in Rome is dedicated as a church, Santa Maria ad Martyres, by Pope Boniface IV."
+   },
+   {
+    "y": 613,
+    "approx": true,
+    "t": "Columbanus founds the monastery of Bobbio (c. 612–614)."
+   }
+  ],
+  "link": null,
+  "evidence": "rich",
+  "sources": [
+   {
+    "title": "Italy: Lombards and Byzantines",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Italy/Lombards-and-Byzantines"
+   },
+   {
+    "title": "St. Gregory the Great",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/St-Gregory-the-Great"
+   },
+   {
+    "title": "Pantheon",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/Pantheon-building-Rome-Italy"
+   }
+  ]
+ },
+ "Luxembourg": {
+  "polity": "Merovingian Franks (Austrasia)",
+  "summary": "The region lay in Austrasia, the eastern Frankish kingdom, near the old Roman city of Trier. Its kings were caught up in the civil wars between Brunhild's heirs and Neustria until Chlothar II reunited the Frankish lands in 613. In 623 Dagobert I was made king of Austrasia. Local written detail is scarce.",
+  "events": [
+   {
+    "y": 613,
+    "approx": false,
+    "t": "Austrasia passes to Chlothar II after the fall of Brunhild."
+   },
+   {
+    "y": 623,
+    "approx": false,
+    "t": "Dagobert I becomes king of Austrasia."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Austrasia",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Austrasia"
+   },
+   {
+    "title": "Chlotar II",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Chlotar-II"
+   },
+   {
+    "title": "Dagobert I",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Dagobert-I"
+   }
+  ]
+ },
+ "Netherlands": {
+  "polity": "Frisians in the north; Merovingian Franks in the south",
+  "summary": "Frisians along the coast, many living on raised mounds (terpen), remained independent of the Franks and mostly pagan, and took part in North Sea trade. The south lay within the Frankish realm. Near the fork of the Rhine, Dorestad developed as a trading place during the 7th century. Written sources are scarce.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Frisian coastal communities, independent of the Franks, take part in North Sea trade."
+   },
+   {
+    "y": 630,
+    "approx": true,
+    "t": "Dorestad begins to develop as a trading place (7th century; date uncertain)."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "History of Germany",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/history-of-Germany"
+   },
+   {
+    "title": "Richard Hodges, Dark Age Economics: The Origins of Towns and Trade, A.D. 600–1000 (1982)",
+    "publisher": "Duckworth",
+    "url": null
+   }
+  ]
+ },
+ "Norway": {
+  "polity": "Local chieftains and petty kingdoms (Merovingian period)",
+  "summary": "Norway was divided among chieftains controlling farms, fjords, and coastal routes. Hillforts and rich graves point to a warrior aristocracy, and religion was pagan. There are no contemporary written sources, so knowledge is almost entirely archaeological.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Rich graves and hillforts reflect local warrior elites along the coast and valleys."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Knut Helle (ed.), The Cambridge History of Scandinavia, Vol. 1: Prehistory to 1520 (2003)",
+    "publisher": "Cambridge University Press",
+    "url": null
+   }
+  ]
+ },
+ "Portugal": {
+  "polity": "Suebic kingdom of Gallaecia, absorbed by the Visigoths in 585",
+  "summary": "In the north the Suebi ruled a Catholic kingdom based around Braga, where Bishop Martin of Braga had reconverted the monarchy to Catholicism. Around 585 the Visigothic king Leovigild annexed it, and the whole region became part of Visigothic Spain. The south, in the old province of Lusitania, was already Visigothic.",
+  "events": [
+   {
+    "y": 580,
+    "approx": true,
+    "t": "Martin of Braga, bishop and reformer among the Suebi, dies (c. 580)."
+   },
+   {
+    "y": 585,
+    "approx": false,
+    "t": "Leovigild annexes the Suebic kingdom to the Visigothic state."
+   },
+   {
+    "y": 589,
+    "approx": false,
+    "t": "At the Third Council of Toledo, Reccared makes Catholicism the faith of the Visigothic kingdom, including the former Suebic lands."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Suebi",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/topic/Suebi"
+   },
+   {
+    "title": "Portugal: History",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Portugal/History"
+   },
+   {
+    "title": "Saint Martin of Braga",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Saint-Martin-of-Braga"
+   }
+  ]
+ },
+ "Spain": {
+  "polity": "Visigothic kingdom of Toledo (with Byzantine territory in the southeast until the 620s)",
+  "summary": "The Visigoths ruled from Toledo. Leovigild annexed the Suebic kingdom around 585, and his son Reccared abandoned Arianism for Catholicism, removing a barrier between Goths and Hispano-Romans. Isidore of Seville became the greatest scholar of the age. King Sisebut decreed the conversion of Jews, and Suinthila took the remaining Byzantine fortresses.",
+  "events": [
+   {
+    "y": 585,
+    "approx": false,
+    "t": "Leovigild annexes the Suebic kingdom in the northwest."
+   },
+   {
+    "y": 587,
+    "approx": false,
+    "t": "Reccared converts to Catholic Christianity."
+   },
+   {
+    "y": 589,
+    "approx": false,
+    "t": "Third Council of Toledo: Reccared publicly professes the Catholic faith, which becomes the state religion."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Isidore becomes bishop of Seville (c. 600); he later writes the Etymologies."
+   },
+   {
+    "y": 612,
+    "approx": true,
+    "t": "Sisebut becomes king and, between about 612 and 616, decrees that Jews must convert."
+   },
+   {
+    "y": 625,
+    "approx": true,
+    "t": "Suinthila (621–631) takes the last Byzantine fortresses in Spain (exact date uncertain)."
+   }
+  ],
+  "link": null,
+  "evidence": "rich",
+  "sources": [
+   {
+    "title": "Spain: The Visigothic kingdom",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Spain/The-Visigothic-kingdom"
+   },
+   {
+    "title": "Recared",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Recared"
+   },
+   {
+    "title": "Spain (Chapter 5), The Jews in Late Antiquity",
+    "publisher": "Cambridge University Press (Cambridge Core)",
+    "url": "https://www.cambridge.org/core/books/abs/jews-in-late-antiquity/spain/45E37A2BFF2B5C093D55F0616597FC49"
+   }
+  ]
+ },
+ "Sweden": {
+  "polity": "Svear and Götar chieftains (Vendel period)",
+  "summary": "This is the Vendel period, named after rich boat burials at Vendel in Uppland, with similar graves at Valsgärde. The Svear around Uppsala, with its great mounds, and the Götar to the south were ruled by warrior chieftains. Helgö was a craft and trading centre, and Gotland raised picture stones. Religion was pagan, and no contemporary writing survives.",
+  "events": [
+   {
+    "y": 575,
+    "approx": true,
+    "t": "The great mounds at Gamla Uppsala (6th century) mark a major elite and cult centre."
+   },
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Boat burials at Vendel and Valsgärde with helmets and weapons show a rich warrior elite."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Knut Helle (ed.), The Cambridge History of Scandinavia, Vol. 1: Prehistory to 1520 (2003)",
+    "publisher": "Cambridge University Press",
+    "url": null
+   }
+  ]
+ },
+ "Switzerland": {
+  "polity": "Merovingian Franks (Burgundy) and Alamanni",
+  "summary": "The west belonged to the Frankish kingdom of Burgundy, Romanised and Catholic, where Bishop Marius moved his see from Avenches to Lausanne around 590. The north and east were settled by Alamanni under dukes subject to the Franks. Marius wrote a chronicle, and the Irish monk Gall settled as a hermit on the Steinach, the origin of Saint Gall.",
+  "events": [
+   {
+    "y": 593,
+    "approx": false,
+    "t": "Marius, bishop of Avenches and Lausanne and author of a chronicle, dies."
+   },
+   {
+    "y": 612,
+    "approx": true,
+    "t": "Gall, a companion of Columbanus, stays behind and builds a hermit's cell on the Steinach near Arbon."
+   },
+   {
+    "y": 613,
+    "approx": false,
+    "t": "Burgundy passes to Chlothar II after the fall of Brunhild."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Marius",
+    "publisher": "Historisches Lexikon der Schweiz",
+    "url": "https://hls-dhs-dss.ch/de/articles/012781/"
+   },
+   {
+    "title": "Gall (saint)",
+    "publisher": "Historisches Lexikon der Schweiz",
+    "url": "https://hls-dhs-dss.ch/fr/articles/010216/2006-11-20/"
+   },
+   {
+    "title": "Lausanne",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Lausanne"
+   }
+  ]
+ },
+ "United Kingdom": {
+  "polity": "Anglo-Saxon kingdoms (Kent, East Anglia, Northumbria, etc.), British kingdoms, Picts and Dál Riata",
+  "summary": "England was split among Anglo-Saxon kingdoms, with British kingdoms in the west and north and Picts and Gaelic Dál Riata in Scotland. Pope Gregory I sent Augustine to Kent in 597, where King Æthelberht received him. The Sutton Hoo ship burial (c. 620–630) may be that of Rædwald of East Anglia, and Edwin of Northumbria was converted by Paulinus in 627.",
+  "events": [
+   {
+    "y": 597,
+    "approx": false,
+    "t": "Augustine's mission, sent by Pope Gregory I, reaches Kent and is received by King Æthelberht."
+   },
+   {
+    "y": 603,
+    "approx": true,
+    "t": "Æthelfrith of Northumbria defeats Áedán of Dál Riata at Degsastan (603 or 604)."
+   },
+   {
+    "y": 616,
+    "approx": true,
+    "t": "Rædwald of East Anglia defeats and kills Æthelfrith at the River Idle; Edwin becomes king of Northumbria."
+   },
+   {
+    "y": 625,
+    "approx": true,
+    "t": "The Sutton Hoo ship burial is made (c. 620–630); Rædwald is a likely but unproven candidate."
+   },
+   {
+    "y": 627,
+    "approx": false,
+    "t": "Edwin of Northumbria is converted and baptised by Paulinus."
+   }
+  ],
+  "link": null,
+  "evidence": "rich",
+  "sources": [
+   {
+    "title": "St Augustine of Canterbury, first archbishop of Canterbury (summary)",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/summary/Saint-Augustine-of-Canterbury"
+   },
+   {
+    "title": "Aethelfrith",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Aethelfrith"
+   },
+   {
+    "title": "The Anglo-Saxon ship burial at Sutton Hoo",
+    "publisher": "The British Museum",
+    "url": "https://www.britishmuseum.org/collection/death-and-memory/anglo-saxon-ship-burial-sutton-hoo"
+   }
+  ]
+ },
+ "Greenland": {
+  "polity": "Probably uninhabited (gap between Early and Late Dorset)",
+  "summary": "Greenland appears to have been largely empty of people in these decades. Earlier Palaeo-Inuit groups, including the Greenlandic Dorset, had lived there before about the start of the common era, and Late Dorset people arrived in the northwest around 800. Meanwhile Dorset groups hunted sea mammals in nearby Arctic Canada. Evidence is archaeological and dating is uncertain.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "No firm archaeological evidence of human occupation; Dorset Palaeo-Inuit live in the Canadian Arctic nearby."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "T. Max Friesen and Owen K. Mason (eds.), The Oxford Handbook of the Prehistoric Arctic (2016)",
+    "publisher": "Oxford University Press",
+    "url": null
+   }
+  ]
+ },
+ "Austria": {
+  "polity": "Bavarian duchy (Agilolfings) under Frankish influence; Alpine Slavs and Avars in the east",
+  "summary": "The west was held by Bavarians under Agilolfing dukes, under Frankish political influence, while Alemanni settled in today's Vorarlberg. Slavs pressing in from the east lived under Avar rulers, and the Bavarians struggled against them. At Bregenz the Irish monk Columbanus and his companions preached to the pagan Alemanni for two years.",
+  "events": [
+   {
+    "y": 610,
+    "approx": true,
+    "t": "Columbanus and his companions work at Bregenz on Lake Constance (c. 610–612) before he moves on to Italy."
+   },
+   {
+    "y": 623,
+    "approx": true,
+    "t": "Western Slavs rise against the Avars under Samo (c. 623–624); his rule may have reached the eastern Alps."
+   },
+   {
+    "y": 639,
+    "approx": false,
+    "t": "After Dagobert I's death, the Agilolfing dukes of Bavaria become virtually independent."
+   }
+  ],
+  "link": null,
+  "evidence": "moderate",
+  "sources": [
+   {
+    "title": "Austria: Early Middle Ages",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/place/Austria/Early-Middle-Ages"
+   },
+   {
+    "title": "Kolumban",
+    "publisher": "Historisches Lexikon der Schweiz",
+    "url": "https://hls-dhs-dss.ch/de/articles/010215/2007-08-23/"
+   },
+   {
+    "title": "Samo",
+    "publisher": "Encyclopaedia Britannica",
+    "url": "https://www.britannica.com/biography/Samo-Frankish-merchant"
+   }
+  ]
+ },
+ "Estonia": {
+  "polity": "Finnic-speaking communities (no state)",
+  "summary": "Finnic-speaking farmers, fishers, and hunters lived in small communities, with hillforts and stone-grave cemeteries. There were no towns or written records. Grave goods show iron-working and contacts across the Baltic with Scandinavia. Religion was local and pagan, and almost everything known comes from archaeology.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Hillforts and cemeteries mark local power centres; Scandinavian objects appear in burials."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Andres Tvauri, The Migration Period, Pre-Viking Age, and Viking Age in Estonia (2012)",
+    "publisher": "Tartu University Press",
+    "url": null
+   }
+  ]
+ },
+ "Latvia": {
+  "polity": "Baltic and Finnic tribes (no state)",
+  "summary": "Baltic-speaking peoples, ancestors of the later Curonians, Semigallians, Selonians, and Latgalians, lived alongside Finnic Livonians near the coast. They farmed, fished, and lived in villages and hillforts. There were no towns or written records, and religion was local and pagan. Knowledge comes almost entirely from archaeology.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Hillforts and warrior burials show local elites along the Daugava and the coast."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Marija Gimbutas, The Balts (1963)",
+    "publisher": "Thames and Hudson",
+    "url": null
+   }
+  ]
+ },
+ "Lithuania": {
+  "polity": "Baltic tribes (no state)",
+  "summary": "Baltic-speaking peoples lived in farming villages and hillforts, with cemeteries containing weapons, horse gear, and ornaments. The amber coast had long linked the Balts to wider trade. There were no towns or writing, and religion was pagan. Tribal names such as Samogitians are attested only centuries later.",
+  "events": [
+   {
+    "y": 600,
+    "approx": true,
+    "t": "Hillforts and horse burials mark warrior elites among the Baltic tribes."
+   }
+  ],
+  "link": null,
+  "evidence": "sparse",
+  "sources": [
+   {
+    "title": "Marija Gimbutas, The Balts (1963)",
+    "publisher": "Thames and Hudson",
+    "url": null
+   }
+  ]
+ }
+}
