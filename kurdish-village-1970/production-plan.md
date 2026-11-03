@@ -23,7 +23,15 @@ Night palette: deep indigo/blue outside, amber lantern glow inside, snow tinted 
 
 ## 3. Setting: be specific, or the model defaults to "generic desert village"
 
-Default: a stepped mountain village in the Zagros (Hawraman-style). Flat-roofed stone-and-mud houses stack up the slope, so one family's roof is the next family's yard.
+**Region chosen: Zakho, Badinan (Duhok governorate, Iraqi Kurdistan).** Kurmanji/Badini-speaking, near the Turkish border, on the Khabur river.
+
+- **Snow caveat:** Zakho town sits low in a valley, and heavy snow there is unusual. Put the house in a **mountain village above Zakho** where deep winter snow is normal.
+- Houses: grey-brown fieldstone, flat earth roofs, small and spread along a slope among bare oak scrub, with the Zakho valley below. Not the stepped Hawraman style.
+- Dad's head wrap: **red-and-white patterned jamana** (typical of Badinan), not black-and-white. The character sheet needs this fix.
+- Window view: snowy oak-scrub slopes and other stone roofs. No pine forest.
+- Optional historical note: the March 1970 autonomy agreement began a few years of ceasefire, so winter 1970 was a relatively calm time. Most mountain villages had no electricity.
+
+Generic details below still apply:
 
 Period details (1970, no electricity in many villages):
 - Flat earth roof with heavy snow, and a stone roof roller (*bangirdan*) resting on it
@@ -79,7 +87,18 @@ Optional ending: dawn, smoke from the chimney, DAD on the roof rolling the stone
 5. **Sound**: wind, crackling stove, kettle, snow crunch, a distant dog. Optionally a soft *tembûr* or *şimşal* (flute) motif, licensed or generated. The reference video's audio is very quiet (mean −34 dB), so ambient sound is what it relies on.
 6. **Export**: 1080x1920, H.264, 30 fps.
 
-## 7. Cost and risk
+## 7. Measured Higgsfield costs (checked 2026-11-03)
+
+| Item | Credits |
+|---|---|
+| Image, GPT Image 2.5, medium quality, 1k | 0.5 |
+| Image, GPT Image 2.5, high quality, 2k | 2.75 |
+| Video, Seedance 1.5, 4 s, 480p, no audio | 2.4 |
+| Video, Seedance 1.5, 4 s, 720p, no audio | 4.8 |
+| Video, Kling 3.0 std, 5 s, no audio | 6.25 |
+| Video, Seedance 2.5, 4 s, 720p | 28 |
+
+## 8. Cost and risk
 
 - Video generation is where most of the cost goes. 18 clips plus re-rolls (expect 1.5–2 attempts per clip) is about 30 generations.
 - The most common failures are hands, the lantern flame "morphing", and text appearing on objects.
