@@ -3,12 +3,14 @@
 Usage: python3 make_audio.py OUT.wav
 Timing must match make_video.sh (SHOT, XF, interior flags).
 """
+import os
 import sys
 import wave
 import numpy as np
 
 SR = 44100
-SHOT, XF = 4.5, 0.7
+SHOT = float(os.environ.get("SHOT", 4.5))
+XF = float(os.environ.get("XF", 0.7))
 STEP = SHOT - XF
 # 1 = interior, 0 = exterior, per shot 01..12
 INTERIOR = [0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0]
