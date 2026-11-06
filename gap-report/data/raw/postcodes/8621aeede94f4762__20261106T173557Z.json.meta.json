@@ -1,0 +1,7 @@
+{
+  "url": "https://api.postcodes.io/postcodes",
+  "method": "POST",
+  "body": "{\"postcodes\": [\"CV1 1AJ\", \"CV1 1AR\", \"CV1 1DE\", \"CV1 1DF\", \"CV1 1DS\", \"CV1 1EX\", \"CV1 1EY\", \"CV1 1FD\", \"CV1 1FL\", \"CV1 1GF\", \"CV1 1GY\", \"CV1 1HL\", \"CV1 1JB\", \"CV1 1LF\", \"CV1 1LL\", \"CV1 1LZ\", \"CV1 1NF\", \"CV1 1PN\", \"CV1 2DD\", \"CV1 2DT\", \"CV1 2FP\", \"CV1 2GN\", \"CV1 2GT\", \"CV1 2JH\", \"CV1 2JP\", \"CV1 2LN\", \"CV1 2LZ\", \"CV1 2PS\", \"CV1 2TU\", \"CV1 3AA\", \"CV1 3AR\", \"CV1 3BB\", \"CV1 3BH\", \"CV1 3BU\", \"CV1 3EG\", \"CV1 3FJ\", \"CV1 3GA\", \"CV1 3GE\", \"CV1 3GR\", \"CV1 3HB\", \"CV1 3HE\", \"CV1 3HT\", \"CV1 3JQ\", \"CV1 3JZ\", \"CV1 4AG\", \"CV1 4AN\", \"CV1 4AP\", \"CV1 4AQ\", \"CV1 4AU\", \"CV1 4BF\", \"CV1 4BP\", \"CV1 4BU\", \"CV1 4DW\", \"CV1 4FR\", \"CV1 4FT\", \"CV1 4GY\", \"CV1 4HT\", \"CV1 4HW\", \"CV1 4LD\", \"CV1 4LG\", \"CV1 4LY\", \"CV1 4NA\", \"CV1 4PB\", \"CV1 5AE\", \"CV1 5AY\", \"CV1 5BZ\", \"CV1 5DH\", \"CV1 5DZ\", \"CV1 5EA\", \"CV1 5ED\", \"CV1 5FB\", \"CV1 5FZ\", \"CV1 5GR\", \"CV1 5GU\", \"CV1 5JD\", \"CV1 5LY\", \"CV1 5NL\", \"CV1 5PX\", \"CV1 5QJ\", \"CV1 5QP\", \"CV1 5RP\", \"CV1 5RQ\", \"CV1 5RU\", \"CV1 5RW\", \"CV1 5RX\", \"CV1 5SQ\", \"CV2 1DJ\", \"CV2 1NB\", \"CV2 1PP\", \"CV2 2AA\", \"CV2 2AE\", \"CV2 2EF\", \"CV2 2EY\", \"CV2 2GF\", \"CV2 2GG\", \"CV2 2HJ\", \"CV2 2HP\", \"CV2 2HX\", \"CV2 2LE\", \"CV2 2LH\"]}",
+  "retrieved": "2026-11-06T17:35:57.616120+00:00",
+  "status": 200
+}

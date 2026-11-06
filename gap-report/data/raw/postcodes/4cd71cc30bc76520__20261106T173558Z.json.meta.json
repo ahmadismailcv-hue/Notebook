@@ -1,0 +1,7 @@
+{
+  "url": "https://api.postcodes.io/postcodes",
+  "method": "POST",
+  "body": "{\"postcodes\": [\"CV2 2PN\", \"CV2 2RH\", \"CV2 2RZ\", \"CV2 2SP\", \"CV2 2SZ\", \"CV2 2TB\", \"CV2 3AA\", \"CV2 3BQ\", \"CV2 3BT\", \"CV2 3EW\", \"CV2 3FH\", \"CV2 3FJ\", \"CV2 3FN\", \"CV2 3GF\", \"CV2 3LA\", \"CV2 3LB\", \"CV2 3NF\", \"CV2 4AB\", \"CV2 4BA\", \"CV2 4BL\", \"CV2 4BN\", \"CV2 4DW\", \"CV2 4EB\", \"CV2 4HE\", \"CV2 4HJ\", \"CV2 4LX\", \"CV2 4ND\", \"CV2 4QB\", \"CV2 5AT\", \"CV2 5FR\", \"CV2 5HN\", \"CV3 1BA\", \"CV3 1BX\", \"CV3 1DA\", \"CV3 1DP\", \"CV3 1FP\", \"CV3 1GR\", \"CV3 1HB\", \"CV3 1HW\", \"CV3 1JP\", \"CV3 1WA\", \"CV3 2DP\", \"CV3 2DS\", \"CV3 2EA\", \"CV3 2ED\", \"CV3 2JD\", \"CV3 2JU\", \"CV3 2LP\", \"CV3 2NT\", \"CV3 2QP\", \"CV3 2SB\", \"CV3 2TA\", \"CV3 2XA\", \"CV3 3DG\", \"CV3 3DN\", \"CV3 3DP\", \"CV3 3FB\", \"CV3 3FU\", \"CV3 4AL\", \"CV3 4AR\", \"CV3 4BJ\", \"CV3 4FD\", \"CV3 4FJ\", \"CV3 4GA\", \"CV3 5DE\", \"CV3 5DP\", \"CV3 5HW\", \"CV3 5HZ\", \"CV3 5JE\", \"CV3 5PZ\", \"CV3 6AN\", \"CV3 6AU\", \"CV3 6BE\", \"CV3 6BH\", \"CV3 6BP\", \"CV3 6PB\", \"CV3 6PY\", \"CV3 6TA\", \"CV4 7AB\", \"CV4 7AJ\", \"CV4 7AL\", \"CV4 7AN\", \"CV4 7BB\", \"CV4 7EH\", \"CV4 7EZ\", \"CV4 8AW\", \"CV4 8BN\", \"CV4 8DA\", \"CV4 8DJ\", \"CV4 8DY\", \"CV4 8FS\", \"CV4 8GN\", \"CV4 8HQ\", \"CV4 8HS\", \"CV4 9AE\", \"CV4 9BE\", \"CV4 9BJ\", \"CV4 9DG\", \"CV4 9DS\", \"CV4 9DU\"]}",
+  "retrieved": "2026-11-06T17:35:58.045961+00:00",
+  "status": 200
+}

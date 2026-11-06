@@ -1,0 +1,7 @@
+{
+  "url": "https://www.nomisweb.co.uk/api/v01/dataset/NM_2063_1.data.csv?geography=645922942TYPE151%2C645922942%2C641728822&measures=20100&select=geography_code%2Cgeography_name%2Cgeography_type%2CC2021_CARS_5_name%2Cobs_value",
+  "method": "GET",
+  "body": null,
+  "retrieved": "2026-11-06T17:32:49.651210+00:00",
+  "status": 200
+}

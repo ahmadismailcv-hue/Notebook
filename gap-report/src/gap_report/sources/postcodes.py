@@ -24,3 +24,17 @@ def reverse_bulk(points: list[tuple[float, float]], radius_m: int) -> list[Cache
 
 def lookup(postcode: str) -> Cached:
     return fetch("postcodes", f"{BASE}/postcodes/{postcode.replace(' ', '').upper()}")
+
+
+def bulk_lookup(pcs: list[str]) -> dict[str, dict]:
+    """postcode -> result for up to 100 per call; unknown/terminated postcodes are omitted."""
+    out = {}
+    pcs = sorted(set(pcs))
+    for i in range(0, len(pcs), 100):
+        c = fetch("postcodes", f"{BASE}/postcodes", method="POST",
+                  data=json.dumps({"postcodes": pcs[i:i + 100]}),
+                  headers={"Content-Type": "application/json"})
+        for item in c.json()["result"]:
+            if item["result"]:
+                out[item["query"]] = item["result"]
+    return out

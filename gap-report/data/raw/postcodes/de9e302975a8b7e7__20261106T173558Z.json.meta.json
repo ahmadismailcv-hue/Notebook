@@ -1,0 +1,7 @@
+{
+  "url": "https://api.postcodes.io/postcodes",
+  "method": "POST",
+  "body": "{\"postcodes\": [\"CV4 9DW\", \"CV4 9EJ\", \"CV4 9EU\", \"CV4 9GZ\", \"CV4 9HX\", \"CV4 9PB\", \"CV4 9PW\", \"CV4 9QS\", \"CV4 9UP\", \"CV4 9WT\", \"CV5 6AR\", \"CV5 6EJ\", \"CV5 6EP\", \"CV5 6GN\", \"CV5 6JQ\", \"CV5 6JR\", \"CV5 6LF\", \"CV5 6NF\", \"CV5 6PD\", \"CV5 6TH\", \"CV5 6UA\", \"CV5 7ER\", \"CV5 7JT\", \"CV5 7NJ\", \"CV5 7NL\", \"CV5 7PN\", \"CV5 8AD\", \"CV5 8EB\", \"CV5 8HU\", \"CV5 8HX\", \"CV5 8JN\", \"CV5 9AD\", \"CV5 9AR\", \"CV5 9BA\", \"CV5 9FQ\", \"CV5 9FR\", \"CV5 9JG\", \"CV5 9PH\", \"CV5 9PS\", \"CV6 1DY\", \"CV6 1HR\", \"CV6 1PJ\", \"CV6 1QT\", \"CV6 2AA\", \"CV6 2AE\", \"CV6 2AL\", \"CV6 2AY\", \"CV6 2BU\", \"CV6 2FR\", \"CV6 2JJ\", \"CV6 3AQ\", \"CV6 3BH\", \"CV6 3BU\", \"CV6 3DQ\", \"CV6 3EX\", \"CV6 3LB\", \"CV6 3LR\", \"CV6 3LS\", \"CV6 4AB\", \"CV6 4AG\", \"CV6 4AU\", \"CV6 4BX\", \"CV6 4BY\", \"CV6 4DF\", \"CV6 4DS\", \"CV6 4FB\", \"CV6 4FL\", \"CV6 4GB\", \"CV6 4HH\", \"CV6 4LB\", \"CV6 4QA\", \"CV6 5AS\", \"CV6 5AU\", \"CV6 5BP\", \"CV6 5DS\", \"CV6 5EL\", \"CV6 5EZ\", \"CV6 5FY\", \"CV6 5HA\", \"CV6 5HE\", \"CV6 5HW\", \"CV6 5JW\", \"CV6 5NQ\", \"CV6 5PD\", \"CV6 5RF\", \"CV6 6AN\", \"CV6 6AS\", \"CV6 6AZ\", \"CV6 6BB\", \"CV6 6BG\", \"CV6 6BY\", \"CV6 6DR\", \"CV6 6DT\", \"CV6 6EE\", \"CV6 6ER\", \"CV6 6GE\", \"CV6 6GS\", \"CV6 6HE\", \"CV6 6HL\", \"CV6 6LN\"]}",
+  "retrieved": "2026-11-06T17:35:58.504371+00:00",
+  "status": 200
+}

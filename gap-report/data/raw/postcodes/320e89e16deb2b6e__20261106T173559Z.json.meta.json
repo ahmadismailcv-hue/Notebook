@@ -1,0 +1,7 @@
+{
+  "url": "https://api.postcodes.io/postcodes",
+  "method": "POST",
+  "body": "{\"postcodes\": [\"CV6 7BW\", \"CV6 7DU\", \"CV6 7ED\", \"CV6 7FN\", \"CV6 7GQ\", \"CV6 7HA\", \"CV6 7NS\", \"CV7 8JG\", \"CV7 8JJ\", \"CV7 8JX\", \"CV7 8NJ\"]}",
+  "retrieved": "2026-11-06T17:35:59.002046+00:00",
+  "status": 200
+}

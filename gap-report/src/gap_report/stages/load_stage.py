@@ -12,7 +12,7 @@ from datetime import datetime, timezone
 
 from gap_report.address import house_numbers, norm_postcode
 from gap_report.config import StreetConfig, settings
-from gap_report.db import open_db, record_source
+from gap_report.db import bulk_create, open_db, record_source
 from gap_report.sources import fsa, imd, manual, nomis, ons_geo, osm, postcodes, voa
 
 POINT = "ST_Transform(ST_Point(?, ?), 'EPSG:4326', 'EPSG:27700')"
@@ -31,11 +31,13 @@ def _link(con, table: str):
     """Add distance to line, nearest segment and in_street flag to a table with geom."""
     buf = settings().geometry.street_buffer_m
     con.execute(f"""CREATE OR REPLACE TABLE {table} AS
-        SELECT t.*, ST_Distance(t.geom, l.geom) AS dist_to_line_m,
-               CASE WHEN ST_Distance(t.geom, l.geom) <= {buf} THEN (
-                   SELECT id FROM segments s ORDER BY ST_Distance(t.geom, s.geom) LIMIT 1) END AS segment_id,
-               ST_Distance(t.geom, l.geom) <= {buf} AS in_street
-        FROM {table} t, street_line l""")
+        WITH t AS (SELECT row_number() OVER () AS _rid, * FROM {table}),
+        near AS (SELECT t._rid, arg_min(s.id, ST_Distance(t.geom, s.geom)) seg
+                 FROM t, segments s WHERE t.geom IS NOT NULL GROUP BY t._rid)
+        SELECT t.* EXCLUDE (_rid), ST_Distance(t.geom, l.geom) AS dist_to_line_m,
+               CASE WHEN ST_Distance(t.geom, l.geom) <= {buf} THEN near.seg END AS segment_id,
+               coalesce(ST_Distance(t.geom, l.geom) <= {buf}, false) AS in_street
+        FROM t LEFT JOIN near USING (_rid), street_line l ORDER BY t._rid""")
 
 
 class Geocoder:
@@ -50,7 +52,7 @@ class Geocoder:
         self.fsa = {}
         rx = _street_number_re(street)
         for addr, x, y in con.execute(
-                "SELECT address, ST_X(geom), ST_Y(geom) FROM businesses WHERE source='fsa' AND geom IS NOT NULL").fetchall():
+                "SELECT address, ST_X(geom), ST_Y(geom) FROM businesses WHERE source='fsa' AND geocode='fsa'").fetchall():
             m = rx.search(addr or "")
             if m:
                 for n in house_numbers(m.group(1)):
@@ -89,35 +91,46 @@ def run(cfg: StreetConfig) -> dict:
     # ---------- OSM POIs and addresses (from the geometry stage's cached tiles)
     osm_files = con.execute("SELECT raw_files FROM sources WHERE source_id='osm'").fetchone()[0]
     data = osm.load_cached(osm_files)
-    con.execute("""CREATE OR REPLACE TABLE businesses (id VARCHAR, source VARCHAR, name VARCHAR,
-        raw_type VARCHAR, address VARCHAR, postcode VARCHAR, geocode VARCHAR, extra JSON, geom GEOMETRY)""")
+    BIZ = {"id": "VARCHAR", "source": "VARCHAR", "name": "VARCHAR", "raw_type": "VARCHAR",
+           "address": "VARCHAR", "postcode": "VARCHAR", "geocode": "VARCHAR", "extra": "JSON"}
+    biz = []
     for p in osm.pois(data):
         t = p["tags"]
-        raw = ";".join(f"{k}={t[k]}" for k in osm.POI_KEYS if k in t)
-        addr = " ".join(x for x in (t.get("addr:housenumber"), t.get("addr:street")) if x) or None
-        con.execute(f"INSERT INTO businesses VALUES (?, 'osm', ?, ?, ?, ?, 'osm', ?, {POINT})",
-                    [f"osm:{p['osm_id']}", t.get("name"), raw, addr, norm_postcode(t.get("addr:postcode")),
-                     json.dumps(t), p["lon"], p["lat"]])
-    con.execute("CREATE OR REPLACE TABLE osm_addresses (osm_id VARCHAR, housenumber VARCHAR, name VARCHAR, geom GEOMETRY)")
-    for a in osm.addresses(data, street):
-        con.execute(f"INSERT INTO osm_addresses VALUES (?, ?, ?, {POINT})",
-                    [a["osm_id"], a["housenumber"], a["name"], a["lon"], a["lat"]])
+        biz.append({"id": f"osm:{p['osm_id']}", "source": "osm", "name": t.get("name"),
+                    "raw_type": ";".join(f"{k}={t[k]}" for k in osm.POI_KEYS if k in t),
+                    "address": " ".join(x for x in (t.get("addr:housenumber"), t.get("addr:street")) if x) or None,
+                    "postcode": norm_postcode(t.get("addr:postcode")), "geocode": "osm",
+                    "extra": json.dumps(t), "lon": p["lon"], "lat": p["lat"]})
+    bulk_create(con, "osm_addresses", osm.addresses(data, street),
+                {"osm_id": "VARCHAR", "housenumber": "VARCHAR", "name": "VARCHAR"})
 
     # ---------- FSA
     c = fsa.download(cfg.local_authority.fsa_code)
     rows = fsa.parse(c)
+    # FSA rows lacking coordinates elsewhere in the city: postcode centroid, flagged
+    n_nocoord = sum(1 for r in rows if not r["lat"])
+    missing = [norm_postcode(r["postcode"]) for r in rows if not r["lat"] and r["postcode"]]
+    centroids = postcodes.bulk_lookup([m for m in missing if m])
     for r in rows:
-        extra = json.dumps({"fhrsid": r["fhrsid"], "rating": r["rating"], "rating_date": r["rating_date"],
-                            "type_id": r["type_id"]})
-        geom = POINT if r["lat"] and r["lon"] else "NULL"
-        args = [f"fsa:{r['fhrsid']}", r["name"], r["type"], r["address"], norm_postcode(r["postcode"]), extra]
-        if r["lat"] and r["lon"]:
-            args += [r["lon"], r["lat"]]
-        con.execute(f"INSERT INTO businesses VALUES (?, 'fsa', ?, ?, ?, ?, {'fsa' if geom != 'NULL' else 'NULL'!r}, ?, {geom})"
-                    .replace("'NULL'", "NULL"), args)
+        geocode = "fsa"
+        if not r["lat"] and r["address"] and street.lower() in r["address"].lower():
+            geocode = None  # on our street: geocode by address below, more precise than postcode
+        elif not r["lat"]:
+            pc = centroids.get(norm_postcode(r["postcode"]) or "")
+            if pc:
+                r["lon"], r["lat"], geocode = pc["longitude"], pc["latitude"], "postcode_centroid"
+            else:
+                geocode = None
+        biz.append({"id": f"fsa:{r['fhrsid']}", "source": "fsa", "name": r["name"], "raw_type": r["type"],
+                    "address": r["address"], "postcode": norm_postcode(r["postcode"]), "geocode": geocode,
+                    "extra": json.dumps({"fhrsid": r["fhrsid"], "rating": r["rating"],
+                                         "rating_date": r["rating_date"], "type_id": r["type_id"]}),
+                    "lon": r["lon"], "lat": r["lat"]})
+    bulk_create(con, "businesses", biz, BIZ)
     record_source(con, "fsa", fsa.DATASET, c.url, c.retrieved, [c.rel_path])
     out["fsa_establishments_coventry"] = len(rows)
-    out["fsa_without_coords"] = sum(1 for r in rows if not r["lat"])
+    out["fsa_without_coords"] = n_nocoord
+    out["fsa_geocoded_by_postcode_centroid"] = sum(1 for b in biz if b["geocode"] == "postcode_centroid")
 
     # FSA rows on this street without coordinates: geocode from address/postcode
     geo = Geocoder(con, street)
@@ -159,7 +172,7 @@ def run(cfg: StreetConfig) -> dict:
     for f in c.json()["features"]:
         p = f["properties"]; lon, lat = f["geometry"]["coordinates"]
         code = p.get("LSOA21CD") or p.get("lsoa21cd")
-        con.execute(f"INSERT INTO lsoa_pwc VALUES (?, ?, {POINT})", [code, p.get("LSOA21NM"), lon, lat])
+        con.execute(f"INSERT INTO lsoa_pwc VALUES (?, ?, {POINT})", [code, p.get("LSOA21NM") or p.get("lsoa21nm"), lon, lat])
     record_source(con, "ons_pwc", ons_geo.PWC_DATASET, c.url, c.retrieved, [c.rel_path])
     con.execute(f"""CREATE OR REPLACE TABLE catchment_lsoa AS
         SELECT p.lsoa21cd, p.name, ST_Distance(p.geom, l.geom) AS pwc_dist_m
