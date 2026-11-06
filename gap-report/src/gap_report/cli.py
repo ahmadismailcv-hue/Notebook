@@ -6,11 +6,12 @@ import argparse
 
 from gap_report.config import load_street, settings
 
-from gap_report.stages import classify_stage, geometry_stage, gaps_stage, load_stage, metrics_stage
+from gap_report.stages import classify_stage, geometry_stage, gaps_stage, load_stage, metrics_stage, report_stage
 
 RUNNERS = {"geometry": geometry_stage.run, "load": load_stage.run,
            "classify": classify_stage.run, "metrics": metrics_stage.run,
-           "gaps": gaps_stage.run}
+           "gaps": gaps_stage.run,
+           "facts": report_stage.facts_stage, "report": report_stage.report_stage}
 
 STAGES = ["geometry", "load", "classify", "metrics", "gaps", "facts", "report"]
 
@@ -40,7 +41,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"[{stage}] not implemented yet")
         else:
             print(f"[{stage}] running")
-            result = runner(cfg, use_llm=not args.no_llm) if stage == "classify" else runner(cfg)
+            result = runner(cfg, use_llm=not args.no_llm) if stage in ("classify", "report") else runner(cfg)
             for k, v in result.items():
                 print(f"  {k}: {v}")
         if stage == args.until:

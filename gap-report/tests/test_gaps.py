@@ -16,7 +16,10 @@ def test_status_follows_checks(gdb):
         if dpass and spass:
             assert r["status"] == ("gap" if r["well_observed"] else "possible_gap_unverified")
         else:
-            assert r["status"] == "no_gap"
+            assert r["status"] in ("no_gap", "near_miss")
+            if r["status"] == "near_miss":
+                failing = [c for c in r["demand_checks"] + r["supply_checks"] if not c["passed"]]
+                assert failing and all(c["missed_by"] is not None for c in failing)
 
 
 def test_absence_of_poorly_observed_category_is_unverified(gdb):
@@ -43,10 +46,11 @@ def test_matching_synthetic_unit():
     unit = {"address": "TEST UNIT", "size_sqft": 3000, "use_class": "E", "features": "rear car park"}
     gaps = [{"rule_id": "a", "category": "kids_leisure", "status": "possible_gap_unverified"},
             {"rule_id": "b", "category": "cafe_dessert", "status": "gap"},
-            {"rule_id": "c", "category": "childcare", "status": "no_gap"}]
+            {"rule_id": "c", "category": "childcare", "status": "no_gap"},
+            {"rule_id": "d", "category": "gym", "status": "near_miss"}]
     rec = recommend(unit, gaps, NEEDS, {"cafe_dessert": 120.0}, [{"category": "takeaway", "basis": "saturation"}], SC)
     cats = [t["category"] for t in rec["top_uses"]]
-    assert "childcare" not in cats                       # not flagged
+    assert "childcare" not in cats and "gym" not in cats  # not flagged / near miss only
     assert cats[0] == "kids_leisure"                     # fits size, class, parking, none nearby
     cafe = next(s for s in rec["all_scores"] if s["category"] == "cafe_dessert")
     assert cafe["factors"]["size"]["value"] == SC["size_above_ideal"]

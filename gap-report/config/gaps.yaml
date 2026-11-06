@@ -98,6 +98,12 @@ gap_rules:
     supply:
       - {measure: on_street, at_most: 3}
 
+near_miss:
+  # A rule that fails only by this much on every failing check is reported as a near
+  # miss (not scored against units): thresholds are judgement, so say how close it was.
+  count_slack: 1          # outlets, for on_street / within_radius
+  relative_slack: 0.10    # fraction of the threshold, for ratios, per_100m, share
+
 saturation:
   # Categories over these thresholds go on every unit's "avoid" list.
   share_of_street_at_least: 0.08

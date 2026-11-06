@@ -74,7 +74,7 @@ def score(unit: dict, category: str, need: dict, nearest_m: float | None, sc: di
 
 
 def recommend(unit: dict, gaps: list[dict], needs: dict, nearest: dict, avoid: list[dict], sc: dict) -> dict:
-    flagged = [g for g in gaps if g["status"] != "no_gap"]
+    flagged = [g for g in gaps if g["status"] in ("gap", "possible_gap_unverified")]
     scored = sorted((score(unit, g["category"], needs[g["category"]], nearest.get(g["category"]), sc) | {
         "gap_status": g["status"], "rule_id": g["rule_id"]} for g in flagged),
         key=lambda s: (-s["score"], s["category"]))

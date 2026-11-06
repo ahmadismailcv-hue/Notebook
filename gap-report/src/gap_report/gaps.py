@@ -27,10 +27,24 @@ def load() -> dict:
     return cfg
 
 
+COUNT_MEASURES = {"on_street", "within_radius"}
+
+
 def _check(cond: dict, value: float | None) -> dict:
     op = next(k for k in cond if k in OPS)
     ok = value is not None and OPS[op](value, cond[op])
-    return {**cond, "op": op, "threshold": cond[op], "value": value, "passed": ok}
+    miss = None if ok or value is None else abs(value - cond[op])
+    return {**cond, "op": op, "threshold": cond[op], "value": value, "passed": ok, "missed_by": miss}
+
+
+def _near(c: dict, nm: dict) -> bool:
+    if c["passed"]:
+        return True
+    if c["missed_by"] is None:
+        return False
+    if c.get("measure") in COUNT_MEASURES:
+        return c["missed_by"] <= nm["count_slack"]
+    return c["missed_by"] <= nm["relative_slack"] * abs(c["threshold"])
 
 
 def demand_value(con, metric: str, area: str) -> tuple[float | None, float | None]:
@@ -69,6 +83,12 @@ def evaluate(con, street_walk_rows: int) -> tuple[list[dict], list[dict]]:
         observed = r["category"] in cfg["well_observed"] or (
             street_walk_rows > 0 and all(c["measure"] != "within_radius" for c in r["supply"]))
         status = ("gap" if observed else "possible_gap_unverified") if dpass and spass else "no_gap"
+        if status == "no_gap":
+            nm = cfg["near_miss"]
+            dnear = dpass or (any(_near(c, nm) for c in dchecks) if mode == "any"
+                              else all(_near(c, nm) for c in dchecks))
+            if dnear and all(_near(c, nm) for c in schecks):
+                status = "near_miss"
         results.append({"rule_id": r["id"], "category": r["category"], "area": area,
                         "demand_mode": mode, "demand_checks": dchecks, "supply_checks": schecks,
                         "demand_passed": dpass, "supply_passed": spass, "well_observed": observed,
