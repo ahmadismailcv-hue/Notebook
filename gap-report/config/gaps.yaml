@@ -1,0 +1,130 @@
+# Gap rules, saturation rules and what each use needs from a unit.
+# Code evaluates these; the LLM never decides a gap. Every rule states its thresholds
+# and reasoning, and the report quotes them.
+#
+# demand metrics: ids from demand_metrics.yaml, tested on `area` (catchment by default:
+#   LSOAs whose population-weighted centroid is within 800 m of the street).
+# supply measures: on_street (count in the 150 m buffer), per_100m, share_of_street,
+#   within_radius (count of open outlets within radius_m of the street line).
+
+defaults:
+  area: catchment
+
+# Categories whose outlets are almost all in FSA (statutory food registration), so an
+# absence in the data is a real absence. Anything else relies on volunteer-mapped OSM:
+# an absence there is reported as "unverified" unless the street walk covers it.
+well_observed: [takeaway, restaurant, cafe_dessert, grocer, bakery, halal_butcher,
+                south_asian_sweets, pub_bar]
+
+gap_rules:
+  - id: kids_leisure_young_population
+    category: kids_leisure
+    reasoning: >-
+      A child population well above the city average with no indoor children's leisure
+      nearby means families travel out of the area for soft play and activities.
+    demand:
+      any:
+        - {metric: age_0_15, ratio_at_least: 1.2}
+        - {metric: age_0_4, ratio_at_least: 1.2}
+    supply:
+      - {measure: within_radius, radius_m: 800, at_most: 0}
+
+  - id: childcare_young_children
+    category: childcare
+    reasoning: >-
+      Many under-5s relative to the city and few nurseries on the street itself suggests
+      unmet demand for walkable childcare, especially where most households have no car.
+    demand:
+      all:
+        - {metric: age_0_4, ratio_at_least: 1.2}
+        - {metric: no_car, ratio_at_least: 1.2}
+    supply:
+      - {measure: on_street, at_most: 2}
+
+  - id: cafe_dessert_family_space
+    category: cafe_dessert
+    reasoning: >-
+      A young, family-heavy population with few alcohol-free sit-down places on the
+      street suggests room for a family cafe or dessert parlour.
+    demand:
+      all:
+        - {metric: age_0_15, ratio_at_least: 1.1}
+        - {metric: religion_muslim, ratio_at_least: 1.5}
+    supply:
+      - {measure: per_100m, at_most: 0.3}
+
+  - id: bank_access_low_car
+    category: bank_atm
+    reasoning: >-
+      Low car ownership and limited English raise the cost of losing face-to-face banking;
+      with branches closing, a banking hub or shared counter is a candidate use.
+    demand:
+      all:
+        - {metric: no_car, ratio_at_least: 1.2}
+        - {metric: limited_english, ratio_at_least: 1.5}
+    supply:
+      - {measure: on_street, at_most: 2}
+
+  - id: gym_young_adults
+    category: gym
+    reasoning: >-
+      A young catchment (few residents over 65 relative to the city) with very few gyms
+      along a long street suggests room for more fitness provision.
+    demand:
+      all:
+        - {metric: age_65_plus, ratio_at_most: 0.8}
+    supply:
+      - {measure: per_100m, at_most: 0.1}
+
+  - id: health_deprived_area
+    category: health
+    reasoning: >-
+      High deprivation predicts higher health need; few GP, dentist or optician premises
+      on the street means residents travel for routine care.
+    demand:
+      all:
+        - {metric: imd_decile1_share, ratio_at_least: 2.0}
+    supply:
+      - {measure: on_street, at_most: 3}
+
+  - id: community_overcrowding
+    category: community_family
+    reasoning: >-
+      Overcrowded homes push family life, study and social activity out of the house;
+      community and family space substitutes for missing room at home.
+    demand:
+      all:
+        - {metric: overcrowded, ratio_at_least: 1.5}
+    supply:
+      - {measure: on_street, at_most: 3}
+
+saturation:
+  # Categories over these thresholds go on every unit's "avoid" list.
+  share_of_street_at_least: 0.08
+  per_100m_at_least: 0.8
+  policy_avoid:
+    - category: gambling
+      reasoning: >-
+        More gambling premises in an area where most neighbourhoods are among England's
+        most deprived 10% is likely to add harm; councils can refuse them on that basis.
+      when: {metric: imd_decile1_share, ratio_at_least: 2.0}
+
+# What each use needs from a unit. use_classes are England's 2020 Use Classes; a unit
+# whose class is "E" covers all of E(a)-E(g). sqft: [minimum, ideal_min, ideal_max].
+category_needs:
+  kids_leisure:     {use_classes: ["E(d)", F2], sqft: [2000, 3500, 10000], parking: preferred}
+  childcare:        {use_classes: ["E(f)"], sqft: [1000, 1500, 4000], parking: preferred}
+  cafe_dessert:     {use_classes: ["E(b)"], sqft: [500, 900, 2500], parking: none}
+  bank_atm:         {use_classes: ["E(c)"], sqft: [300, 600, 2500], parking: none}
+  gym:              {use_classes: ["E(d)"], sqft: [1500, 3000, 12000], parking: preferred}
+  health:           {use_classes: ["E(e)"], sqft: [800, 1500, 6000], parking: preferred}
+  community_family: {use_classes: [F2, "E(f)", "E(e)"], sqft: [600, 1200, 5000], parking: none}
+
+scoring:
+  # Unit score for a flagged gap = size_fit x use_class_fit x parking_fit x distance_fit.
+  use_class_mismatch: 0.4      # change of use needs planning permission: possible, not ideal
+  parking_preferred_missing: 0.8
+  parking_required_missing: 0.2
+  size_below_ideal: 0.6        # between minimum and ideal minimum
+  size_above_ideal: 0.8
+  distance_full_credit_m: 800  # nearest same-category outlet this far away or more = 1.0

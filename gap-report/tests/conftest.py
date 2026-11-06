@@ -57,3 +57,17 @@ def mdb(foleshill, metrics):
     con = open_db(foleshill)
     yield con
     con.close()
+
+
+@pytest.fixture(scope="session")
+def gapped(foleshill, metrics):
+    from gap_report.stages import gaps_stage
+    return gaps_stage.run(foleshill)
+
+
+@pytest.fixture
+def gdb(foleshill, gapped):
+    from gap_report.db import open_db
+    con = open_db(foleshill)
+    yield con
+    con.close()
