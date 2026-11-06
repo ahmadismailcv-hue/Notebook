@@ -19,3 +19,15 @@ def lsoas_in_envelope(min_lon, min_lat, max_lon, max_lat) -> Cached:
         "geometryType": "esriGeometryEnvelope", "inSR": "4326", "outSR": "4326",
         "spatialRel": "esriSpatialRelIntersects",
         "outFields": "LSOA21CD,LSOA21NM,RUC21NM", "returnGeometry": "true", "f": "geojson"})
+
+PWC_URL = ("https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/"
+           "LSOA_PopCentroids_EW_2021_V4/FeatureServer/0/query")
+PWC_DATASET = "ONS Open Geography Portal: LSOA (Dec 2021) population-weighted centroids V4"
+
+
+def pwc_in_envelope(min_lon, min_lat, max_lon, max_lat) -> Cached:
+    return fetch("ons_geo", PWC_URL, params={
+        "geometry": f"{min_lon:.5f},{min_lat:.5f},{max_lon:.5f},{max_lat:.5f}",
+        "geometryType": "esriGeometryEnvelope", "inSR": "4326", "outSR": "4326",
+        "spatialRel": "esriSpatialRelIntersects",
+        "outFields": "*", "returnGeometry": "true", "f": "geojson"})

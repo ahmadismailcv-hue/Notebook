@@ -25,6 +25,10 @@ class Geometry(BaseModel):
     context_radius_m: float
 
 
+class Demand(BaseModel):
+    catchment_radius_m: float
+
+
 class CacheCfg(BaseModel):
     raw_dir: str
     offline: bool = False
@@ -38,6 +42,7 @@ class HttpCfg(BaseModel):
 class Settings(BaseModel):
     models: Models
     geometry: Geometry
+    demand: Demand
     cache: CacheCfg
     http: HttpCfg
 
@@ -65,6 +70,8 @@ class LocalAuthority(BaseModel):
     fsa_api_id: int
     fsa_code: str
     ons_code: str
+    nomis_id: int
+    voa_ba_code: str
 
 
 class Area(BaseModel):
@@ -75,6 +82,8 @@ class Area(BaseModel):
 class Ward(BaseModel):
     name: str
     census_geography: str
+    ons_code: str
+    nomis_id: int
 
 
 class StreetConfig(BaseModel):
@@ -86,6 +95,7 @@ class StreetConfig(BaseModel):
     local_authority: LocalAuthority
     benchmark: Area
     ward: Ward
+    voa_street: str
     manual_dir: str
 
     @property

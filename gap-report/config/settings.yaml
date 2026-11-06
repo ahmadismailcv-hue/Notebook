@@ -7,6 +7,8 @@ geometry:
   street_buffer_m: 150           # "on the street" for supply counts
   segment_length_m: 100
   context_radius_m: 1000         # data collected this far out so 800 m rules are valid
+demand:
+  catchment_radius_m: 800       # LSOAs whose population-weighted centroid is within this of the line
 cache:
   raw_dir: data/raw
   offline: false                 # true = never call the network; fail if cache missing

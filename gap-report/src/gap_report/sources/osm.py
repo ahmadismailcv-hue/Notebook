@@ -59,9 +59,24 @@ def corridor_tiles(bbox, pad_m: float) -> list[tuple[float, float, float, float]
 
 
 def fetch_tiles(tiles) -> OsmData:
+    return _parse([fetch("osm", API, params={"bbox": ",".join(f"{v:.6f}" for v in t)},
+                         ext="xml.gz") for t in tiles])
+
+
+def load_cached(rel_paths: list[str]) -> OsmData:
+    """Re-read tiles already fetched by the geometry stage."""
+    from gap_report.cache import _stamp
+    from gap_report.config import ROOT
+    out = []
+    for rp in rel_paths:
+        p = ROOT / rp
+        out.append(Cached(p, _stamp(p), API))
+    return _parse(out)
+
+
+def _parse(cached: list[Cached]) -> OsmData:
     data = OsmData()
-    for t in tiles:
-        c = fetch("osm", API, params={"bbox": ",".join(f"{v:.6f}" for v in t)}, ext="xml.gz")
+    for c in cached:
         data.files.append(c)
         root = ET.fromstring(c.bytes())
         for n in root.iter("node"):
@@ -74,6 +89,24 @@ def fetch_tiles(tiles) -> OsmData:
             refs = [int(nd.get("ref")) for nd in w.iter("nd")]
             data.ways[int(w.get("id"))] = (refs, {t.get("k"): t.get("v") for t in w.iter("tag")})
     return data
+
+
+def addresses(data: OsmData, street: str) -> list[dict]:
+    """Address points (nodes, or building centroids) on the given street."""
+    out = []
+    for nid, tags in data.node_tags.items():
+        if tags.get("addr:street") == street and tags.get("addr:housenumber"):
+            lon, lat = data.nodes[nid]
+            out.append({"osm_id": f"node/{nid}", "housenumber": tags["addr:housenumber"],
+                        "lon": lon, "lat": lat, "name": tags.get("name")})
+    for wid, (refs, tags) in data.ways.items():
+        if tags.get("addr:street") == street and tags.get("addr:housenumber"):
+            pts = [data.nodes[r] for r in refs if r in data.nodes]
+            if pts:
+                out.append({"osm_id": f"way/{wid}", "housenumber": tags["addr:housenumber"],
+                            "lon": sum(p[0] for p in pts) / len(pts),
+                            "lat": sum(p[1] for p in pts) / len(pts), "name": tags.get("name")})
+    return out
 
 
 def pois(data: OsmData) -> list[dict]:

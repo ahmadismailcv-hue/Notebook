@@ -14,3 +14,17 @@ def foleshill():
 def geometry_summary(foleshill):
     from gap_report.stages import geometry_stage
     return geometry_stage.run(foleshill)
+
+
+@pytest.fixture(scope="session")
+def loaded(foleshill, geometry_summary):
+    from gap_report.stages import load_stage
+    return load_stage.run(foleshill)
+
+
+@pytest.fixture
+def db(foleshill, loaded):
+    from gap_report.db import open_db
+    con = open_db(foleshill)
+    yield con
+    con.close()

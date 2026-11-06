@@ -1,0 +1,7 @@
+{
+  "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
+  "method": "GET",
+  "body": null,
+  "retrieved": "2026-11-06T17:29:12.003310+00:00",
+  "status": 200
+}

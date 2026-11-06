@@ -6,9 +6,9 @@ import argparse
 
 from gap_report.config import load_street, settings
 
-from gap_report.stages import geometry_stage
+from gap_report.stages import geometry_stage, load_stage
 
-RUNNERS = {"geometry": geometry_stage.run}
+RUNNERS = {"geometry": geometry_stage.run, "load": load_stage.run}
 
 STAGES = ["geometry", "load", "classify", "metrics", "gaps", "facts", "report"]
 

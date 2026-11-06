@@ -14,8 +14,13 @@ local_authority:
   fsa_api_id: 375                # FSA API LocalAuthorityId (checked 2026-11-06)
   fsa_code: "407"                # FSA open-data file code: FHRS407en-GB.xml
   ons_code: E08000026
+  nomis_id: 645922942            # Nomis TYPE154 (2022 local authorities)
+  voa_ba_code: "4610"            # VOA billing authority code (spec appendix 1)
 benchmark: {name: Coventry, ons_code: E08000026}
 ward:
   name: Foleshill
-  census_geography: "2022 wards"
+  census_geography: "2022 wards"   # Census 2021 is published on 2022 wards
+  ons_code: E05001222              # 2022 ward; current ward (E05016402) has new boundaries
+  nomis_id: 641728822              # Nomis TYPE153
+voa_street: FOLESHILL ROAD
 manual_dir: data/manual/foleshill-road-coventry
