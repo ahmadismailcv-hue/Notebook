@@ -10,37 +10,37 @@ _Narrative not generated: run without --no-llm to add it._
 
 _Narrative not generated: run without --no-llm to add it._
 
-The analysed stretch runs from Coventry ring road (A4053) [2] to A444 (Jimmy Hill Way) [2]: 2,787 [2] m, split into 28 [2] segments of 100 [2] m. An outlet counts as on the street within 150 [2] m of the centreline. There are 302 [2, 3] open outlets on the street, of which 39 [2, 3] are not yet classified.
+The analysed stretch runs from Coventry ring road (A4053) [2] to A444 (Jimmy Hill Way) [2]: 2,787 [2] m, split into 28 [2] segments of 100 [2] m. An outlet counts as on the street within 150 [2] m of the centreline. There are 302 [2, 3] open outlets on the street, of which 54 [2, 3] are not yet classified.
 
 | Category | On street | Per 100 m | Share of street | Within 800 [4] m |
 |---|---|---|---|---|
-| grocer | 34 [2, 3] | 1.22 [2, 3] | 12.9% [2, 3] | 124 [2, 3] |
-| takeaway | 25 [2, 3] | 0.90 [2, 3] | 9.5% [2, 3] | 141 [2, 3] |
-| beauty | 24 [2, 3] | 0.86 [2, 3] | 9.1% [2, 3] | 64 [2, 3] |
-| restaurant | 23 [2, 3] | 0.83 [2, 3] | 8.7% [2, 3] | 160 [2, 3] |
-| home hardware | 15 [2, 3] | 0.54 [2, 3] | 5.7% [2, 3] | 58 [2, 3] |
-| place of worship | 12 [2, 3] | 0.43 [2, 3] | 4.6% [2, 3] | 55 [2, 3] |
-| clothing fabric | 11 [2, 3] | 0.39 [2, 3] | 4.2% [2, 3] | 70 [2, 3] |
-| pharmacy | 11 [2, 3] | 0.39 [2, 3] | 4.2% [2, 3] | 20 [2, 3] |
-| pub bar | 10 [2, 3] | 0.36 [2, 3] | 3.8% [2, 3] | 66 [2, 3] |
-| vehicle | 10 [2, 3] | 0.36 [2, 3] | 3.8% [2, 3] | 40 [2, 3] |
-| phone electronics | 9 [2, 3] | 0.32 [2, 3] | 3.4% [2, 3] | 24 [2, 3] |
-| professional services | 8 [2, 3] | 0.29 [2, 3] | 3.0% [2, 3] | 23 [2, 3] |
-| cafe dessert | 7 [2, 3] | 0.25 [2, 3] | 2.7% [2, 3] | 63 [2, 3] |
-| halal butcher | 7 [2, 3] | 0.25 [2, 3] | 2.7% [2, 3] | 20 [2, 3] |
-| childcare | 6 [2, 3] | 0.22 [2, 3] | 2.3% [2, 3] | 14 [2, 3] |
-| education | 6 [2, 3] | 0.22 [2, 3] | 2.3% [2, 3] | 35 [2, 3] |
-| park green | 5 [2, 3] | 0.18 [2, 3] | 1.9% [2, 3] | 58 [2, 3] |
-| bakery | 4 [2, 3] | 0.14 [2, 3] | 1.5% [2, 3] | 16 [2, 3] |
-| community family | 4 [2, 3] | 0.14 [2, 3] | 1.5% [2, 3] | 23 [2, 3] |
-| gym | 4 [2, 3] | 0.14 [2, 3] | 1.5% [2, 3] | 7 [2, 3] |
-| health | 4 [2, 3] | 0.14 [2, 3] | 1.5% [2, 3] | 19 [2, 3] |
-| jewellery | 4 [2, 3] | 0.14 [2, 3] | 1.5% [2, 3] | 16 [2, 3] |
-| money transfer | 4 [2, 3] | 0.14 [2, 3] | 1.5% [2, 3] | 11 [2, 3] |
-| playground | 4 [2, 3] | 0.14 [2, 3] | 1.5% [2, 3] | 14 [2, 3] |
-| south asian sweets | 4 [2, 3] | 0.14 [2, 3] | 1.5% [2, 3] | 7 [2, 3] |
-| bank atm | 3 [2, 3] | 0.11 [2, 3] | 1.1% [2, 3] | 31 [2, 3] |
-| gambling | 3 [2, 3] | 0.11 [2, 3] | 1.1% [2, 3] | 11 [2, 3] |
+| grocer | 34 [2, 3] | 1.22 [2, 3] | 13.7% [2, 3] | 124 [2, 3] |
+| beauty | 24 [2, 3] | 0.86 [2, 3] | 9.7% [2, 3] | 64 [2, 3] |
+| takeaway | 24 [2, 3] | 0.86 [2, 3] | 9.7% [2, 3] | 137 [2, 3] |
+| home hardware | 15 [2, 3] | 0.54 [2, 3] | 6.0% [2, 3] | 58 [2, 3] |
+| cafe dessert | 14 [2, 3] | 0.50 [2, 3] | 5.6% [2, 3] | 80 [2, 3] |
+| place of worship | 12 [2, 3] | 0.43 [2, 3] | 4.8% [2, 3] | 55 [2, 3] |
+| clothing fabric | 11 [2, 3] | 0.39 [2, 3] | 4.4% [2, 3] | 70 [2, 3] |
+| pharmacy | 11 [2, 3] | 0.39 [2, 3] | 4.4% [2, 3] | 20 [2, 3] |
+| pub bar | 10 [2, 3] | 0.36 [2, 3] | 4.0% [2, 3] | 66 [2, 3] |
+| vehicle | 10 [2, 3] | 0.36 [2, 3] | 4.0% [2, 3] | 40 [2, 3] |
+| phone electronics | 9 [2, 3] | 0.32 [2, 3] | 3.6% [2, 3] | 24 [2, 3] |
+| professional services | 8 [2, 3] | 0.29 [2, 3] | 3.2% [2, 3] | 23 [2, 3] |
+| halal butcher | 7 [2, 3] | 0.25 [2, 3] | 2.8% [2, 3] | 20 [2, 3] |
+| childcare | 6 [2, 3] | 0.22 [2, 3] | 2.4% [2, 3] | 14 [2, 3] |
+| education | 6 [2, 3] | 0.22 [2, 3] | 2.4% [2, 3] | 35 [2, 3] |
+| park green | 5 [2, 3] | 0.18 [2, 3] | 2.0% [2, 3] | 58 [2, 3] |
+| community family | 4 [2, 3] | 0.14 [2, 3] | 1.6% [2, 3] | 23 [2, 3] |
+| gym | 4 [2, 3] | 0.14 [2, 3] | 1.6% [2, 3] | 7 [2, 3] |
+| health | 4 [2, 3] | 0.14 [2, 3] | 1.6% [2, 3] | 19 [2, 3] |
+| jewellery | 4 [2, 3] | 0.14 [2, 3] | 1.6% [2, 3] | 16 [2, 3] |
+| money transfer | 4 [2, 3] | 0.14 [2, 3] | 1.6% [2, 3] | 11 [2, 3] |
+| playground | 4 [2, 3] | 0.14 [2, 3] | 1.6% [2, 3] | 14 [2, 3] |
+| restaurant | 4 [2, 3] | 0.14 [2, 3] | 1.6% [2, 3] | 41 [2, 3] |
+| south asian sweets | 4 [2, 3] | 0.14 [2, 3] | 1.6% [2, 3] | 7 [2, 3] |
+| bank atm | 3 [2, 3] | 0.11 [2, 3] | 1.2% [2, 3] | 31 [2, 3] |
+| gambling | 3 [2, 3] | 0.11 [2, 3] | 1.2% [2, 3] | 11 [2, 3] |
+| bakery | 2 [2, 3] | 0.07 [2, 3] | 0.8% [2, 3] | 13 [2, 3] |
 | other | 1 [2, 3] | 0.04 [2, 3] | 0.4% [2, 3] | 2 [2, 3] |
 | post office | 1 [2, 3] | 0.04 [2, 3] | 0.4% [2, 3] | 4 [2, 3] |
 
@@ -99,7 +99,7 @@ Each rule is in `config/gaps.yaml` with its reasoning; demand is tested on the c
 |---|---|---|---|
 | kids leisure | possible gap unverified | Residents aged 0-15 1.14× [7] the city rate, needs at least 1.20× [1] (not met) OR Residents aged 0-4 1.26× [7] the city rate, needs at least 1.20× [1] (met) | outlets within 800 [1] m 0 [2, 3], needs at most 0 [1] (met) |
 | childcare | no gap | Residents aged 0-4 1.26× [7] the city rate, needs at least 1.20× [1] (met) AND Households with no car or van 1.49× [10] the city rate, needs at least 1.20× [1] (met) | outlets on street 6 [2, 3], needs at most 2 [1] (not met, missed by 4 [1]) |
-| cafe dessert | gap | Residents aged 0-15 1.14× [7] the city rate, needs at least 1.10× [1] (met) AND Muslim 3.21× [9] the city rate, needs at least 1.50× [1] (met) | outlets per 100 m 0.25 [2, 3], needs at most 0.30 [1] (met) |
+| cafe dessert | no gap | Residents aged 0-15 1.14× [7] the city rate, needs at least 1.10× [1] (met) AND Muslim 3.21× [9] the city rate, needs at least 1.50× [1] (met) | outlets per 100 m 0.50 [2, 3], needs at most 0.30 [1] (not met, missed by 0.20 [1]) |
 | bank atm | near miss | Households with no car or van 1.49× [10] the city rate, needs at least 1.20× [1] (met) AND Residents (3+) who cannot speak English well or at all 2.53× [12] the city rate, needs at least 1.50× [1] (met) | outlets on street 3 [2, 3], needs at most 2 [1] (not met, missed by 1 [1]) |
 | gym | no gap | Residents aged 65+ 0.52× [7] the city rate, needs at most 0.80× [1] (met) | outlets per 100 m 0.14 [2, 3], needs at most 0.10 [1] (not met, missed by 0.04 [1]) |
 | health | near miss | LSOAs in England's most deprived 10% (IMD 2025) 3.33× [13] the city rate, needs at least 2.00× [1] (met) | outlets on street 4 [2, 3], needs at most 3 [1] (not met, missed by 1 [1]) |
@@ -114,7 +114,6 @@ Uses to avoid on any unit:
 - beauty (saturation): Already one of the most common uses on the street.
 - gambling (policy): More gambling premises in an area where most neighbourhoods are among England's most deprived 10% is likely to add harm; councils can refuse them on that basis. [1]
 - grocer (saturation): Already one of the most common uses on the street.
-- restaurant (saturation): Already one of the most common uses on the street.
 - takeaway (saturation): Already one of the most common uses on the street.
 
 A category is saturated when it makes up at least 8.0% [1] of outlets on the street or reaches 0.80 [1] outlets per 100 m.
@@ -124,7 +123,7 @@ A category is saturated when it makes up at least 8.0% [1] of outlets on the str
 _Narrative not generated: run without --no-llm to add it._
 
 - Outlets come from OpenStreetMap (volunteer-mapped) and the Food Standards Agency register (food businesses only). Non-food uses with no OSM entry are missing, so an absence of a non-food category is marked unverified unless the street walk covers it.
-- 39 [2, 3] outlets on the street are not yet classified.
+- 54 [2, 3] outlets on the street are not yet classified.
 - Thresholds in the gap rules are judgement, not calibrated against other streets. Near misses are shown so the reader can see how close each rule came.
 - Deprivation rates from the latest Indices of Deprivation are not comparable with earlier editions.
 - Census figures describe census day, not today; the catchment uses the census neighbourhood boundaries.

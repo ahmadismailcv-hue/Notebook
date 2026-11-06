@@ -61,9 +61,9 @@ name_rules:   # case-insensitive regex -> category
   - ['pharmacy|chemist', pharmacy]
   - ['\bmoney\b|forex|remit|western union|exchange|pawn|cheque|\bfinance\b', money_transfer]
   - ['\b(bet(fred|way|ting)?|bookmaker|ladbrokes|william hill|coral|paddy ?power|amusements?|casino)\b', gambling]
-  - ['dessert|ice ?cream|gelato|waffle|kulfi|falooda|creamery|cake (shop|house)|\bcafe\b|caf[eé]|coffee', cafe_dessert]
+  - ['dessert|ice ?cream|gelato|waffle|kulfi|falooda|creamery|\bcakes?\b|\bchai+|karak|\btea\b|shakes?\b|juice|smoothie|crepe|cookie|\bcafe\b|caf[eé]|coffee', cafe_dessert]
   - ['butcher|\bmeats?\b|halal (meat|food)', halal_butcher]
-  - ['bakery|bakers?\b|patisserie', bakery]
+  - ['bakery|bakers?\b', bakery]
   - ['barber|hair|salon|beauty|nails|lashes|brows|threading|tattoo', beauty]
   - ['jewel', jewellery]
   - ['supermarket|super ?store|mini ?market|grocer|cash (and|&) carry|food ?(store|centre|center|mart)|convenience|off ?licen[cs]e|\bstores?\b', grocer]
@@ -75,10 +75,11 @@ osm_tags:
   south_asian_sweets: [shop=confectionery]
   takeaway: [amenity=fast_food]
   restaurant: [amenity=restaurant, amenity=food_court]
-  cafe_dessert: [amenity=cafe, amenity=ice_cream, amenity=internet_cafe]
+  cafe_dessert: [amenity=cafe, amenity=ice_cream, amenity=internet_cafe, shop=pastry]
   grocer: [shop=convenience, shop=supermarket, shop=newsagent, shop=alcohol, shop=deli, shop=health_food, shop=greengrocer, shop=market, amenity=marketplace]
   halal_butcher: [shop=butcher]
-  bakery: [shop=bakery, shop=pastry]
+  bakery: [shop=bakery]
+  # shop=pastry (cake shops) is dessert, not bread
   pub_bar: [amenity=pub, amenity=bar, amenity=nightclub, amenity=social_club, "amenity=bar;leisure=music_venue"]
   pharmacy: ["amenity=pharmacy;healthcare=pharmacy", amenity=pharmacy, shop=chemist]
   health: ["amenity=doctors;healthcare=doctor", "amenity=dentist;healthcare=dentist", shop=optician, "amenity=clinic;healthcare=clinic", "amenity=hospital;healthcare=hospital", healthcare=yes, shop=herbal_medicine]
@@ -104,11 +105,11 @@ osm_tags:
 
 fsa_types:
   takeaway: [Takeaway/sandwich shop]
-  restaurant: [Restaurant/Cafe/Canteen]
   pub_bar: [Pub/bar/nightclub]
   grocer: [Retailers - supermarkets/hypermarkets]
   education: [School/college/university]
   accommodation: [Hotel/bed & breakfast/guest house]
   other: [Manufacturers/packers]
-  # Ambiguous FSA types go to the LLM: Retailers - other, Other catering premises,
+  # Ambiguous FSA types go to the LLM: Restaurant/Cafe/Canteen (restaurant vs cafe vs
+  # dessert parlour), Retailers - other, Other catering premises,
   # Hospitals/Childcare/Caring Premises

@@ -1,7 +1,7 @@
 {
  "street": "Foleshill Road, Coventry",
  "slug": "foleshill-road-coventry",
- "generated": "2026-11-06T18:12:19.711183+00:00",
+ "generated": "2026-11-06T18:15:37.831529+00:00",
  "facts": [
   {
    "id": "street.name",
@@ -173,8 +173,8 @@
   },
   {
    "id": "supply.unclassified_on_street",
-   "value": 39,
-   "display": "39",
+   "value": 54,
+   "display": "54",
    "unit": null,
    "description": "Outlets on the street not yet classified (LLM step not run for them)",
    "source": [
@@ -242,8 +242,8 @@
   },
   {
    "id": "supply.grocer.share",
-   "value": 0.12927756653992395,
-   "display": "12.9%",
+   "value": 0.13709677419354838,
+   "display": "13.7%",
    "unit": null,
    "description": "grocer share of classified outlets on the street",
    "source": [
@@ -270,99 +270,6 @@
    "display": "124",
    "unit": null,
    "description": "Open grocer outlets within 800 m of the street",
-   "source": [
-    {
-     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
-     "url": "https://api.openstreetmap.org/api/0.6/map",
-     "retrieved": "2026-11-06T17:13:55Z",
-     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
-    },
-    {
-     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
-     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
-     "retrieved": "2026-11-06T17:29:12Z",
-     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
-    }
-   ],
-   "derived_from": []
-  },
-  {
-   "id": "supply.takeaway.on_street",
-   "value": 25,
-   "display": "25",
-   "unit": null,
-   "description": "Open takeaway outlets on the street",
-   "source": [
-    {
-     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
-     "url": "https://api.openstreetmap.org/api/0.6/map",
-     "retrieved": "2026-11-06T17:13:55Z",
-     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
-    },
-    {
-     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
-     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
-     "retrieved": "2026-11-06T17:29:12Z",
-     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
-    }
-   ],
-   "derived_from": []
-  },
-  {
-   "id": "supply.takeaway.per_100m",
-   "value": 0.8971635328733258,
-   "display": "0.90",
-   "unit": null,
-   "description": "Open takeaway outlets per 100 m of street",
-   "source": [
-    {
-     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
-     "url": "https://api.openstreetmap.org/api/0.6/map",
-     "retrieved": "2026-11-06T17:13:55Z",
-     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
-    },
-    {
-     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
-     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
-     "retrieved": "2026-11-06T17:29:12Z",
-     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
-    }
-   ],
-   "derived_from": [
-    "supply.takeaway.on_street",
-    "street.length_m"
-   ]
-  },
-  {
-   "id": "supply.takeaway.share",
-   "value": 0.09505703422053231,
-   "display": "9.5%",
-   "unit": null,
-   "description": "takeaway share of classified outlets on the street",
-   "source": [
-    {
-     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
-     "url": "https://api.openstreetmap.org/api/0.6/map",
-     "retrieved": "2026-11-06T17:13:55Z",
-     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
-    },
-    {
-     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
-     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
-     "retrieved": "2026-11-06T17:29:12Z",
-     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
-    }
-   ],
-   "derived_from": [
-    "supply.takeaway.on_street"
-   ]
-  },
-  {
-   "id": "supply.takeaway.within_radius",
-   "value": 141,
-   "display": "141",
-   "unit": null,
-   "description": "Open takeaway outlets within 800 m of the street",
    "source": [
     {
      "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
@@ -428,8 +335,8 @@
   },
   {
    "id": "supply.beauty.share",
-   "value": 0.09125475285171103,
-   "display": "9.1%",
+   "value": 0.0967741935483871,
+   "display": "9.7%",
    "unit": null,
    "description": "beauty share of classified outlets on the street",
    "source": [
@@ -473,11 +380,11 @@
    "derived_from": []
   },
   {
-   "id": "supply.restaurant.on_street",
-   "value": 23,
-   "display": "23",
+   "id": "supply.takeaway.on_street",
+   "value": 24,
+   "display": "24",
    "unit": null,
-   "description": "Open restaurant outlets on the street",
+   "description": "Open takeaway outlets on the street",
    "source": [
     {
      "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
@@ -495,11 +402,11 @@
    "derived_from": []
   },
   {
-   "id": "supply.restaurant.per_100m",
-   "value": 0.8253904502434598,
-   "display": "0.83",
+   "id": "supply.takeaway.per_100m",
+   "value": 0.8612769915583929,
+   "display": "0.86",
    "unit": null,
-   "description": "Open restaurant outlets per 100 m of street",
+   "description": "Open takeaway outlets per 100 m of street",
    "source": [
     {
      "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
@@ -515,16 +422,16 @@
     }
    ],
    "derived_from": [
-    "supply.restaurant.on_street",
+    "supply.takeaway.on_street",
     "street.length_m"
    ]
   },
   {
-   "id": "supply.restaurant.share",
-   "value": 0.08745247148288973,
-   "display": "8.7%",
+   "id": "supply.takeaway.share",
+   "value": 0.0967741935483871,
+   "display": "9.7%",
    "unit": null,
-   "description": "restaurant share of classified outlets on the street",
+   "description": "takeaway share of classified outlets on the street",
    "source": [
     {
      "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
@@ -540,15 +447,15 @@
     }
    ],
    "derived_from": [
-    "supply.restaurant.on_street"
+    "supply.takeaway.on_street"
    ]
   },
   {
-   "id": "supply.restaurant.within_radius",
-   "value": 160,
-   "display": "160",
+   "id": "supply.takeaway.within_radius",
+   "value": 137,
+   "display": "137",
    "unit": null,
-   "description": "Open restaurant outlets within 800 m of the street",
+   "description": "Open takeaway outlets within 800 m of the street",
    "source": [
     {
      "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
@@ -614,8 +521,8 @@
   },
   {
    "id": "supply.home_hardware.share",
-   "value": 0.057034220532319393,
-   "display": "5.7%",
+   "value": 0.06048387096774194,
+   "display": "6.0%",
    "unit": null,
    "description": "home_hardware share of classified outlets on the street",
    "source": [
@@ -642,6 +549,99 @@
    "display": "58",
    "unit": null,
    "description": "Open home_hardware outlets within 800 m of the street",
+   "source": [
+    {
+     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
+     "url": "https://api.openstreetmap.org/api/0.6/map",
+     "retrieved": "2026-11-06T17:13:55Z",
+     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
+    },
+    {
+     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
+     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
+     "retrieved": "2026-11-06T17:29:12Z",
+     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
+    }
+   ],
+   "derived_from": []
+  },
+  {
+   "id": "supply.cafe_dessert.on_street",
+   "value": 14,
+   "display": "14",
+   "unit": null,
+   "description": "Open cafe_dessert outlets on the street",
+   "source": [
+    {
+     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
+     "url": "https://api.openstreetmap.org/api/0.6/map",
+     "retrieved": "2026-11-06T17:13:55Z",
+     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
+    },
+    {
+     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
+     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
+     "retrieved": "2026-11-06T17:29:12Z",
+     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
+    }
+   ],
+   "derived_from": []
+  },
+  {
+   "id": "supply.cafe_dessert.per_100m",
+   "value": 0.5024115784090625,
+   "display": "0.50",
+   "unit": null,
+   "description": "Open cafe_dessert outlets per 100 m of street",
+   "source": [
+    {
+     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
+     "url": "https://api.openstreetmap.org/api/0.6/map",
+     "retrieved": "2026-11-06T17:13:55Z",
+     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
+    },
+    {
+     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
+     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
+     "retrieved": "2026-11-06T17:29:12Z",
+     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
+    }
+   ],
+   "derived_from": [
+    "supply.cafe_dessert.on_street",
+    "street.length_m"
+   ]
+  },
+  {
+   "id": "supply.cafe_dessert.share",
+   "value": 0.056451612903225805,
+   "display": "5.6%",
+   "unit": null,
+   "description": "cafe_dessert share of classified outlets on the street",
+   "source": [
+    {
+     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
+     "url": "https://api.openstreetmap.org/api/0.6/map",
+     "retrieved": "2026-11-06T17:13:55Z",
+     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
+    },
+    {
+     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
+     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
+     "retrieved": "2026-11-06T17:29:12Z",
+     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
+    }
+   ],
+   "derived_from": [
+    "supply.cafe_dessert.on_street"
+   ]
+  },
+  {
+   "id": "supply.cafe_dessert.within_radius",
+   "value": 80,
+   "display": "80",
+   "unit": null,
+   "description": "Open cafe_dessert outlets within 800 m of the street",
    "source": [
     {
      "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
@@ -707,8 +707,8 @@
   },
   {
    "id": "supply.place_of_worship.share",
-   "value": 0.045627376425855515,
-   "display": "4.6%",
+   "value": 0.04838709677419355,
+   "display": "4.8%",
    "unit": null,
    "description": "place_of_worship share of classified outlets on the street",
    "source": [
@@ -800,8 +800,8 @@
   },
   {
    "id": "supply.clothing_fabric.share",
-   "value": 0.04182509505703422,
-   "display": "4.2%",
+   "value": 0.04435483870967742,
+   "display": "4.4%",
    "unit": null,
    "description": "clothing_fabric share of classified outlets on the street",
    "source": [
@@ -893,8 +893,8 @@
   },
   {
    "id": "supply.pharmacy.share",
-   "value": 0.04182509505703422,
-   "display": "4.2%",
+   "value": 0.04435483870967742,
+   "display": "4.4%",
    "unit": null,
    "description": "pharmacy share of classified outlets on the street",
    "source": [
@@ -986,8 +986,8 @@
   },
   {
    "id": "supply.pub_bar.share",
-   "value": 0.03802281368821293,
-   "display": "3.8%",
+   "value": 0.04032258064516129,
+   "display": "4.0%",
    "unit": null,
    "description": "pub_bar share of classified outlets on the street",
    "source": [
@@ -1079,8 +1079,8 @@
   },
   {
    "id": "supply.vehicle.share",
-   "value": 0.03802281368821293,
-   "display": "3.8%",
+   "value": 0.04032258064516129,
+   "display": "4.0%",
    "unit": null,
    "description": "vehicle share of classified outlets on the street",
    "source": [
@@ -1172,8 +1172,8 @@
   },
   {
    "id": "supply.phone_electronics.share",
-   "value": 0.034220532319391636,
-   "display": "3.4%",
+   "value": 0.036290322580645164,
+   "display": "3.6%",
    "unit": null,
    "description": "phone_electronics share of classified outlets on the street",
    "source": [
@@ -1265,8 +1265,8 @@
   },
   {
    "id": "supply.professional_services.share",
-   "value": 0.030418250950570342,
-   "display": "3.0%",
+   "value": 0.03225806451612903,
+   "display": "3.2%",
    "unit": null,
    "description": "professional_services share of classified outlets on the street",
    "source": [
@@ -1293,99 +1293,6 @@
    "display": "23",
    "unit": null,
    "description": "Open professional_services outlets within 800 m of the street",
-   "source": [
-    {
-     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
-     "url": "https://api.openstreetmap.org/api/0.6/map",
-     "retrieved": "2026-11-06T17:13:55Z",
-     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
-    },
-    {
-     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
-     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
-     "retrieved": "2026-11-06T17:29:12Z",
-     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
-    }
-   ],
-   "derived_from": []
-  },
-  {
-   "id": "supply.cafe_dessert.on_street",
-   "value": 7,
-   "display": "7",
-   "unit": null,
-   "description": "Open cafe_dessert outlets on the street",
-   "source": [
-    {
-     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
-     "url": "https://api.openstreetmap.org/api/0.6/map",
-     "retrieved": "2026-11-06T17:13:55Z",
-     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
-    },
-    {
-     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
-     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
-     "retrieved": "2026-11-06T17:29:12Z",
-     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
-    }
-   ],
-   "derived_from": []
-  },
-  {
-   "id": "supply.cafe_dessert.per_100m",
-   "value": 0.25120578920453124,
-   "display": "0.25",
-   "unit": null,
-   "description": "Open cafe_dessert outlets per 100 m of street",
-   "source": [
-    {
-     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
-     "url": "https://api.openstreetmap.org/api/0.6/map",
-     "retrieved": "2026-11-06T17:13:55Z",
-     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
-    },
-    {
-     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
-     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
-     "retrieved": "2026-11-06T17:29:12Z",
-     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
-    }
-   ],
-   "derived_from": [
-    "supply.cafe_dessert.on_street",
-    "street.length_m"
-   ]
-  },
-  {
-   "id": "supply.cafe_dessert.share",
-   "value": 0.026615969581749048,
-   "display": "2.7%",
-   "unit": null,
-   "description": "cafe_dessert share of classified outlets on the street",
-   "source": [
-    {
-     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
-     "url": "https://api.openstreetmap.org/api/0.6/map",
-     "retrieved": "2026-11-06T17:13:55Z",
-     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
-    },
-    {
-     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
-     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
-     "retrieved": "2026-11-06T17:29:12Z",
-     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
-    }
-   ],
-   "derived_from": [
-    "supply.cafe_dessert.on_street"
-   ]
-  },
-  {
-   "id": "supply.cafe_dessert.within_radius",
-   "value": 63,
-   "display": "63",
-   "unit": null,
-   "description": "Open cafe_dessert outlets within 800 m of the street",
    "source": [
     {
      "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
@@ -1451,8 +1358,8 @@
   },
   {
    "id": "supply.halal_butcher.share",
-   "value": 0.026615969581749048,
-   "display": "2.7%",
+   "value": 0.028225806451612902,
+   "display": "2.8%",
    "unit": null,
    "description": "halal_butcher share of classified outlets on the street",
    "source": [
@@ -1544,8 +1451,8 @@
   },
   {
    "id": "supply.childcare.share",
-   "value": 0.022813688212927757,
-   "display": "2.3%",
+   "value": 0.024193548387096774,
+   "display": "2.4%",
    "unit": null,
    "description": "childcare share of classified outlets on the street",
    "source": [
@@ -1637,8 +1544,8 @@
   },
   {
    "id": "supply.education.share",
-   "value": 0.022813688212927757,
-   "display": "2.3%",
+   "value": 0.024193548387096774,
+   "display": "2.4%",
    "unit": null,
    "description": "education share of classified outlets on the street",
    "source": [
@@ -1730,8 +1637,8 @@
   },
   {
    "id": "supply.park_green.share",
-   "value": 0.019011406844106463,
-   "display": "1.9%",
+   "value": 0.020161290322580645,
+   "display": "2.0%",
    "unit": null,
    "description": "park_green share of classified outlets on the street",
    "source": [
@@ -1758,99 +1665,6 @@
    "display": "58",
    "unit": null,
    "description": "Open park_green outlets within 800 m of the street",
-   "source": [
-    {
-     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
-     "url": "https://api.openstreetmap.org/api/0.6/map",
-     "retrieved": "2026-11-06T17:13:55Z",
-     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
-    },
-    {
-     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
-     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
-     "retrieved": "2026-11-06T17:29:12Z",
-     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
-    }
-   ],
-   "derived_from": []
-  },
-  {
-   "id": "supply.bakery.on_street",
-   "value": 4,
-   "display": "4",
-   "unit": null,
-   "description": "Open bakery outlets on the street",
-   "source": [
-    {
-     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
-     "url": "https://api.openstreetmap.org/api/0.6/map",
-     "retrieved": "2026-11-06T17:13:55Z",
-     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
-    },
-    {
-     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
-     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
-     "retrieved": "2026-11-06T17:29:12Z",
-     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
-    }
-   ],
-   "derived_from": []
-  },
-  {
-   "id": "supply.bakery.per_100m",
-   "value": 0.14354616525973213,
-   "display": "0.14",
-   "unit": null,
-   "description": "Open bakery outlets per 100 m of street",
-   "source": [
-    {
-     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
-     "url": "https://api.openstreetmap.org/api/0.6/map",
-     "retrieved": "2026-11-06T17:13:55Z",
-     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
-    },
-    {
-     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
-     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
-     "retrieved": "2026-11-06T17:29:12Z",
-     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
-    }
-   ],
-   "derived_from": [
-    "supply.bakery.on_street",
-    "street.length_m"
-   ]
-  },
-  {
-   "id": "supply.bakery.share",
-   "value": 0.015209125475285171,
-   "display": "1.5%",
-   "unit": null,
-   "description": "bakery share of classified outlets on the street",
-   "source": [
-    {
-     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
-     "url": "https://api.openstreetmap.org/api/0.6/map",
-     "retrieved": "2026-11-06T17:13:55Z",
-     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
-    },
-    {
-     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
-     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
-     "retrieved": "2026-11-06T17:29:12Z",
-     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
-    }
-   ],
-   "derived_from": [
-    "supply.bakery.on_street"
-   ]
-  },
-  {
-   "id": "supply.bakery.within_radius",
-   "value": 16,
-   "display": "16",
-   "unit": null,
-   "description": "Open bakery outlets within 800 m of the street",
    "source": [
     {
      "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
@@ -1916,8 +1730,8 @@
   },
   {
    "id": "supply.community_family.share",
-   "value": 0.015209125475285171,
-   "display": "1.5%",
+   "value": 0.016129032258064516,
+   "display": "1.6%",
    "unit": null,
    "description": "community_family share of classified outlets on the street",
    "source": [
@@ -2009,8 +1823,8 @@
   },
   {
    "id": "supply.gym.share",
-   "value": 0.015209125475285171,
-   "display": "1.5%",
+   "value": 0.016129032258064516,
+   "display": "1.6%",
    "unit": null,
    "description": "gym share of classified outlets on the street",
    "source": [
@@ -2102,8 +1916,8 @@
   },
   {
    "id": "supply.health.share",
-   "value": 0.015209125475285171,
-   "display": "1.5%",
+   "value": 0.016129032258064516,
+   "display": "1.6%",
    "unit": null,
    "description": "health share of classified outlets on the street",
    "source": [
@@ -2195,8 +2009,8 @@
   },
   {
    "id": "supply.jewellery.share",
-   "value": 0.015209125475285171,
-   "display": "1.5%",
+   "value": 0.016129032258064516,
+   "display": "1.6%",
    "unit": null,
    "description": "jewellery share of classified outlets on the street",
    "source": [
@@ -2288,8 +2102,8 @@
   },
   {
    "id": "supply.money_transfer.share",
-   "value": 0.015209125475285171,
-   "display": "1.5%",
+   "value": 0.016129032258064516,
+   "display": "1.6%",
    "unit": null,
    "description": "money_transfer share of classified outlets on the street",
    "source": [
@@ -2381,8 +2195,8 @@
   },
   {
    "id": "supply.playground.share",
-   "value": 0.015209125475285171,
-   "display": "1.5%",
+   "value": 0.016129032258064516,
+   "display": "1.6%",
    "unit": null,
    "description": "playground share of classified outlets on the street",
    "source": [
@@ -2409,6 +2223,99 @@
    "display": "14",
    "unit": null,
    "description": "Open playground outlets within 800 m of the street",
+   "source": [
+    {
+     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
+     "url": "https://api.openstreetmap.org/api/0.6/map",
+     "retrieved": "2026-11-06T17:13:55Z",
+     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
+    },
+    {
+     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
+     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
+     "retrieved": "2026-11-06T17:29:12Z",
+     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
+    }
+   ],
+   "derived_from": []
+  },
+  {
+   "id": "supply.restaurant.on_street",
+   "value": 4,
+   "display": "4",
+   "unit": null,
+   "description": "Open restaurant outlets on the street",
+   "source": [
+    {
+     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
+     "url": "https://api.openstreetmap.org/api/0.6/map",
+     "retrieved": "2026-11-06T17:13:55Z",
+     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
+    },
+    {
+     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
+     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
+     "retrieved": "2026-11-06T17:29:12Z",
+     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
+    }
+   ],
+   "derived_from": []
+  },
+  {
+   "id": "supply.restaurant.per_100m",
+   "value": 0.14354616525973213,
+   "display": "0.14",
+   "unit": null,
+   "description": "Open restaurant outlets per 100 m of street",
+   "source": [
+    {
+     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
+     "url": "https://api.openstreetmap.org/api/0.6/map",
+     "retrieved": "2026-11-06T17:13:55Z",
+     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
+    },
+    {
+     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
+     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
+     "retrieved": "2026-11-06T17:29:12Z",
+     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
+    }
+   ],
+   "derived_from": [
+    "supply.restaurant.on_street",
+    "street.length_m"
+   ]
+  },
+  {
+   "id": "supply.restaurant.share",
+   "value": 0.016129032258064516,
+   "display": "1.6%",
+   "unit": null,
+   "description": "restaurant share of classified outlets on the street",
+   "source": [
+    {
+     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
+     "url": "https://api.openstreetmap.org/api/0.6/map",
+     "retrieved": "2026-11-06T17:13:55Z",
+     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
+    },
+    {
+     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
+     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
+     "retrieved": "2026-11-06T17:29:12Z",
+     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
+    }
+   ],
+   "derived_from": [
+    "supply.restaurant.on_street"
+   ]
+  },
+  {
+   "id": "supply.restaurant.within_radius",
+   "value": 41,
+   "display": "41",
+   "unit": null,
+   "description": "Open restaurant outlets within 800 m of the street",
    "source": [
     {
      "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
@@ -2474,8 +2381,8 @@
   },
   {
    "id": "supply.south_asian_sweets.share",
-   "value": 0.015209125475285171,
-   "display": "1.5%",
+   "value": 0.016129032258064516,
+   "display": "1.6%",
    "unit": null,
    "description": "south_asian_sweets share of classified outlets on the street",
    "source": [
@@ -2567,8 +2474,8 @@
   },
   {
    "id": "supply.bank_atm.share",
-   "value": 0.011406844106463879,
-   "display": "1.1%",
+   "value": 0.012096774193548387,
+   "display": "1.2%",
    "unit": null,
    "description": "bank_atm share of classified outlets on the street",
    "source": [
@@ -2660,8 +2567,8 @@
   },
   {
    "id": "supply.gambling.share",
-   "value": 0.011406844106463879,
-   "display": "1.1%",
+   "value": 0.012096774193548387,
+   "display": "1.2%",
    "unit": null,
    "description": "gambling share of classified outlets on the street",
    "source": [
@@ -2688,6 +2595,99 @@
    "display": "11",
    "unit": null,
    "description": "Open gambling outlets within 800 m of the street",
+   "source": [
+    {
+     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
+     "url": "https://api.openstreetmap.org/api/0.6/map",
+     "retrieved": "2026-11-06T17:13:55Z",
+     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
+    },
+    {
+     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
+     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
+     "retrieved": "2026-11-06T17:29:12Z",
+     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
+    }
+   ],
+   "derived_from": []
+  },
+  {
+   "id": "supply.bakery.on_street",
+   "value": 2,
+   "display": "2",
+   "unit": null,
+   "description": "Open bakery outlets on the street",
+   "source": [
+    {
+     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
+     "url": "https://api.openstreetmap.org/api/0.6/map",
+     "retrieved": "2026-11-06T17:13:55Z",
+     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
+    },
+    {
+     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
+     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
+     "retrieved": "2026-11-06T17:29:12Z",
+     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
+    }
+   ],
+   "derived_from": []
+  },
+  {
+   "id": "supply.bakery.per_100m",
+   "value": 0.07177308262986606,
+   "display": "0.07",
+   "unit": null,
+   "description": "Open bakery outlets per 100 m of street",
+   "source": [
+    {
+     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
+     "url": "https://api.openstreetmap.org/api/0.6/map",
+     "retrieved": "2026-11-06T17:13:55Z",
+     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
+    },
+    {
+     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
+     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
+     "retrieved": "2026-11-06T17:29:12Z",
+     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
+    }
+   ],
+   "derived_from": [
+    "supply.bakery.on_street",
+    "street.length_m"
+   ]
+  },
+  {
+   "id": "supply.bakery.share",
+   "value": 0.008064516129032258,
+   "display": "0.8%",
+   "unit": null,
+   "description": "bakery share of classified outlets on the street",
+   "source": [
+    {
+     "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
+     "url": "https://api.openstreetmap.org/api/0.6/map",
+     "retrieved": "2026-11-06T17:13:55Z",
+     "raw_file": "data/raw/osm/8232c730077ccbe7__20261106T171438Z.xml.gz"
+    },
+    {
+     "dataset": "Food Standards Agency, Food Hygiene Rating Scheme open data (OGL v3)",
+     "url": "https://ratings.food.gov.uk/api/open-data-files/FHRS407en-GB.xml",
+     "retrieved": "2026-11-06T17:29:12Z",
+     "raw_file": "data/raw/fsa/a9d90f718daa5c2c__20261106T172912Z.xml.gz"
+    }
+   ],
+   "derived_from": [
+    "supply.bakery.on_street"
+   ]
+  },
+  {
+   "id": "supply.bakery.within_radius",
+   "value": 13,
+   "display": "13",
+   "unit": null,
+   "description": "Open bakery outlets within 800 m of the street",
    "source": [
     {
      "dataset": "OpenStreetMap (api.openstreetmap.org/api/0.6/map), ODbL",
@@ -2753,7 +2753,7 @@
   },
   {
    "id": "supply.other.share",
-   "value": 0.0038022813688212928,
+   "value": 0.004032258064516129,
    "display": "0.4%",
    "unit": null,
    "description": "other share of classified outlets on the street",
@@ -2846,7 +2846,7 @@
   },
   {
    "id": "supply.post_office.share",
-   "value": 0.0038022813688212928,
+   "value": 0.004032258064516129,
    "display": "0.4%",
    "unit": null,
    "description": "post_office share of classified outlets on the street",
@@ -5510,8 +5510,8 @@
   },
   {
    "id": "gap.cafe_dessert_family_space.status",
-   "value": "gap",
-   "display": "gap",
+   "value": "no_gap",
+   "display": "no gap",
    "unit": null,
    "description": "Outcome of rule cafe_dessert_family_space",
    "source": [
@@ -5770,8 +5770,8 @@
   },
   {
    "id": "gap.cafe_dessert_family_space.supply0.passed",
-   "value": true,
-   "display": "met",
+   "value": false,
+   "display": "not met",
    "unit": null,
    "description": "Whether the supply test was met",
    "source": [
@@ -5786,8 +5786,8 @@
   },
   {
    "id": "gap.cafe_dessert_family_space.supply0.value",
-   "value": 0.25120578920453124,
-   "display": "0.25",
+   "value": 0.5024115784090625,
+   "display": "0.50",
    "unit": null,
    "description": "Observed per_100m for cafe_dessert",
    "source": [
@@ -5812,6 +5812,22 @@
    "display": "at most",
    "unit": null,
    "description": "Comparison",
+   "source": [
+    {
+     "dataset": "Gap rules (config/gaps.yaml), evaluated by code",
+     "url": "config/gaps.yaml",
+     "retrieved": "2026-11-06",
+     "raw_file": null
+    }
+   ],
+   "derived_from": []
+  },
+  {
+   "id": "gap.cafe_dessert_family_space.supply0.missed_by",
+   "value": 0.2024115784090625,
+   "display": "0.20",
+   "unit": null,
+   "description": "Amount by which the supply test was missed",
    "source": [
     {
      "dataset": "Gap rules (config/gaps.yaml), evaluated by code",
@@ -6881,38 +6897,6 @@
    "derived_from": []
   },
   {
-   "id": "avoid.takeaway.basis",
-   "value": "saturation",
-   "display": "saturation",
-   "unit": null,
-   "description": "Why takeaway is on the avoid list",
-   "source": [
-    {
-     "dataset": "Gap rules (config/gaps.yaml), evaluated by code",
-     "url": "config/gaps.yaml",
-     "retrieved": "2026-11-06",
-     "raw_file": null
-    }
-   ],
-   "derived_from": []
-  },
-  {
-   "id": "avoid.takeaway.reasoning",
-   "value": "Already one of the most common uses on the street.",
-   "display": "Already one of the most common uses on the street.",
-   "unit": null,
-   "description": "Avoid-list reasoning",
-   "source": [
-    {
-     "dataset": "Gap rules (config/gaps.yaml), evaluated by code",
-     "url": "config/gaps.yaml",
-     "retrieved": "2026-11-06",
-     "raw_file": null
-    }
-   ],
-   "derived_from": []
-  },
-  {
    "id": "avoid.beauty.basis",
    "value": "saturation",
    "display": "saturation",
@@ -6945,11 +6929,11 @@
    "derived_from": []
   },
   {
-   "id": "avoid.restaurant.basis",
+   "id": "avoid.takeaway.basis",
    "value": "saturation",
    "display": "saturation",
    "unit": null,
-   "description": "Why restaurant is on the avoid list",
+   "description": "Why takeaway is on the avoid list",
    "source": [
     {
      "dataset": "Gap rules (config/gaps.yaml), evaluated by code",
@@ -6961,7 +6945,7 @@
    "derived_from": []
   },
   {
-   "id": "avoid.restaurant.reasoning",
+   "id": "avoid.takeaway.reasoning",
    "value": "Already one of the most common uses on the street.",
    "display": "Already one of the most common uses on the street.",
    "unit": null,
@@ -7414,15 +7398,15 @@
      "at_most": 0.3,
      "op": "at_most",
      "threshold": 0.3,
-     "value": 0.25120578920453124,
-     "passed": true,
-     "missed_by": null
+     "value": 0.5024115784090625,
+     "passed": false,
+     "missed_by": 0.2024115784090625
     }
    ],
    "demand_passed": true,
-   "supply_passed": true,
+   "supply_passed": false,
    "well_observed": true,
-   "status": "gap",
+   "status": "no_gap",
    "reasoning": "A young, family-heavy population with few alcohol-free sit-down places on the street suggests room for a family cafe or dessert parlour."
   },
   {
@@ -7574,7 +7558,7 @@
    "checks": [
     {
      "measure": "share_of_street",
-     "value": 0.12927756653992395,
+     "value": 0.13709677419354838,
      "threshold": 0.08
     },
     {
@@ -7586,29 +7570,12 @@
    "reasoning": "Already one of the most common uses on the street."
   },
   {
-   "category": "takeaway",
-   "basis": "saturation",
-   "checks": [
-    {
-     "measure": "share_of_street",
-     "value": 0.09505703422053231,
-     "threshold": 0.08
-    },
-    {
-     "measure": "per_100m",
-     "value": 0.8971635328733258,
-     "threshold": 0.8
-    }
-   ],
-   "reasoning": "Already one of the most common uses on the street."
-  },
-  {
    "category": "beauty",
    "basis": "saturation",
    "checks": [
     {
      "measure": "share_of_street",
-     "value": 0.09125475285171103,
+     "value": 0.0967741935483871,
      "threshold": 0.08
     },
     {
@@ -7620,17 +7587,17 @@
    "reasoning": "Already one of the most common uses on the street."
   },
   {
-   "category": "restaurant",
+   "category": "takeaway",
    "basis": "saturation",
    "checks": [
     {
      "measure": "share_of_street",
-     "value": 0.08745247148288973,
+     "value": 0.0967741935483871,
      "threshold": 0.08
     },
     {
      "measure": "per_100m",
-     "value": 0.8253904502434598,
+     "value": 0.8612769915583929,
      "threshold": 0.8
     }
    ],
