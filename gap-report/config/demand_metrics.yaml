@@ -1,0 +1,49 @@
+# Demand metrics: share = sum(numerator categories) / denominator category, computed for
+# the catchment (sum over catchment LSOAs), the 2022 ward and the benchmark local authority.
+# ratio = catchment share / benchmark share.
+census:
+  population:            {table: TS001, kind: count, numerator: ["Total: All usual residents"]}
+  households:            {table: TS045, kind: count, numerator: ["Total: All households"]}
+  age_0_15:              {table: TS007B, label: "Residents aged 0-15", denominator: Total,
+                          numerator: ["Aged 4 years and under", "Aged 5 to 9 years", "Aged 10 to 15 years"]}
+  age_0_4:               {table: TS007B, label: "Residents aged 0-4", denominator: Total,
+                          numerator: ["Aged 4 years and under"]}
+  age_65_plus:           {table: TS007B, label: "Residents aged 65+", denominator: Total,
+                          numerator: ["Aged 65 to 74 years", "Aged 75 to 84 years", "Aged 85 years and over"]}
+  ethnic_asian:          {table: TS021, label: "Asian or Asian British", denominator: "Total: All usual residents",
+                          numerator: ["Asian, Asian British or Asian Welsh"]}
+  ethnic_indian:         {table: TS021, label: "Indian", denominator: "Total: All usual residents",
+                          numerator: ["Asian, Asian British or Asian Welsh: Indian"]}
+  ethnic_pakistani:      {table: TS021, label: "Pakistani", denominator: "Total: All usual residents",
+                          numerator: ["Asian, Asian British or Asian Welsh: Pakistani"]}
+  ethnic_bangladeshi:    {table: TS021, label: "Bangladeshi", denominator: "Total: All usual residents",
+                          numerator: ["Asian, Asian British or Asian Welsh: Bangladeshi"]}
+  ethnic_black:          {table: TS021, label: "Black or Black British", denominator: "Total: All usual residents",
+                          numerator: ["Black, Black British, Black Welsh, Caribbean or African"]}
+  ethnic_white:          {table: TS021, label: "White", denominator: "Total: All usual residents",
+                          numerator: ["White"]}
+  religion_muslim:       {table: TS030, label: "Muslim", denominator: "Total: All usual residents", numerator: [Muslim]}
+  religion_sikh:         {table: TS030, label: "Sikh", denominator: "Total: All usual residents", numerator: [Sikh]}
+  religion_hindu:        {table: TS030, label: "Hindu", denominator: "Total: All usual residents", numerator: [Hindu]}
+  religion_christian:    {table: TS030, label: "Christian", denominator: "Total: All usual residents", numerator: [Christian]}
+  religion_none:         {table: TS030, label: "No religion", denominator: "Total: All usual residents", numerator: ["No religion"]}
+  no_car:                {table: TS045, label: "Households with no car or van", denominator: "Total: All households",
+                          numerator: ["No cars or vans in household"]}
+  overcrowded:           {table: TS052, label: "Households with fewer bedrooms than needed (rating -1 or less)",
+                          denominator: "Total: All households",
+                          numerator: ["Occupancy rating of bedrooms: -1", "Occupancy rating of bedrooms: -2 or less"]}
+  main_lang_not_english: {table: TS029, label: "Residents (3+) whose main language is not English",
+                          denominator: "Total: All usual residents aged 3 years and over",
+                          numerator: ["Main language is not English (English or Welsh in Wales)"]}
+  limited_english:       {table: TS029, label: "Residents (3+) who cannot speak English well or at all",
+                          denominator: "Total: All usual residents aged 3 years and over",
+                          numerator: ["Main language is not English (English or Welsh in Wales): Cannot speak English well",
+                                      "Main language is not English (English or Welsh in Wales): Cannot speak English"]}
+imd:
+  # weighted mean of LSOA scores (default weight: mid-2022 population), plus decile-1 share.
+  # IoD 2025 rates are not comparable with IoD 2019 (England-wide income rate 23.2%).
+  imd_score:   {column: "Index of Multiple Deprivation (IMD) Score", label: "IMD 2025 score (higher = more deprived)"}
+  idaci_score: {column: "Income Deprivation Affecting Children Index (IDACI) Score (rate)",
+                weight: "Dependent Children aged 0-15: mid 2022",
+                label: "Share of children in income-deprived families (IDACI 2025)"}
+  income_score: {column: "Income Score (rate)", label: "Share of residents income-deprived (IoD 2025)"}

@@ -49,3 +49,12 @@ def test_families_for_all_hub_is_community(cdb):
     """Pipeline check: FSA 'Other catering premises', name misspelt 'Familes'."""
     rows = _outlet_at(cdb, "454")
     assert ("community_family" in {r[1] for r in rows}), rows
+
+
+def test_lloyds_closure_removes_branch_from_supply(mdb):
+    """Pipeline check: OSM still lists Lloyds as a bank; the event must close it."""
+    rows = mdb.execute("SELECT status FROM outlets WHERE in_street AND name ILIKE 'Lloyds%'").fetchall()
+    assert rows == [("closed",)]
+    open_banks = mdb.execute("SELECT count(*) FROM outlets WHERE in_street AND status='open' "
+                             "AND category='bank_atm' AND name ILIKE 'Lloyds%'").fetchone()[0]
+    assert open_banks == 0
