@@ -1,0 +1,15 @@
+# Global settings. Street-specific values live in config/streets/<slug>.yaml.
+models:
+  classify: claude-haiku-5-5     # cheap model: categorises leftover business names only
+  report: claude-opus-5-5        # stronger model: writes prose from facts.json only
+geometry:
+  crs_metric: EPSG:27700         # British National Grid; all distances in metres
+  street_buffer_m: 150           # "on the street" for supply counts
+  segment_length_m: 100
+  context_radius_m: 1000         # data collected this far out so 800 m rules are valid
+cache:
+  raw_dir: data/raw
+  offline: false                 # true = never call the network; fail if cache missing
+http:
+  timeout_s: 60
+  user_agent: gap-report/0.1 (open-data research tool)

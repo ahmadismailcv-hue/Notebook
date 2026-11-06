@@ -1,0 +1,19 @@
+slug: foleshill-road-coventry
+name: Foleshill Road, Coventry
+aliases: ["Foleshill Road", "foleshill road coventry"]
+osm:
+  way_name: Foleshill Road
+  # Extent: ring road (south) to the A444 (north). Resolved to exact nodes in Stage 1.
+  start_near: {label: "Coventry ring road (A4053)", lat: null, lon: null}
+  end_near: {label: "A444", lat: null, lon: null}
+postcode_districts: ["CV6", "CV1 4"]
+local_authority:
+  name: Coventry
+  fsa_api_id: 375                # FSA API LocalAuthorityId (checked 2026-11-06)
+  fsa_code: "407"                # FSA open-data file code: FHRS407en-GB.xml
+  ons_code: E08000026
+benchmark: {name: Coventry, ons_code: E08000026}
+ward:
+  name: Foleshill
+  census_geography: "2022 wards"
+manual_dir: data/manual/foleshill-road-coventry
