@@ -6,6 +6,10 @@ import argparse
 
 from gap_report.config import load_street, settings
 
+from gap_report.stages import geometry_stage
+
+RUNNERS = {"geometry": geometry_stage.run}
+
 STAGES = ["geometry", "load", "classify", "metrics", "gaps", "facts", "report"]
 
 
@@ -27,7 +31,14 @@ def main(argv: list[str] | None = None) -> int:
     print(f"Manual data: {cfg.manual_path}")
     print(f"Models: classify={s.models.classify} report={s.models.report}")
     for stage in STAGES:
-        print(f"[{stage}] not implemented yet")
+        runner = RUNNERS.get(stage)
+        if runner is None:
+            print(f"[{stage}] not implemented yet")
+        else:
+            print(f"[{stage}] running")
+            result = runner(cfg)
+            for k, v in result.items():
+                print(f"  {k}: {v}")
         if stage == args.until:
             break
     return 0

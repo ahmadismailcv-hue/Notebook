@@ -6,6 +6,7 @@ re-runs are repeatable and work offline. In offline mode a missing cache is an e
 
 from __future__ import annotations
 
+import gzip
 import hashlib
 import json
 from dataclasses import dataclass
@@ -23,8 +24,12 @@ class Cached:
     retrieved: datetime
     url: str
 
+    def bytes(self) -> bytes:
+        raw = self.path.read_bytes()
+        return gzip.decompress(raw) if self.path.suffix == ".gz" else raw
+
     def text(self) -> str:
-        return self.path.read_text(encoding="utf-8")
+        return self.bytes().decode("utf-8")
 
     def json(self):
         return json.loads(self.text())
@@ -41,13 +46,14 @@ def _key(url: str, params: dict | None, body: str | None) -> str:
 
 def _stamp(path: Path) -> datetime:
     # filenames look like <key>__20261106T170501Z.<ext>
-    ts = path.name.split("__")[-1].split(".")[0]
+    ts = path.name.split("__")[-1].split(".")[0]  # strip .json / .xml.gz
     return datetime.strptime(ts, "%Y%m%dT%H%M%SZ").replace(tzinfo=timezone.utc)
 
 
 def fetch(source: str, url: str, *, params: dict | None = None, data: str | None = None,
           headers: dict | None = None, ext: str = "json", refresh: bool = False,
           method: str = "GET") -> Cached:
+    """ext ending in .gz stores the response gzipped (for large XML/CSV)."""
     cfg = settings()
     folder = cfg.raw_dir / source
     folder.mkdir(parents=True, exist_ok=True)
@@ -67,7 +73,7 @@ def fetch(source: str, url: str, *, params: dict | None = None, data: str | None
     resp.raise_for_status()
     now = datetime.now(timezone.utc)
     path = folder / f"{key}__{now:%Y%m%dT%H%M%SZ}.{ext}"
-    path.write_bytes(resp.content)
+    path.write_bytes(gzip.compress(resp.content) if ext.endswith(".gz") else resp.content)
     # sidecar records what was asked for, so a raw file is self-describing
     path.with_name(path.name + ".meta.json").write_text(json.dumps(
         {"url": full_url, "method": method, "body": data, "retrieved": now.isoformat(),

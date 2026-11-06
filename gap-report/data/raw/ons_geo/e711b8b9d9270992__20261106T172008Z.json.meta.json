@@ -1,0 +1,7 @@
+{
+  "url": "https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/LSOA_2021_EW_BFE_V10_RUC/FeatureServer/3/query?geometry=-1.52408%2C52.40423%2C-1.47995%2C52.44511&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&spatialRel=esriSpatialRelIntersects&outFields=LSOA21CD%2CLSOA21NM%2CRUC21NM&returnGeometry=true&f=geojson",
+  "method": "GET",
+  "body": null,
+  "retrieved": "2026-11-06T17:20:08.837834+00:00",
+  "status": 200
+}

@@ -3,9 +3,11 @@ name: Foleshill Road, Coventry
 aliases: ["Foleshill Road", "foleshill road coventry"]
 osm:
   way_name: Foleshill Road
-  # Extent: ring road (south) to the A444 (north). Resolved to exact nodes in Stage 1.
-  start_near: {label: "Coventry ring road (A4053)", lat: null, lon: null}
-  end_near: {label: "A444", lat: null, lon: null}
+  # Extent: where roads with these refs meet (or pass closest to) the street.
+  start_near: {label: "Coventry ring road (A4053)"}
+  start_refs: ["A4053"]
+  end_near: {label: "A444 (Jimmy Hill Way)"}
+  end_refs: ["A444"]
 postcode_districts: ["CV6", "CV1 4"]
 local_authority:
   name: Coventry

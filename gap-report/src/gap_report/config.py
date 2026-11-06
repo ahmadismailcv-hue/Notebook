@@ -55,7 +55,9 @@ class Point(BaseModel):
 class OsmCfg(BaseModel):
     way_name: str
     start_near: Point
+    start_refs: list[str]
     end_near: Point
+    end_refs: list[str]
 
 
 class LocalAuthority(BaseModel):

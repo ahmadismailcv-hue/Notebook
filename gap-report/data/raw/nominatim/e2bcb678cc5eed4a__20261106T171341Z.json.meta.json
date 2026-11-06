@@ -1,0 +1,7 @@
+{
+  "url": "https://nominatim.openstreetmap.org/search?street=Foleshill+Road&city=Coventry&country=UK&format=jsonv2&limit=50",
+  "method": "GET",
+  "body": null,
+  "retrieved": "2026-11-06T17:13:41.458249+00:00",
+  "status": 200
+}

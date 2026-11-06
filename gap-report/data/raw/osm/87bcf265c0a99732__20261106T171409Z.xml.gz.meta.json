@@ -1,0 +1,7 @@
+{
+  "url": "https://api.openstreetmap.org/api/0.6/map?bbox=-1.490000%2C52.420000%2C-1.480000%2C52.430000",
+  "method": "GET",
+  "body": null,
+  "retrieved": "2026-11-06T17:14:09.539320+00:00",
+  "status": 200
+}

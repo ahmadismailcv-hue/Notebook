@@ -1,0 +1,7 @@
+{
+  "url": "https://nominatim.openstreetmap.org/search?q=729+Foleshill+Road%2C+Coventry&format=jsonv2&limit=1",
+  "method": "GET",
+  "body": null,
+  "retrieved": "2026-11-06T17:16:08.477040+00:00",
+  "status": 200
+}
