@@ -6,9 +6,10 @@ import argparse
 
 from gap_report.config import load_street, settings
 
-from gap_report.stages import geometry_stage, load_stage
+from gap_report.stages import classify_stage, geometry_stage, load_stage
 
-RUNNERS = {"geometry": geometry_stage.run, "load": load_stage.run}
+RUNNERS = {"geometry": geometry_stage.run, "load": load_stage.run,
+           "classify": classify_stage.run}
 
 STAGES = ["geometry", "load", "classify", "metrics", "gaps", "facts", "report"]
 
@@ -20,6 +21,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--until", choices=STAGES, default="report",
                    help="Stop after this pipeline stage (default: report)")
     p.add_argument("--offline", action="store_true", help="Use cached raw data only")
+    p.add_argument("--no-llm", action="store_true",
+                   help="Skip LLM classification; uncached leftovers become 'unclassified'")
     p.add_argument("--refresh", action="store_true", help="Re-fetch all network sources")
     args = p.parse_args(argv)
 
@@ -36,7 +39,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"[{stage}] not implemented yet")
         else:
             print(f"[{stage}] running")
-            result = runner(cfg)
+            result = runner(cfg, use_llm=not args.no_llm) if stage == "classify" else runner(cfg)
             for k, v in result.items():
                 print(f"  {k}: {v}")
         if stage == args.until:

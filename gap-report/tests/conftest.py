@@ -28,3 +28,18 @@ def db(foleshill, loaded):
     con = open_db(foleshill)
     yield con
     con.close()
+
+
+@pytest.fixture(scope="session")
+def classified(foleshill, loaded):
+    """Rules + cached LLM answers only: tests never call the API."""
+    from gap_report.stages import classify_stage
+    return classify_stage.run(foleshill, use_llm=False)
+
+
+@pytest.fixture
+def cdb(foleshill, classified):
+    from gap_report.db import open_db
+    con = open_db(foleshill)
+    yield con
+    con.close()

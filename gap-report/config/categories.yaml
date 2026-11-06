@@ -1,0 +1,111 @@
+# Fixed category list and classification rules. Order of precedence:
+#   1. exclude (street furniture, infrastructure: not an outlet, never counted)
+#   2. name_rules  (regex on business name; first match wins)
+#   3. osm_tags    (exact key=value)
+#   4. fsa_types   (FSA BusinessType)
+#   5. LLM for anything left, constrained to this list, answers cached
+categories:
+  south_asian_sweets: South Asian sweet centre / mithai shop (often also savoury snacks)
+  takeaway: Hot food takeaway, fast food, sandwich shop
+  restaurant: Sit-down restaurant or canteen
+  cafe_dessert: Cafe, coffee shop, dessert parlour, ice cream
+  grocer: Supermarket, convenience store, grocer, international food store
+  halal_butcher: Butcher (halal or otherwise)
+  bakery: Bakery or patisserie
+  pub_bar: Pub, bar, nightclub, social club
+  pharmacy: Pharmacy or chemist
+  health: GP, dentist, optician, clinic, hospital
+  bank_atm: Bank branch, building society, ATM, bureau de change, money transfer
+  post_office: Post office counter
+  childcare: Nursery, pre-school, childminder setting, creche
+  education: School, college, university, tuition centre
+  kids_leisure: "Indoor children's leisure - soft play, kids' activity centre, trampoline park"
+  playground: Outdoor public playground
+  park_green: Park or public garden
+  gym: Gym, fitness or sports centre, martial arts
+  community_family: Community centre, family hub, library, social or charitable support service
+  place_of_worship: Mosque, gurdwara, temple, church
+  gambling: Bookmaker, adult gaming centre, casino
+  beauty: Hairdresser, barber, beauty, nails, tattoo
+  clothing_fabric: Clothes, fabrics, tailoring, shoes, bags
+  jewellery: Jeweller
+  phone_electronics: Mobile phones, electronics, computer repair
+  home_hardware: DIY, hardware, furniture, household goods, appliances
+  vehicle: Car sales, repair, tyres, parts, car wash, fuel
+  professional_services: Solicitor, accountant, estate agent, travel agent, employment agency
+  care_home: Residential or nursing care home
+  accommodation: Hotel, B&B, guest house
+  other_retail: Other shops
+  other: Anything else (offices, manufacturers, venues)
+
+exclude:
+  osm_tags: [amenity=parking, amenity=bench, amenity=bicycle_parking, amenity=waste_basket,
+    amenity=post_box, amenity=telephone, amenity=bicycle_rental, amenity=parking_space,
+    amenity=grit_bin, amenity=charging_station, amenity=ticket_validator, amenity=recycling,
+    amenity=fountain, amenity=toilets, amenity=water_point, amenity=parking_entrance,
+    amenity=clock, amenity=commemoration, amenity=motorcycle_parking, amenity=parcel_locker,
+    amenity=taxi, amenity=grave_yard, amenity=bus_station, amenity=post_depot,
+    amenity=student_housing, leisure=picnic_table, leisure=pitch, leisure=outdoor_seating,
+    leisure=fitness_station, tourism=artwork, tourism=information, tourism=viewpoint,
+    tourism=gate_house, tourism=apartment, shop=vacant]
+  fsa_types: [Mobile caterer]
+
+name_rules:   # case-insensitive regex -> category
+  - ['sweet ?(centre|center|shop|house|mart)|mithai|\bsweets? (and|&) (savour|snack|namkeen)|\bsweets?\b.*(curry|samosa)', south_asian_sweets]
+  - ['famil\w* (hub|for all)|children.?s centre|community (centre|center|hub)|\blibrary\b|food ?bank', community_family]
+  - ['soft ?play|play ?(centre|center|zone)|trampoline|kids? (club|zone|activity)', kids_leisure]
+  - ['nursery|pre-?school|day ?care|childcare|creche|little (stars|angels)', childcare]
+  - ['care home|nursing home|residential home|care centre', care_home]
+  - ['\bgym\b|fitness|body ?worx|martial arts|boxing|crossfit|leisure centre', gym]
+  - ['pharmacy|chemist', pharmacy]
+  - ['\b(bet(fred|way|ting)?|bookmaker|ladbrokes|william hill|coral|paddy ?power|amusements?|casino)\b', gambling]
+  - ['dessert|ice ?cream|gelato|waffle|kulfi|falooda|creamery|cake (shop|house)|\bcafe\b|caf[eé]|coffee', cafe_dessert]
+  - ['butcher|\bmeats?\b|halal (meat|food)', halal_butcher]
+  - ['bakery|bakers?\b|patisserie', bakery]
+  - ['barber|hair|salon|beauty|nails|lashes|brows|threading|tattoo', beauty]
+  - ['jewel', jewellery]
+  - ['supermarket|super ?store|mini ?market|grocer|cash (and|&) carry|food ?(store|centre|center|mart)|convenience|off ?licen[cs]e|\bstores?\b', grocer]
+  - ['mosque|masjid|gurdwara|gurudwara|temple|mandir|church|chapel', place_of_worship]
+  - ['school|academy|college|university|tuition', education]
+  - ['pizza|kebab|chicken|fish (and|&) chips|chippy|burger|takeaway|take away|peri', takeaway]
+
+osm_tags:
+  south_asian_sweets: [shop=confectionery]
+  takeaway: [amenity=fast_food]
+  restaurant: [amenity=restaurant, amenity=food_court]
+  cafe_dessert: [amenity=cafe, amenity=ice_cream, amenity=internet_cafe]
+  grocer: [shop=convenience, shop=supermarket, shop=newsagent, shop=alcohol, shop=deli, shop=health_food, shop=greengrocer, shop=market, amenity=marketplace]
+  halal_butcher: [shop=butcher]
+  bakery: [shop=bakery, shop=pastry]
+  pub_bar: [amenity=pub, amenity=bar, amenity=nightclub, amenity=social_club, "amenity=bar;leisure=music_venue"]
+  pharmacy: ["amenity=pharmacy;healthcare=pharmacy", amenity=pharmacy, shop=chemist]
+  health: ["amenity=doctors;healthcare=doctor", "amenity=dentist;healthcare=dentist", shop=optician, "amenity=clinic;healthcare=clinic", "amenity=hospital;healthcare=hospital", healthcare=yes, shop=herbal_medicine]
+  bank_atm: [amenity=bank, amenity=atm, amenity=bureau_de_change, shop=money_lender, shop=pawnbroker]
+  post_office: [amenity=post_office, "shop=copyshop;amenity=post_office"]
+  childcare: [amenity=kindergarten, amenity=childcare]
+  education: [amenity=school, amenity=college, amenity=university, office=educational_institution]
+  playground: [leisure=playground]
+  park_green: [leisure=park, leisure=garden, "amenity=grave_yard;leisure=park", "leisure=park;tourism=excavations"]
+  gym: [leisure=fitness_centre, leisure=sports_centre, leisure=sports_hall]
+  community_family: [amenity=community_centre, amenity=social_facility, amenity=library, amenity=arts_centre, shop=charity]
+  place_of_worship: [amenity=place_of_worship, "amenity=place_of_worship;tourism=attraction"]
+  gambling: [shop=bookmaker, leisure=adult_gaming_centre, amenity=gambling, amenity=casino]
+  beauty: [shop=hairdresser, shop=beauty, shop=cosmetics, shop=perfumery, shop=tattoo, leisure=spa, leisure=wellness]
+  clothing_fabric: [shop=clothes, shop=shoes, shop=bag, shop=fabric, craft=tailor, shop=fashion_accessories, shop=schoolwear, shop=leather, shop=boutique]
+  jewellery: [shop=jewelry]
+  phone_electronics: [shop=mobile_phone, shop=electronics, shop=hifi, shop=computer, shop=communication, shop=video_games, shop=repair]
+  home_hardware: [shop=doityourself, shop=hardware, shop=furniture, shop=bed, shop=electrical, shop=kitchen, shop=appliance, shop=interior_decoration, shop=variety_store, shop=tool_hire, shop=trade]
+  vehicle: [shop=car_repair, shop=car, shop=tyres, shop=car_parts, amenity=car_wash, amenity=fuel, amenity=car_rental, shop=motorcycle]
+  professional_services: [office=estate_agent, shop=estate_agent, office=lawyer, office=accountant, shop=travel_agency, office=employment_agency, office=insurance]
+  accommodation: [tourism=hotel]
+
+fsa_types:
+  takeaway: [Takeaway/sandwich shop]
+  restaurant: [Restaurant/Cafe/Canteen]
+  pub_bar: [Pub/bar/nightclub]
+  grocer: [Retailers - supermarkets/hypermarkets]
+  education: [School/college/university]
+  accommodation: [Hotel/bed & breakfast/guest house]
+  other: [Manufacturers/packers]
+  # Ambiguous FSA types go to the LLM: Retailers - other, Other catering premises,
+  # Hospitals/Childcare/Caring Premises
