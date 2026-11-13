@@ -123,7 +123,7 @@ ul.leaves { list-style: none; margin: 0; padding: 0; }
 </div>
 
 <script>
-const ASK = new Set(["hub","students","staff","policy","sustain","prompt","register"]);
+const ASK = new Set(["hub","students","staff","policy","sustain","prompt","register","tap"]);
 const hubItems = [
   ["About the Centre & team", "/ai/about", 1],
   ["News & updates", "/ai/news", 1],
@@ -142,8 +142,7 @@ const branches = [
     ["Microsoft Copilot guide","/ai/tools/copilot",1,"UCL"],
     ["What data can I use?","/ai/tools/data",1,"Cambridge, Imperial"],
     ["Security & safe use","/ai/tools/security",1,"Oxford"],
-    ["Request a new tool","/ai/tools/request",1,"Cambridge"],
-    ["What's new: model changelog","/ai/tools/whats-new",2,"Imperial"],
+    ["Technology Approval Process: request other AI tools (e.g. Claude)","/ai/tools/approval-process",1,"Cambridge","tap"],
   ]]]},
   { area:"c", c:"--b3", title:"AI for Students", slug:"/ai/students", ask:"students", desc:"Using AI well in study, assessment and careers.", groups:[[null,[
     ["Using AI in your studies","/ai/students/studying",1,"UCL"],
