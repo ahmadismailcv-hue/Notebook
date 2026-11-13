@@ -1,0 +1,272 @@
+<title>Warwick AI Hub Sitemap</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+/* Layout: radial sitemap — hub in the centre cell of a 3×3 grid, eight branch cards around it, SVG connectors drawn between them; stacks to a tree on phones. */
+:root {
+  --bg: #f4f6f8; --surface: #ffffff; --ink: #18202a; --muted: #5d6876; --line: #d6dde5; --hub: #1d3a52; --hub-ink: #ffffff;
+  --b1: #2f6fb3; --b2: #0f8a7e; --b3: #b05a17; --b4: #7a4bb5; --b5: #a3364f; --b6: #3d7d2a; --b7: #b4891b; --b8: #4a5a6e;
+  --p2-bg: #eef1f5; --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif; --font-body: "Inter", system-ui, -apple-system, sans-serif; --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f1419; --surface: #182029; --ink: #e6ebf0; --muted: #9aa6b4; --line: #2b3643; --hub: #2b5677; --hub-ink: #ffffff;
+  --b1: #6aa5e8; --b2: #3fc2b4; --b3: #e08a4a; --b4: #ab86e6; --b5: #e0708a; --b6: #79bf62; --b7: #e3bb4f; --b8: #96a7bb; --p2-bg: #1f2833; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0f1419; --surface: #182029; --ink: #e6ebf0; --muted: #9aa6b4; --line: #2b3643; --hub: #2b5677; --hub-ink: #ffffff;
+  --b1: #6aa5e8; --b2: #3fc2b4; --b3: #e08a4a; --b4: #ab86e6; --b5: #e0708a; --b6: #79bf62; --b7: #e3bb4f; --b8: #96a7bb; --p2-bg: #1f2833; color-scheme: dark }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 14px; line-height: 1.45; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-block: 28px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header { display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: end; justify-content: space-between; margin-bottom: 20px; }
+h1 { font-family: var(--font-display); font-size: clamp(24px, 3.4vw, 34px); line-height: 1.1; margin: 0 0 6px; text-wrap: balance; letter-spacing: -0.01em; }
+.lede { color: var(--muted); margin: 0; max-width: 62ch; }
+.controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); padding: 3px; }
+.seg button { font: 500 13px var(--font-body); color: var(--muted); background: none; border: 0; border-radius: 999px; padding: 6px 12px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--hub); color: var(--hub-ink); }
+.seg button:focus-visible { outline: 2px solid var(--b1); outline-offset: 2px; }
+.count { font: 12px var(--font-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--muted); margin: 0 0 18px; }
+.legend span { display: inline-flex; gap: 6px; align-items: center; }
+
+.map { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-areas: "a b c" "d hub e" "f g h"; gap: 44px 40px; align-items: start; }
+.map svg.links { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.links path { fill: none; stroke-width: 2; opacity: .45; transition: opacity .2s, stroke-width .2s; }
+.links path.on { opacity: 1; stroke-width: 3; }
+
+.hub { grid-area: hub; align-self: center; position: relative; z-index: 1; background: var(--hub); color: var(--hub-ink); border-radius: 18px; padding: 20px 20px 16px; box-shadow: 0 10px 30px -12px rgba(16, 32, 48, .45); }
+.hub .eyebrow { font: 600 11px var(--font-body); letter-spacing: .12em; text-transform: uppercase; opacity: .75; }
+.hub h2 { font-family: var(--font-display); font-size: 22px; margin: 4px 0 2px; }
+.hub .slug { color: var(--hub-ink); opacity: .8; }
+.hub ul { list-style: none; margin: 12px 0 0; padding: 12px 0 0; border-top: 1px solid rgba(255,255,255,.22); display: grid; gap: 6px; }
+.hub li { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; }
+.hub .tag { background: rgba(255,255,255,.16); color: var(--hub-ink); }
+
+.branch { position: relative; z-index: 1; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 14px 10px; min-width: 0; }
+.branch:hover, .branch:focus-within { border-color: var(--c); }
+.bhead { display: flex; align-items: baseline; gap: 8px; margin-bottom: 2px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex: none; transform: translateY(1px); }
+.branch h3 { font-family: var(--font-display); font-size: 17px; margin: 0; color: var(--ink); }
+.bdesc { color: var(--muted); font-size: 12.5px; margin: 2px 0 8px 18px; }
+.slug { font: 11px var(--font-mono); color: var(--muted); word-break: break-all; }
+.branch > .slug { margin-left: 18px; display: block; margin-bottom: 8px; }
+.sub { font: 600 10.5px var(--font-body); letter-spacing: .1em; text-transform: uppercase; color: var(--c); margin: 10px 0 2px; }
+ul.leaves { list-style: none; margin: 0; padding: 0; }
+.leaf { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; padding: 7px 0; border-top: 1px dashed var(--line); }
+.leaf:first-child { border-top: 0; }
+.leaf .name { font-weight: 500; min-width: 0; }
+.leaf .name .ask { color: var(--c); font-weight: 600; }
+.leaf .meta { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+.model { font-size: 11.5px; color: var(--muted); }
+.tag { font: 600 10.5px var(--font-body); letter-spacing: .04em; border-radius: 999px; padding: 2px 8px; white-space: nowrap; align-self: start; }
+.tag.p1 { background: var(--c, var(--hub)); color: var(--surface); }
+.tag.p2 { background: var(--p2-bg); color: var(--muted); border: 1px solid var(--line); }
+.legend .tag.p1 { --c: var(--hub); }
+.legend .tag.p2 { }
+.hide-p2 .is-p2 { display: none; }
+
+.notes { margin-top: 36px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.note { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.note h4 { font-family: var(--font-display); margin: 0 0 6px; font-size: 15px; }
+.note p, .note ul { margin: 0; color: var(--muted); font-size: 13px; }
+.note ul { padding-left: 18px; }
+
+@media (max-width: 960px) {
+  .map { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "hub hub" "a b" "c d" "e f" "g h"; gap: 16px; }
+  .map svg.links { display: none; }
+}
+@media (max-width: 620px) {
+  .map { grid-template-columns: minmax(0, 1fr); grid-template-areas: "hub" "a" "b" "c" "d" "e" "f" "g" "h"; }
+  .branch { border-left: 4px solid var(--c); }
+}
+@media (prefers-reduced-motion: reduce) { .links path { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Warwick AI Hub Sitemap</h1>
+      <p class="lede">A proposed page structure for the University of Warwick's AI Centre of Excellence. Each page shows its suggested URL, when it should launch, and which university it is modelled on.</p>
+    </div>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Filter pages by phase">
+        <button type="button" id="f-all" aria-pressed="true">All pages</button>
+        <button type="button" id="f-p1" aria-pressed="false">Launch set only</button>
+      </div>
+      <span class="count" id="count"></span>
+    </div>
+  </header>
+  <div class="legend">
+    <span><span class="tag p1">Launch</span> needed on day one</span>
+    <span><span class="tag p2">Phase 2</span> add within 6–12 months</span>
+    <span><span style="color:var(--b1);font-weight:600">Bold names</span> are the pages you asked for</span>
+    <span>"Model:" is the university that already does it well</span>
+  </div>
+
+  <div class="map" id="map">
+    <svg class="links" id="links" aria-hidden="true"></svg>
+    <section class="hub" id="hub" aria-labelledby="hub-title">
+      <div class="eyebrow">Hub homepage</div>
+      <h2 id="hub-title">AI Centre of Excellence</h2>
+      <span class="slug">warwick.ac.uk/ai</span>
+      <ul id="hub-items"></ul>
+    </section>
+  </div>
+
+  <div class="notes">
+    <div class="note"><h4>Who owns what</h4><p>IDG owns Tools &amp; Data. The Academic Development Centre (ADC) and IATL own teaching guidance. Research &amp; Impact Services owns AI for Research. The Centre owns the hub, Learn, Community and Governance. Each page names its owner and a review date in its footer.</p></div>
+    <div class="note"><h4>Rules for every page</h4><ul><li>Route people by audience or task, not by org chart</li><li>Show a "last reviewed" date on each page</li><li>Every page links back to the tool finder</li><li>Keep it public: a login only for internal tools</li></ul></div>
+    <div class="note"><h4>What already exists at Warwick</h4><p>The AI Information Compliance Policy, the AI strategy PDF, ADC's AI pages and the Library's AI guide can be moved or linked into this structure rather than rewritten.</p></div>
+  </div>
+</div>
+
+<script>
+const ASK = new Set(["hub","students","staff","policy","sustain","prompt","register"]);
+const hubItems = [
+  ["About the Centre & team", "/ai/about", 1],
+  ["News & updates", "/ai/news", 1],
+  ["Impact dashboard: adoption & training numbers", "/ai/impact", 2],
+  ["Contact & feedback", "/ai/contact", 1],
+];
+const branches = [
+  { area:"a", c:"--b1", title:"Start Here", slug:"/ai/start", desc:"For anyone new. Gets people to the right page in one click.", groups:[[null,[
+    ["What is AI? A plain-English primer","/ai/start/what-is-ai",1,"UCL"],
+    ["Golden rules: do's and don'ts","/ai/start/golden-rules",1,"Liverpool"],
+    ["Tool finder: “What do you want to do?”","/ai/start/tool-finder",1,"Imperial"],
+    ["FAQs","/ai/start/faqs",1,"Oxford"],
+  ]]]},
+  { area:"b", c:"--b2", title:"Tools & Data", slug:"/ai/tools", desc:"Which tools are approved and what data may go into them.", groups:[[null,[
+    ["Approved tools","/ai/tools",1,"Manchester"],
+    ["Microsoft Copilot guide","/ai/tools/copilot",1,"UCL"],
+    ["What data can I use?","/ai/tools/data",1,"Cambridge, Imperial"],
+    ["Security & safe use","/ai/tools/security",1,"Oxford"],
+    ["Request a new tool","/ai/tools/request",1,"Cambridge"],
+    ["AI gateway: several models in one place","/ai/tools/gateway",2,"Imperial, Edinburgh"],
+    ["Build your own: API & agents","/ai/tools/build",2,"Edinburgh, Imperial"],
+    ["What's new: model changelog","/ai/tools/whats-new",2,"Imperial"],
+  ]]]},
+  { area:"c", c:"--b3", title:"AI for Students", slug:"/ai/students", ask:"students", desc:"Using AI well in study, assessment and careers.", groups:[[null,[
+    ["Using AI in your studies","/ai/students/studying",1,"UCL"],
+    ["AI and academic integrity","/ai/students/integrity",1,"Manchester"],
+    ["How to reference AI use","/ai/students/referencing",1,"Imperial"],
+    ["Student AI course","/ai/students/course",1,"Imperial, Edinburgh"],
+    ["AI for careers & job applications","/ai/students/careers",2,"Edinburgh, Liverpool"],
+    ["Student voice & AI Society","/ai/students/voice",2,"UCL, Manchester"],
+  ]]]},
+  { area:"d", c:"--b4", title:"AI for Staff", slug:"/ai/staff", ask:"staff", desc:"Teaching staff and professional services, on separate tracks.", groups:[
+    ["Teaching",[
+      ["AI in teaching, learning & assessment","/ai/staff/teaching",1,"UCL"],
+      ["Assessment design toolkit","/ai/staff/assessment",1,"UCL"],
+      ["Module AI guidance template","/ai/staff/module-guidance",2,"Cambridge"],
+    ]],
+    ["Professional services",[
+      ["AI for professional services","/ai/staff/professional-services",1,"Cambridge"],
+      ["Automate a workflow","/ai/staff/automate",2,"Imperial"],
+    ]],
+  ]},
+  { area:"e", c:"--b5", title:"AI for Research", slug:"/ai/research", desc:"Rules and support for using AI in research.", groups:[[null,[
+    ["Using AI in research","/ai/research/guidance",1,"Oxford"],
+    ["Funder & publisher rules","/ai/research/funders",1,"Edinburgh"],
+    ["Ethics review for AI projects","/ai/research/ethics",2,"Edinburgh"],
+    ["Compute & HPC for AI","/ai/research/compute",2,"Oxford"],
+  ]]]},
+  { area:"f", c:"--b6", title:"Learn & Skills", slug:"/ai/learn", desc:"Training at every level, from essentials to advanced.", groups:[[null,[
+    ["Training pathways","/ai/learn/pathways",1,"Manchester, Imperial"],
+    ["Prompt Playbook","/ai/learn/prompt-playbook",1,"UCL, Edinburgh", "prompt"],
+    ["Workshops & events","/ai/learn/events",1,"Oxford"],
+    ["AI clinic & office hours","/ai/learn/clinic",2,"Cambridge"],
+    ["Recordings & guides library","/ai/learn/library",2,"UCL"],
+  ]]]},
+  { area:"g", c:"--b7", title:"Community & Innovation", slug:"/ai/community", desc:"People, projects and evidence of what works.", groups:[[null,[
+    ["Use Case Register","/ai/community/use-cases",1,"Edinburgh", "register"],
+    ["Case studies","/ai/community/case-studies",1,"Oxford"],
+    ["AI Champions network","/ai/community/champions",1,"Oxford, Manchester"],
+    ["Teams community","/ai/community/teams",1,"Edinburgh"],
+    ["Seed fund calls","/ai/community/seed-fund",2,"Cambridge, UCL"],
+    ["Showcase","/ai/community/showcase",2,"Cambridge"],
+  ]]]},
+  { area:"h", c:"--b8", title:"Policy & Responsible AI", slug:"/ai/policy", ask:"policy", desc:"The rules, who sets them, and the wider impact of AI.", groups:[
+    ["Policy & governance",[
+      ["AI Policy","/ai/policy/ai-policy",1,"Manchester", "policy"],
+      ["AI principles","/ai/policy/principles",1,"Manchester"],
+      ["AI Information Compliance Policy","/ai/policy/compliance",1,"Already at Warwick"],
+      ["AI Strategy","/ai/policy/strategy",1,"Already at Warwick"],
+      ["Governance: who decides","/ai/policy/governance",1,"Manchester, UCL"],
+      ["AI impact assessment","/ai/policy/impact-assessment",2,"Edinburgh"],
+      ["Agentic AI guidance","/ai/policy/agentic",2,"Edinburgh"],
+    ]],
+    ["Responsible AI",[
+      ["Sustainability","/ai/responsible/sustainability",1,"Edinburgh", "sustain"],
+      ["Ethics, bias & inclusion","/ai/responsible/ethics",1,"UCL"],
+    ]],
+  ]},
+];
+
+const esc = s => s.replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+const tag = p => p === 1 ? '<span class="tag p1">Launch</span>' : '<span class="tag p2">Phase 2</span>';
+
+document.getElementById("hub-items").innerHTML = hubItems.map(([n, s, p]) =>
+  `<li class="leaf-hub ${p===2?"is-p2":""}"><span>${esc(n)}<br><span class="slug" style="color:inherit;opacity:.7">${s}</span></span>${tag(p)}</li>`).join("");
+
+const map = document.getElementById("map");
+branches.forEach((b, i) => {
+  const el = document.createElement("section");
+  el.className = "branch"; el.id = "br-" + b.area; el.style.gridArea = b.area; el.style.setProperty("--c", `var(${b.c})`);
+  el.setAttribute("aria-labelledby", "h-" + b.area);
+  const groups = b.groups.map(([label, leaves]) =>
+    (label ? `<div class="sub">${esc(label)}</div>` : "") +
+    `<ul class="leaves">${leaves.map(([n, s, p, m, k]) => `
+      <li class="leaf ${p===2?"is-p2":""}">
+        <span class="name">${k && ASK.has(k) ? `<span class="ask">${esc(n)}</span>` : esc(n)}</span>${tag(p)}
+        <span class="meta"><span class="slug">${s}</span><span class="model">Model: ${esc(m)}</span></span>
+      </li>`).join("")}</ul>`).join("");
+  el.innerHTML = `<div class="bhead"><span class="dot"></span><h3 id="h-${b.area}">${b.ask ? `<span style="color:var(--c)">${esc(b.title)}</span>` : esc(b.title)}</h3></div>
+    <p class="bdesc">${esc(b.desc)}</p><span class="slug">${b.slug}</span>${groups}`;
+  map.appendChild(el);
+});
+document.querySelector("#hub h2").innerHTML = 'AI Centre of Excellence';
+
+function count() {
+  const hidden = map.classList.contains("hide-p2");
+  const all = map.querySelectorAll(".leaf, .leaf-hub").length + 1 + branches.length;
+  const p2 = map.querySelectorAll(".is-p2").length;
+  document.getElementById("count").textContent = hidden ? `${all - p2} pages at launch` : `${all} pages in total · ${all - p2} at launch`;
+}
+
+const svg = document.getElementById("links");
+function draw() {
+  if (getComputedStyle(svg).display === "none") return;
+  const box = map.getBoundingClientRect(), hub = document.getElementById("hub").getBoundingClientRect();
+  const hx = hub.left + hub.width / 2 - box.left, hy = hub.top + hub.height / 2 - box.top;
+  svg.setAttribute("viewBox", `0 0 ${box.width} ${box.height}`);
+  svg.innerHTML = branches.map(b => {
+    const r = document.getElementById("br-" + b.area).getBoundingClientRect();
+    const cx = r.left + r.width / 2 - box.left, cy = r.top + Math.min(r.height / 2, 60) - box.top;
+    let ex = cx, ey = cy, sx = hx, sy = hy;
+    if (["d","e"].includes(b.area)) { ex = b.area === "d" ? r.right - box.left : r.left - box.left; sx = b.area === "d" ? hub.left - box.left : hub.right - box.left; }
+    else { ey = ["a","b","c"].includes(b.area) ? r.bottom - box.top : r.top - box.top; sy = ["a","b","c"].includes(b.area) ? hub.top - box.top : hub.bottom - box.top;
+           sx = hx + (cx - hx) * 0.35; }
+    const mx = (sx + ex) / 2, my = (sy + ey) / 2;
+    const d = ["d","e"].includes(b.area) ? `M${sx},${sy} C${mx},${sy} ${mx},${ey} ${ex},${ey}` : `M${sx},${sy} C${sx},${my} ${ex},${my} ${ex},${ey}`;
+    return `<path data-a="${b.area}" d="${d}" stroke="var(${b.c})"/>`;
+  }).join("");
+}
+map.addEventListener("mouseover", e => { const br = e.target.closest(".branch"); svg.querySelectorAll("path").forEach(p => p.classList.toggle("on", !!br && p.dataset.a === br.id.slice(3))); });
+map.addEventListener("mouseleave", () => svg.querySelectorAll("path").forEach(p => p.classList.remove("on")));
+
+function setFilter(p1) {
+  map.classList.toggle("hide-p2", p1);
+  document.getElementById("f-all").setAttribute("aria-pressed", String(!p1));
+  document.getElementById("f-p1").setAttribute("aria-pressed", String(p1));
+  try { localStorage.setItem("sitemap-filter", p1 ? "p1" : "all"); } catch (e) {}
+  count(); draw();
+}
+document.getElementById("f-all").addEventListener("click", () => setFilter(false));
+document.getElementById("f-p1").addEventListener("click", () => setFilter(true));
+let saved = "all"; try { saved = localStorage.getItem("sitemap-filter") || "all"; } catch (e) {}
+setFilter(saved === "p1");
+new ResizeObserver(draw).observe(map);
+document.fonts && document.fonts.ready.then(draw);
+</script>
