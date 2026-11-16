@@ -1,4 +1,4 @@
-import asyncio
+import asyncio, sys
 from playwright.async_api import async_playwright
 import pathlib; U=pathlib.Path("dist/index.html").resolve().as_uri()
 async def main():
@@ -40,4 +40,5 @@ async def main():
         print("4 stored:", await pg.evaluate("localStorage.getItem('th-return')"))
         print("ERRORS:", errs)
         await b.close()
-asyncio.run(main())
+        return errs
+sys.exit(1 if asyncio.run(main()) else 0)

@@ -11,4 +11,5 @@ for k,n in {'__INTER400__':'inter/files/inter-latin-400-normal','__INTER500__':'
 js=r('node_modules/@supabase/supabase-js/dist/umd/supabase.js').replace('</script','<\\/script')
 s=s.replace('__SUPABASE_JS__',js).replace('__APP_JS__',r('src/app.js'))
 __import__('os').makedirs('dist',exist_ok=True); open('dist/index.html','w',encoding='utf-8').write(s)
+__import__('shutil').copytree('static','dist',dirs_exist_ok=True)  # favicon.svg, badge.png, badge-icon.png
 print(len(s), 'em dashes in app/shell:', r('src/app.js').count('—')+r('src/shell.html').count('—'))

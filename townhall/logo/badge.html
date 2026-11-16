@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Badge source</title>
+<!-- Source for static/badge.png and static/badge-icon.png. Render with: python3 logo/badge.py -->
+<style>
+@font-face { font-family: "Inter"; font-weight: 700; src: url("../node_modules/@fontsource/inter/files/inter-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Newsreader"; font-weight: 600; src: url("../node_modules/@fontsource/newsreader/files/newsreader-latin-600-normal.woff2") format("woff2"); }
+body { margin: 0; padding: 4px; background: transparent; }
+svg { display: block; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<!-- 88 by 31 badge -->
+<svg id="b" width="88" height="31" viewBox="0 0 88 31" xmlns="http://www.w3.org/2000/svg">
+  <rect width="88" height="31" rx="4" fill="#173129"/>
+  <rect x="6" y="6" width="8" height="19" rx="2" fill="#7f9aa0"/>
+  <rect x="16.5" y="17" width="8" height="8" rx="2" fill="#c6ff3d"/>
+  <text x="30" y="13" font-family="Inter" font-weight="700" font-size="6" letter-spacing="0.4" fill="#c6ff3d">FEATURED ON</text>
+  <text id="name" x="30" y="24.5" font-family="Newsreader" font-weight="600" font-size="12" fill="#ffffff"></text>
+</svg>
+<!-- 64 by 64 icon, the same mark as static/favicon.svg -->
+<svg id="i" width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" rx="14" fill="#173129"/>
+  <rect x="13" y="12" width="16" height="40" rx="3.5" fill="#7f9aa0"/>
+  <rect x="35" y="35" width="16" height="17" rx="3.5" fill="#c6ff3d"/>
+</svg>
+<script>
+// The product name. Change it here, then rerun python3 logo/badge.py.
+const NAME = "Townhall";
+document.getElementById("name").textContent = NAME;
+</script>
+</body>
+</html>

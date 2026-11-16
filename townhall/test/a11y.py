@@ -31,4 +31,5 @@ async def main():
         if not out: print("NO VIOLATIONS")
         for k,v in sorted(out.items(), key=lambda kv: ["critical","serious","moderate","minor",None].index(kv[1]["impact"])):
             print(f"[{v['impact']}] {k}: {v['help']}\n   pages: {', '.join(sorted(v['where']))[:300]}\n   e.g. {v['ex'][:2]}")
-asyncio.run(main())
+        return out
+sys.exit(1 if asyncio.run(main()) else 0)

@@ -134,4 +134,5 @@ async def main():
         await j.click('#af button[type=submit]'); await j.wait_for_timeout(200); print("join ac.uk:", await j.inner_text("#aMsg"))
         print("ERRORS:", errs)
         await b.close()
-asyncio.run(main())
+        return errs
+sys.exit(1 if asyncio.run(main()) else 0)
