@@ -1,0 +1,98 @@
+%% Townhall: every screen a new user sees, from first visit to first win
+%% Amber hexagons = a choice the user makes. Green = first win. Red = friction or a dead end.
+flowchart TD
+  classDef screen fill:#ffffff,stroke:#1f6feb,stroke-width:1.5px,color:#18181b
+  classDef choice fill:#fff3bf,stroke:#b8860b,stroke-width:2px,color:#18181b
+  classDef win fill:#c6ff3d,stroke:#10261c,stroke-width:2px,color:#10261c
+  classDef friction fill:#fdecec,stroke:#c62828,stroke-width:1.5px,color:#7a1010
+  classDef sys fill:#f3f3f1,stroke:#9a9a9f,stroke-dasharray:4 3,color:#3f3f46
+
+  subgraph KEY[Key]
+    direction LR
+    K1[Screen]:::screen
+    K2{{Choice}}:::choice
+    K3([First win]):::win
+    K4[Friction]:::friction
+    K5[System step]:::sys
+  end
+
+  START([Arrives from a link, search or a colleague]) --> HOME
+
+  %% ---------- Discovery, logged out ----------
+  HOME[Townhall home, logged out<br/>headline, Join free, a real example post,<br/>feed, news, categories in the sidebar]:::screen
+  HOME --> C1{{C1 What first?}}:::choice
+  C1 -->|Join free| JOIN
+  C1 -->|Log in| LOGIN
+  C1 -->|Browse categories| CATS
+  C1 -->|Open the example or a feed post| POST
+  C1 -->|Press / or use search| JUMP
+  C1 -->|HE AI news| NEWS
+
+  NEWS[HE AI news<br/>headlines only]:::screen --> NEWSOUT[Title opens the publisher's site<br/>user leaves Townhall]:::friction
+
+  JUMP[Jump box]:::screen --> C2{{C2 Category or search?}}:::choice
+  C2 -->|Picks a category| CAT
+  C2 -->|Searches words| SEARCH[Search results]:::screen --> POST
+
+  CATS[Categories page<br/>one card per task]:::screen --> C3{{C3 Which category?}}:::choice --> CAT
+  CAT[Category page]:::screen --> C4{{C4 Sort and filter<br/>Top, Most tried, Hot, Newest<br/>tool, post type}}:::choice --> POST
+
+  POST[Post page, logged out<br/>before, after, time saved, tried by<br/>description, screenshots, facts, prompt]:::screen
+  POST --> C5{{C5 Open the full prompt?}}:::choice
+  C5 -->|See more or Copy| PROMPT[Full prompt shown<br/>Copy confirms with a message]:::screen --> C6
+  C5 -->|Not now| C6
+  C6{{C6 Act on it?}}:::choice
+  C6 -->|Keep browsing| CAT
+  C6 -->|Record a try or reply| GATE[Log in to record whether this worked]:::friction
+  GATE --> C7{{C7 Has an account?}}:::choice
+  C7 -->|No| JOIN
+  C7 -->|Yes| LOGIN
+
+  %% ---------- Sign-up ----------
+  JOIN[Join form]:::screen --> C8{{C8 Profile details<br/>username, job title, institution<br/>area of work from a list}}:::choice
+  C8 --> C9{{C9 Which email?}}:::choice
+  C9 -->|University .ac.uk| BADGE[Gets the ac.uk badge<br/>posts go live straight away]:::sys
+  C9 -->|Any other email| NOBADGE[No badge<br/>posts held until 3 approved]:::sys
+  BADGE --> C10
+  NOBADGE --> C10
+  C10{{C10 Confirms 18 or over<br/>terms, house rules, CC BY 4.0}}:::choice -->|Submits| CHECKMAIL[Check your email message]:::screen
+  CHECKMAIL --> MAIL[Confirmation email<br/>needs an email service connected]:::friction
+  MAIL --> BACKHOME[Lands on home, logged in<br/>the post they came from is lost]:::friction
+
+  %% ---------- Log in ----------
+  LOGIN[Log in]:::screen --> C11{{C11 How to log in?}}:::choice
+  C11 -->|Password| BACKHOME
+  C11 -->|Email me a login link| LINK[Login email]:::sys --> BACKHOME
+  C11 -->|Forgot password| RESET[Reset email, then New password screen]:::sys --> BACKHOME
+
+  %% ---------- Logged in ----------
+  BACKHOME --> HOMEIN[Home, logged in<br/>share box, feed, bell]:::screen
+  HOMEIN --> C12{{C12 Use or share?}}:::choice
+  C12 -->|Find a workflow| POSTIN
+  C12 -->|Share a build| FORM
+
+  POSTIN[Post page, logged in]:::screen --> C13{{C13 Which action?}}:::choice
+  C13 -->|I tried this| C14{{C14 Worked, partly or didn't?<br/>optional note}}:::choice
+  C14 -->|Save| WIN1([First win: try recorded<br/>Thanks message, author notified]):::win
+  C13 -->|Save to library| WIN2([First win: workflow kept<br/>in My library]):::win
+  C13 -->|Fork this setup| FORM
+  C13 -->|Reply| REPLY[Reply posted message]:::screen
+
+  %% ---------- Share a build ----------
+  FORM[Share a build form<br/>dummy-data notice at the top]:::screen --> C15{{C15 Which category?}}:::choice --> C16{{C16 Which post type?}}:::choice
+  C16 -->|Workflow, Tool, Agent or Fail| NUMBERS[The numbers<br/>tool, task, minutes before and after<br/>data used, what went wrong]:::screen
+  C16 -->|Question| C18
+  NUMBERS --> C17{{C17 Is it an agent?}}:::choice
+  C17 -->|Yes| KS[Knowledge sources<br/>at least one, described in words]:::screen --> C18
+  C17 -->|No| C18
+  C18{{C18 Add screenshots?}}:::choice
+  C18 -->|Yes| SHOTS[Upload or paste<br/>tick the screenshots are dummy data]:::screen --> C19
+  C18 -->|No| C19
+  C19{{C19 Add a prompt and hashtags?}}:::choice --> CONFIRM[Tick: real data replaced with dummy data]:::screen
+  CONFIRM --> C20{{C20 Publish}}:::choice --> CHECKS{Automatic checks}:::sys
+  CHECKS -->|Personal data or a link found| FIX[Error message, edit and retry]:::friction --> CONFIRM
+  CHECKS -->|Pass, ac.uk account| LIVE([Post live, Published message]):::win
+  CHECKS -->|Pass, other email| PENDING[Waiting for a moderator]:::friction
+  PENDING --> APPROVED[Bell: your post was approved]:::sys --> LIVE
+  LIVE --> OTHERS[A colleague tries it]:::sys
+  OTHERS --> WIN3([Real win: bell says<br/>X tried your workflow: it worked]):::win
