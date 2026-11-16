@@ -15,17 +15,16 @@ Operator: Ahmad Ismail. The contact email in `src/app.js` (`OPERATOR`) is shown 
 ```
 npm install                       # fonts, supabase-js, axe-core
 pip install playwright && playwright install chromium
-python3 build.py                  # writes dist/index.html
-python3 test/run.py               # end-to-end flows against a mock Supabase (test/mock.js)
-python3 test/return.py            # login returns to the right page; logged-out try is kept
-python3 test/a11y.py              # axe-core over every page in 4 display modes
+npm run build                     # writes dist/index.html
+npm test                          # rebuilds, then test/run.py (end-to-end flows against test/mock.js) and test/return.py (login returns to the right page; logged-out try is kept)
+npm run a11y                      # rebuilds, then test/a11y.py: axe-core over every page in 4 display modes
 ```
 
-Rebuild before running tests. Expected results are `ERRORS: []` and `NO VIOLATIONS`.
+Expected results are `ERRORS: []` and `NO VIOLATIONS`. The scripts exit 0 either way, so read the output.
 
 ## Database
 
-Migrations were applied live through the Supabase MCP and are not yet in this repo. First job: pull them into `supabase/migrations/` (`supabase link --project-ref dlqltqsojkjygzzehvjk` then `supabase db pull`, or read `supabase_migrations.schema_migrations` through the Supabase MCP and write one file per row). Applied so far, in order: core_schema, rls_views_rpcs, move_helpers_private, higher_education_focus, spaces_tools_screenshots_knowledge, my_library, open_signup_and_trust_ac_uk, he_ai_news, he_ai_news_parse_fix, notifications_privacy_metrics.
+The migrations applied to the live project are in `supabase/migrations/`, one file per row of `supabase_migrations.schema_migrations`. Each file matches the live statements exactly. Applied so far, in order: core_schema, rls_views_rpcs, move_helpers_private, higher_education_focus, spaces_tools_screenshots_knowledge, my_library, open_signup_and_trust_ac_uk, he_ai_news, he_ai_news_parse_fix, notifications_privacy_metrics. Add new changes as new files there. `supabase/schema_snapshot.md`, `advisors.md` and `live_check.md` are read-only reports from 16 Nov 2026.
 
 `sql/` holds scripts the owner still needs to run by hand: `library_tests.sql` (not yet run on live), `seed_samples.sql` (optional, example posts labelled "Example"), `move_pg_net.sql` (optional, clears the "Extension in Public" advisor warning), `security_tests.sql`.
 
