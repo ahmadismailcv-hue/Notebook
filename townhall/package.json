@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "python3 build.py",
+    "pretest": "python3 build.py",
     "test": "python3 test/run.py && python3 test/return.py",
+    "prea11y": "python3 build.py",
     "a11y": "python3 test/a11y.py"
   },
   "keywords": [],
