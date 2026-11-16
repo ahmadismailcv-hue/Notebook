@@ -489,7 +489,7 @@ async function viewTopic(id) {
    <article class="topic-card">
     <div class="post-head"><img class="av" src="${identicon(p.author || "team", authorName(p))}" width="40" height="40" alt=""><div><span class="who">${userLink(authorName(p))}</span> ${verified(p.author_ac)}<div class="small">${[p.author_profession, p.author_area, p.author_institution].filter(Boolean).map(esc).join(" · ")}</div></div><span class="when">${esc(when(p.created_at))}</span></div>
     <h1 class="topic-title">${esc(p.title)}</h1>
-    <div>${p.pinned ? '<span class="tg MEETING">Pinned</span>' : ""}${typeTag(p.type)}${p.status !== "published" ? `<span class="tg ${p.status.toUpperCase()}">${p.status.toUpperCase()}</span>` : ""}${p.is_sample ? '<span class="tg SAMPLE">SAMPLE</span>' : ""}${b ? `<a class="ht" href="${spaceHref(b.id)}">${esc(spaceName(b))}</a>` : ""}${tagLinks(p.tags)}</div>
+    <div>${p.pinned ? '<span class="tg MEETING">Pinned</span>' : ""}${typeTag(p.type)}${p.status !== "published" ? `<span class="tg ${p.status.toUpperCase()}">${p.status.toUpperCase()}</span>` : ""}${p.is_sample ? '<span class="tg SAMPLE">Example</span>' : ""}${b ? `<a class="ht" href="${spaceHref(b.id)}">${esc(spaceName(b))}</a>` : ""}${tagLinks(p.tags)}</div>
     ${p.status === "pending" ? `<div class="notice" style="margin-top:12px">This post is waiting for a moderator. Posts from accounts without a university email are checked until three have been approved.</div>` : ""}
     ${parent.data ? `<div class="small" style="margin-top:8px">Forked from <a href="#t-${esc(parent.data.id)}">${esc(parent.data.title)}</a></div>` : ""}
     ${topicStats(p)}
