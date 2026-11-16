@@ -3,3 +3,4 @@ dist/
 test/*.png
 __pycache__/
 .env
+!test/shot.png
