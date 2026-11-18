@@ -55,6 +55,7 @@ function sorted(list, mode = sortMode) {
   const a = [...list];
   if (mode === "new") a.sort((x, y) => new Date(y.created_at) - new Date(x.created_at));
   else if (mode === "hot") a.sort((x, y) => hot(y) - hot(x));
+  else if (mode === "saved") { const low = p => (p.type === "FAIL" ? 2 : 0) + (isStale(p) ? 1 : 0); a.sort((x, y) => low(x) - low(y) || minsSaved(y) - minsSaved(x) || y.likes - x.likes); } // fails and out-of-date posts last
   else if (mode === "tried") a.sort((x, y) => (y.tries_worked * 3 + y.tries_partly) - (x.tries_worked * 3 + x.tries_partly) || y.likes - x.likes);
   else a.sort((x, y) => y.likes - x.likes || new Date(y.created_at) - new Date(x.created_at));
   return a.sort((x, y) => (y.pinned ? 1 : 0) - (x.pinned ? 1 : 0));
@@ -208,6 +209,16 @@ function feed(list, showBoard = true, empty) {
 
 // ================= filters & quick switcher =================
 let toolFilter = "", typeFilter = "";
+// First-visit job picker: one tap shows builds for that job, most time saved first. Remembered for about a year.
+const JOBS = { "marking-feedback": "Marking & feedback", "teaching-prep": "Teaching prep", "admissions": "Admissions", "exams-timetabling": "Exams & timetabling", "student-support": "Student support", "research-admin": "Research admin", "meetings-minutes": "Meetings & minutes", "writing-comms": "Emails & writing", "data-reporting": "Data & reporting", "policy-governance": "Policy & governance" };
+let jobPick = recall("th_job", 3e10) || "";
+const minsSaved = p => p.minutes_before > 0 && p.minutes_after != null ? p.minutes_before - p.minutes_after : -1;
+const trackEv = k => { try { sb.rpc("track_view", { p: k }).then(() => {}, () => {}); } catch (_) { } };
+function jobPicker() {
+  const ids = Object.keys(JOBS).filter(id => board(id));
+  if (!ids.length) return "";
+  return `<div class="jobpick" role="group" aria-labelledby="jpQ"><div class="jp-q" id="jpQ">What takes up your time?</div><div class="jp-chips">${ids.map(id => `<button type="button" class="jp-chip${jobPick === id ? " on" : ""}" data-job="${esc(id)}" aria-pressed="${jobPick === id}">${esc(JOBS[id])}</button>`).join("")}</div></div>`;
+}
 const applyFilters = list => list.filter(p => (!toolFilter || p.tool_key === toolFilter) && (!typeFilter || p.type === typeFilter));
 function filterBar() {
   return `<div class="filters" role="group" aria-label="Filters"><select id="fTool" aria-label="Filter by tool"><option value="">All tools</option>${Object.entries(TOOLS).map(([k, v]) => `<option value="${k}"${toolFilter === k ? " selected" : ""}>${esc(v)}</option>`).join("")}</select><select id="fType" aria-label="Filter by post type"><option value="">All types</option>${["WORKFLOW", "AGENT", "TOOL", "FAIL", "QUESTION"].map(t => `<option${typeFilter === t ? " selected" : ""}>${t}</option>`).join("")}</select></div>`;
@@ -304,7 +315,7 @@ const follows = (kind, target) => S.myFollows.some(f => f.kind === kind && f.tar
 function needLogin(what) { return `<div class="notice">${esc(what)} needs an account. <a href="#login">Log in</a> or <a href="#join">join</a>. It's free.</div>`; }
 
 // ================= list rendering =================
-function sortTabs() { return `<div class="feedbar"><div class="tabs" role="tablist">${[["top", "Top"], ["tried", "Most tried"], ["hot", "Hot"], ["new", "Newest"]].map(([k, l]) => `<a href="#" role="tab" data-sort="${k}" class="${sortMode === k ? "on" : ""}">${l}</a>`).join("")}</div>${filterBar()}</div>`; }
+function sortTabs() { return `<div class="feedbar"><div class="tabs" role="tablist">${[["top", "Top"], ["saved", "Most time saved"], ["tried", "Most tried"], ["hot", "Hot"], ["new", "Newest"]].map(([k, l]) => `<a href="#" role="tab" data-sort="${k}" class="${sortMode === k ? "on" : ""}">${l}</a>`).join("")}</div>${filterBar()}</div>`; }
 function bindSort(rerender) { V.querySelectorAll("[data-sort]").forEach(a => a.onclick = e => { e.preventDefault(); sortMode = a.dataset.sort; rerender(); }); bindFilters(rerender); }
 function followBtn(kind, target) {
   if (!S.me) return "";
@@ -335,20 +346,25 @@ async function viewIndex() {
   const meeting = posts.find(p => p.type === "MEETING" && p.pinned);
   const people = (ppl.data || []).filter(u => u.rep > 0);
   const draw = () => {
-    const ex = !S.me ? sorted(posts.filter(p => TYPES_BUILD.includes(p.type) && saving(p) > 0), "top")[0] : null;
-    const list = sorted(applyFilters(posts.filter(p => p.type !== "MEETING" && (!ex || p.id !== ex.id)))).slice(0, 30);
+    if (jobPick && !board(jobPick)) jobPick = "";
+    const ex = !S.me && !jobPick ? sorted(posts.filter(p => TYPES_BUILD.includes(p.type) && saving(p) > 0), "top")[0] : null;
+    const list = sorted(applyFilters(posts.filter(p => p.type !== "MEETING" && (!ex || p.id !== ex.id) && (!jobPick || p.board_id === jobPick)))).slice(0, 30);
+    const jobLbl = jobPick ? esc(JOBS[jobPick] || jobPick) : "";
+    const jobRes = jobPick ? `<div class="jobres" id="jobRes" tabindex="-1">${list.length ? `<b>${list.length} ${list.length === 1 ? "post" : "posts"} for ${jobLbl}</b>${sortMode === "saved" ? ", most time saved first" : ""}. ` : ""}<a href="#" data-joball>Show everything</a></div>` : "";
+    const jobEmpty = jobPick ? `No posts for ${jobLbl} yet. <a href="#post">Share the first one</a> or <a href="#" data-joball>show everything</a>.` : undefined;
     const tc = {}; posts.forEach(p => (p.tags || []).forEach(t => tc[t] = (tc[t] || 0) + 1));
     const tags = Object.entries(tc).sort((a, b) => b[1] - a[1]).slice(0, 16);
     const sv = savings.data || [];
     V.innerHTML = `<div class="grid2"><div class="colmain">
       <section class="hero"><h1 class="h-page">AI workflows from UK university staff, with the time they save</h1>
        <p class="lead">Each post shows the task, the tool, the minutes before and after, and what went wrong. Colleagues at other institutions then say whether it worked for them.</p>
+       ${jobPicker()}
        ${S.me ? `<a class="composer" href="#post"><img class="av" src="${identicon(S.me.id, S.me.handle)}" alt="" width="36" height="36"><span>Share something you built with AI. It takes about 15 minutes.</span><span class="composer-go" aria-hidden="true">${svg(IC.plus)}</span></a>`
          : `<div class="hero-cta"><a class="btn primary lg" href="#join">Join free</a><a class="btn lg" href="#categories">Browse categories</a></div>`}
        ${ex ? `<div class="example"><div class="ex-lbl">A post from the community</div>${postCard(ex)}</div>` : ""}
        <div class="small counter" aria-label="Site totals">${memberCount < SHOW_COUNT_FROM ? `<b>Founding members wanted.</b> Early posts shape what Townhall becomes` : `<b>${memberCount.toLocaleString("en-GB")}</b> members`} · <b>${posts.filter(p => !p.is_sample).length.toLocaleString("en-GB")}</b> posts · <b>${tryCount.toLocaleString("en-GB")}</b> workflows tried</div>
       </section>
-      ${sortTabs()}${feed(list)}
+      ${sortTabs()}${jobRes}${feed(list, true, jobEmpty)}
     </div>
     <aside class="colrail rail" aria-label="Highlights">
       ${meeting ? `<div class="card card-pad"><h2 class="h3">Town meeting this week</h2><a class="b" href="#t-${esc(meeting.id)}">${esc(meeting.title)}</a><div class="small" style="margin-top:4px">${meeting.replies} ${meeting.replies === 1 ? "reply" : "replies"}</div></div>`
@@ -361,6 +377,13 @@ async function viewIndex() {
         <div class="small" style="margin-top:8px">Self-reported by authors. Not independently checked.</div></div>
     </aside></div>`;
     bindSort(draw);
+    const showJob = () => { const r = document.getElementById("jobRes") || V.querySelector(".feedbar"); if (r) { r.scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); if (r.id === "jobRes") r.focus({ preventScroll: true }); } };
+    V.querySelectorAll("[data-job]").forEach(c => c.onclick = () => {
+      const id = c.dataset.job; jobPick = jobPick === id ? "" : id; remember("th_job", jobPick || null);
+      if (jobPick) { sortMode = "saved"; trackEv("ev-job-" + id); }
+      draw(); if (jobPick) showJob();
+    });
+    V.querySelectorAll("[data-joball]").forEach(a => a.onclick = e => { e.preventDefault(); jobPick = ""; remember("th_job", null); draw(); });
   };
   draw();
 }
@@ -466,6 +489,13 @@ function bindPromptBox(p) {
   if (cp) cp.onclick = async () => { try { await navigator.clipboard.writeText(p.prompt); cp.textContent = "Copied"; toast("Prompt copied"); } catch (_) { cp.textContent = "Select and copy"; } setTimeout(() => { if (cp.isConnected) cp.textContent = "Copy"; }, 2000); };
 }
 const acBadge = verified;
+// Shown once, straight after publishing: where the post is, and a quick way to get colleagues to try it.
+function justPostedPanel(p, b) {
+  const link = SITE() + "#t-" + p.id;
+  const body = `I shared how I use AI for: ${p.task || p.title}\n\nIt shows the time before and after, and what went wrong. If you try it, you can say whether it worked for you:\n${link}`;
+  return `<div class="okmsg" role="status" style="margin-top:12px"><b>Your post is live${b ? ` in <a href="${spaceHref(b.id)}">${esc(spaceName(b))}</a>` : ""}.</b> The quickest way to find out if it helps is to ask colleagues who do the same job to try it. You'll see every try under the bell.
+    <div class="trybar" style="margin-top:10px"><button type="button" class="btn" id="jpCopy">Copy link</button><a class="btn" id="jpMail" href="mailto:?subject=${encodeURIComponent("Would this work for you?")}&amp;body=${encodeURIComponent(body)}">Email colleagues</a><span class="small" id="jpMsg" aria-live="polite"></span></div></div>`;
+}
 async function viewTopic(id) {
   const { data: p, error } = await sb.from("post_feed").select("*").eq("id", id).maybeSingle();
   if (error || !p) return viewNotFound("This topic doesn't exist, is waiting for approval, or was removed.");
@@ -490,7 +520,8 @@ async function viewTopic(id) {
     <div class="post-head"><img class="av" src="${identicon(p.author || "team", authorName(p))}" width="40" height="40" alt=""><div><span class="who">${userLink(authorName(p))}</span> ${verified(p.author_ac)}<div class="small">${[p.author_profession, p.author_area, p.author_institution].filter(Boolean).map(esc).join(" · ")}</div></div><span class="when">${esc(when(p.created_at))}</span></div>
     <h1 class="topic-title">${esc(p.title)}</h1>
     <div>${p.pinned ? '<span class="tg MEETING">Pinned</span>' : ""}${typeTag(p.type)}${p.status !== "published" ? `<span class="tg ${p.status.toUpperCase()}">${p.status.toUpperCase()}</span>` : ""}${p.is_sample ? '<span class="tg SAMPLE">Example</span>' : ""}${b ? `<a class="ht" href="${spaceHref(b.id)}">${esc(spaceName(b))}</a>` : ""}${tagLinks(p.tags)}</div>
-    ${p.status === "pending" ? `<div class="notice" style="margin-top:12px">This post is waiting for a moderator. Posts from accounts without a university email are checked until three have been approved.</div>` : ""}
+    ${p.status === "pending" ? `<div class="notice" style="margin-top:12px">This post is waiting for a moderator. Posts from accounts without a university email are checked until three have been approved.${mine ? " You'll get a notification under the bell when it's approved." : ""}</div>` : ""}
+    ${S.justPosted === p.id && mine && p.status === "published" ? justPostedPanel(p, b) : ""}
     ${parent.data ? `<div class="small" style="margin-top:8px">Forked from <a href="#t-${esc(parent.data.id)}">${esc(parent.data.title)}</a></div>` : ""}
     ${topicStats(p)}
     ${p.body ? `<pre class="topic-body">${esc(p.body)}</pre>` : ""}
@@ -546,6 +577,12 @@ async function viewTopic(id) {
   V.innerHTML = h;
   document.getElementById("crumbbar").innerHTML = b ? `<a href="${spaceHref(b.id)}">${esc(spaceName(b))}</a>` : "";
   document.title = p.title + " · Townhall";
+  if (S.justPosted === p.id) {
+    S.justPosted = null;
+    const jc = document.getElementById("jpCopy"), jm = document.getElementById("jpMail");
+    if (jc) jc.onclick = async () => { const link = SITE() + "#t-" + p.id, m = document.getElementById("jpMsg"); try { await navigator.clipboard.writeText(link); m.textContent = "Link copied."; } catch (_) { m.textContent = link; } trackEv("ev-share-copy"); };
+    if (jm) jm.onclick = () => trackEv("ev-share-mail");
+  }
   bindPromptBox(p);
   const ls = document.getElementById("libSave");
   if (ls) ls.onclick = async () => { busy(ls, true);
@@ -779,6 +816,7 @@ async function viewPost(boardId, forkId) {
     shots.forEach(s => URL.revokeObjectURL(s.url));
     if (pre && pre.libId) await sb.from("library_items").update({ published_post: data.id }).eq("id", pre.libId);
     pendingToast(data.status === "pending" ? "Sent for approval. A moderator will check it soon." : "Published");
+    S.justPosted = data.id;
     location.hash = "t-" + data.id;
   };
 }

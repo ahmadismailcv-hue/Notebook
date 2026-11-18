@@ -10,6 +10,15 @@ async def main():
         await pg.add_init_script(path="test/mock.js")
         await pg.goto(U); await pg.wait_for_timeout(600)
         await pg.screenshot(path="test/s_index.png")
+        # job picker: one tap filters the feed to that space, sorted by time saved; tap again clears
+        await pg.click('[data-job="exams-timetabling"]'); await pg.wait_for_timeout(200)
+        boards=await pg.evaluate("[...document.querySelectorAll('.feed .post a.ht')].map(a=>a.getAttribute('href')).filter(h=>h.startsWith('#/'))")
+        print("job pick:", await pg.inner_text("#jobRes"), "| pressed:", await pg.get_attribute('[data-job="exams-timetabling"]',"aria-pressed"), "| sort:", await pg.inner_text(".tabs a.on"), "| other spaces in feed:", [h for h in boards if h!="#/exams-timetabling"], "| focus:", await pg.evaluate("document.activeElement.id"))
+        if [h for h in boards if h!="#/exams-timetabling"]: errs.append("job filter leaked other spaces")
+        await pg.reload(); await pg.wait_for_timeout(600)
+        print("job remembered after reload:", await pg.get_attribute('[data-job="exams-timetabling"]',"aria-pressed"))
+        await pg.click('[data-job="exams-timetabling"]'); await pg.wait_for_timeout(200)
+        print("job cleared:", await pg.locator("#jobRes").count() == 0)
         async def go(h, shot=None):
             await pg.evaluate(f"location.hash='{h}'"); await pg.wait_for_timeout(250)
             if shot: await pg.screenshot(path=f"test/{shot}.png", full_page=False)
@@ -53,6 +62,12 @@ async def main():
         print("after submit hash:", await pg.evaluate("location.hash"), "uploads:", await pg.evaluate("JSON.stringify(__db.uploads)"))
         print("saved row:", await pg.evaluate("JSON.stringify((({board_id,tool_key,tool,screenshots,knowledge_sources})=>({board_id,tool_key,tool,screenshots,knowledge_sources}))(__db.posts[__db.posts.length-1]))"))
         await pg.screenshot(path="test/n_newpost.png", full_page=True)
+        # just-posted panel: shown once, with copy link and email
+        print("just posted panel:", await pg.locator("#jpCopy").count(), "| mail link ok:", (await pg.get_attribute("#jpMail","href") or "").startswith("mailto:?subject="))
+        await pg.context.grant_permissions(["clipboard-read","clipboard-write"]); await pg.click("#jpCopy"); await pg.wait_for_timeout(150)
+        print("copy:", await pg.inner_text("#jpMsg"))
+        await go("index"); await pg.go_back(); await pg.wait_for_timeout(300)
+        print("panel shown again:", await pg.locator("#jpCopy").count())
         # agent needs knowledge sources
         await go("post"); await pg.select_option("#pfT","AGENT"); await pg.select_option("#pfB","student-support")
         await pg.fill("#pfS","Regs agent"); await pg.fill("#pfM","Answers regulations questions from the public pages."); await pg.select_option("#c8","copilot-studio")
