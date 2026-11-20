@@ -28,8 +28,11 @@ svg { display: block; margin-bottom: 4px; }
 </svg>
 <script>
 // The product name. Change it here, then rerun python3 logo/badge.py.
-const NAME = "Townhall";
-document.getElementById("name").textContent = NAME;
+const NAME = "The Boring Bits";
+const el = document.getElementById("name");
+el.textContent = NAME;
+// Shrink the name until it fits between the mark and the right edge (x 30 to 84).
+document.fonts.ready.then(() => { let fs = 12; while (el.getComputedTextLength() > 54 && fs > 7) { fs -= 0.25; el.setAttribute("font-size", fs); } });
 </script>
 </body>
 </html>

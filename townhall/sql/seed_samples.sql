@@ -1,3 +1,5 @@
+-- OBSOLETE since the Boring Bits pivot (20 Nov 2026). Do not run: it uses the old higher education spaces and post types,
+-- which the pivot migration no longer accepts. Kept for history. Use sql/seed_recipes.sql instead.
 -- Townhall sample content for higher education. Paste into Supabase > SQL Editor > Run.
 -- Posts are marked SAMPLE and authored by "Townhall team". Remove them any time with:
 --   delete from public.posts where is_sample;
