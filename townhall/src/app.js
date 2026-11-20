@@ -70,6 +70,8 @@ function piiWarnings(txt) {
   if (/\b(my|our)\s+(son|daughter|husband|wife|partner|mum|dad|mother|father)\s+[A-Z][a-z]+/.test(txt)) w.push("what may be a family member's name");
   return w;
 }
+// Shows [square bracket] placeholders with a highlighter mark, so people see what to replace
+const phText = t => esc(t).replace(/\[[^\]\n]{1,80}\]/g, m => `<mark class="ph">${m}</mark>`);
 const blockedOnly = w => w.filter(x => x.includes("blocked")).join(", ").replace(/ \(this will be blocked\)/g, "");
 const errMsg = e => (e && (e.message || e.error_description)) || "Something went wrong. Try again.";
 function setStatus(html) { document.getElementById("status").innerHTML = html || ""; }
@@ -133,7 +135,8 @@ function itemRow(p, showTopic = true) {
     showTopic && board(p.board_id) ? `<span>${esc(topicName(p.board_id))}</span>` : ""
   ].filter(Boolean).join("");
   const sum = recipe ? p.task : (p.body || p.task);
-  return `<li><a class="item" href="#t-${esc(p.id)}"><span class="t">${esc(p.title)}</span>${sum ? `<span class="d">${esc(sum.slice(0, 180))}${sum.length > 180 ? "..." : ""}</span>` : ""}<span class="m">${meta}</span></a></li>`;
+  const ba = !recipe && (p.outcome_before || p.outcome_after) ? `<span class="d ba-line">${p.outcome_before ? `<b>Before:</b> ${esc(p.outcome_before)}` : ""}${p.outcome_before && p.outcome_after ? " · " : ""}${p.outcome_after ? `<b>After:</b> ${esc(p.outcome_after)}` : ""}</span>` : "";
+  return `<li><a class="item" href="#t-${esc(p.id)}"><span class="t">${esc(p.title)}</span>${ba || (sum ? `<span class="d">${esc(sum.slice(0, 180))}${sum.length > 180 ? "..." : ""}</span>` : "")}<span class="m">${meta}</span></a></li>`;
 }
 function itemList(list, empty, showTopic = true) {
   return list.length ? `<ul class="items">${list.map(p => itemRow(p, showTopic)).join("")}</ul>` : `<div class="empty">${empty}</div>`;
@@ -176,7 +179,7 @@ async function loadBoards() {
   S.boards = (data || []).filter(b => !b.archived);
   renderShell();
 }
-const FEED_COLS = "id,author,task,body,tool_key,screenshots,author_profession,board_id,type,title,tags,status,pinned,is_sample,tested_on,created_at,author_handle,likes,tries_worked,tries_failed,replies,tools,tested_tools,retest_due";
+const FEED_COLS = "id,author,task,body,tool_key,screenshots,author_profession,board_id,type,title,tags,status,pinned,is_sample,tested_on,created_at,author_handle,likes,tries_worked,tries_failed,replies,tools,tested_tools,retest_due,outcome_before,outcome_after";
 async function fetchPosts(q) { const { data, error } = await q; if (error) throw error; return data || []; }
 const publishedPosts = () => sb.from("post_feed").select(FEED_COLS).eq("status", "published").order("created_at", { ascending: false }).limit(300);
 const isAdmin = () => !!(S.me && S.me.role === "admin");
@@ -255,6 +258,15 @@ async function viewIndex() {
     <section aria-labelledby="topicsH"><h2 class="sr" id="topicsH">Topics</h2>
       <div class="tiles">${topics.map(id => `<a class="tile" href="${topicHref(id)}"><span class="ic">${topicIcon(id)}</span><span><b>${esc(topicName(id))}</b><span>${esc((TOPICS[id] || [])[1] || (board(id) || {}).descr || "")}</span></span></a>`).join("")}</div>
     </section>
+    <section class="rules section" aria-labelledby="rulesH">
+      <h2 id="rulesH">3 rules for staying safe</h2>
+      <ol class="rulelist">
+        <li><b>Swap private details for [brackets].</b> Write [account number] or [my postcode] instead of the real thing.</li>
+        <li><b>Fill in only what the AI needs.</b> Replace the <mark class="ph">[highlighted parts]</mark> in a guide, but never with passwords, bank details or your National Insurance number.</li>
+        <li><b>Check before you send.</b> AI makes mistakes. Check dates, amounts and rules with the official source each guide links to.</li>
+      </ol>
+      <a class="small" href="#safe-sharing">More on what you can safely share</a>
+    </section>
     <div class="two section">
       <section><h2>Popular guides</h2><p class="muted small" style="margin-bottom:12px">Written and tested by us. Sorted by how many people said they worked.</p>${itemList(guides, "No guides yet. We're testing the first ones now.", true)}</section>
       <section><h2>Latest tips from people</h2><p class="muted small" style="margin-bottom:12px">How others used AI for a boring job, in their own words.</p>${itemList(tips, `No tips yet. <a href="#post">Be the first to share one.</a>`, true)}</section>
@@ -310,8 +322,8 @@ function guideBody(p, sources) {
   const steps = [];
   steps.push(`<li><div class="stack" style="gap:8px"><h2>Open a free AI tool</h2><p>This guide works with ${esc(tools)}. You don't need to pay.</p></div></li>`);
   prompts.forEach((x, i) => steps.push(`<li><div class="stack" style="gap:8px"><h2>${esc(x.label || (prompts.length > 1 ? "Copy and paste this, part " + (i + 1) : "Copy and paste this"))}</h2>
-    <p class="muted small">Copy these words into the AI tool. Replace anything in [square brackets] with your own details, but keep private details out (see below).</p>
-    <div class="copybox"><pre id="prompt${i}">${esc(x.text)}</pre><div class="bar"><span>Words to copy</span><button type="button" class="btn sm primary" data-copy="${esc(x.text)}">${svg(IC.copy)}Copy</button></div></div></div></li>`));
+    <p class="muted small">Copy these words into the AI tool. Then replace the <mark class="ph">[highlighted parts]</mark> with your own details, but keep private details out.</p>
+    <div class="copybox"><pre id="prompt${i}">${phText(x.text)}</pre><div class="bar"><span>Words to copy</span><button type="button" class="btn sm primary" data-copy="${esc(x.text)}">${svg(IC.copy)}Copy</button></div></div></div></li>`));
   if (checks.length) steps.push(`<li><div class="stack" style="gap:8px"><h2>Check the answer</h2><p>AI tools make mistakes. Before you use the answer, check it against these official sources:</p><ul style="margin:0;padding-left:1.2em">${checks.map(c => `<li><a href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">${esc(c.label)}<span class="sr"> (opens in a new tab)</span></a></li>`).join("")}</ul></div></li>`);
   return `
     ${p.deadline_warning ? `<div class="notice stop"><b>Watch the deadline</b>${esc(p.deadline_warning)}</div>` : ""}
@@ -370,8 +382,9 @@ async function viewTopicPost(id) {
     ${S.justPosted === p.id && mine && p.status === "published" ? justPostedPanel(p) : ""}
     ${recipe ? guideBody(p, linked) : `
       <dl class="facts"><dt>What they needed to do</dt><dd>${esc(p.task)}</dd><dt>AI tool</dt><dd>${esc(TOOLS[p.tool_key] || p.tool || "Not said")}</dd>${p.checks ? `<dt>What they checked</dt><dd>${esc(p.checks)}</dd>` : ""}</dl>
+      ${p.outcome_before || p.outcome_after ? `<div class="ba" aria-label="What changed"><div><span class="lbl">Before</span><p>${esc(p.outcome_before || "Not said")}</p></div><div class="after"><span class="lbl">After</span><p>${esc(p.outcome_after || "Not said")}</p></div><p class="small muted ba-note">In their own words. Your result may be different.</p></div>` : ""}
       <section class="stack" style="gap:8px"><h2>What happened</h2><p class="prose">${esc(p.body)}</p></section>
-      ${p.prompt ? `<details class="more" id="promptBox"><summary>What they typed</summary><div><div class="copybox"><pre id="promptText">${esc(p.prompt)}</pre><div class="bar"><span>Their words</span><button type="button" class="btn sm" data-copy="${esc(p.prompt)}">${svg(IC.copy)}Copy</button></div></div></div></details>` : ""}
+      ${p.prompt ? `<details class="more" id="promptBox"><summary>What they typed</summary><div><div class="copybox"><pre id="promptText">${phText(p.prompt)}</pre><div class="bar"><span>Their words</span><button type="button" class="btn sm" data-copy="${esc(p.prompt)}">${svg(IC.copy)}Copy</button></div></div></div></details>` : ""}
       <p class="small muted">This is one person's experience. ${esc(NOT_ADVICE)}</p>
       ${linked.length ? `<div class="notice ok"><b>This tip helped us write a guide</b>${linked.map(x => `<a href="#t-${esc(x.id)}">${esc(x.title)}</a>`).join(", ")}</div>` : ""}`}
     ${(p.screenshots || []).length ? `<div class="shots">${p.screenshots.map((s, i) => `<a href="${esc(shotUrl(s))}" target="_blank" rel="noopener"><img src="${esc(shotUrl(s))}" alt="Screenshot ${i + 1} from the author" loading="lazy"></a>`).join("")}</div>` : ""}
@@ -486,9 +499,10 @@ async function viewPost(boardId) {
     ${q(2, fld("c1", "What did you need to do?", `<input type="text" id="c1" maxlength="300" placeholder="For example: reply to a letter about my council tax">`))}
     ${q(3, `<fieldset style="border:0;padding:0;margin:0"><legend style="font-weight:700;margin-bottom:6px">Which AI tool did you use?</legend><div class="choice">${Object.entries(TOOLS).map(([k, v]) => `<label><input type="radio" name="tool" value="${k}"> ${esc(v)}</label>`).join("")}</div></fieldset>`)}
     ${q(4, fld("pfM", "What happened?", `<textarea id="pfM" maxlength="8000" placeholder="What did the AI do? What was good? What did it get wrong?"></textarea>`))}
-    ${q(5, fld("pfP", `What did you type? <span class="muted" style="font-weight:400">(optional)</span>`, `<textarea id="pfP" maxlength="8000" placeholder="Roughly the words you used. Take out anything personal first."></textarea>`))}
-    ${q(6, fld("pfC", `What did you check before using the answer? <span class="muted" style="font-weight:400">(optional)</span>`, `<textarea id="pfC" maxlength="2000" style="min-height:80px" placeholder="For example: I checked the date on the council website."></textarea>`))}
-    ${q(7, fld("pfS", "Give your tip a short title", `<input type="text" id="pfS" maxlength="120" placeholder="For example: ChatGPT helped me reply to a council tax letter">`))}
+    ${q(5, `<fieldset style="border:0;padding:0;margin:0" class="stack"><legend style="font-weight:700;margin-bottom:6px">What changed? <span class="muted" style="font-weight:400">(optional)</span></legend><p class="small muted" style="margin:0 0 6px">A few words each. Readers see it as your own account.</p><div class="row" style="align-items:flex-start">${fld("pfBefore", "Before", `<input type="text" id="pfBefore" maxlength="200" placeholder="For example: a bill I didn't understand">`)}${fld("pfAfter", "After", `<input type="text" id="pfAfter" maxlength="200" placeholder="For example: a reply sent in 20 minutes">`)}</div></fieldset>`)}
+    ${q(6, fld("pfP", `What did you type? <span class="muted" style="font-weight:400">(optional)</span>`, `<textarea id="pfP" maxlength="8000" placeholder="Roughly the words you used. Take out anything personal first."></textarea>`))}
+    ${q(7, fld("pfC", `What did you check before using the answer? <span class="muted" style="font-weight:400">(optional)</span>`, `<textarea id="pfC" maxlength="2000" style="min-height:80px" placeholder="For example: I checked the date on the council website."></textarea>`))}
+    ${q(8, fld("pfS", "Give your tip a short title", `<input type="text" id="pfS" maxlength="120" placeholder="For example: ChatGPT helped me reply to a council tax letter">`))}
     <details class="more"><summary>Add a screenshot (optional)</summary><div class="stack" style="gap:8px">
       <p class="small muted">Crop out anything personal. We shrink the picture and remove hidden details like location before it's uploaded.</p>
       <div class="row"><label class="btn sm" for="shotIn">Choose a picture</label><input type="file" id="shotIn" accept="image/png,image/jpeg,image/webp" multiple class="sr"><span class="small" id="shotMsg"></span></div>
@@ -524,7 +538,7 @@ async function viewPost(boardId) {
   shotIn.onchange = async () => { await addFiles([...shotIn.files]); shotIn.value = ""; };
   document.getElementById("pf").addEventListener("paste", e => { const fs = [...(e.clipboardData || {}).files || []].filter(f => f.type.startsWith("image/")); if (fs.length) { e.preventDefault(); addFiles(fs); } });
   document.getElementById("shotPrev").onclick = e => { const b = e.target.closest("[data-rmshot]"); if (b) { const [s] = shots.splice(+b.dataset.rmshot, 1); URL.revokeObjectURL(s.url); drawShots(); } };
-  const allText = () => [g("pfS"), g("pfM"), g("pfP"), g("c1"), g("pfC")].join(" ");
+  const allText = () => [g("pfS"), g("pfM"), g("pfP"), g("c1"), g("pfC"), g("pfBefore"), g("pfAfter")].join(" ");
   const piiCheck = () => { const w = piiWarnings(allText()); document.getElementById("pii").innerHTML = w.length ? `<div class="notice stop" role="status"><b>Check for personal details</b>Your tip may contain ${w.map(x => esc(x.replace(" (this will be blocked)", ""))).join("; ")}. Take it out or write something like [my postcode] instead.</div>` : ""; };
   V.querySelectorAll("#pf input[type=text], #pf textarea").forEach(el => el.addEventListener("input", piiCheck));
   document.getElementById("pf").onsubmit = async e => {
@@ -533,7 +547,7 @@ async function viewPost(boardId) {
     if (!g("c1")) { m.textContent = "Say what you needed to do (question 2)."; return; }
     if (!tool()) { m.textContent = "Choose the AI tool you used (question 3)."; return; }
     if (g("pfM").length < 20) { m.textContent = "Say what happened in at least a sentence (question 4)."; return; }
-    if (g("pfS").length < 3) { m.textContent = "Give your tip a short title (question 7)."; return; }
+    if (g("pfS").length < 3) { m.textContent = "Give your tip a short title (question 8)."; return; }
     if (shots.length && !document.getElementById("shotOk").checked) { m.textContent = "Confirm the pictures show nothing personal."; return; }
     confirmPersonalData(allText(), send);
   };
@@ -547,7 +561,7 @@ async function viewPost(boardId) {
       if (error) { if (paths.length) await sb.storage.from("shots").remove(paths); m.textContent = "The picture didn't upload: " + errMsg(error); busy(btn, false); return; }
       paths.push(path);
     }
-    const row = { board_id: g("pfB"), type: "STORY", title: g("pfS"), tags: [], body: g("pfM"), prompt: g("pfP"), task: g("c1"), tool_key: tool(), tool: TOOLS[tool()], checks: g("pfC"), screenshots: paths };
+    const row = { board_id: g("pfB"), type: "STORY", title: g("pfS"), tags: [], body: g("pfM"), prompt: g("pfP"), task: g("c1"), tool_key: tool(), tool: TOOLS[tool()], checks: g("pfC"), outcome_before: g("pfBefore"), outcome_after: g("pfAfter"), screenshots: paths };
     const { data, error } = await sb.from("posts").insert(row).select("id,status").single();
     if (error) { if (paths.length) await sb.storage.from("shots").remove(paths); m.textContent = errMsg(error); busy(btn, false); return; }
     shots.forEach(s => URL.revokeObjectURL(s.url));

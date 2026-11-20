@@ -32,6 +32,8 @@ begin
     out := out || '[FAIL card number allowed] '; exception when others then out := out || '[ok card number blocked] '; end;
   begin insert into public.posts(board_id,type,title,task,tool_key,body) values ('money','STORY','Account','x','chatgpt','account 12345678');
     out := out || '[FAIL account number allowed] '; exception when others then out := out || '[ok account number blocked] '; end;
+  begin insert into public.posts(board_id,type,title,task,tool_key,body,outcome_after) values ('money','STORY','Outcome','x','chatgpt','body','Refund paid to 12345678');
+    out := out || '[FAIL account number in before/after] '; exception when others then out := out || '[ok before/after scanned] '; end;
   begin insert into public.posts(board_id,type,title,task,tool_key,body) values ('letters','STORY','Link','x','chatgpt','see https://spam.example');
     out := out || '[FAIL link allowed] '; exception when others then out := out || '[ok link blocked] '; end;
   begin insert into public.posts(board_id,type,title,task,status) values ('letters','RECIPE','My recipe','x','published');

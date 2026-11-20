@@ -45,7 +45,10 @@ alter table public.posts
   add column if not exists failure_points text not null default '' check (char_length(failure_points) <= 3000),
   add column if not exists deadline_warning text not null default '' check (char_length(deadline_warning) <= 400),
   add column if not exists tested_tools text[] not null default '{}' check (cardinality(tested_tools) <= 6),
-  add column if not exists retest_due date;
+  add column if not exists retest_due date,
+  -- a tip's optional "what changed", in the member's own words
+  add column if not exists outcome_before text not null default '' check (char_length(outcome_before) <= 200),
+  add column if not exists outcome_after text not null default '' check (char_length(outcome_after) <= 200);
 alter table public.posts add constraint posts_prompts_check check (jsonb_typeof(prompts) = 'array' and jsonb_array_length(prompts) <= 12 and pg_column_size(prompts) <= 24000);
 alter table public.posts add constraint posts_how_to_check_check check (jsonb_typeof(how_to_check) = 'array' and jsonb_array_length(how_to_check) <= 12 and pg_column_size(how_to_check) <= 6000);
 
@@ -108,6 +111,7 @@ begin
     if not private.checks_ok(new.how_to_check) then raise exception 'Links in "How to check the answer" must start with https://.'; end if;
     if new.tested_on > current_date then new.tested_on := current_date; end if;
     if new.status not in ('draft','published') then new.status := 'draft'; end if;
+    new.outcome_before := ''; new.outcome_after := '';
     return new;
   end if;
 
@@ -116,7 +120,7 @@ begin
   new.tools := '{}'; new.prompts := '[]'::jsonb; new.never_paste := ''; new.how_to_check := '[]'::jsonb;
   new.failure_points := ''; new.deadline_warning := ''; new.tested_tools := '{}'; new.retest_due := null;
   if new.tool_key = '' or btrim(new.body) = '' then raise exception 'Stories need the AI tool and what happened.'; end if;
-  alltext := concat_ws(' ', new.title, new.body, new.prompt, new.task, new.tool, new.checks);
+  alltext := concat_ws(' ', new.title, new.body, new.prompt, new.task, new.tool, new.checks, new.outcome_before, new.outcome_after);
   problem := private.pii_problem(alltext);
   if problem is not null then raise exception '%', problem; end if;
   if not admin and private.reputation(uid) < 5 and alltext ~* '(https?://|www\.)' then
@@ -160,8 +164,8 @@ begin
   end if;
   new.tools := old.tools; new.prompts := old.prompts; new.never_paste := old.never_paste; new.how_to_check := old.how_to_check;
   new.failure_points := old.failure_points; new.deadline_warning := old.deadline_warning; new.tested_tools := old.tested_tools; new.retest_due := old.retest_due;
-  alltext := concat_ws(' ', new.title, new.body, new.prompt, new.task, new.tool, new.checks);
-  if alltext is distinct from concat_ws(' ', old.title, old.body, old.prompt, old.task, old.tool, old.checks) then
+  alltext := concat_ws(' ', new.title, new.body, new.prompt, new.task, new.tool, new.checks, new.outcome_before, new.outcome_after);
+  if alltext is distinct from concat_ws(' ', old.title, old.body, old.prompt, old.task, old.tool, old.checks, old.outcome_before, old.outcome_after) then
     problem := private.pii_problem(alltext);
     if problem is not null then raise exception '%', problem; end if;
     if not admin and private.reputation(old.author) < 5 and alltext ~* '(https?://|www\.)' then
@@ -285,7 +289,8 @@ create or replace view public.post_feed with (security_invoker = true) as
     ((SELECT COALESCE(sum(v.vote), 0::bigint) FROM motion_votes v WHERE v.post_id = p.id))::integer AS vote_score,
     ((SELECT count(*) FROM motion_votes v WHERE v.post_id = p.id))::integer AS vote_count,
     p.tool_key, p.screenshots, p.knowledge_sources,
-    p.checks, p.tools, p.prompts, p.never_paste, p.how_to_check, p.failure_points, p.deadline_warning, p.tested_tools, p.retest_due
+    p.checks, p.tools, p.prompts, p.never_paste, p.how_to_check, p.failure_points, p.deadline_warning, p.tested_tools, p.retest_due,
+    p.outcome_before, p.outcome_after
    FROM posts p LEFT JOIN profiles pr ON pr.id = p.author;
 
 -- 11. Home entry-point clicks: a kind and a timestamp, nothing that identifies anyone

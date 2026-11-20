@@ -195,6 +195,19 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:3px s
 @keyframes rise{from{transform:translateY(100%)}}
 @media (max-width:640px){.confirmin{flex-direction:column;align-items:stretch}.confirmbtns .btn{width:100%}}
 
+mark.ph{background:#ffe98a;color:var(--ink);border-radius:4px;padding:0 3px;font-weight:700;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.rules{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--mark);border-radius:var(--r);padding:var(--s5);display:flex;flex-direction:column;gap:var(--s3)}
+.rulelist{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:var(--s2)}
+.rulelist li::marker{font-weight:700;color:var(--accent)}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3)}
+.ba>div{border:1px solid var(--line);border-radius:var(--r-sm);padding:12px 14px;background:var(--surface)}
+.ba>div.after{border-color:#b5dcc4;background:var(--accent-soft)}
+.ba .lbl{display:block;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.ba .after .lbl{color:var(--accent)}
+.ba-note{grid-column:1/-1}
+.ba-line b{color:var(--ink)}
+@media (max-width:560px){.ba{grid-template-columns:1fr}}
+
 /* tables (admin) */
 .tablewrap{overflow-x:auto}
 table{border-collapse:collapse;width:100%;font-size:.95rem}
