@@ -192,6 +192,33 @@ function bindCopy() {
     setTimeout(() => { if (cp.isConnected) cp.innerHTML = lbl; }, 2500);
   });
 }
+// Shown when someone presses submit: a last reminder to take out personal details.
+// Anything the database would refuse is listed and blocks sending; softer matches are listed as things to check.
+function confirmPersonalData(text, onSend) {
+  const old = document.getElementById("piiBar"); if (old) old.remove();
+  const back = document.activeElement;
+  const found = piiWarnings(text), blocked = found.filter(x => x.includes("blocked")).map(x => x.replace(" (this will be blocked)", "")), soft = found.filter(x => !x.includes("blocked"));
+  const bar = document.createElement("div");
+  bar.id = "piiBar"; bar.className = "confirmbar"; bar.setAttribute("role", "alertdialog"); bar.setAttribute("aria-modal", "false"); bar.setAttribute("aria-labelledby", "piiBarH"); bar.setAttribute("aria-describedby", "piiBarD");
+  bar.innerHTML = `<div class="wrap confirmin">
+    <div class="stack" style="gap:6px;min-width:0">
+      <h2 id="piiBarH">${blocked.length ? "Take out personal details first" : "Before you share: is anything personal still in there?"}</h2>
+      <div id="piiBarD">${blocked.length ? `<p>We found ${esc(blocked.join(", "))}. Remove ${blocked.length > 1 ? "them" : "it"}, or write something like [my postcode] instead.</p>`
+        : `<p>Your tip will be public. Check you've removed names, addresses, postcodes, phone numbers, emails, bank or card details, and reference numbers, about you or anyone else.</p>${soft.length ? `<p class="flag">We spotted ${esc(soft.join("; "))}. Have another look.</p>` : ""}`}</div>
+    </div>
+    <div class="row confirmbtns">${blocked.length ? `<button type="button" class="btn primary" id="piiBack">Go back and fix it</button>`
+      : `<button type="button" class="btn primary" id="piiSend">It's safe, share my tip</button><button type="button" class="btn" id="piiBack">Go back and check</button>`}</div>
+  </div>`;
+  document.body.appendChild(bar);
+  const close = () => { bar.remove(); document.removeEventListener("keydown", onKey); if (back && back.focus) back.focus(); };
+  const onKey = e => { if (e.key === "Escape") close(); };
+  document.addEventListener("keydown", onKey);
+  document.getElementById("piiBack").onclick = close;
+  const go = document.getElementById("piiSend");
+  if (go) go.onclick = () => { bar.remove(); document.removeEventListener("keydown", onKey); onSend(); };
+  (go || document.getElementById("piiBack")).focus();
+}
+window.addEventListener("hashchange", () => { const b = document.getElementById("piiBar"); if (b) b.remove(); });
 function inlinePrompt(anchor, label, value, onOk) {
   const box = document.createElement("div"); box.className = "field"; box.style.width = "100%";
   const id = "ip" + Math.random().toString(36).slice(2, 7);
@@ -468,7 +495,6 @@ async function viewPost(boardId) {
       <div class="shotprev" id="shotPrev"></div>
       <label class="check" id="shotOkRow" style="display:none"><input type="checkbox" id="shotOk"> These pictures show nothing personal: no names, addresses or reference numbers.</label></div></details>
     <div id="pii"></div>
-    <label class="check"><input type="checkbox" id="pfOk"> I've left out anything personal, about me or anyone else.</label>
     <div class="stack" style="gap:8px"><div class="row"><button class="btn primary big" type="submit" id="pfGo">Share my tip</button><span class="err" id="pfMsg" role="alert"></span></div>
     <p class="small muted">Tips are shared under <a href="#terms">CC BY 4.0</a>, so others can reuse them with credit to you. ${isAdmin() ? "" : "A moderator checks your first three tips before they go live, usually within 2 working days."}</p></div>
    </form></div>`;
@@ -508,10 +534,11 @@ async function viewPost(boardId) {
     if (!tool()) { m.textContent = "Choose the AI tool you used (question 3)."; return; }
     if (g("pfM").length < 20) { m.textContent = "Say what happened in at least a sentence (question 4)."; return; }
     if (g("pfS").length < 3) { m.textContent = "Give your tip a short title (question 7)."; return; }
-    const blocked = blockedOnly(piiWarnings(allText()));
-    if (blocked) { m.textContent = "Take out " + blocked + " first. Write something like [my postcode] instead."; return; }
     if (shots.length && !document.getElementById("shotOk").checked) { m.textContent = "Confirm the pictures show nothing personal."; return; }
-    if (!document.getElementById("pfOk").checked) { m.textContent = "Tick the box to confirm you've left out anything personal."; return; }
+    confirmPersonalData(allText(), send);
+  };
+  const send = async () => {
+    const m = document.getElementById("pfMsg");
     const btn = document.getElementById("pfGo"); busy(btn, true);
     const paths = [];
     for (const s of shots) {

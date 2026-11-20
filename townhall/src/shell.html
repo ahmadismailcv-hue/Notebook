@@ -185,6 +185,16 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:3px s
 .shotprev .shot{display:flex;flex-direction:column;gap:4px;align-items:flex-start}
 .shotprev img{max-height:120px;border:1px solid var(--line);border-radius:8px}
 
+/* last check before sending: a slip that rises from the bottom edge */
+.confirmbar{position:fixed;left:0;right:0;bottom:0;z-index:70;background:#fffaf0;border-top:4px solid var(--accent);box-shadow:0 -12px 32px rgba(27,35,31,.18);padding-bottom:env(safe-area-inset-bottom,0px);animation:rise .28s cubic-bezier(.2,.8,.2,1)}
+.confirmin{display:flex;gap:var(--s5);align-items:center;justify-content:space-between;padding-block:var(--s5);flex-wrap:wrap}
+.confirmin h2{font-size:1.35rem}
+.confirmin p{max-width:62ch}
+.confirmin .flag{margin-top:6px;font-weight:700;color:var(--stop-ink)}
+.confirmbtns{flex:none}
+@keyframes rise{from{transform:translateY(100%)}}
+@media (max-width:640px){.confirmin{flex-direction:column;align-items:stretch}.confirmbtns .btn{width:100%}}
+
 /* tables (admin) */
 .tablewrap{overflow-x:auto}
 table{border-collapse:collapse;width:100%;font-size:.95rem}
@@ -218,7 +228,7 @@ th{font-weight:700;color:var(--muted)}
 .printonly{display:none}
 @media print{
   html,body{background:#fff;font-size:12px}
-  .top,.foot,#toasts,#status,.noprint,.feedback,.actions,.admin,.comments,.skip,.copybox .bar button{display:none!important}
+  .top,.foot,#toasts,#status,.confirmbar,.noprint,.feedback,.actions,.admin,.comments,.skip,.copybox .bar button{display:none!important}
   #view{padding:0}
   .page{max-width:none}
   .steps{gap:10px}.steps>li::before{width:26px;height:26px;font-size:12px}
