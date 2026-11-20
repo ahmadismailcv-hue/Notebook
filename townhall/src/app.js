@@ -241,7 +241,7 @@ const fld = (id, label, input, hint = "") => `<div class="field"><label for="${i
 
 // ================= home =================
 function searchBox(q = "") {
-  return `<form class="search" id="sf" role="search"><label class="sr" for="q">Search guides and tips</label><input type="search" id="q" placeholder="For example: parking fine, council tax, energy bill" value="${esc(q)}" autocomplete="off"><button class="btn primary" type="submit">${svg(IC.search)}Search</button></form>`;
+  return `<form class="search" id="sf" role="search"><label class="sr" for="q">Search guides and tips, then press Enter</label>${svg(IC.search)}<input type="search" id="q" placeholder="Search, for example: parking fine or council tax" value="${esc(q)}" autocomplete="off" enterkeyhint="search"></form>`;
 }
 function bindSearch() { const f = document.getElementById("sf"); if (f) f.onsubmit = e => { e.preventDefault(); S.pendingQuery = document.getElementById("q").value.trim(); if (location.hash === "#search") route(); else location.hash = "search"; }; }
 async function viewIndex() {
@@ -844,7 +844,7 @@ function displayBox() {
   return `<section class="stack" style="gap:8px"><h2 id="tsH">Text size</h2><div class="choice" role="radiogroup" aria-labelledby="tsH">
     <label><input type="radio" name="font" value="standard"${!large ? " checked" : ""}> Standard</label>
     <label style="font-size:1.15em"><input type="radio" name="font" value="large"${large ? " checked" : ""}> Larger, higher contrast</label></div>
-    <p class="small muted">${S.me ? "Saved to your account." : "Saved in this browser."} The text uses Atkinson Hyperlegible, a font designed to be easy to read.</p></section>`;
+    <p class="small muted">${S.me ? "Saved to your account." : "Saved in this browser."} The larger option switches to Atkinson Hyperlegible, a font designed for people with low vision.</p></section>`;
 }
 function bindDisplay() { V.querySelectorAll('input[name="font"]').forEach(el => el.onchange = () => saveDisplay({ font: el.value })); }
 function viewDisplay() { V.innerHTML = `<div class="read stack"><h1>Text size</h1>${displayBox()}</div>`; bindDisplay(); }
@@ -1020,7 +1020,7 @@ function viewPrivacy() {
 function viewAccessibility() {
   docPage("Accessibility statement", "We want everyone to be able to use this site.", [
     ["How accessible it is", `<p>We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA. We test every page with an automated checker and fix what it finds. The site works with a keyboard alone.</p>`],
-    ["Ways to adjust it", `<ul><li><a href="#display">Text size</a> has a larger, higher-contrast option.</li><li>The text uses Atkinson Hyperlegible, a font designed to be easy to read.</li><li>You can zoom to 200%, and the site works on phones.</li><li>Guides have a print button for a clean paper copy.</li></ul>`],
+    ["Ways to adjust it", `<ul><li><a href="#display">Text size</a> has a larger, higher-contrast option.</li><li>The text uses Lexend, a font designed to make reading easier. The larger text option uses Atkinson Hyperlegible, designed for people with low vision.</li><li>You can zoom to 200%, and the site works on phones.</li><li>Guides have a print button for a clean paper copy.</li></ul>`],
     ["Known problems", `<ul><li>Pictures in tips are added by members and usually have no description.</li><li>We haven't yet had a full check with people who use assistive technology.</li></ul>`],
     ["Tell us about a problem", `<p>Email ${opEmail()} and say which page and what happened. We aim to reply within 5 working days.</p>`]
   ]);

@@ -9,8 +9,11 @@
 <style>
 @font-face{font-family:"Atkinson";font-weight:400;src:url(data:font/woff2;base64,__ATK400__) format("woff2");font-display:swap}
 @font-face{font-family:"Atkinson";font-weight:700;src:url(data:font/woff2;base64,__ATK700__) format("woff2");font-display:swap}
-@font-face{font-family:"Newsreader";font-weight:600;src:url(data:font/woff2;base64,__NEWS600__) format("woff2");font-display:swap}
-/* Layout: one calm reading column (max 760px) under a plain top bar; home uses a tile grid. Light only, with a Large text mode. */
+@font-face{font-family:"Young Serif";font-weight:400;src:url(data:font/woff2;base64,__YS400__) format("woff2");font-display:swap}
+@font-face{font-family:"Lexend";font-weight:400;src:url(data:font/woff2;base64,__LEX400__) format("woff2");font-display:swap}
+@font-face{font-family:"Lexend";font-weight:700;src:url(data:font/woff2;base64,__LEX700__) format("woff2");font-display:swap}
+/* Layout: one calm reading column (max 760px) under a plain top bar; home uses a tile grid. Light only, with a Large text mode.
+   Type: Young Serif for headings (one weight, warm and solid), Lexend for text (built for reading fluency); Large mode uses Atkinson Hyperlegible. */
 :root{
   --bg:#f6f7f4;--surface:#ffffff;--sunk:#eef1ec;--line:#d9dfd8;--line2:#b9c3bb;
   --ink:#1b231f;--muted:#4f5a54;--faint:#5c665f;
@@ -18,19 +21,19 @@
   --warn-bg:#fff5d6;--warn-line:#e7cf82;--warn-ink:#6b4a00;
   --stop-bg:#fdeeec;--stop-line:#eec0ba;--stop-ink:#9a2318;
   --good:#1a7438;--bad:#b42318;
-  --body:"Atkinson",Verdana,"Segoe UI",sans-serif;--head:"Newsreader",Georgia,serif;--mono:ui-monospace,Menlo,Consolas,monospace;
+  --body:"Lexend",Verdana,"Segoe UI",sans-serif;--head:"Young Serif",Georgia,serif;--mono:ui-monospace,Menlo,Consolas,monospace;
   --r:14px;--r-sm:10px;--wrap:1040px;--read:760px;
   --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;
   color-scheme:light
 }
-body.f-large{--ink:#000;--muted:#222;--faint:#333;--line:#888;--line2:#555;--bg:#fff;--sunk:#f2f2f2;--accent:#0b4a35;font-size:21px}
+body.f-large{--body:"Atkinson",Verdana,sans-serif;--ink:#000;--muted:#222;--faint:#333;--line:#888;--line2:#555;--bg:#fff;--sunk:#f2f2f2;--accent:#0b4a35;font-size:21px}
 *{box-sizing:border-box}
 html{background:var(--bg)}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:var(--accent);text-underline-offset:3px}
 a:hover{color:var(--accent-hover)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
-h1,h2,h3{font-family:var(--head);font-weight:600;line-height:1.2;text-wrap:balance;margin:0}
+h1,h2,h3{font-family:var(--head);font-weight:400;line-height:1.2;text-wrap:balance;margin:0}
 h1{font-size:2.1rem}h2{font-size:1.45rem}h3{font-size:1.15rem}
 p{margin:0}
 .wrap{max-width:var(--wrap);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
@@ -44,7 +47,7 @@ p{margin:0}
 /* top bar */
 .top{background:var(--surface);border-bottom:1px solid var(--line)}
 .topin{display:flex;align-items:center;gap:var(--s4);min-height:68px;flex-wrap:wrap;padding-block:6px}
-.logo{display:inline-flex;align-items:center;gap:10px;font-family:var(--head);font-weight:600;font-size:1.3rem;color:var(--ink);text-decoration:none;margin-right:auto}
+.logo{display:inline-flex;align-items:center;gap:10px;font-family:var(--head);font-weight:400;font-size:1.3rem;color:var(--ink);text-decoration:none;margin-right:auto}
 .logo svg{flex:none}
 .nav{display:flex;gap:var(--s1);flex-wrap:wrap}
 .nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;color:var(--ink);text-decoration:none;font-weight:700}
@@ -90,8 +93,9 @@ p{margin:0}
 .hero{display:flex;flex-direction:column;gap:var(--s4);margin-bottom:var(--s6)}
 .hero h1{font-size:2.5rem}
 .hero .lead{font-size:1.15rem;color:var(--muted);max-width:44ch}
-.search{display:flex;gap:var(--s2);max-width:640px}
-.search input{flex:1;min-width:0}
+.search{position:relative;max-width:640px}
+.search svg{position:absolute;left:16px;top:50%;width:22px;height:22px;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+.search input[type=search]{padding-left:50px;min-height:56px;font-size:1.05rem;border-radius:999px}
 .tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s3)}
 @media (max-width:860px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:520px){.tiles{grid-template-columns:1fr}.tile{min-height:0}}

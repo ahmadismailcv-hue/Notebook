@@ -32,7 +32,7 @@ async def main():
         await go("index"); await pg.click('[data-entry="share"]'); await pg.wait_for_timeout(300)
         check(errs, await pg.evaluate("JSON.stringify(__db.entry_events.map(e=>e.kind))") == '["browse","share"]', "entry clicks logged as browse, share with no identifiers")
         check(errs, "not legal, financial or medical advice" in await pg.inner_text("footer"), "footer not-advice notice")
-        await go("index"); await pg.fill("#q","parking"); await pg.click("#sf button"); await pg.wait_for_timeout(300)
+        await go("index"); await pg.fill("#q","parking"); await pg.press("#q","Enter"); await pg.wait_for_timeout(300)
         res=await pg.inner_text("#view")
         check(errs, 'Results for "parking"' in res and "Appeal a private parking charge" in res and "energy supplier" not in res, "search finds the parking guide only")
         for h in ["/money","/health-admin","news","categories","recipes","help","faq","about","terms","complaints","privacy","accessibility","safe-sharing","rules","mod","badge","me","display","u-jo_reads","login","join","library","notifications"]:
