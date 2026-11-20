@@ -252,7 +252,7 @@ async function viewIndex() {
   V.innerHTML = `
     <section class="hero">
       <h1>What do you need help with?</h1>
-      <p class="lead">Step-by-step help for bills, letters, complaints and forms, using free AI tools like ChatGPT. Every guide says what to type, what to keep private, and how to check the answer.</p>
+      <p class="lead">Tell the world how you use AI to handle your life admin.</p>
       ${searchBox()}
     </section>
     <section aria-labelledby="topicsH"><h2 class="sr" id="topicsH">Topics</h2>
