@@ -2,6 +2,8 @@ import base64
 r=lambda p:open(p,encoding='utf-8').read()
 b64=lambda p:base64.b64encode(open(p,'rb').read()).decode()
 s=r('src/shell.html')
+APP_NAME=__import__('re').search(r'const APP_NAME = "([^"]+)"', r('src/app.js')).group(1)
+s=s.replace('__APP_NAME__',APP_NAME)
 s=s.replace('__FIXED__',open('fonts/fixed.b64').read().strip())
 s=s.replace('__ATK400__',b64('node_modules/@fontsource/atkinson-hyperlegible/files/atkinson-hyperlegible-latin-400-normal.woff2'))
 s=s.replace('__ATK700__',b64('node_modules/@fontsource/atkinson-hyperlegible/files/atkinson-hyperlegible-latin-700-normal.woff2'))

@@ -1,9 +1,10 @@
 "use strict";
 // ================= config =================
+const APP_NAME = "The Boring Bits"; // the product name lives here only (build.py copies it into shell.html)
+const TAGLINE = "AI help for everyday life. Shared by people, tested by us.";
+const NOT_ADVICE = "This is general information, not legal, financial or medical advice.";
 const SUPABASE_URL = "https://dlqltqsojkjygzzehvjk.supabase.co";
 const SUPABASE_KEY = "sb_publishable_cjOiFDs528cpWXSYkWa7fw_J5w0xas5";
-const RSS_URL = SUPABASE_URL + "/functions/v1/rss";
-const STALE_DAYS = 180;
 const SHOW_COUNT_FROM = 50; // hide the member total until it says something good
 const SITE = () => location.origin + location.pathname;
 // Remember things across the login step (works across tabs, expires after a day)
@@ -15,20 +16,15 @@ const sb = (window.__mockSupabase || window.supabase).createClient(SUPABASE_URL,
 });
 
 // ================= state =================
-const S = { session: null, me: null, boards: [], myLikes: new Set(), myVotes: new Map(), myFollows: [], isMod: false, modBoards: new Set() };
+const S = { session: null, me: null, boards: [], myLikes: new Set(), myFollows: [], isMod: false, modBoards: new Set() };
 const V = document.getElementById("view");
-const TYPES_BUILD = ["WORKFLOW", "TOOL", "AGENT", "FAIL"];
-const TRYABLE = ["WORKFLOW", "TOOL", "AGENT"];
-const OWNER_EMAIL = "ahmadismailcv@gmail.com";
-const AREAS = ["Academic", "Professional services", "Research", "Learning technology", "IT & digital", "Library", "Student support", "Leadership", "Other"];
-const DATA_CLASS = { none: "None, or public information only", internal: "Internal information, no personal data", personal: "Personal data, in an institution-approved tool" };
-const TYPES_ALL = ["WORKFLOW", "AGENT", "TOOL", "FAIL", "QUESTION", "MOTION"];
-const SUGGEST = ["copilot", "copilot-studio", "chatgpt-edu", "claude", "gemini", "notebooklm", "marking", "feedback", "accessibility", "timetabling", "admissions", "research-admin", "minutes", "policy"];
+const TYPES = ["STORY", "RECIPE"];
+const HELD = ["money", "health-admin", "complaints"]; // stories here always wait for a moderator
+const SUGGEST = ["energy", "council-tax", "parking", "renting", "benefits", "gp", "letters", "scams", "cv", "school"];
 let sortMode = "top";
-const TOOLS = { copilot: "Microsoft 365 Copilot", "copilot-studio": "Copilot Studio", "chatgpt-edu": "ChatGPT Edu", chatgpt: "ChatGPT", claude: "Claude", gemini: "Gemini", notebooklm: "NotebookLM", other: "Other tool" };
-const KS = { sharepoint: "SharePoint or OneDrive", files: "Uploaded files", website: "Public website", dataverse: "Dataverse or a database", connector: "Connector or action", "instructions-only": "Instructions only", other: "Other" };
-const spaceHref = id => id === "townhall" ? "#b-townhall" : "#/" + id;
-const spaceName = b => b.id === "townhall" ? "Motions & meetings" : "/" + b.id;
+const TOOLS = { chatgpt: "ChatGPT", copilot: "Microsoft Copilot", gemini: "Google Gemini", claude: "Claude", other: "Other tool" };
+const spaceHref = id => "#/" + id;
+const spaceName = b => "/" + b.id;
 const shotUrl = p => sb.storage.from("shots").getPublicUrl(p).data.publicUrl;
 
 // ================= helpers =================
@@ -36,28 +32,29 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": 
 const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const when = t => { const d = new Date(t); return `${String(d.getDate()).padStart(2, "0")} ${MON[d.getMonth()]} ${d.getFullYear()} ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`; };
 const day = t => { const d = new Date(t); return `${String(d.getDate()).padStart(2, "0")} ${MON[d.getMonth()]} ${d.getFullYear()}`; };
+const isoDay = d => new Date(d).toISOString().slice(0, 10);
 const cleanTag = t => String(t).toLowerCase().replace(/^#/, "").replace(/[^a-z0-9-]/g, "").slice(0, 30);
 const parseTags = s => [...new Set(String(s).split(/[\s,]+/).map(cleanTag).filter(Boolean))].slice(0, 8);
 const board = id => S.boards.find(b => b.id === id);
-const TYPE_LABEL = { WORKFLOW: "Workflow", TOOL: "Tool", AGENT: "Agent", FAIL: "Fail", QUESTION: "Question", MOTION: "Motion", MEETING: "Town meeting" };
-const typeTag = t => t ? `<span class="tg ${esc(t)}">${esc(TYPE_LABEL[t] || t)}</span>` : "";
-const fmtShort = m => m == null ? "?" : m >= 60 ? `${Math.floor(m / 60)} h${m % 60 ? ` ${m % 60} min` : ""}` : `${m} min`;
+const TYPE_LABEL = { STORY: "Story", RECIPE: "Recipe" };
+const TYPE_CLASS = { STORY: "TOOL", RECIPE: "WORKFLOW" }; // reuse the existing label colours
+const typeTag = t => t ? `<span class="tg ${esc(TYPE_CLASS[t] || t)}">${esc(TYPE_LABEL[t] || t)}</span>` : "";
+const plural = (n, one, many) => `<b>${n.toLocaleString("en-GB")}</b> ${n === 1 ? one : many}`;
+const toolList = keys => (keys || []).map(k => TOOLS[k] || k).join(", ");
 const tagLinks = tags => (tags || []).map(t => `<a class="ht" href="#tag-${esc(t)}">#${esc(t)}</a>`).join("");
-const isStale = p => TYPES_BUILD.includes(p.type) && (Date.now() - new Date(p.tested_on).getTime()) > STALE_DAYS * 864e5;
+const isStale = p => p.type === "RECIPE" && !!p.retest_due && new Date(p.retest_due + "T23:59:59") < new Date();
+const isTested = p => p.type === "RECIPE" && (p.tested_tools || []).length > 0;
 const crumb = rest => rest ? `<h1 class="h-page" style="margin:0 0 18px">${rest}</h1>` : "";
-const authorName = p => p.is_sample && !p.author ? "Townhall team" : (p.author_handle || (p.profiles && p.profiles.handle) || "[deleted member]");
-const userLink = h => h && h !== "[deleted member]" && h !== "Townhall team" ? `<a href="#u-${esc(h)}">${esc(h)}</a>` : esc(h);
-const fmtMins = m => m == null ? "?" : m >= 120 ? `${Math.round(m / 60 * 10) / 10} hours` : `${m} min`;
-const saving = p => p.minutes_before > 0 && p.minutes_after != null ? Math.round((p.minutes_before - p.minutes_after) / p.minutes_before * 100) : null;
-function rankOf(rep, role) { if (role === "admin") return "Town Clerk"; return rep >= 60 ? "Alderman" : rep >= 20 ? "Councillor" : rep >= 5 ? "Citizen" : "Resident"; }
-function hot(p) { const h = (Date.now() - new Date(p.created_at)) / 36e5; return (p.likes + 3 * p.tries_worked + p.tries_partly + 1) / Math.pow(h + 2, 1.5); }
+const authorName = p => !p.author && (p.is_sample || p.type === "RECIPE") ? APP_NAME + " team" : (p.author_handle || (p.profiles && p.profiles.handle) || "[deleted member]");
+const userLink = h => h && h !== "[deleted member]" && h !== APP_NAME + " team" ? `<a href="#u-${esc(h)}">${esc(h)}</a>` : esc(h);
+function rankOf(rep, role) { if (role === "admin") return "Admin"; return rep >= 60 ? "Trusted member" : rep >= 20 ? "Regular" : rep >= 5 ? "Member" : "New member"; }
+function hot(p) { const h = (Date.now() - new Date(p.created_at)) / 36e5; return (p.likes + 3 * p.tries_worked + 1) / Math.pow(h + 2, 1.5); }
 function sorted(list, mode = sortMode) {
   const a = [...list];
   if (mode === "new") a.sort((x, y) => new Date(y.created_at) - new Date(x.created_at));
   else if (mode === "hot") a.sort((x, y) => hot(y) - hot(x));
-  else if (mode === "saved") { const low = p => (p.type === "FAIL" ? 2 : 0) + (isStale(p) ? 1 : 0); a.sort((x, y) => low(x) - low(y) || minsSaved(y) - minsSaved(x) || y.likes - x.likes); } // fails and out-of-date posts last
-  else if (mode === "tried") a.sort((x, y) => (y.tries_worked * 3 + y.tries_partly) - (x.tries_worked * 3 + x.tries_partly) || y.likes - x.likes);
-  else a.sort((x, y) => y.likes - x.likes || new Date(y.created_at) - new Date(x.created_at));
+  else if (mode === "worked") a.sort((x, y) => (y.type === "RECIPE") - (x.type === "RECIPE") || y.tries_worked - x.tries_worked || x.tries_failed - y.tries_failed || new Date(y.created_at) - new Date(x.created_at));
+  else a.sort((x, y) => (y.likes + y.tries_worked) - (x.likes + x.tries_worked) || new Date(y.created_at) - new Date(x.created_at));
   return a.sort((x, y) => (y.pinned ? 1 : 0) - (x.pinned ? 1 : 0));
 }
 function identicon(key, name) {
@@ -68,17 +65,25 @@ function identicon(key, name) {
   const svgs = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="hsl(${hue},42%,90%)"/><text x="32" y="41" text-anchor="middle" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="25" font-weight="600" fill="hsl(${hue},45%,28%)">${esc(ini)}</text></svg>`;
   return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgs);
 }
+// The same checks as private.pii_problem in the database. "(this will be blocked)" marks the ones the database refuses on stories.
+const POSTCODE_AREAS = "ab|al|b|ba|bb|bd|bh|bl|bn|br|bs|bt|ca|cb|cf|ch|cm|co|cr|ct|cv|cw|da|dd|de|dg|dh|dl|dn|dt|dy|e|ec|eh|en|ex|fk|fy|g|gl|gu|gy|ha|hd|hg|hp|hr|hs|hu|hx|ig|im|ip|iv|je|ka|kt|kw|ky|l|la|ld|le|ll|ln|ls|lu|m|me|mk|ml|n|ne|ng|nn|np|nr|nw|ol|ox|pa|pe|ph|pl|po|pr|rg|rh|rm|s|sa|se|sg|sk|sl|sm|sn|so|sp|sr|ss|st|sw|sy|ta|td|tf|tn|tq|tr|ts|tw|ub|w|wa|wc|wd|wf|wn|wr|ws|wv|yo|ze";
+const PII = [
+  [/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i, "an email address"],
+  [/(\+44\s?7\d{3}|\b07\d{3})\s?\d{3}\s?\d{3}|(\+44\s?[123]\d{2,3}|\b0[123]\d{2,3})\s?\d{3}\s?\d{3,4}\b/, "a phone number"],
+  [/\b[a-z]{2}\s?\d{2}\s?\d{2}\s?\d{2}\s?[a-d]\b/i, "a National Insurance number"],
+  [new RegExp("\\b(" + POSTCODE_AREAS + ")\\d[a-z\\d]?\\s?\\d[a-z]{2}\\b", "i"), "a postcode"],
+  [/\b\d{2}-\d{2}-\d{2}\b/, "a sort code"],
+  [/\b(\d[ -]?){12,18}\d\b/, "a card number"],
+  [/\b\d{8}\b/, "an account number"]
+];
 function piiWarnings(txt) {
-  const w = [];
-  if (/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i.test(txt)) w.push("an email address (this will be blocked)");
-  if (/(\+44\s?7\d{3}|\b07\d{3})\s?\d{3}\s?\d{3}/.test(txt)) w.push("a phone number (this will be blocked)");
-  if (/\b[a-z]{2}\s?\d{2}\s?\d{2}\s?\d{2}\s?[a-d]\b/i.test(txt)) w.push("a National Insurance number (this will be blocked)");
+  const w = PII.filter(([re]) => re.test(txt)).map(([, l]) => l + " (this will be blocked)");
   if (/\b(Mr|Mrs|Ms|Miss|Dr|Prof)\.?\s+[A-Z][a-z]+/.test(txt)) w.push("what looks like a person's name with a title");
-  if (/\b\d{1,4}\s+[A-Z][a-z]+\s+(Road|Street|Lane|Avenue|Close|Drive|Way)\b/.test(txt)) w.push("what looks like a street address");
-  if (/\b[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}\b/.test(txt)) w.push("what looks like a postcode");
-  if (/\b(patient|client|pupil|student)\s+[A-Z][a-z]+/.test(txt)) w.push("what may be a patient, client or student's name");
+  if (/\b\d{1,4}\s+[A-Z][a-z]+\s+(Road|Street|Lane|Avenue|Close|Drive|Way|Crescent|Gardens)\b/.test(txt)) w.push("what looks like a street address");
+  if (/\b(my|our)\s+(son|daughter|husband|wife|partner|mum|dad|mother|father)\s+[A-Z][a-z]+/.test(txt)) w.push("what may be a family member's name");
   return w;
 }
+const blockedOnly = w => w.filter(x => x.includes("blocked")).join(", ").replace(/ \(this will be blocked\)/g, "");
 const errMsg = e => (e && (e.message || e.error_description)) || "Something went wrong. Try again.";
 function setStatus(html) { document.getElementById("status").innerHTML = html || ""; }
 
@@ -121,107 +126,92 @@ const IC = {
   book: '<path d="M5 4.5A1.5 1.5 0 016.5 3H19v15H6.5A1.5 1.5 0 005 19.5z"/><path d="M5 19.5A1.5 1.5 0 006.5 21H19"/><path d="M9 7h6"/>',
   badge: '<path d="M12 2.5l2.3 1.7 2.9-.2.9 2.7 2.4 1.7-.9 2.7.9 2.7-2.4 1.7-.9 2.7-2.9-.2L12 21.5l-2.3-1.7-2.9.2-.9-2.7-2.4-1.7.9-2.7-.9-2.7 2.4-1.7.9-2.7 2.9.2z"/><path d="M8.7 12l2.3 2.3 4.3-4.6"/>'
 };
-const verified = on => on ? `<span class="verified" title="Uses a UK university or college email address (.ac.uk)">${svg(IC.badge)}ac.uk</span>` : "";
 const ago = t => { const s = (Date.now() - new Date(t)) / 1000; if (s < 3600) return Math.max(1, Math.round(s / 60)) + " min ago"; if (s < 86400) return Math.round(s / 3600) + " h ago"; if (s < 7 * 86400) return Math.round(s / 86400) + " d ago"; return day(t); };
-const LABELS = { terms: "Terms of use", about: "About", accessibility: "Accessibility", "safe-sharing": "What you can safely share", notifications: "Notifications", index: "Townhall", categories: "Categories", news: "HE AI news", library: "My library", post: "Share a build", login: "Log in", join: "Join", newpass: "New password", me: "Settings", display: "Text & display", stats: "Time saved", search: "Search", mod: "Moderation", badge: "Badge", faq: "FAQ", rules: "House rules", privacy: "Privacy" };
+const LABELS = { terms: "Terms of use", about: "About", accessibility: "Accessibility", "safe-sharing": "What you can safely share", notifications: "Notifications", index: "Home", categories: "Categories", recipes: "Recipes", news: "AI safety news", library: "My library", post: "Share a story", login: "Log in", join: "Join", newpass: "New password", me: "Settings", display: "Text & display", search: "Search", mod: "Moderation", badge: "Badge", faq: "FAQ", rules: "House rules", privacy: "Privacy", complaints: "Reports and complaints", "recipe-new": "New recipe" };
 function routeLabel(h) {
   if (LABELS[h]) return LABELS[h];
-  if (h.startsWith("b-")) return board(h.slice(2)) ? spaceName(board(h.slice(2))) : "Space";
   if (h.startsWith("tag-")) return "#" + h.slice(4);
   if (h.startsWith("u-")) return "Member / " + h.slice(2);
   if (h.startsWith("/")) return h;
   if (h.startsWith("lib-")) return "My library";
-  if (h.startsWith("post-")) return "Share a build";
-  if (h.startsWith("fork-")) return "Fork a setup";
+  if (h.startsWith("post-")) return "Share a story";
+  if (h.startsWith("recipe-")) return "Recipe";
   return "";
 }
 function crumbHtml(h) {
   if (h.startsWith("lib-")) return `<a href="#library">My library</a>`;
   if (h.startsWith("post-")) { const b = board(h.slice(5)); return b ? `<a href="${spaceHref(b.id)}">${esc(spaceName(b))}</a>` : ""; }
+  if (h.startsWith("recipe-")) return `<a href="#recipes">Recipes</a>`;
   return "";
 }
 function renderShell() {
   const h = location.hash.slice(1) || "index";
-  const nav = [["categories", "Categories", IC.grid], ["index", "Townhall", IC.hall], ["news", "HE AI news", IC.news], ["library", "My library", IC.book]];
-  const nav2 = [["post", "Share a build", IC.plus], ["stats", "Time saved", IC.clock]];
+  const nav = [["categories", "Categories", IC.grid], ["index", "Home", IC.home], ["recipes", "Recipes", IC.check], ["news", "AI safety news", IC.news], ["library", "My library", IC.book]];
+  const nav2 = [["post", "Share a story", IC.plus]];
   if (S.isMod) nav2.push(["mod", "Moderation", IC.shield]);
   nav2.push(["me", "Settings", IC.gear]);
-  const on = k => k === h || (k === "library" && h.startsWith("lib-")) || (k === "post" && (h.startsWith("post-") || h.startsWith("fork-"))) || (k === "categories" && (h.startsWith("/") || h.startsWith("b-")));
+  const on = k => k === h || (k === "library" && h.startsWith("lib-")) || (k === "post" && h.startsWith("post-")) || (k === "recipes" && h.startsWith("recipe-")) || (k === "categories" && h.startsWith("/"));
   const links = list => list.map(([k, l, i]) => `<a href="#${k}" class="${on(k) ? "on" : ""}"${on(k) ? ' aria-current="page"' : ""}>${svg(i)}${l}</a>`).join("");
   document.getElementById("snav").innerHTML = links(nav);
   document.getElementById("snav2").innerHTML = links(nav2);
   const bc = S.boardCounts || {};
-  document.getElementById("sboards").innerHTML = S.boards.filter(b => b.id !== "townhall").map(b => `<a href="${spaceHref(b.id)}" class="${h === "/" + b.id || h === "b-" + b.id ? "on" : ""}" style="display:flex;align-items:center" title="${esc(b.descr)}">${esc(spaceName(b))}${bc[b.id] ? `<span class="count">${bc[b.id]}</span>` : ""}</a>`).join("");
+  document.getElementById("sboards").innerHTML = S.boards.map(b => `<a href="${spaceHref(b.id)}" class="${h === "/" + b.id ? "on" : ""}" style="display:flex;align-items:center" title="${esc(b.descr)}">${esc(spaceName(b))}${bc[b.id] ? `<span class="count">${bc[b.id]}</span>` : ""}</a>`).join("");
   const who = document.getElementById("who");
-  if (S.me) who.innerHTML = `<img src="${identicon(S.me.id, S.me.handle)}" alt=""><div style="min-width:0;flex:1"><a class="nm" href="#u-${esc(S.me.handle)}">${esc(S.me.handle)}</a>${S.me.banned ? " (suspended)" : ""}<div class="sub">${esc(S.me.role === "admin" ? "Town Clerk" : (S.me.staff_area || S.me.profession || "Member"))}</div></div><a href="#" id="signout" class="sub">Log out</a>`;
+  if (S.me) who.innerHTML = `<img src="${identicon(S.me.id, S.me.handle)}" alt=""><div style="min-width:0;flex:1"><a class="nm" href="#u-${esc(S.me.handle)}">${esc(S.me.handle)}</a>${S.me.banned ? " (suspended)" : ""}<div class="sub">${esc(S.me.role === "admin" ? "Admin" : (S.me.profession || "Member"))}</div></div><a href="#" id="signout" class="sub">Log out</a>`;
   else if (S.session) who.innerHTML = `<div class="sub">Signed in. Setting up your profile...</div>`;
-  else who.innerHTML = `<div><div class="nm">Staff at a UK university or college?</div><div class="sub"><a href="#join">Join</a> or <a href="#login">log in</a></div></div>`;
+  else who.innerHTML = `<div><div class="nm">Used AI for a boring job?</div><div class="sub"><a href="#join">Join</a> or <a href="#login">log in</a></div></div>`;
   const so = document.getElementById("signout"); if (so) so.onclick = async e => { e.preventDefault(); await sb.auth.signOut(); location.hash = "index"; };
   const lbl = routeLabel(h);
-  document.title = (lbl ? lbl.replace(/^Member \/ /, "") + " · " : "") + "Townhall";
+  document.title = (lbl ? lbl.replace(/^Member \/ /, "") + " · " : "") + APP_NAME;
   document.getElementById("crumbbar").innerHTML = crumbHtml(h);
   const cta = document.getElementById("topCta"), ctaT = document.getElementById("topCtaTxt");
   if (cta) {
-    cta.hidden = h === "post" || h.startsWith("post-") || h.startsWith("fork-") || h === "join" || h === "login";
+    cta.hidden = h === "post" || h.startsWith("post-") || h.startsWith("recipe-") || h === "join" || h === "login";
     const ico = cta.querySelector("svg");
-    if (S.me) { cta.href = "#post"; ctaT.textContent = "Share a build"; cta.className = "btn primary"; ico.style.display = ""; }
+    if (S.me) { cta.href = "#post"; ctaT.textContent = "Share a story"; cta.className = "btn primary"; ico.style.display = ""; }
     else if (h === "index") { cta.href = "#login"; ctaT.textContent = "Log in"; cta.className = "btn"; ico.style.display = "none"; }
     else { cta.href = "#join"; ctaT.textContent = "Join free"; cta.className = "btn primary"; ico.style.display = "none"; }
   }
 }
-function tryMeter(p) {
-  const n = p.tries_worked + p.tries_partly + p.tries_failed;
-  if (!n) return `<span>No tries yet</span>`;
-  const pc = x => (x / n * 100).toFixed(1) + "%";
-  return `<span title="${p.tries_worked} worked, ${p.tries_partly} partly, ${p.tries_failed} didn't"><span class="tmeter" aria-hidden="true"><i style="width:${pc(p.tries_worked)};background:var(--good)"></i><i style="width:${pc(p.tries_partly)};background:#e3b341"></i><i style="width:${pc(p.tries_failed)};background:var(--bad)"></i></span>Tried by ${n}: ${p.tries_worked} worked</span>`;
-}
-function statBlock(p) {
-  const sv = saving(p);
-  if (!TYPES_BUILD.includes(p.type) || sv == null) return "";
-  return `<div class="stat" title="Times reported by the author"><span class="st-from">${fmtShort(p.minutes_before)}</span><span class="st-arrow" aria-hidden="true">→</span><span class="sr"> down to </span><span class="st-to">${fmtShort(p.minutes_after)}</span>${sv > 0 ? `<span class="st-save">${sv}% less time</span>` : `<span class="st-none">no time saved</span>`}</div>`;
+// Recipe feedback counts, shown on cards and the recipe page
+function workedMeter(p) {
+  const w = p.tries_worked || 0, f = p.tries_failed || 0, n = w + f;
+  const pc = x => n ? (x / n * 100).toFixed(1) + "%" : "0%";
+  return `<span title="${w} worked, ${f} didn't work">${n ? `<span class="tmeter" aria-hidden="true"><i style="width:${pc(w)};background:var(--good)"></i><i style="width:${pc(f)};background:var(--bad)"></i></span>` : ""}Worked for ${w} · Didn't work for ${f}</span>`;
 }
 function postCard(p, showBoard = true) {
   const name = authorName(p), b = board(p.board_id);
-  const sub = [p.author_area, p.author_institution].filter(Boolean).map(esc).join(" · ");
-  const thumb = (p.screenshots || [])[0], n = p.tries_worked + p.tries_partly + p.tries_failed;
-  const labels = `${p.pinned ? '<span class="tg MEETING">Pinned</span>' : ""}${typeTag(p.type)}${p.is_sample ? '<span class="tg SAMPLE">Example</span>' : ""}${isStale(p) ? '<span class="tg STALE">May be out of date</span>' : ""}`;
+  const thumb = (p.screenshots || [])[0];
+  const labels = `${p.pinned ? '<span class="tg MEETING">Pinned</span>' : ""}${typeTag(p.type)}${p.status === "draft" ? '<span class="tg PENDING">Draft</span>' : ""}${p.is_sample ? '<span class="tg SAMPLE">Example</span>' : ""}${p.type === "RECIPE" && !isTested(p) ? '<span class="tg STALE">Not tested yet</span>' : ""}${isStale(p) ? '<span class="tg STALE">May be out of date</span>' : ""}`;
+  const tools = p.type === "RECIPE" ? (p.tools || []) : (p.tool_key ? [p.tool_key] : []);
   const foot = [
-    p.type === "MOTION" ? `<span>Score <b>${p.vote_score > 0 ? "+" : ""}${p.vote_score}</b> from ${p.vote_count} ${p.vote_count === 1 ? "vote" : "votes"}</span>` : "",
-    p.tool_key ? `<span class="toolchip">${esc(TOOLS[p.tool_key] || p.tool_key)}</span>` : "",
-    TRYABLE.includes(p.type) && n ? tryMeter(p) : "",
+    tools.map(k => `<span class="toolchip">${esc(TOOLS[k] || k)}</span>`).join(""),
+    p.type === "RECIPE" ? workedMeter(p) : "",
     p.replies ? `<span>${svg(IC.chat)}${p.replies} ${p.replies === 1 ? "reply" : "replies"}</span>` : "",
-    p.likes ? `<span title="Likes">${svg(IC.heart)}${p.likes}</span>` : "",
+    p.type === "STORY" && p.likes ? `<span title="Likes">${svg(IC.heart)}${p.likes}</span>` : "",
     (p.tags || []).length ? `<span class="tagline">${p.tags.slice(0, 4).map(t => `<a href="#tag-${esc(t)}">#${esc(t)}</a>`).join(" ")}</span>` : "",
     showBoard && b ? `<a class="spacelink" href="${spaceHref(b.id)}">${esc(spaceName(b))}</a>` : ""
   ].filter(Boolean).join("");
+  const sum = p.type === "RECIPE" ? p.task : (p.body || p.task);
   return `<article class="post${thumb ? " has-thumb" : ""}"><div class="post-main">
-   <div class="post-head"><img class="av" src="${identicon(p.author || "team", name)}" alt="" width="32" height="32"><span class="who">${userLink(name)}</span>${verified(p.author_ac)}${sub ? `<span class="org">${sub}</span>` : ""}<span class="when">${esc(ago(p.created_at))}</span></div>
+   <div class="post-head"><img class="av" src="${identicon(p.author || "team", name)}" alt="" width="32" height="32"><span class="who">${userLink(name)}</span>${p.author_profession ? `<span class="org">${esc(p.author_profession)}</span>` : ""}<span class="when">${esc(ago(p.created_at))}</span></div>
    <a class="post-title" href="#t-${esc(p.id)}">${esc(p.title)}</a>
    ${labels ? `<div class="post-labels">${labels}</div>` : ""}
-   ${p.body || p.task ? `<p class="post-sum">${esc((p.body || p.task).slice(0, 400))}</p>` : ""}
-   ${statBlock(p)}
+   ${sum ? `<p class="post-sum">${esc(sum.slice(0, 400))}</p>` : ""}
    ${foot ? `<div class="post-foot">${foot}</div>` : ""}
    </div>${thumb ? `<a class="post-thumb" href="#t-${esc(p.id)}" tabindex="-1" aria-hidden="true"><img src="${esc(shotUrl(thumb))}" alt="" loading="lazy"></a>` : ""}</article>`;
 }
 function feed(list, showBoard = true, empty) {
-  return list.length ? `<div class="feed">${list.map(p => postCard(p, showBoard)).join("")}</div>` : `<div class="empty">${empty || (toolFilter || typeFilter ? `Nothing matches these filters. <a href="#" id="fClear">Clear filters</a>` : `Nothing here yet. <a href="#post">Share the first build.</a>`)}</div>`;
+  return list.length ? `<div class="feed">${list.map(p => postCard(p, showBoard)).join("")}</div>` : `<div class="empty">${empty || (toolFilter || typeFilter ? `Nothing matches these filters. <a href="#" id="fClear">Clear filters</a>` : `Nothing here yet. <a href="#post">Share the first story.</a>`)}</div>`;
 }
 
 // ================= filters & quick switcher =================
 let toolFilter = "", typeFilter = "";
-// First-visit job picker: one tap shows builds for that job, most time saved first. Remembered for about a year.
-const JOBS = { "marking-feedback": "Marking & feedback", "teaching-prep": "Teaching prep", "admissions": "Admissions", "exams-timetabling": "Exams & timetabling", "student-support": "Student support", "research-admin": "Research admin", "meetings-minutes": "Meetings & minutes", "writing-comms": "Emails & writing", "data-reporting": "Data & reporting", "policy-governance": "Policy & governance" };
-let jobPick = recall("th_job", 3e10) || "";
-const minsSaved = p => p.minutes_before > 0 && p.minutes_after != null ? p.minutes_before - p.minutes_after : -1;
 const trackEv = k => { try { sb.rpc("track_view", { p: k }).then(() => {}, () => {}); } catch (_) { } };
-function jobPicker() {
-  const ids = Object.keys(JOBS).filter(id => board(id));
-  if (!ids.length) return "";
-  return `<div class="jobpick" role="group" aria-labelledby="jpQ"><div class="jp-q" id="jpQ">What takes up your time?</div><div class="jp-chips">${ids.map(id => `<button type="button" class="jp-chip${jobPick === id ? " on" : ""}" data-job="${esc(id)}" aria-pressed="${jobPick === id}">${esc(JOBS[id])}</button>`).join("")}</div></div>`;
-}
-const applyFilters = list => list.filter(p => (!toolFilter || p.tool_key === toolFilter) && (!typeFilter || p.type === typeFilter));
-function filterBar() {
-  return `<div class="filters" role="group" aria-label="Filters"><select id="fTool" aria-label="Filter by tool"><option value="">All tools</option>${Object.entries(TOOLS).map(([k, v]) => `<option value="${k}"${toolFilter === k ? " selected" : ""}>${esc(v)}</option>`).join("")}</select><select id="fType" aria-label="Filter by post type"><option value="">All types</option>${["WORKFLOW", "AGENT", "TOOL", "FAIL", "QUESTION"].map(t => `<option${typeFilter === t ? " selected" : ""}>${t}</option>`).join("")}</select></div>`;
+const usesTool = (p, k) => p.type === "RECIPE" ? (p.tools || []).includes(k) : p.tool_key === k;
+const applyFilters = list => list.filter(p => (!toolFilter || usesTool(p, toolFilter)) && (!typeFilter || p.type === typeFilter));
+function filterBar(withType = true) {
+  return `<div class="filters" role="group" aria-label="Filters"><select id="fTool" aria-label="Filter by AI tool"><option value="">All tools</option>${Object.entries(TOOLS).map(([k, v]) => `<option value="${k}"${toolFilter === k ? " selected" : ""}>${esc(v)}</option>`).join("")}</select>${withType ? `<select id="fType" aria-label="Filter by post type"><option value="">Stories and recipes</option>${TYPES.map(t => `<option value="${t}"${typeFilter === t ? " selected" : ""}>${TYPE_LABEL[t]}s</option>`).join("")}</select>` : ""}</div>`;
 }
 function bindFilters(rerender) {
   const a = document.getElementById("fTool"), b = document.getElementById("fType");
@@ -281,19 +271,17 @@ function flushToast() { if (S.toastNext) { toast(S.toastNext); S.toastNext = "";
 async function loadMe() {
   const { data } = await sb.auth.getSession();
   S.session = data.session;
-  S.me = null; S.myLikes = new Set(); S.myVotes = new Map(); S.myFollows = []; S.isMod = false; S.modBoards = new Set();
+  S.me = null; S.myLikes = new Set(); S.myFollows = []; S.isMod = false; S.modBoards = new Set();
   if (S.session) {
     const uid = S.session.user.id;
-    const [pr, lk, vt, fl, md] = await Promise.all([
+    const [pr, lk, fl, md] = await Promise.all([
       sb.rpc("my_profile"),
       sb.from("likes").select("post_id").eq("user_id", uid),
-      sb.from("motion_votes").select("post_id,vote").eq("user_id", uid),
       sb.from("follows").select("kind,target").eq("user_id", uid),
       sb.from("board_mods").select("board_id").eq("user_id", uid)
     ]);
     S.me = pr.data && pr.data.id ? pr.data : null;
     (lk.data || []).forEach(r => S.myLikes.add(r.post_id));
-    (vt.data || []).forEach(r => S.myVotes.set(r.post_id, r.vote));
     S.myFollows = fl.data || [];
     (md.data || []).forEach(r => S.modBoards.add(r.board_id));
     S.isMod = !!S.me && (S.me.role === "admin" || S.modBoards.size > 0);
@@ -303,19 +291,22 @@ async function loadMe() {
 }
 async function loadBoards() {
   const [bd, pc] = await Promise.all([sb.from("boards").select("*").order("sort"), sb.from("post_feed").select("board_id").eq("status", "published").limit(2000)]);
-  S.boards = bd.data || []; S.boardCounts = {};
+  S.boards = (bd.data || []).filter(b => !b.archived); S.boardCounts = {};
   (pc.data || []).forEach(r => S.boardCounts[r.board_id] = (S.boardCounts[r.board_id] || 0) + 1);
   renderShell();
 }
-const FEED_COLS = "id,author,task,body,tool_key,screenshots,author_area,author_institution,author_ac,author_profession,board_id,type,title,tags,status,pinned,is_sample,tested_on,created_at,model_version,minutes_before,minutes_after,author_handle,likes,tries_worked,tries_partly,tries_failed,replies,forks,vote_score,vote_count";
+const FEED_COLS = "id,author,task,body,tool_key,screenshots,author_profession,board_id,type,title,tags,status,pinned,is_sample,tested_on,created_at,author_handle,likes,tries_worked,tries_failed,replies,tools,tested_tools,retest_due";
 async function fetchPosts(q) { const { data, error } = await q; if (error) throw error; return data || []; }
 const publishedPosts = () => sb.from("post_feed").select(FEED_COLS).eq("status", "published").order("created_at", { ascending: false }).limit(300);
+const isAdmin = () => !!(S.me && S.me.role === "admin");
 const isModOf = b => S.me && (S.me.role === "admin" || S.modBoards.has(b));
 const follows = (kind, target) => S.myFollows.some(f => f.kind === kind && f.target === target);
 function needLogin(what) { return `<div class="notice">${esc(what)} needs an account. <a href="#login">Log in</a> or <a href="#join">join</a>. It's free.</div>`; }
+const logEntry = k => { try { sb.rpc("log_entry", { k }).then(() => {}, () => {}); } catch (_) { } };
 
 // ================= list rendering =================
-function sortTabs() { return `<div class="feedbar"><div class="tabs" role="tablist">${[["top", "Top"], ["saved", "Most time saved"], ["tried", "Most tried"], ["hot", "Hot"], ["new", "Newest"]].map(([k, l]) => `<a href="#" role="tab" data-sort="${k}" class="${sortMode === k ? "on" : ""}">${l}</a>`).join("")}</div>${filterBar()}</div>`; }
+const SORTS = [["top", "Top"], ["worked", "Most worked"], ["hot", "Hot"], ["new", "Newest"]];
+function sortTabs(withType = true) { return `<div class="feedbar"><div class="tabs" role="tablist">${SORTS.map(([k, l]) => `<a href="#" role="tab" data-sort="${k}" class="${sortMode === k ? "on" : ""}">${l}</a>`).join("")}</div>${filterBar(withType)}</div>`; }
 function bindSort(rerender) { V.querySelectorAll("[data-sort]").forEach(a => a.onclick = e => { e.preventDefault(); sortMode = a.dataset.sort; rerender(); }); bindFilters(rerender); }
 function followBtn(kind, target) {
   if (!S.me) return "";
@@ -337,66 +328,65 @@ function bindFollow(after) {
 
 // ================= views =================
 async function viewIndex() {
-  const [posts, savings, mem, tri, ppl, nw] = await Promise.all([fetchPosts(publishedPosts()), sb.from("tag_savings").select("*").order("posts", { ascending: false }).limit(6),
-    sb.from("member_directory").select("id", { count: "exact", head: true }), sb.from("tries").select("post_id", { count: "exact", head: true }),
+  const [posts, mem, ppl, nw] = await Promise.all([fetchPosts(publishedPosts()),
+    sb.from("member_directory").select("id", { count: "exact", head: true }),
     sb.from("member_directory").select("*").order("rep", { ascending: false }).limit(5),
     sb.from("news_items").select("source,title,url,published_at").order("published_at", { ascending: false }).limit(5)]);
   const news = nw.data || [];
-  const memberCount = mem.count || 0, tryCount = tri.count || 0;
-  const meeting = posts.find(p => p.type === "MEETING" && p.pinned);
-  const people = (ppl.data || []).filter(u => u.rep > 0);
+  const memberCount = mem.count || 0;
+  const people = (ppl.data || []).filter(u => u.rep > 0 && u.role !== "admin");
+  const recipes = posts.filter(p => p.type === "RECIPE"), stories = posts.filter(p => p.type === "STORY");
   const draw = () => {
-    if (jobPick && !board(jobPick)) jobPick = "";
-    const ex = !S.me && !jobPick ? sorted(posts.filter(p => TYPES_BUILD.includes(p.type) && saving(p) > 0), "top")[0] : null;
-    const list = sorted(applyFilters(posts.filter(p => p.type !== "MEETING" && (!ex || p.id !== ex.id) && (!jobPick || p.board_id === jobPick)))).slice(0, 30);
-    const jobLbl = jobPick ? esc(JOBS[jobPick] || jobPick) : "";
-    const jobRes = jobPick ? `<div class="jobres" id="jobRes" tabindex="-1">${list.length ? `<b>${list.length} ${list.length === 1 ? "post" : "posts"} for ${jobLbl}</b>${sortMode === "saved" ? ", most time saved first" : ""}. ` : ""}<a href="#" data-joball>Show everything</a></div>` : "";
-    const jobEmpty = jobPick ? `No posts for ${jobLbl} yet. <a href="#post">Share the first one</a> or <a href="#" data-joball>show everything</a>.` : undefined;
+    const list = sorted(applyFilters(posts)).slice(0, 30);
     const tc = {}; posts.forEach(p => (p.tags || []).forEach(t => tc[t] = (tc[t] || 0) + 1));
     const tags = Object.entries(tc).sort((a, b) => b[1] - a[1]).slice(0, 16);
-    const sv = savings.data || [];
+    const best = sorted(recipes, "worked").filter(p => p.tries_worked > 0).slice(0, 5);
     V.innerHTML = `<div class="grid2"><div class="colmain">
-      <section class="hero"><h1 class="h-page">AI workflows from UK university staff, with the time they save</h1>
-       <p class="lead">Each post shows the task, the tool, the minutes before and after, and what went wrong. Colleagues at other institutions then say whether it worked for them.</p>
-       ${jobPicker()}
-       ${S.me ? `<a class="composer" href="#post"><img class="av" src="${identicon(S.me.id, S.me.handle)}" alt="" width="36" height="36"><span>Share something you built with AI. It takes about 15 minutes.</span><span class="composer-go" aria-hidden="true">${svg(IC.plus)}</span></a>`
-         : `<div class="hero-cta"><a class="btn primary lg" href="#join">Join free</a><a class="btn lg" href="#categories">Browse categories</a></div>`}
-       ${ex ? `<div class="example"><div class="ex-lbl">A post from the community</div>${postCard(ex)}</div>` : ""}
-       <div class="small counter" aria-label="Site totals">${memberCount < SHOW_COUNT_FROM ? `<b>Founding members wanted.</b> Early posts shape what Townhall becomes` : `<b>${memberCount.toLocaleString("en-GB")}</b> members`} · <b>${posts.filter(p => !p.is_sample).length.toLocaleString("en-GB")}</b> posts · <b>${tryCount.toLocaleString("en-GB")}</b> workflows tried</div>
+      <section class="hero"><h1 class="h-page">${esc(TAGLINE.split(". ")[0])}</h1>
+       <p class="lead">Bills, letters, complaints and forms. Members share how a free AI tool helped them. We turn the best into step-by-step recipes and test them ourselves.</p>
+       <div class="hero-cta"><a class="btn primary lg" href="#post" data-entry="share">Share how AI helped you</a><a class="btn primary lg" href="#recipes" data-entry="browse">Browse tested recipes</a></div>
+       <div class="small counter" aria-label="Site totals">${memberCount < SHOW_COUNT_FROM ? `<b>Founding members wanted.</b> Early stories shape what ${esc(APP_NAME)} becomes` : `<b>${memberCount.toLocaleString("en-GB")}</b> members`} · ${plural(stories.filter(p => !p.is_sample).length, "story", "stories")} · ${plural(recipes.length, "recipe", "recipes")}</div>
       </section>
-      ${sortTabs()}${jobRes}${feed(list, true, jobEmpty)}
+      ${sortTabs()}${feed(list, true)}
     </div>
     <aside class="colrail rail" aria-label="Highlights">
-      ${meeting ? `<div class="card card-pad"><h2 class="h3">Town meeting this week</h2><a class="b" href="#t-${esc(meeting.id)}">${esc(meeting.title)}</a><div class="small" style="margin-top:4px">${meeting.replies} ${meeting.replies === 1 ? "reply" : "replies"}</div></div>`
-        : `<div class="card card-pad"><h2 class="h3">Motions & meetings</h2><div class="small">Proposals on how Townhall is run. Members vote for or against.</div><a class="btn" style="margin-top:12px" href="#b-townhall">See motions</a></div>`}
-      ${news.length ? `<div class="card card-pad"><h2 class="h3">Latest HE AI news</h2><div class="newslist mini">${news.map(newsLink).join("")}</div><div style="margin-top:8px"><a class="small" href="#news">All news</a></div></div>` : ""}
+      <div class="card card-pad"><h2 class="h3">Recipes that worked</h2>${best.length ? best.map(p => `<div class="rail-item"><a href="#t-${esc(p.id)}">${esc(p.title)}</a><div class="small">Worked for ${p.tries_worked}</div></div>`).join("") : `<div class="small">Nobody has said a recipe worked for them yet.</div>`}<div style="margin-top:8px"><a class="small" href="#recipes">All recipes</a></div></div>
+      ${news.length ? `<div class="card card-pad"><h2 class="h3">AI safety news</h2><div class="newslist mini">${news.map(newsLink).join("")}</div><div style="margin-top:8px"><a class="small" href="#news">All news</a></div></div>` : ""}
       <div class="card card-pad"><h2 class="h3">Trending tags</h2>${tags.length ? tags.map(([t, n]) => `<a class="ht" href="#tag-${esc(t)}">#${esc(t)} <span style="opacity:.6">${n}</span></a>`).join("") : `<div class="small">No tags yet.</div>`}</div>
-      <div class="card card-pad"><h2 class="h3">Most helpful members</h2>${people.length ? people.map(u => `<a class="person" href="#u-${esc(u.handle)}" style="text-decoration:none"><img class="av" src="${identicon(u.id, u.handle)}" alt="" width="36" height="36"><span class="t"><span class="n" style="display:block">${esc(u.handle)}</span><span class="s">${esc(u.profession || u.staff_area || rankOf(u.rep, u.role))} · ${u.rep} rep</span></span></a>`).join("") : `<div class="small">Reputation comes from colleagues saying your workflow worked for them. Nobody has earned any yet.</div>`}
-</div>
-      <div class="card card-pad"><h2 class="h3">Time saved, as reported</h2>${sv.length ? sv.map(s => `<div class="rail-item" style="display:flex;justify-content:space-between;gap:8px"><a href="#tag-${esc(s.tag)}">#${esc(s.tag)}</a><span><b>${s.median_saving_pct}%</b> <span class="small">median, ${s.posts} posts</span></span></div>`).join("") + `<div style="margin-top:8px"><a class="small" href="#stats">All figures</a></div>` : `<div class="small">No build posts yet.</div>`}
-        <div class="small" style="margin-top:8px">Self-reported by authors. Not independently checked.</div></div>
+      <div class="card card-pad"><h2 class="h3">Most helpful members</h2>${people.length ? people.map(u => `<a class="person" href="#u-${esc(u.handle)}" style="text-decoration:none"><img class="av" src="${identicon(u.id, u.handle)}" alt="" width="36" height="36"><span class="t"><span class="n" style="display:block">${esc(u.handle)}</span><span class="s">${esc(u.profession || rankOf(u.rep, u.role))} · ${u.rep} rep</span></span></a>`).join("") : `<div class="small">Reputation comes from sharing stories. Nobody has earned any yet.</div>`}</div>
+      <div class="card card-pad"><div class="small">${esc(NOT_ADVICE)}</div></div>
     </aside></div>`;
     bindSort(draw);
-    const showJob = () => { const r = document.getElementById("jobRes") || V.querySelector(".feedbar"); if (r) { r.scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); if (r.id === "jobRes") r.focus({ preventScroll: true }); } };
-    V.querySelectorAll("[data-job]").forEach(c => c.onclick = () => {
-      const id = c.dataset.job; jobPick = jobPick === id ? "" : id; remember("th_job", jobPick || null);
-      if (jobPick) { sortMode = "saved"; trackEv("ev-job-" + id); }
-      draw(); if (jobPick) showJob();
-    });
-    V.querySelectorAll("[data-joball]").forEach(a => a.onclick = e => { e.preventDefault(); jobPick = ""; remember("th_job", null); draw(); });
+    V.querySelectorAll("[data-entry]").forEach(a => a.addEventListener("click", () => logEntry(a.dataset.entry)));
   };
   draw();
 }
 function pageHead(title, sub, actions) {
   return `<div class="bar"><div style="min-width:0"><h1 class="h-page">${title}</h1>${sub ? `<div class="small" style="margin-top:6px;max-width:720px">${sub}</div>` : ""}</div>${actions ? `<span class="trybar">${actions}</span>` : ""}</div>`;
 }
+let recipeSort = "worked";
+async function viewRecipes() {
+  const posts = await fetchPosts(publishedPosts().eq("type", "RECIPE"));
+  const draw = () => {
+    const keep = sortMode; sortMode = recipeSort;
+    V.innerHTML = `${pageHead("Recipes", "Step-by-step guides for everyday jobs, written and tested by us with free AI tools. Each one says when it was last tested and how to check the answer.", isAdmin() ? `<a class="btn blue" href="#recipe-new">Write a recipe</a>` : "")}
+      <div class="notice small">${esc(NOT_ADVICE)} Always check the answer with the official sources each recipe links to.</div>
+      ${sortTabs(false)}${feed(sorted(applyFilters(posts), recipeSort), true, toolFilter ? `Nothing matches these filters. <a href="#" id="fClear">Clear filters</a>` : "No recipes published yet. They are being tested.")}`;
+    sortMode = keep;
+    V.querySelectorAll("[data-sort]").forEach(a => a.onclick = e => { e.preventDefault(); recipeSort = a.dataset.sort; draw(); });
+    V.querySelectorAll("[data-sort]").forEach(a => a.classList.toggle("on", a.dataset.sort === recipeSort));
+    bindFilters(draw);
+  };
+  draw();
+}
 async function viewBoard(id) {
   const b = board(id); if (!b) return viewNotFound();
   const posts = await fetchPosts(publishedPosts().eq("board_id", id));
   const mods = (await sb.from("board_mods").select("profiles(handle)").eq("board_id", id)).data || [];
   const draw = () => {
-    V.innerHTML = `${pageHead(esc(spaceName(b)), `${esc(b.descr)} ${mods.length ? "Ward moderator" + (mods.length > 1 ? "s" : "") + ": " + mods.map(m => userLink(m.profiles && m.profiles.handle)).join(", ") : ""}`, `${followBtn("board", id)} <a class="btn" href="#post-${esc(id)}">${id === "townhall" ? "Propose a motion" : "Post here"}</a>`)}
-      ${id === "townhall" ? `<div class="notice">Motions are proposals for how Townhall is run. Members vote for or against. The town clerk reviews any motion with a clear majority and at least 10 votes.</div>` : ""}
+    V.innerHTML = `${pageHead(esc(spaceName(b)), `${esc(b.descr)}. ${mods.length ? "Space moderator" + (mods.length > 1 ? "s" : "") + ": " + mods.map(m => userLink(m.profiles && m.profiles.handle)).join(", ") : ""}`, `${followBtn("board", id)} <a class="btn" href="#post-${esc(id)}">Share a story here</a>`)}
+      ${HELD.includes(id) ? `<div class="notice">A moderator checks every story here before it goes live, because these topics often involve money, health or a dispute.</div>` : ""}
+      ${id === "health-admin" ? `<div class="notice">This space is for appointments, forms and paperwork only. Nothing here is diagnosis or treatment advice. For health worries, contact your GP, NHS 111 or, in an emergency, 999.</div>` : ""}
       ${sortTabs()}${feed(sorted(applyFilters(posts)), false)}`;
     bindSort(draw); bindFollow(draw);
   };
@@ -404,10 +394,9 @@ async function viewBoard(id) {
 }
 async function viewTag(t) {
   t = cleanTag(t); if (!t) return viewNotFound();
-  const [posts, sv] = await Promise.all([fetchPosts(publishedPosts().contains("tags", [t])), sb.from("tag_savings").select("*").eq("tag", t).maybeSingle()]);
+  const posts = await fetchPosts(publishedPosts().contains("tags", [t]));
   const draw = () => {
-    const s = sv.data;
-    V.innerHTML = `${pageHead("#" + esc(t), `Every topic tagged #${esc(t)}. ${s ? `Build posts here report a median <b>${s.median_saving_pct}%</b> time saving across ${s.posts} posts (self-reported).` : ""}`, ``)}
+    V.innerHTML = `${pageHead("#" + esc(t), `Every story and recipe tagged #${esc(t)}.`, followBtn("tag", t))}
       ${sortTabs()}${feed(sorted(applyFilters(posts)))}`;
     bindSort(draw); bindFollow(draw);
   };
@@ -419,34 +408,28 @@ async function viewNews() {
   const { data, error } = await sb.from("news_items").select("source_id,source,title,url,published_at").order("published_at", { ascending: false }).limit(300);
   if (error) throw error;
   const items = data || [];
-  const sources = [...new Map(items.map(n => [n.source_id, n.source])).entries()].sort((a, b) => a[1].localeCompare(b[1]));
+  const sources = [...new Map(items.map(n => [n.source, n.source])).entries()].sort((a, b) => a[1].localeCompare(b[1]));
   const draw = () => {
-    const list = items.filter(n => !newsSource || n.source_id === newsSource);
-    V.innerHTML = `${pageHead("HE AI news", "Headlines about AI in higher education, gathered automatically every 6 hours from public news feeds. Each title opens the full story on the publisher's own site.")}
+    const list = items.filter(n => !newsSource || n.source === newsSource);
+    V.innerHTML = `${pageHead("AI safety news", "Headlines about scams, consumer warnings and privacy, including scams that use AI. Gathered automatically every 6 hours from public news feeds. Each title opens the full story on the publisher's own site.")}
       ${sources.length > 1 ? `<div class="chips" style="margin-bottom:14px" role="group" aria-label="Filter by source"><a href="#" class="ht${!newsSource ? " on" : ""}" data-ns="">All sources</a>${sources.map(([id, name]) => `<a href="#" class="ht${newsSource === id ? " on" : ""}" data-ns="${esc(id)}">${esc(name)}</a>`).join("")}</div>` : ""}
       ${list.length ? `<div class="card newslist">${list.map(newsLink).join("")}</div>` : `<div class="empty">No headlines yet. The next check runs within 6 hours.</div>`}
-      <div class="small" style="margin-top:12px">Townhall shows headlines and links only. Stories belong to their publishers; Townhall isn't responsible for their content.</div>`;
+      <div class="small" style="margin-top:12px">${esc(APP_NAME)} shows headlines and links only. Stories belong to their publishers, and we aren't responsible for their content. If you think you've been scammed, contact your bank straight away and report it to Action Fraud (or Police Scotland in Scotland).</div>`;
     V.querySelectorAll("[data-ns]").forEach(a => a.onclick = e => { e.preventDefault(); newsSource = a.dataset.ns; draw(); });
   };
   draw();
 }
 async function viewCategories() {
   const posts = await fetchPosts(publishedPosts());
-  const med = a => { if (!a.length) return null; const s = [...a].sort((x, y) => x - y), m = s.length >> 1; return s.length % 2 ? s[m] : Math.round((s[m - 1] + s[m]) / 2); };
-  const spaces = [...S.boards.filter(b => b.id !== "townhall"), ...S.boards.filter(b => b.id === "townhall")];
   const draw = () => {
-    V.innerHTML = `${pageHead("Categories", "Find workflows by the job they help with, from marking to minutes. Follow the ones you work in.")}
-    <div class="catgrid">${spaces.map(b => {
-      const ps = posts.filter(p => p.board_id === b.id), last = ps[0];
-      const sv = med(ps.map(saving).filter(x => x != null));
-      const tools = Object.entries(ps.reduce((m, p) => (p.tool_key && (m[p.tool_key] = (m[p.tool_key] || 0) + 1), m), {})).sort((x, y) => y[1] - x[1]).slice(0, 3);
+    V.innerHTML = `${pageHead("Categories", "Find stories and recipes by the job you need to get done. Follow the ones that matter to you.")}
+    <div class="catgrid">${S.boards.map(b => {
+      const ps = posts.filter(p => p.board_id === b.id), last = ps[0], nr = ps.filter(p => p.type === "RECIPE").length;
       return `<section class="card catcard">
-        <div class="cathead"><a class="catname" href="${spaceHref(b.id)}">${esc(spaceName(b))}</a><span class="small">${ps.length} ${ps.length === 1 ? "post" : "posts"}</span></div>
-        <p class="small catdesc">${esc(b.id === "townhall" ? "Motions and town meetings on how the site is run. Members vote for or against." : b.descr)}</p>
-        ${tools.length ? `<div>${tools.map(([k]) => `<span class="toolchip">${esc(TOOLS[k] || k)}</span>`).join(" ")}</div>` : ""}
+        <div class="cathead"><a class="catname" href="${spaceHref(b.id)}">${esc(spaceName(b))}</a><span class="small">${ps.length - nr} ${ps.length - nr === 1 ? "story" : "stories"} · ${nr} ${nr === 1 ? "recipe" : "recipes"}</span></div>
+        <p class="small catdesc">${esc(b.descr)}</p>
         <div class="catlast small">${last ? `Latest: <a href="#t-${esc(last.id)}">${esc(last.title.slice(0, 70))}${last.title.length > 70 ? "..." : ""}</a> · ${esc(ago(last.created_at))}` : "No posts yet. Be the first."}</div>
-        ${sv != null ? `<div class="small">${svg(IC.clock)} Median <b>${sv}%</b> less time, self-reported</div>` : ""}
-        <div class="trybar catacts">${followBtn("board", b.id).replace('btn blue', 'btn')}<a class="btn" href="#post-${esc(b.id)}">${b.id === "townhall" ? "Propose a motion" : "Post here"}</a></div>
+        <div class="trybar catacts">${followBtn("board", b.id)}<a class="btn" href="#post-${esc(b.id)}">Share a story here</a></div>
       </section>`;
     }).join("")}</div>`;
     bindFollow(draw);
@@ -454,171 +437,161 @@ async function viewCategories() {
   draw();
 }
 
-function topicStats(p) {
-  if (!TYPES_BUILD.includes(p.type)) return "";
-  const sv = saving(p), n = p.tries_worked + p.tries_partly + p.tries_failed;
-  return `<div class="statrow">
-    <div><span class="k">Before</span><b>${fmtShort(p.minutes_before)}</b></div>
-    <div><span class="k">After</span><b>${fmtShort(p.minutes_after)}</b></div>
-    ${sv != null ? `<div class="${sv > 0 ? "hl" : ""}"><span class="k">Time saved</span><b>${sv > 0 ? sv + "%" : "None"}</b></div>` : ""}
-    ${TRYABLE.includes(p.type) ? `<div><span class="k">Tried by colleagues</span><b>${n || "None yet"}</b>${n ? `<span class="k">${p.tries_worked} worked · ${p.tries_partly} partly · ${p.tries_failed} didn't</span>` : ""}</div>` : ""}
-  </div>
-  <div class="small statnote">Times reported by the author${p.tested_on ? `, last tested ${esc(day(p.tested_on))}` : ""}.${isStale(p) ? ' <span class="tg STALE">May be out of date</span>' : ""}</div>`;
+// ---- story and recipe pages ----
+function storyFacts(p) {
+  const f = [["What I needed to do", esc(p.task)], ["AI tool", esc(TOOLS[p.tool_key] || p.tool || "Not stated")]];
+  if (p.checks) f.push(["What I checked before using the answer", esc(p.checks)]);
+  return `<div class="facts">${f.map(([k, v]) => `<div class="k">${k}</div><div>${v}</div>`).join("")}</div>`;
 }
-function renderCard(p) {
-  let h = "";
-  if (TYPES_BUILD.includes(p.type)) {
-    const sv = saving(p);
-    const f = [["Task", esc(p.task)], ["Tool", esc(p.tool || TOOLS[p.tool_key] || "")], ...(p.model_version ? [["Model or version", esc(p.model_version)]] : []),
-      ["Data that went in", esc(DATA_CLASS[p.data_class] || "Not stated")], ["What went wrong", esc(p.what_wrong)]];
-    h += `<div class="facts">${f.map(([k, v]) => `<div class="k">${k}</div><div>${v}</div>`).join("")}</div>`;
-  }
-  const ks = p.knowledge_sources || [];
-  if (ks.length) h += `<div class="kslist"><div class="lbl">Knowledge sources</div>${ks.map(k => `<div class="ksitem"><span class="tg">${esc(KS[k.kind] || k.kind)}</span><span>${esc(k.note || "")}</span></div>`).join("")}</div>`;
-  if (p.prompt) {
-    const long = p.prompt.length > 420 || p.prompt.split("\n").length > 7;
-    h += `<div class="prompt${long ? " clip" : ""}" id="promptBox"><div class="lbl"><span>${p.type === "AGENT" ? "Agent instructions" : "Prompt or setup"}</span><button type="button" class="copy" id="copyPrompt">Copy</button></div><pre id="promptText">${esc(p.prompt)}</pre>
-      ${long ? `<button type="button" class="seemore" id="seeMore" aria-expanded="false" aria-controls="promptText">See more</button>` : ""}</div>`;
-  }
-  return h;
+function storyPrompt(p) {
+  if (!p.prompt) return "";
+  return `<div class="prompt" id="promptBox"><div class="lbl"><span>Roughly what I typed</span><button type="button" class="copy" id="copyPrompt" data-copy="${esc(p.prompt)}">Copy</button></div><pre id="promptText" hidden>${esc(p.prompt)}</pre>
+    <button type="button" class="seemore" id="seeMore" aria-expanded="false" aria-controls="promptText">See more</button></div>`;
 }
-function bindPromptBox(p) {
-  const sm = document.getElementById("seeMore"), box = document.getElementById("promptBox");
-  if (sm) sm.onclick = () => { const o = box.classList.toggle("open"); sm.textContent = o ? "See less" : "See more"; sm.setAttribute("aria-expanded", o); };
-  const cp = document.getElementById("copyPrompt");
-  if (cp) cp.onclick = async () => { try { await navigator.clipboard.writeText(p.prompt); cp.textContent = "Copied"; toast("Prompt copied"); } catch (_) { cp.textContent = "Select and copy"; } setTimeout(() => { if (cp.isConnected) cp.textContent = "Copy"; }, 2000); };
+function recipeBody(p, sources) {
+  const prompts = p.prompts || [], checks = p.how_to_check || [];
+  const fact = (k, v) => v ? `<div class="k">${k}</div><div style="white-space:pre-wrap">${v}</div>` : "";
+  return `<div class="notice small" role="note">${esc(NOT_ADVICE)}</div>
+    ${p.deadline_warning ? `<div class="notice dummy" role="note"><b>Deadline:</b> ${esc(p.deadline_warning)}</div>` : ""}
+    <p class="lead" style="margin:12px 0">${esc(p.task)}</p>
+    <div class="facts">
+      ${fact("Recommended free tools", esc(toolList(p.tools)) || "Any")}
+      ${fact("Last tested", isTested(p) ? `${esc(day(p.tested_on))} with ${esc(toolList(p.tested_tools))}` : "Not tested yet")}
+      ${p.retest_due ? fact("Re-test due", `${esc(day(p.retest_due))}${isStale(p) ? ' <span class="tg STALE">May be out of date</span>' : ""}`) : ""}
+    </div>
+    ${prompts.map((x, i) => `<div class="prompt"><div class="lbl"><span>${esc(x.label || "Prompt " + (i + 1))}</span><button type="button" class="copy" data-copy="${esc(x.text)}">Copy</button></div><pre>${esc(x.text)}</pre></div>`).join("")}
+    ${p.never_paste ? `<div class="notice dummy"><b>Never paste this into an AI tool</b><div style="white-space:pre-wrap;margin-top:4px">${esc(p.never_paste)}</div></div>` : ""}
+    ${checks.length ? `<div class="kslist"><div class="lbl">How to check the answer</div>${checks.map(c => `<div class="ksitem"><a href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">${esc(c.label)}<span class="sr"> (opens in a new tab)</span></a></div>`).join("")}</div>` : ""}
+    ${p.failure_points ? `<div class="facts">${fact("Known failure points", esc(p.failure_points))}</div>` : ""}
+    ${sources.length ? `<div class="small" style="margin-top:8px">Based on stories from members: ${sources.map(s => `<a href="#t-${esc(s.id)}">${esc(s.title)}</a>`).join(", ")}</div>` : ""}
+    <div class="small printonly">From ${esc(APP_NAME)}, ${esc(SITE())}#t-${esc(p.id)}. Printed ${esc(day(new Date()))}.</div>`;
 }
-const acBadge = verified;
-// Shown once, straight after publishing: where the post is, and a quick way to get colleagues to try it.
+const TRY_LBL = { worked: ["Worked for me", "WORKFLOW"], failed: ["Didn't work for me", "FAIL"] };
+function feedbackBox(p, myTry) {
+  const radios = [["worked", "Worked for me"], ["failed", "Didn't work for me"]].map(([k, l]) => `<label><input type="radio" name="tr" value="${k}"${myTry && myTry.result === k ? " checked" : ""}> ${l}</label>`).join(" ");
+  const tool = `<label class="small" style="display:block;margin-top:8px" for="trTool">AI tool you used</label><select id="trTool" style="width:auto"><option value="">Choose...</option>${Object.entries(TOOLS).map(([k, v]) => `<option value="${k}"${myTry && myTry.tool_key === k ? " selected" : ""}>${esc(v)}</option>`).join("")}</select>`;
+  const note = `<label class="small" style="display:block;margin-top:8px" for="trNote">Optional: what happened? <span id="trNoteHint">${myTry && myTry.result === "failed" ? "Tell us where it went wrong so we can fix the recipe." : ""}</span></label><input type="text" id="trNote" maxlength="500" value="${esc(myTry ? myTry.note : "")}">`;
+  const acts = S.me ? `<button class="btn blue" id="trSave">${myTry ? "Update" : "Save"}</button>${myTry ? `<button class="btn danger" id="trDel">Remove my answer</button>` : ""}`
+    : `<button class="btn primary" data-trygo="join">Join to save</button><button class="btn" data-trygo="login">Log in to save</button>`;
+  return `<div class="box" style="margin:16px 0 0;background:var(--soft)"><h2 class="h3">Did this recipe work for you?</h2><div class="in">
+    <div class="trybar">${radios}</div>${tool}${note}
+    <div style="margin-top:8px" class="trybar">${acts}<span id="trMsg" class="small"></span></div>
+    ${S.me ? "" : `<div class="small" style="margin-top:6px">We'll keep your answer and save it once you're in.</div>`}</div></div>`;
+}
 function justPostedPanel(p, b) {
   const link = SITE() + "#t-" + p.id;
-  const body = `I shared how I use AI for: ${p.task || p.title}\n\nIt shows the time before and after, and what went wrong. If you try it, you can say whether it worked for you:\n${link}`;
-  return `<div class="okmsg" role="status" style="margin-top:12px"><b>Your post is live${b ? ` in <a href="${spaceHref(b.id)}">${esc(spaceName(b))}</a>` : ""}.</b> The quickest way to find out if it helps is to ask colleagues who do the same job to try it. You'll see every try under the bell.
-    <div class="trybar" style="margin-top:10px"><button type="button" class="btn" id="jpCopy">Copy link</button><a class="btn" id="jpMail" href="mailto:?subject=${encodeURIComponent("Would this work for you?")}&amp;body=${encodeURIComponent(body)}">Email colleagues</a><span class="small" id="jpMsg" aria-live="polite"></span></div></div>`;
+  const body = `I shared how AI helped me with: ${p.task || p.title}\n\n${link}`;
+  return `<div class="okmsg" role="status" style="margin-top:12px"><b>Your story is live${b ? ` in <a href="${spaceHref(b.id)}">${esc(spaceName(b))}</a>` : ""}.</b> Thank you. The most useful stories become tested recipes. You'll see replies under the bell.
+    <div class="trybar" style="margin-top:10px"><button type="button" class="btn" id="jpCopy">Copy link</button><a class="btn" id="jpMail" href="mailto:?subject=${encodeURIComponent("How AI helped me")}&amp;body=${encodeURIComponent(body)}">Email it</a><span class="small" id="jpMsg" aria-live="polite"></span></div></div>`;
 }
 async function viewTopic(id) {
   const { data: p, error } = await sb.from("post_feed").select("*").eq("id", id).maybeSingle();
-  if (error || !p) return viewNotFound("This topic doesn't exist, is waiting for approval, or was removed.");
-  const [reps, tries, forks, parent, rep] = await Promise.all([
+  if (error || !p) return viewNotFound("This post doesn't exist, is waiting for approval, or was removed.");
+  const recipe = p.type === "RECIPE";
+  const [reps, tries, src, rep] = await Promise.all([
     sb.from("replies").select("id,body,status,created_at,author,profiles(handle,profession)").eq("post_id", id).order("created_at"),
-    sb.from("tries").select("result,note,created_at,user_id,profiles(handle)").eq("post_id", id).order("created_at", { ascending: false }),
-    sb.from("posts").select("id,title").eq("forked_from", id).eq("status", "published").limit(20),
-    p.forked_from ? sb.from("posts").select("id,title").eq("id", p.forked_from).maybeSingle() : Promise.resolve({ data: null }),
+    recipe ? sb.from("tries").select("result,note,tool_key,created_at,user_id,profiles(handle)").eq("post_id", id).order("created_at", { ascending: false }) : Promise.resolve({ data: [] }),
+    sb.from("recipe_sources").select("recipe_id,story_id").eq(recipe ? "recipe_id" : "story_id", id),
     p.author ? sb.from("member_directory").select("rep,role").eq("id", p.author).maybeSingle() : Promise.resolve({ data: null })
   ]);
-  const b = board(p.board_id), mine = S.me && p.author === S.me.id, mod = isModOf(p.board_id);
-  const canSave = S.me && LIB_TYPES.includes(p.type) && p.status === "published";
+  const linkIds = (src.data || []).map(r => recipe ? r.story_id : r.recipe_id);
+  const linked = linkIds.length ? ((await sb.from("post_feed").select("id,title,status").in("id", linkIds)).data || []).filter(x => x.status === "published" || isAdmin()) : [];
+  const b = board(p.board_id), mine = S.me && p.author === S.me.id, mod = isModOf(p.board_id), admin = isAdmin();
+  const canSave = S.me && p.status === "published";
   const mySaved = canSave ? (await sb.from("library_items").select("id").eq("source_post", p.id).maybeSingle()).data : null;
   const myTry = S.me ? (tries.data || []).find(t => t.user_id === S.me.id) : null;
-  const canTry = S.me && !mine && TRYABLE.includes(p.type) && p.status === "published";
+  const canRate = recipe && p.status === "published" && !mine;
   const r = rep.data;
-  const nTries = p.tries_worked + p.tries_partly + p.tries_failed;
   const rl = (reps.data || []).length;
-  const tryLbl = { worked: ["It worked", "WORKFLOW"], partly: ["Partly worked", "QUESTION"], failed: ["Didn't work", "FAIL"] };
+  const statusTag = p.status !== "published" ? `<span class="tg ${p.status === "removed" ? "REMOVED" : "PENDING"}">${esc(p.status === "draft" ? "Draft" : p.status === "pending" ? "Waiting for approval" : "Removed")}</span>` : "";
   let h = `<div class="grid2"><div class="colmain">
-   <article class="topic-card">
-    <div class="post-head"><img class="av" src="${identicon(p.author || "team", authorName(p))}" width="40" height="40" alt=""><div><span class="who">${userLink(authorName(p))}</span> ${verified(p.author_ac)}<div class="small">${[p.author_profession, p.author_area, p.author_institution].filter(Boolean).map(esc).join(" · ")}</div></div><span class="when">${esc(when(p.created_at))}</span></div>
+   <article class="topic-card${recipe ? " recipe-sheet" : ""}">
+    <div class="post-head"><img class="av" src="${identicon(p.author || "team", authorName(p))}" width="40" height="40" alt=""><div><span class="who">${userLink(authorName(p))}</span><div class="small">${esc(p.author_profession || "")}</div></div><span class="when">${esc(when(p.created_at))}</span></div>
     <h1 class="topic-title">${esc(p.title)}</h1>
-    <div>${p.pinned ? '<span class="tg MEETING">Pinned</span>' : ""}${typeTag(p.type)}${p.status !== "published" ? `<span class="tg ${p.status.toUpperCase()}">${p.status.toUpperCase()}</span>` : ""}${p.is_sample ? '<span class="tg SAMPLE">Example</span>' : ""}${b ? `<a class="ht" href="${spaceHref(b.id)}">${esc(spaceName(b))}</a>` : ""}${tagLinks(p.tags)}</div>
-    ${p.status === "pending" ? `<div class="notice" style="margin-top:12px">This post is waiting for a moderator. Posts from accounts without a university email are checked until three have been approved.${mine ? " You'll get a notification under the bell when it's approved." : ""}</div>` : ""}
+    <div>${p.pinned ? '<span class="tg MEETING">Pinned</span>' : ""}${typeTag(p.type)}${statusTag}${p.is_sample ? '<span class="tg SAMPLE">Example</span>' : ""}${recipe && !isTested(p) ? '<span class="tg STALE">Not tested yet</span>' : ""}${b ? `<a class="ht" href="${spaceHref(b.id)}">${esc(spaceName(b))}</a>` : ""}${tagLinks(p.tags)}</div>
+    ${p.status === "pending" ? `<div class="notice" style="margin-top:12px">This story is waiting for a moderator. Stories from new members are checked until three have been approved, and stories in /money, /health-admin and /complaints are always checked. This usually takes up to 2 working days.${mine ? " You'll get a notification under the bell when it's approved." : ""}</div>` : ""}
+    ${p.status === "draft" ? `<div class="notice" style="margin-top:12px">Draft. Only admins can see it. Test it, then edit it and press Publish.</div>` : ""}
     ${S.justPosted === p.id && mine && p.status === "published" ? justPostedPanel(p, b) : ""}
-    ${parent.data ? `<div class="small" style="margin-top:8px">Forked from <a href="#t-${esc(parent.data.id)}">${esc(parent.data.title)}</a></div>` : ""}
-    ${topicStats(p)}
-    ${p.body ? `<pre class="topic-body">${esc(p.body)}</pre>` : ""}
+    ${recipe ? recipeBody(p, linked) : `${storyFacts(p)}${p.body ? `<h2 class="h3" style="margin-top:16px">What happened</h2><pre class="topic-body">${esc(p.body)}</pre>` : ""}${storyPrompt(p)}`}
     ${(p.screenshots || []).length ? `<div class="shots">${p.screenshots.map((s, i) => `<a href="${esc(shotUrl(s))}" target="_blank" rel="noopener"><img src="${esc(shotUrl(s))}" alt="Screenshot ${i + 1} shared by the author" loading="lazy"></a>`).join("")}</div>` : ""}
-    ${renderCard(p)}
+    ${!recipe && linked.length ? `<div class="okmsg small" style="margin-top:12px">This story helped us write a recipe: ${linked.map(x => `<a href="#t-${esc(x.id)}">${esc(x.title)}</a>`).join(", ")}</div>` : ""}
     <div class="trybar" style="margin-top:18px">
-      ${p.type === "MOTION" ? motionBar(p) : (S.me && p.status === "published" ? `<button class="btn ${S.myLikes.has(p.id) ? "on" : ""}${S.pop === p.id ? " pop" : ""}" id="likeBtn" aria-pressed="${S.myLikes.has(p.id)}">${svg(IC.heart)}${S.myLikes.has(p.id) ? "Liked" : "Like"}</button>` : "")} ${p.type !== "MOTION" && p.likes ? `<span class="likes">${p.likes} ${p.likes === 1 ? "like" : "likes"}</span>` : ""}
-      ${TRYABLE.includes(p.type) && nTries ? `<span class="likes">${tryMeter(p)}</span>` : ""}
+      ${!recipe && S.me && p.status === "published" ? `<button class="btn ${S.myLikes.has(p.id) ? "on" : ""}${S.pop === p.id ? " pop" : ""}" id="likeBtn" aria-pressed="${S.myLikes.has(p.id)}">${svg(IC.heart)}${S.myLikes.has(p.id) ? "Liked" : "Like"}</button>` : ""} ${!recipe && p.likes ? `<span class="likes">${p.likes} ${p.likes === 1 ? "like" : "likes"}</span>` : ""}
+      ${recipe ? `<span class="likes">${workedMeter(p)}</span>` : ""}
     </div>
-    ${canTry ? `<div class="box" style="margin:16px 0 0;background:var(--soft)"><h2 class="h3">I tried this</h2><div class="in">
-       <div class="trybar">${[["worked", "It worked"], ["partly", "Partly worked"], ["failed", "Didn't work"]].map(([k, l]) => `<label><input type="radio" name="tr" value="${k}"${myTry && myTry.result === k ? " checked" : ""}> ${l}</label>`).join(" ")}</div>
-       <input type="text" id="trNote" maxlength="500" placeholder="Optional: what was different at your institution?" value="${esc(myTry ? myTry.note : "")}" style="margin-top:8px">
-       <div style="margin-top:8px" class="trybar"><button class="btn blue" id="trSave">${myTry ? "Update" : "Save"}</button>${myTry ? `<button class="btn danger" id="trDel">Remove my try</button>` : ""}<span id="trMsg" class="small"></span></div></div></div>`
-      : (!S.me && TRYABLE.includes(p.type) && p.status === "published" ? `<div class="box" style="margin:16px 0 0;background:var(--soft)"><h2 class="h3">I tried this</h2><div class="in">
-       <div class="trybar">${[["worked", "It worked"], ["partly", "Partly worked"], ["failed", "Didn't work"]].map(([k, l]) => `<label><input type="radio" name="tr" value="${k}"> ${l}</label>`).join(" ")}</div>
-       <input type="text" id="trNote" maxlength="500" placeholder="Optional: what was different at your institution?" aria-label="Note about your try" style="margin-top:8px">
-       <div style="margin-top:8px" class="trybar"><button class="btn primary" data-trygo="join">Join to save</button><button class="btn" data-trygo="login">Log in to save</button><span id="trMsg" class="small"></span></div>
-       <div class="small" style="margin-top:6px">We'll keep your answer and save it once you're in.</div></div></div>` : "")}
+    ${canRate ? feedbackBox(p, myTry) : ""}
     <div class="trybar small" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line)">
+      ${recipe ? `<button class="btn" id="printBtn">Print this recipe</button>` : ""}
       ${canSave ? (mySaved ? `<a class="btn on" href="#lib-${esc(mySaved.id)}">${svg(IC.book)}In your library</a>` : `<button class="btn" id="libSave">${svg(IC.book)}Save to library</button>`) : ""}
-      ${S.me && TYPES_BUILD.includes(p.type) && p.status === "published" ? `<a class="btn" href="#fork-${esc(p.id)}">Fork this setup</a>` : ""}
-      ${mine && TYPES_BUILD.includes(p.type) ? `<button class="btn" id="retest">I've re-tested this</button>` : ""}
-      ${S.me && !mine ? `<button class="btn" id="reportPost">Report</button>` : ""}
-      ${mine || (S.me && S.me.role === "admin") ? `<button class="btn danger" id="delPost">Delete</button>` : ""}
-      ${mod ? `<span class="trybar">Moderator: ${p.status !== "published" ? `<button class="btn" data-modset="published">Approve</button>` : ""}${p.status !== "removed" ? `<button class="btn danger" data-modset="removed">Remove</button>` : ""}${S.me.role === "admin" ? `<button class="btn" id="pinBtn">${p.pinned ? "Unpin" : "Pin"}</button>` : ""}</span>` : ""}
+      ${!mine ? (S.me ? `<button class="btn" id="reportPost">Report</button>` : `<a class="btn" href="#login">Report</a>`) : ""}
+      ${admin && !recipe && p.status === "published" ? `<a class="btn" href="#recipe-from-${esc(p.id)}" id="toRecipe">Turn into recipe</a>` : ""}
+      ${admin && recipe ? `<a class="btn" href="#recipe-edit-${esc(p.id)}">Edit recipe</a>` : ""}
+      ${mine || admin ? `<button class="btn danger" id="delPost">Delete</button>` : ""}
+      ${mod ? `<span class="trybar">Moderator: ${p.status === "pending" || p.status === "removed" ? `<button class="btn" data-modset="published">Approve</button>` : ""}${p.status === "draft" && admin ? `<button class="btn" data-modset="published">Publish</button>` : ""}${p.status !== "removed" ? `<button class="btn danger" data-modset="removed">Take down</button>` : ""}${admin ? `<button class="btn" id="pinBtn">${p.pinned ? "Unpin" : "Pin"}</button>` : ""}</span>` : ""}
       <span id="actMsg"></span>
     </div>
-    ${(forks.data || []).length ? `<div class="small" style="margin-top:10px">Forks: ${(forks.data).map(f => `<a href="#t-${esc(f.id)}">${esc(f.title)}</a>`).join(", ")}</div>` : ""}
    </article>
    <section class="card card-pad"><h2 class="h3">${rl} ${rl === 1 ? "reply" : "replies"}</h2>`;
   (tries.data || []).filter(t => t.note).slice(0, 10).forEach(t => {
-    const [lbl, cls] = tryLbl[t.result] || tryLbl.partly, hd = t.profiles && t.profiles.handle;
-    h += `<div class="reply"><img class="av" src="${identicon(t.user_id || hd, hd)}" width="34" height="34" alt=""><div class="body"><div class="meta"><span class="who">${userLink(hd || "[deleted member]")}</span><span class="tg ${cls}">Try report: ${lbl}</span><span>${esc(day(t.created_at))}</span></div><pre>${esc(t.note)}</pre></div></div>`;
+    const [lbl, cls] = TRY_LBL[t.result] || TRY_LBL.failed, hd = t.profiles && t.profiles.handle;
+    h += `<div class="reply"><img class="av" src="${identicon(t.user_id || hd, hd)}" width="34" height="34" alt=""><div class="body"><div class="meta"><span class="who">${userLink(hd || "[deleted member]")}</span><span class="tg ${cls}">${lbl}</span>${t.tool_key ? `<span>${esc(TOOLS[t.tool_key] || t.tool_key)}</span>` : ""}<span>${esc(day(t.created_at))}</span></div><pre>${esc(t.note)}</pre></div></div>`;
   });
   (reps.data || []).forEach(rr => {
     const pr = rr.profiles || {};
     h += `<div class="reply"><img class="av" src="${identicon(rr.author || rr.id, pr.handle)}" width="34" height="34" alt=""><div class="body"><div class="meta"><span class="who">${userLink(pr.handle || "[deleted member]")}</span>${pr.profession ? `<span>${esc(pr.profession)}</span>` : ""}<span>${esc(when(rr.created_at))}</span>${rr.status === "removed" ? '<span class="tg REMOVED">REMOVED</span>' : ""}
-      <span class="acts">${S.me && rr.author !== S.me.id ? `<button class="btn" data-repr="${esc(rr.id)}">Report</button>` : ""}${S.me && (rr.author === S.me.id || S.me.role === "admin") ? `<button class="btn danger" data-delr="${esc(rr.id)}">Delete</button>` : ""}${mod && rr.status !== "removed" ? `<button class="btn danger" data-remr="${esc(rr.id)}">Remove</button>` : ""}</span></div>
+      <span class="acts">${!S.me ? `<a class="btn" href="#login">Report</a>` : rr.author !== S.me.id ? `<button class="btn" data-repr="${esc(rr.id)}">Report</button>` : ""}${S.me && (rr.author === S.me.id || S.me.role === "admin") ? `<button class="btn danger" data-delr="${esc(rr.id)}">Delete</button>` : ""}${mod && rr.status !== "removed" ? `<button class="btn danger" data-remr="${esc(rr.id)}">Take down</button>` : ""}</span></div>
       <pre>${esc(rr.body)}</pre></div></div>`;
   });
   if (!rl && !(tries.data || []).some(t => t.note)) h += `<div class="small" style="padding:4px 0 12px">No replies yet.</div>`;
   if (!S.me) h += `<div style="margin-top:12px">${needLogin("Replying")}</div>`;
-  else if (p.status === "published") h += `<div style="padding-top:14px;border-top:1px solid var(--line)"><label class="sr" for="rtext">Reply</label><textarea id="rtext" maxlength="4000" placeholder="Did you try it? What happened? What would you change?"></textarea>
+  else if (p.status === "published") h += `<div style="padding-top:14px;border-top:1px solid var(--line)"><label class="sr" for="rtext">Reply</label><textarea id="rtext" maxlength="4000" placeholder="${recipe ? "Did you try it? What would make it clearer?" : "Has this happened to you? What did you do?"}"></textarea>
     <div class="trybar" style="margin-top:8px"><button class="btn blue" id="rsend">Post reply</button><span class="err" id="rmsg"></span></div></div>`;
   h += `</section></div>
   <aside class="colrail rail" aria-label="About this post">
-    <div class="card card-pad"><h2 class="h3">About the author</h2>
-      <div class="person"><img class="av" src="${identicon(p.author || "team", authorName(p))}" width="44" height="44" alt=""><div class="t"><div class="n">${userLink(authorName(p))}</div><div class="s">${esc(p.author_profession || (p.is_sample ? "Example content" : "Job title not given"))}</div></div></div>
-      ${p.author_institution ? `<div class="small">${esc(p.author_institution)}</div>` : ""}
-      ${r ? `<div class="small" style="margin-top:4px">${rankOf(r.rep, r.role)} · ${r.rep} reputation</div>` : ""}
-</div>
+    <div class="card card-pad"><h2 class="h3">${recipe ? "About recipes" : "About the author"}</h2>
+      ${recipe ? `<div class="small">Recipes are written and tested by ${esc(APP_NAME)} admins with free AI tools. They are re-tested regularly, because AI tools change. ${esc(NOT_ADVICE)}</div>`
+        : `<div class="person"><img class="av" src="${identicon(p.author || "team", authorName(p))}" width="44" height="44" alt=""><div class="t"><div class="n">${userLink(authorName(p))}</div><div class="s">${esc(p.author_profession || "Member")}</div></div></div>${r ? `<div class="small" style="margin-top:4px">${rankOf(r.rep, r.role)} · ${r.rep} reputation</div>` : ""}`}
+    </div>
   </aside></div>`;
   V.innerHTML = h;
-  document.getElementById("crumbbar").innerHTML = b ? `<a href="${spaceHref(b.id)}">${esc(spaceName(b))}</a>` : "";
-  document.title = p.title + " · Townhall";
+  document.getElementById("crumbbar").innerHTML = recipe ? `<a href="#recipes">Recipes</a>` : (b ? `<a href="${spaceHref(b.id)}">${esc(spaceName(b))}</a>` : "");
+  document.title = p.title + " · " + APP_NAME;
   if (S.justPosted === p.id) {
     S.justPosted = null;
     const jc = document.getElementById("jpCopy"), jm = document.getElementById("jpMail");
     if (jc) jc.onclick = async () => { const link = SITE() + "#t-" + p.id, m = document.getElementById("jpMsg"); try { await navigator.clipboard.writeText(link); m.textContent = "Link copied."; } catch (_) { m.textContent = link; } trackEv("ev-share-copy"); };
     if (jm) jm.onclick = () => trackEv("ev-share-mail");
   }
-  bindPromptBox(p);
+  bindCopy();
+  const sm = document.getElementById("seeMore"), pt = document.getElementById("promptText");
+  if (sm) sm.onclick = () => { const o = pt.hidden; pt.hidden = !o; sm.textContent = o ? "See less" : "See more"; sm.setAttribute("aria-expanded", o); };
+  const pb2 = document.getElementById("printBtn"); if (pb2) pb2.onclick = () => window.print();
+  const msg = (id, t, ok) => { const el = document.getElementById(id); if (el) { el.className = ok ? "tries" : "err"; el.textContent = t; } };
+  const reload = () => viewTopic(id);
   const ls = document.getElementById("libSave");
   if (ls) ls.onclick = async () => { busy(ls, true);
-    const { data, error } = await sb.from("library_items").insert({ kind: "saved", source_post: p.id, type: p.type, title: p.title, body: p.body || "", prompt: p.prompt || "", tool_key: p.tool_key || "", knowledge_sources: p.knowledge_sources || [], tags: p.tags || [] }).select("id").single();
+    const { data, error } = await sb.from("library_items").insert({ kind: "saved", source_post: p.id, ...libCopy(p) }).select("id").single();
     if (error) { msg("actMsg", errMsg(error)); busy(ls, false); return; }
     toast("Saved to your library");
     const a = document.createElement("a"); a.className = "btn on"; a.href = "#lib-" + data.id; a.innerHTML = svg(IC.book) + "Saved. Open in library"; ls.replaceWith(a); };
-  const msg = (id, t, ok) => { const el = document.getElementById(id); if (el) { el.className = ok ? "tries" : "err"; el.textContent = t; } };
-  const reload = () => viewTopic(id);
   const lb = document.getElementById("likeBtn");
   if (lb) lb.onclick = async () => { lb.disabled = true; const on = S.myLikes.has(p.id);
     const { error } = on ? await sb.from("likes").delete().eq("post_id", p.id).eq("user_id", S.me.id) : await sb.from("likes").insert({ post_id: p.id });
     if (error) { msg("actMsg", errMsg(error)); lb.disabled = false; return; } on ? S.myLikes.delete(p.id) : S.myLikes.add(p.id); S.pop = on ? null : p.id; await reload(); S.pop = null; };
-  V.querySelectorAll("[data-vote]").forEach(bn => bn.onclick = async () => {
-    const v = +bn.dataset.vote, cur = S.myVotes.get(p.id); bn.disabled = true;
-    const { error } = cur === v ? await sb.from("motion_votes").delete().eq("post_id", p.id).eq("user_id", S.me.id)
-      : await sb.from("motion_votes").upsert({ post_id: p.id, user_id: S.me.id, vote: v });
-    if (error) { msg("actMsg", errMsg(error)); bn.disabled = false; return; }
-    cur === v ? S.myVotes.delete(p.id) : S.myVotes.set(p.id, v); reload(); });
-  V.querySelectorAll('input[name="tr"]').forEach(r => r.addEventListener("change", () => { const m = document.getElementById("trMsg"); if (m) m.textContent = ""; }));
-  V.querySelectorAll("[data-trygo]").forEach(b => b.onclick = () => {
-    const sel = V.querySelector('input[name="tr"]:checked');
-    if (!sel) { msg("trMsg", "Choose how it went first."); return; }
-    remember("th-pendtry", { post_id: p.id, result: sel.value, note: document.getElementById("trNote").value.trim() });
-    location.hash = b.dataset.trygo;
+  V.querySelectorAll('input[name="tr"]').forEach(x => x.addEventListener("change", () => { const m = document.getElementById("trMsg"); if (m) m.textContent = ""; const hn = document.getElementById("trNoteHint"); if (hn) hn.textContent = x.value === "failed" ? "Tell us where it went wrong so we can fix the recipe." : ""; }));
+  const tryRow = () => { const sel = V.querySelector('input[name="tr"]:checked'); return sel ? { result: sel.value, note: document.getElementById("trNote").value.trim(), tool_key: document.getElementById("trTool").value } : null; };
+  V.querySelectorAll("[data-trygo]").forEach(bt => bt.onclick = () => {
+    const t = tryRow(); if (!t) { msg("trMsg", "Choose whether it worked first."); return; }
+    remember("th-pendtry", { post_id: p.id, ...t });
+    location.hash = bt.dataset.trygo;
   });
   const ts = document.getElementById("trSave");
-  if (ts) ts.onclick = async () => { const sel = V.querySelector('input[name="tr"]:checked'); if (!sel) { msg("trMsg", "Pick how it went first."); return; }
-    busy(ts, true); const { error } = await sb.from("tries").upsert({ post_id: p.id, user_id: S.me.id, result: sel.value, note: document.getElementById("trNote").value.trim() });
-    if (error) { msg("trMsg", errMsg(error)); busy(ts, false); return; } await reload(); toast("Thanks. Your try is recorded."); };
+  if (ts) ts.onclick = async () => { const t = tryRow(); if (!t) { msg("trMsg", "Choose whether it worked first."); return; }
+    const w = blockedOnly(piiWarnings(t.note)); if (w) { msg("trMsg", "Remove " + w + " first."); return; }
+    busy(ts, true); const { error } = await sb.from("tries").upsert({ post_id: p.id, user_id: S.me.id, ...t });
+    if (error) { msg("trMsg", errMsg(error)); busy(ts, false); return; } await reload(); toast("Thanks. Your answer is recorded."); };
   const td = document.getElementById("trDel");
   if (td) td.onclick = async () => { await sb.from("tries").delete().eq("post_id", p.id).eq("user_id", S.me.id); reload(); };
-  const rt = document.getElementById("retest");
-  if (rt) rt.onclick = () => inlinePrompt(rt, "Model or version you re-tested with", p.model_version, async v => {
-    const { error } = await sb.from("posts").update({ tested_on: new Date().toISOString().slice(0, 10), model_version: v.slice(0, 80) }).eq("id", p.id);
-    if (error) msg("actMsg", errMsg(error)); else reload(); });
   const rp = document.getElementById("reportPost");
   if (rp) rp.onclick = () => inlinePrompt(rp, "Why are you reporting this?", "", async v => {
     const { error } = await sb.from("reports").insert({ post_id: p.id, reason: v.slice(0, 300) });
@@ -637,16 +610,21 @@ async function viewTopic(id) {
   if (rs) rs.onclick = async () => {
     const v = document.getElementById("rtext").value.trim();
     if (v.length < 2) { msg("rmsg", "Write something first."); return; }
-    const w = piiWarnings(v).filter(x => x.includes("blocked"));
-    if (w.length) { msg("rmsg", "Remove " + w.join(", ").replace(/ \(this will be blocked\)/g, "") + " first."); return; }
+    const w = blockedOnly(piiWarnings(v));
+    if (w) { msg("rmsg", "Remove " + w + " first."); return; }
     busy(rs, true); const { error } = await sb.from("replies").insert({ post_id: p.id, body: v });
     if (error) { msg("rmsg", errMsg(error)); busy(rs, false); return; } await reload(); toast("Reply posted");
   };
 }
-function motionBar(p) {
-  const my = S.myVotes.get(p.id);
-  return `<span class="vote">Score <b>${p.vote_score > 0 ? "+" : ""}${p.vote_score}</b> from ${p.vote_count} votes</span>
-    ${S.me && p.status === "published" ? `<button class="btn ${my === 1 ? "on" : ""}" data-vote="1" aria-pressed="${my === 1}">For</button><button class="btn ${my === -1 ? "on" : ""}" data-vote="-1" aria-pressed="${my === -1}">Against</button>` : ""}`;
+function bindCopy() {
+  V.querySelectorAll("button.copy[data-copy]").forEach(cp => cp.onclick = async () => {
+    try { await navigator.clipboard.writeText(cp.dataset.copy); cp.textContent = "Copied"; toast("Prompt copied"); } catch (_) { cp.textContent = "Select and copy"; }
+    setTimeout(() => { if (cp.isConnected) cp.textContent = "Copy"; }, 2000); });
+}
+// What goes into the library when you save a post
+function libCopy(p) {
+  const prompt = p.type === "RECIPE" ? (p.prompts || []).map(x => (x.label ? x.label + ":\n" : "") + x.text).join("\n\n") : (p.prompt || "");
+  return { type: p.type, title: p.title, body: p.type === "RECIPE" ? p.task || "" : p.body || "", prompt, tool_key: p.type === "RECIPE" ? "" : p.tool_key || "", tags: p.tags || [] };
 }
 function inlinePrompt(anchor, label, value, onOk) {
   const box = document.createElement("span");
@@ -663,7 +641,7 @@ function confirmTwice(btn, fn) {
   setTimeout(() => { if (btn.isConnected) { delete btn.dataset.armed; btn.textContent = old; } }, 4000);
 }
 
-// ================= posting =================
+// ================= sharing a story =================
 const fld = (id, label, input, hint = "", cls = "") => `<div class="fld ${cls}"><label for="${id}">${label}</label>${hint ? `<div class="hint">${hint}</div>` : ""}${input}</div>`;
 async function shrinkImage(file) {
   const img = await createImageBitmap(file);
@@ -678,78 +656,49 @@ async function shrinkImage(file) {
   return blob;
 }
 const rid = () => Array.from(crypto.getRandomValues(new Uint8Array(12)), b => "abcdefghijklmnopqrstuvwxyz0123456789"[b % 36]).join("");
-const DUMMY_NOTE = `<b>No real data, anywhere in your post.</b> Townhall is public. Before you share, replace anything real in your prompt, agent instructions, knowledge sources, examples and screenshots with dummy data: made-up names, fake student IDs, sample figures, "Module ABC123". No personal data, no confidential institutional information, no internal links or file paths. <a href="#safe-sharing">What you can safely share</a>.`;
-async function viewPost(boardId, forkId) {
-  if (!S.me) { V.innerHTML = crumb("Share a build") + needLogin("Posting"); return; }
-  if (S.me.banned) { V.innerHTML = crumb("Share a build") + `<div class="notice">Your account is suspended.</div>`; return; }
-  let src = null;
-  if (forkId) { const { data } = await sb.from("posts").select("*").eq("id", forkId).maybeSingle(); src = data; }
-  const pre = !src && S.prefill ? S.prefill : null; S.prefill = null;
-  const isAdmin = S.me.role === "admin";
-  const types = isAdmin ? [...TYPES_ALL, "MEETING"] : TYPES_ALL;
-  const def = src ? src.board_id : (boardId || "");
-  const spaces = S.boards.filter(b => b.id !== "townhall");
-  const ks = (src || pre) ? ((src || pre).knowledge_sources || []).map(k => ({ ...k })) : [];
+const DUMMY_NOTE = `<b>Leave out anything personal.</b> Everything you post is public. Don't include your name, address, postcode, phone number, email, bank or card details, National Insurance number, or account and reference numbers. Write [my postcode] or [account number] instead. The same goes for screenshots. <a href="#safe-sharing">What you can safely share</a>.`;
+async function viewPost(boardId) {
+  if (!S.me) { V.innerHTML = crumb("Share a story") + needLogin("Sharing a story"); return; }
+  if (S.me.banned) { V.innerHTML = crumb("Share a story") + `<div class="notice">Your account is suspended.</div>`; return; }
+  const pre = S.prefill || null; S.prefill = null;
+  const def = boardId || "";
   const shots = [];
-  V.innerHTML = `${crumb(src ? "Fork a setup" : "Share a build")}
-  ${src ? `<div class="okmsg">Forking <a href="#t-${esc(src.id)}">${esc(src.title)}</a>. Change what you did differently. The original author gets credit automatically.</div>` : ""}
-  ${pre ? `<div class="okmsg">Publishing your library draft. Pick a space, add the numbers, then publish. Your draft stays in your library.</div>` : ""}
+  V.innerHTML = `${crumb("Share how AI helped you")}
+  ${pre ? `<div class="okmsg">Publishing your library draft. Check each part, then publish. Your draft stays in your library.</div>` : ""}
+  ${isAdmin() ? `<div class="okmsg small">You're an admin. To write a tested guide instead, <a href="#recipe-new">write a recipe</a>.</div>` : ""}
   <div class="notice dummy">${DUMMY_NOTE}</div>
   <form id="pf" novalidate>
-   <section class="card card-pad fsec"><h2 class="h3">Where it goes</h2><div class="fgrid">
-    ${fld("pfB", "Space", `<select id="pfB"><option value="">Choose a space...</option>${spaces.map(b => `<option value="${esc(b.id)}"${b.id === def ? " selected" : ""}>${esc(spaceName(b))}: ${esc(b.descr)}</option>`).join("")}</select>`, "Pick the task it helps with, not the tool. Use /other if nothing fits.", "boardrow")}
-    ${fld("pfT", "Type", `<select id="pfT">${types.map(t => `<option${src && src.type === t ? " selected" : (!src && boardId === "townhall" && t === "MOTION" ? " selected" : "")}>${t}</option>`).join("")}</select>`, "WORKFLOW: something you do regularly. AGENT: a Copilot or other agent. TOOL: something you built. FAIL: what went wrong. QUESTION: ask colleagues.")}
-   </div></section>
-   <section class="card card-pad fsec"><h2 class="h3">What you built</h2>
-    ${fld("pfS", "Title", `<input type="text" id="pfS" maxlength="120" placeholder="e.g. Exam board papers: 3 hours down to 45 minutes" value="${esc(src ? src.title + " (fork)" : "")}">`)}
-    ${fld("pfM", "Description", `<textarea id="pfM" maxlength="8000" placeholder="What it does, who it's for, and how you use it day to day.">${esc(src ? src.body : "")}</textarea>`, "Shown as the summary on the feed.")}
-    <div class="fld"><label for="shotIn">Screenshots <span class="small">(optional, up to 3)</span></label>
-     <div class="hint">Upload or paste (Ctrl+V). Use screenshots of a test run with dummy data. Images are resized and their hidden metadata removed before upload.</div>
+   <section class="card card-pad fsec"><h2 class="h3">Your story</h2>
+    ${fld("pfS", "Title", `<input type="text" id="pfS" maxlength="120" placeholder="e.g. ChatGPT helped me reply to a council tax letter">`)}
+    <div class="fgrid">
+    ${fld("pfB", "Space", `<select id="pfB"><option value="">Choose a space...</option>${S.boards.map(b => `<option value="${esc(b.id)}"${b.id === def ? " selected" : ""}>${esc(spaceName(b))}: ${esc(b.descr)}</option>`).join("")}</select>`, "Pick the job, not the tool. A moderator checks stories in /money, /health-admin and /complaints before they go live.")}
+    ${fld("c8", "AI tool", `<select id="c8"><option value="">Choose...</option>${Object.entries(TOOLS).map(([k, v]) => `<option value="${k}">${esc(v)}</option>`).join("")}</select>`)}
+    </div>
+    ${fld("c1", "What I needed to do", `<input type="text" id="c1" maxlength="300" placeholder="e.g. Understand a letter about my council tax and reply to it">`, "In plain words")}
+    ${fld("pfP", `Roughly what I typed <span class="small">(optional)</span>`, `<textarea id="pfP" maxlength="8000" style="min-height:120px;font-family:ui-monospace,Menlo,monospace;font-size:14px"></textarea>`, "Readers see this when they press See more. Take out anything personal first.")}
+    ${fld("pfM", "What happened", `<textarea id="pfM" maxlength="8000" placeholder="What the AI did, what was good, and what it got wrong."></textarea>`, "Shown as the summary on the feed.")}
+    ${fld("pfC", `What I checked before using the answer <span class="small">(optional)</span>`, `<textarea id="pfC" maxlength="2000" style="min-height:80px" placeholder="e.g. I checked the deadline on GOV.UK and rang the council to confirm."></textarea>`)}
+    <div class="fld"><label for="shotIn">Screenshot <span class="small">(optional, up to 3)</span></label>
+     <div class="hint">Upload or paste (Ctrl+V). Crop out anything personal. Images are resized and their hidden metadata removed before upload.</div>
      <div class="shotpick"><label class="btn" for="shotIn">Add screenshot</label><input type="file" id="shotIn" accept="image/png,image/jpeg,image/webp" multiple class="sr"><span class="small" id="shotMsg"></span></div>
      <div class="shotprev" id="shotPrev"></div>
-     <label class="chk" id="shotOkRow" style="display:none"><input type="checkbox" id="shotOk"> These screenshots show only dummy data: no real names, emails, IDs, marks or internal details are visible.</label></div>
-   </section>
-   <section class="card card-pad fsec bld"><h2 class="h3">The numbers</h2><div class="fgrid">
-    ${fld("c8", "Tool", `<select id="c8"><option value="">Choose...</option>${Object.entries(TOOLS).map(([k, v]) => `<option value="${k}"${src && src.tool_key === k ? " selected" : ""}>${esc(v)}</option>`).join("")}</select>`)}
-    ${fld("c2", "Plan or licence", `<input type="text" id="c2" maxlength="120" placeholder="e.g. institution licence">`, "Optional")}
-    ${fld("c6", "Model or version", `<input type="text" id="c6" maxlength="80" value="${esc(src ? src.model_version : "")}">`, 'Optional, e.g. "Copilot, Nov 2026"')}
-    ${fld("c1", "Task", `<input type="text" id="c1" maxlength="300" value="${esc(src ? src.task : "")}">`, "In plain words")}
-    ${fld("c3", "Minutes before", `<input type="number" id="c3" min="0" max="100000" inputmode="numeric">`, "How long it took without AI")}
-    ${fld("c4", "Minutes after", `<input type="number" id="c4" min="0" max="100000" inputmode="numeric">`, "Including checking the output")}
-    ${fld("c7", "Data that went in", `<select id="c7"><option value="">Choose...</option>${Object.entries(DATA_CLASS).map(([k, v]) => `<option value="${k}"${src && src.data_class === k ? " selected" : ""}>${esc(v)}</option>`).join("")}</select>`, "What the tool handles when you use it. Your post itself must still use dummy data.")}
-    ${fld("c5", "What went wrong", `<input type="text" id="c5" maxlength="400">`, "Required. Something always does.")}
-   </div></section>
-   <section class="card card-pad fsec bldp"><h2 class="h3" id="promptHead">Prompt or setup</h2>
-    ${fld("pfP", `<span id="promptLbl">Prompt</span> <span class="small">(optional)</span>`, `<textarea id="pfP" maxlength="8000" style="min-height:160px;font-family:ui-monospace,Menlo,monospace;font-size:14px">${esc(src ? src.prompt : "")}</textarea>`, "Long prompts are folded on the post. Readers press See more to open them. Swap any real names, examples or figures for dummy ones.")}
-    <div class="fld ksbox"><label>Knowledge sources <span class="small" id="ksReq">(optional)</span></label>
-     <div class="hint">What the agent or tool reads from. Describe each in words, e.g. "Published regulations pages" or "Sample marking rubric (dummy)". No internal links, file paths, site names or tenant details.</div>
-     <div id="ksList"></div><button type="button" class="btn" id="ksAdd" style="margin-top:8px">+ Add a source</button></div>
+     <label class="chk" id="shotOkRow" style="display:none"><input type="checkbox" id="shotOk"> These screenshots show nothing personal: no names, addresses, account numbers or reference numbers.</label></div>
    </section>
    <section class="card card-pad fsec"><h2 class="h3">Finish</h2>
-    ${fld("pfH", "Hashtags <span class='small'>(optional)</span>", `<input type="text" id="pfH" placeholder="#rubrics #minutes" value="${esc(src ? (src.tags || []).map(t => "#" + t).join(" ") : "")}"><div class="chips" style="margin-top:6px">${SUGGEST.map(t => `<a href="#" class="ht" data-tag="${t}">#${t}</a>`).join("")}</div>`)}
+    ${fld("pfH", "Hashtags <span class='small'>(optional)</span>", `<input type="text" id="pfH" placeholder="#energy #complaint"><div class="chips" style="margin-top:6px">${SUGGEST.map(t => `<a href="#" class="ht" data-tag="${t}">#${t}</a>`).join("")}</div>`)}
     <div id="pii" class="small"></div>
-    <label class="chk"><input type="checkbox" id="pfOk"> I've replaced any real data with dummy data. There are no names, student or staff details, or confidential information in my prompt, knowledge sources, description or screenshots.</label>
-    <div class="hint" style="margin-top:8px">Everything you post is shared under <a href="#terms">CC BY 4.0</a>: colleagues can reuse and adapt it with credit to you.</div>
+    <label class="chk"><input type="checkbox" id="pfOk"> I've left out or changed anything personal, about me or anyone else.</label>
+    <div class="hint" style="margin-top:8px">Everything you post is shared under <a href="#terms">CC BY 4.0</a>: others can reuse it with credit to you. ${esc(NOT_ADVICE)}</div>
     <div class="trybar" style="margin-top:14px"><button class="btn blue" type="submit" id="pfGo">Publish</button><span class="err" id="pfMsg" role="alert"></span></div>
-    ${!isAdmin ? `<div class="hint" style="margin-top:6px">${S.me.ac_verified ? "Your university email means your posts go live straight away. The personal-data checks still apply." : "A moderator approves your posts before they go live, until three have been approved. Accounts with a university email (.ac.uk) skip this."}. Links unlock at 5 reputation.</div>` : ""}
+    ${!isAdmin() ? `<div class="hint" style="margin-top:6px">A moderator checks your first three stories before they go live, usually within 2 working days. After that they go live straight away, except in /money, /health-admin and /complaints. Links unlock at 5 reputation.</div>` : ""}
    </section>
   </form>`;
   const g = id => document.getElementById(id).value.trim();
   if (pre) {
     const set = (id, v) => { const el = document.getElementById(id); if (el && v != null) el.value = v; };
-    set("pfT", pre.type); set("pfS", pre.title); set("pfM", pre.body); set("pfP", pre.prompt); set("c8", pre.tool_key);
+    set("pfS", pre.title); set("pfM", pre.body); set("pfP", pre.prompt); set("c8", pre.tool_key);
     set("pfH", (pre.tags || []).map(t => "#" + t).join(" "));
   }
-  const ksList = document.getElementById("ksList");
-  const drawKs = () => {
-    ksList.innerHTML = ks.map((k, i) => `<div class="ksrow"><select data-ksk="${i}" aria-label="Source type">${Object.entries(KS).map(([v, l]) => `<option value="${v}"${k.kind === v ? " selected" : ""}>${esc(l)}</option>`).join("")}</select><input type="text" data-ksn="${i}" maxlength="300" placeholder="Describe it in words" value="${esc(k.note || "")}" aria-label="Describe this source"><button type="button" class="btn" data-ksr="${i}">Remove</button></div>`).join("") || `<div class="small">None added yet.</div>`;
-    document.getElementById("ksAdd").disabled = ks.length >= 10;
-  };
-  ksList.addEventListener("input", e => { const t = e.target; if (t.dataset.ksn) ks[+t.dataset.ksn].note = t.value; piiCheck(); });
-  ksList.addEventListener("change", e => { const t = e.target; if (t.dataset.ksk) ks[+t.dataset.ksk].kind = t.value; });
-  ksList.addEventListener("click", e => { const t = e.target.closest("[data-ksr]"); if (t) { ks.splice(+t.dataset.ksr, 1); drawKs(); } });
-  document.getElementById("ksAdd").onclick = () => { if (ks.length < 10) { ks.push({ kind: "website", note: "" }); drawKs(); ksList.querySelector(`[data-ksn="${ks.length - 1}"]`).focus(); } };
-  drawKs();
   const shotMsg = t => document.getElementById("shotMsg").textContent = t || "";
   const drawShots = () => {
     document.getElementById("shotPrev").innerHTML = shots.map((s, i) => `<div class="shot"><img src="${s.url}" alt="Screenshot ${i + 1}"><button type="button" class="btn" data-rmshot="${i}" aria-label="Remove screenshot ${i + 1}">Remove</button></div>`).join("");
@@ -769,37 +718,25 @@ async function viewPost(boardId, forkId) {
   shotIn.onchange = async () => { await addFiles([...shotIn.files]); shotIn.value = ""; };
   document.getElementById("pf").addEventListener("paste", e => { const fs = [...(e.clipboardData || {}).files || []].filter(f => f.type.startsWith("image/")); if (fs.length) { e.preventDefault(); addFiles(fs); } });
   document.getElementById("shotPrev").onclick = e => { const b = e.target.closest("[data-rmshot]"); if (b) { const [s] = shots.splice(+b.dataset.rmshot, 1); URL.revokeObjectURL(s.url); drawShots(); } };
-  const sync = () => {
-    const t = g("pfT"), build = TYPES_BUILD.includes(t), civic = t === "MOTION" || t === "MEETING";
-    V.querySelectorAll(".bld").forEach(r => r.style.display = build ? "" : "none");
-    V.querySelector(".bldp").style.display = civic ? "none" : "";
-    V.querySelector(".ksbox").style.display = build ? "" : "none";
-    V.querySelector(".boardrow").style.display = civic ? "none" : "";
-    document.getElementById("promptLbl").textContent = t === "AGENT" ? "Agent instructions" : t === "TOOL" ? "Prompt or setup" : "Prompt";
-    document.getElementById("promptHead").textContent = t === "AGENT" ? "Agent setup" : "Prompt or setup";
-    document.getElementById("ksReq").textContent = t === "AGENT" ? "(at least one)" : "(optional)";
-  };
+  const allText = () => [g("pfS"), g("pfM"), g("pfP"), g("c1"), g("pfC")].join(" ");
   const piiCheck = () => {
-    const w = piiWarnings([g("pfS"), g("pfM"), g("pfP"), g("c1"), g("c2"), g("c5"), ks.map(k => k.note).join(" ")].join(" "));
-    document.getElementById("pii").innerHTML = w.length ? `<div class="notice">This post may contain ${w.map(esc).join("; ")}. Swap it for dummy data.</div>` : "";
+    const w = piiWarnings(allText());
+    document.getElementById("pii").innerHTML = w.length ? `<div class="notice">Your story may contain ${w.map(esc).join("; ")}. Take it out or write something like [my postcode] instead.</div>` : "";
   };
-  document.getElementById("pfT").onchange = sync; sync();
   V.querySelectorAll("#pf input[type=text], #pf textarea").forEach(el => el.addEventListener("input", piiCheck));
   V.querySelectorAll("[data-tag]").forEach(a => a.onclick = e => { e.preventDefault(); const i = document.getElementById("pfH"); const cur = parseTags(i.value); if (!cur.includes(a.dataset.tag)) { cur.push(a.dataset.tag); i.value = cur.map(t => "#" + t).join(" "); } });
   document.getElementById("pf").onsubmit = async e => {
     e.preventDefault(); const m = document.getElementById("pfMsg"); m.textContent = "";
-    const type = g("pfT"), build = TYPES_BUILD.includes(type), civic = type === "MOTION" || type === "MEETING";
     const tags = parseTags(g("pfH") + " " + (g("pfM").match(/#[a-z0-9-]+/gi) || []).join(" "));
-    const sources = ks.map(k => ({ kind: k.kind, note: (k.note || "").trim() })).filter(k => k.note || k.kind === "instructions-only");
-    if (!civic && !g("pfB")) { m.textContent = "Choose a space."; return; }
     if (g("pfS").length < 3) { m.textContent = "Add a title."; return; }
-    if (g("pfM").length < 20) { m.textContent = "Add a short description (at least a sentence)."; return; }
-    if (build && (!g("c8") || !g("c1") || g("c3") === "" || g("c4") === "" || !g("c5") || !g("c7"))) { m.textContent = "Build posts need the tool, task, both times, the data used and what went wrong."; return; }
-    if (type === "AGENT" && !sources.length) { m.textContent = 'Add at least one knowledge source, or "Instructions only".'; return; }
-    if (shots.length && !document.getElementById("shotOk").checked) { m.textContent = "Confirm the screenshots show only dummy data."; return; }
-    if (!document.getElementById("pfOk").checked) { m.textContent = "Tick the box to confirm you've used dummy data."; return; }
-    const blocked = piiWarnings([g("pfS"), g("pfM"), g("pfP"), g("c1"), g("c5"), sources.map(k => k.note).join(" ")].join(" ")).filter(x => x.includes("blocked"));
-    if (blocked.length) { m.textContent = "Remove " + blocked.join(", ").replace(/ \(this will be blocked\)/g, "") + " first."; return; }
+    if (!g("pfB")) { m.textContent = "Choose a space."; return; }
+    if (!g("c8")) { m.textContent = "Choose the AI tool you used."; return; }
+    if (!g("c1")) { m.textContent = "Say what you needed to do."; return; }
+    if (g("pfM").length < 20) { m.textContent = "Say what happened (at least a sentence)."; return; }
+    const blocked = blockedOnly(piiWarnings(allText()));
+    if (blocked) { m.textContent = "Remove " + blocked + " first. Write something like [my postcode] instead."; return; }
+    if (shots.length && !document.getElementById("shotOk").checked) { m.textContent = "Confirm the screenshots show nothing personal."; return; }
+    if (!document.getElementById("pfOk").checked) { m.textContent = "Tick the box to confirm you've left out anything personal."; return; }
     const btn = document.getElementById("pfGo"); busy(btn, true);
     const paths = [];
     for (const s of shots) {
@@ -808,20 +745,108 @@ async function viewPost(boardId, forkId) {
       if (error) { if (paths.length) await sb.storage.from("shots").remove(paths); m.textContent = "Screenshot upload failed: " + errMsg(error); busy(btn, false); return; }
       paths.push(path);
     }
-    const row = { board_id: civic ? "townhall" : g("pfB"), type, title: g("pfS"), tags, body: g("pfM"), prompt: civic ? "" : g("pfP"), screenshots: paths };
-    if (build) Object.assign(row, { tool_key: g("c8"), tool: TOOLS[g("c8")] + (g("c2") ? ` (${g("c2")})` : ""), task: g("c1"), model_version: g("c6"), minutes_before: parseInt(g("c3"), 10), minutes_after: parseInt(g("c4"), 10), what_wrong: g("c5"), data_class: g("c7"), knowledge_sources: sources });
-    if (src) row.forked_from = src.id;
+    const row = { board_id: g("pfB"), type: "STORY", title: g("pfS"), tags, body: g("pfM"), prompt: g("pfP"), task: g("c1"), tool_key: g("c8"), tool: TOOLS[g("c8")], checks: g("pfC"), screenshots: paths };
     const { data, error } = await sb.from("posts").insert(row).select("id,status").single();
     if (error) { if (paths.length) await sb.storage.from("shots").remove(paths); m.textContent = errMsg(error); busy(btn, false); return; }
     shots.forEach(s => URL.revokeObjectURL(s.url));
     if (pre && pre.libId) await sb.from("library_items").update({ published_post: data.id }).eq("id", pre.libId);
-    pendingToast(data.status === "pending" ? "Sent for approval. A moderator will check it soon." : "Published");
+    pendingToast(data.status === "pending" ? "Sent for approval. A moderator will check it, usually within 2 working days." : "Published");
     S.justPosted = data.id;
     location.hash = "t-" + data.id;
   };
 }
 
-// ================= notifications, CPD export, metrics =================
+// ================= writing a recipe (admins) =================
+async function viewRecipeForm(editId, fromStory) {
+  if (!isAdmin()) return viewNotFound("Only admins can write recipes.");
+  let p = null, story = null, sources = [];
+  if (editId) {
+    p = (await sb.from("post_feed").select("*").eq("id", editId).maybeSingle()).data;
+    if (!p || p.type !== "RECIPE") return viewNotFound("That recipe doesn't exist.");
+    const ids = ((await sb.from("recipe_sources").select("story_id").eq("recipe_id", editId)).data || []).map(r => r.story_id);
+    if (ids.length) sources = (await sb.from("post_feed").select("id,title").in("id", ids)).data || [];
+  } else if (fromStory) {
+    story = (await sb.from("post_feed").select("*").eq("id", fromStory).maybeSingle()).data;
+    if (!story || story.type !== "STORY") return viewNotFound("That story doesn't exist.");
+    sources = [{ id: story.id, title: story.title }];
+  }
+  const v = p || (story ? { title: story.title, board_id: story.board_id, task: story.task, tools: story.tool_key ? [story.tool_key] : [], prompts: story.prompt ? [{ label: "What to type", text: story.prompt }] : [], tags: story.tags || [] } : {});
+  const prompts = (v.prompts || []).map(x => ({ ...x })), checks = (v.how_to_check || []).map(x => ({ ...x }));
+  if (!prompts.length) prompts.push({ label: "", text: "" });
+  const toolBoxes = (name, on) => Object.entries(TOOLS).map(([k, l]) => `<label class="chk" style="display:inline-flex;margin-right:14px"><input type="checkbox" name="${name}" value="${k}"${(on || []).includes(k) ? " checked" : ""}> ${esc(l)}</label>`).join("");
+  document.getElementById("crumbbar").innerHTML = `<a href="#recipes">Recipes</a>`;
+  V.innerHTML = `${crumb(p ? "Edit recipe" : "New recipe")}
+   ${story ? `<div class="okmsg">Turning <a href="#t-${esc(story.id)}">${esc(story.title)}</a> into a recipe. It's saved as a draft until you test it and press Publish.</div>` : ""}
+   <div class="notice small">Personal-data patterns only warn here, because recipes quote official addresses. Don't include anyone's real details. Every recipe shows: ${esc(NOT_ADVICE)}</div>
+   <form id="rf" novalidate>
+    <section class="card card-pad fsec"><h2 class="h3">The job</h2>
+     ${fld("rS", "Title", `<input type="text" id="rS" maxlength="120" value="${esc(v.title || "")}">`, 'New, untested recipes start with "DRAFT, NOT TESTED: "')}
+     <div class="fgrid">${fld("rB", "Space", `<select id="rB"><option value="">Choose a space...</option>${S.boards.map(b => `<option value="${esc(b.id)}"${b.id === v.board_id ? " selected" : ""}>${esc(spaceName(b))}</option>`).join("")}</select>`)}
+     ${fld("rH", "Hashtags <span class='small'>(optional)</span>", `<input type="text" id="rH" value="${esc((v.tags || []).map(t => "#" + t).join(" "))}">`)}</div>
+     ${fld("rT", "The task in one sentence", `<input type="text" id="rT" maxlength="300" value="${esc(v.task || "")}">`)}
+     <div class="fld"><span class="lbl-like"><b>Recommended free tools</b></span><div role="group" aria-label="Recommended free tools">${toolBoxes("rTools", v.tools)}</div></div>
+     ${fld("rD", `Deadline warning <span class="small">(optional, shown prominently)</span>`, `<input type="text" id="rD" maxlength="400" value="${esc(v.deadline_warning || "")}">`)}
+    </section>
+    <section class="card card-pad fsec"><h2 class="h3">Prompts</h2><div class="hint">Each prompt gets its own Copy button.</div><div id="rPrompts"></div><button type="button" class="btn" id="rPromptAdd" style="margin-top:8px">+ Add a prompt</button></section>
+    <section class="card card-pad fsec"><h2 class="h3">Safety and checking</h2>
+     ${fld("rN", "Never paste this", `<textarea id="rN" maxlength="2000" style="min-height:80px">${esc(v.never_paste || "")}</textarea>`, "What people must keep out of the AI tool.")}
+     <div class="fld"><label>How to check the answer</label><div class="hint">Official sources: GOV.UK, Citizens Advice, the relevant ombudsman. Links must start with https://.</div><div id="rChecks"></div><button type="button" class="btn" id="rCheckAdd" style="margin-top:8px">+ Add a source</button></div>
+     ${fld("rF", "Known failure points", `<textarea id="rF" maxlength="3000" style="min-height:80px">${esc(v.failure_points || "")}</textarea>`)}
+    </section>
+    <section class="card card-pad fsec"><h2 class="h3">Testing</h2>
+     <div class="fgrid">${fld("rTd", "Last tested on", `<input type="date" id="rTd" value="${esc(v.tested_on || "")}">`, "Leave blank if not tested yet.")}
+     ${fld("rR", "Re-test due", `<input type="date" id="rR" value="${esc(v.retest_due || "")}">`, 'After this date the recipe shows "May be out of date".')}</div>
+     <div class="fld"><span class="lbl-like"><b>Tools it was tested with</b></span><div role="group" aria-label="Tools it was tested with">${toolBoxes("rTested", v.tested_tools)}</div></div>
+     <div class="fld"><label>Based on stories</label><div id="rSrc"></div></div>
+     <div id="rPii" class="small"></div>
+     <div class="trybar" style="margin-top:14px"><button class="btn" type="button" id="rDraft">Save as draft</button><button class="btn blue" type="button" id="rPub">Publish</button><span class="err" id="rMsg" role="alert"></span></div>
+    </section>
+   </form>`;
+  const g = id => document.getElementById(id).value.trim();
+  const picked = name => [...V.querySelectorAll(`input[name="${name}"]:checked`)].map(x => x.value);
+  const rowList = (elId, list, fields, addId, blank) => {
+    const el = document.getElementById(elId);
+    const draw = () => { el.innerHTML = list.map((x, i) => `<div class="ksrow" style="grid-template-columns:${fields.map(f => f[2]).join(" ")} auto">${fields.map(([k, l]) => k === "text" ? `<textarea data-k="${k}" data-i="${i}" aria-label="${l} ${i + 1}" style="min-height:90px;font-family:ui-monospace,Menlo,monospace;font-size:14px">${esc(x[k] || "")}</textarea>` : `<input type="text" data-k="${k}" data-i="${i}" aria-label="${l} ${i + 1}" placeholder="${l}" value="${esc(x[k] || "")}">`).join("")}<button type="button" class="btn" data-rm="${i}">Remove</button></div>`).join("") || `<div class="small">None yet.</div>`; };
+    el.addEventListener("input", e => { const t = e.target; if (t.dataset.k) { list[+t.dataset.i][t.dataset.k] = t.value; piiCheck(); } });
+    el.addEventListener("click", e => { const t = e.target.closest("[data-rm]"); if (t) { list.splice(+t.dataset.rm, 1); draw(); } });
+    document.getElementById(addId).onclick = () => { if (list.length < 12) { list.push({ ...blank }); draw(); } };
+    draw();
+  };
+  rowList("rPrompts", prompts, [["label", "Prompt name", "200px"], ["text", "Prompt", "1fr"]], "rPromptAdd", { label: "", text: "" });
+  rowList("rChecks", checks, [["label", "Source name", "200px"], ["url", "https://...", "1fr"]], "rCheckAdd", { label: "", url: "" });
+  const srcEl = document.getElementById("rSrc");
+  const drawSrc = () => { srcEl.innerHTML = sources.length ? sources.map((s, i) => `<div class="ksitem"><a href="#t-${esc(s.id)}">${esc(s.title)}</a><button type="button" class="btn" data-rms="${i}">Unlink</button></div>`).join("") : `<div class="small">None. Use "Turn into recipe" on a story to link it.</div>`; };
+  srcEl.onclick = e => { const t = e.target.closest("[data-rms]"); if (t) { sources.splice(+t.dataset.rms, 1); drawSrc(); } };
+  drawSrc();
+  const allText = () => [g("rS"), g("rT"), g("rN"), g("rF"), g("rD"), prompts.map(x => x.label + " " + x.text).join(" ")].join(" ");
+  const piiCheck = () => { const w = piiWarnings(allText()).map(x => x.replace(" (this will be blocked)", "")); document.getElementById("rPii").innerHTML = w.length ? `<div class="notice">This recipe contains ${w.map(esc).join("; ")}. That's allowed for official addresses, but make sure none of it is a real person's details.</div>` : ""; };
+  V.querySelectorAll("#rf input[type=text], #rf textarea").forEach(el => el.addEventListener("input", piiCheck)); piiCheck();
+  const save = async status => {
+    const m = document.getElementById("rMsg"); m.textContent = "";
+    const ps = prompts.map(x => ({ label: (x.label || "").trim(), text: (x.text || "").trim() })).filter(x => x.text);
+    const cs = checks.map(x => ({ label: (x.label || "").trim(), url: (x.url || "").trim() })).filter(x => x.label || x.url);
+    if (g("rS").length < 3) { m.textContent = "Add a title."; return; }
+    if (!g("rB")) { m.textContent = "Choose a space."; return; }
+    if (!g("rT")) { m.textContent = "Add the task in one sentence."; return; }
+    if (status === "published" && !ps.length) { m.textContent = "Add at least one prompt before publishing."; return; }
+    if (cs.some(c => !c.label || !/^https:\/\/\S+$/.test(c.url))) { m.textContent = "Each source needs a name and a link that starts with https://."; return; }
+    if (status === "published" && /^DRAFT, NOT TESTED/i.test(g("rS"))) { m.textContent = 'Test it first, then remove "DRAFT, NOT TESTED" from the title.'; return; }
+    const row = { board_id: g("rB"), title: g("rS"), task: g("rT"), tags: parseTags(g("rH")), tools: picked("rTools"), prompts: ps, never_paste: g("rN"), how_to_check: cs, failure_points: g("rF"), deadline_warning: g("rD"), tested_tools: picked("rTested"), tested_on: g("rTd") || isoDay(new Date()), retest_due: g("rR") || null, status };
+    const btn = document.getElementById(status === "draft" ? "rDraft" : "rPub"); busy(btn, true);
+    let rid2 = editId, error;
+    if (editId) ({ error } = await sb.from("posts").update(row).eq("id", editId));
+    else { const r = await sb.from("posts").insert({ ...row, type: "RECIPE" }).select("id,status").single(); error = r.error; if (r.data) rid2 = r.data.id; }
+    if (error) { m.textContent = errMsg(error); busy(btn, false); return; }
+    if (editId) await sb.from("recipe_sources").delete().eq("recipe_id", editId);
+    if (sources.length) { const r2 = await sb.from("recipe_sources").insert(sources.map(s => ({ recipe_id: rid2, story_id: s.id }))); if (r2.error) { m.textContent = "Saved, but the story links failed: " + errMsg(r2.error); busy(btn, false); return; } }
+    pendingToast(status === "draft" ? "Recipe saved as a draft" : "Recipe published");
+    location.hash = "t-" + rid2;
+  };
+  document.getElementById("rDraft").onclick = () => save("draft");
+  document.getElementById("rPub").onclick = () => save("published");
+}
+
+// ================= notifications, metrics =================
 async function loadNotifCount() {
   const bell = document.getElementById("bell"); if (!bell) return;
   if (!S.me) { bell.hidden = true; return; }
@@ -833,8 +858,7 @@ async function loadNotifCount() {
   dot.textContent = n > 99 ? "99+" : n; dot.hidden = !n;
   bell.setAttribute("aria-label", n ? `Notifications, ${n} unread` : "Notifications");
 }
-const NOTE_TXT = { reply: "replied to", try: "recorded a try on", fork: "forked", approved: "" };
-const TRY_TXT = { worked: "It worked", partly: "Partly worked", failed: "Didn't work" };
+const TRY_TXT = { worked: "Worked for me", failed: "Didn't work for me" };
 async function viewNotifications() {
   if (!S.me) { V.innerHTML = crumb("Notifications") + needLogin("Notifications"); return; }
   const { data, error } = await sb.from("notifications").select("id,kind,post_id,actor,detail,read_at,created_at").order("created_at", { ascending: false }).limit(100);
@@ -845,51 +869,33 @@ async function viewNotifications() {
   const title = {}, who = {}; (ps.data || []).forEach(p => title[p.id] = p.title); (as.data || []).forEach(p => who[p.id] = p.handle);
   const row = n => {
     const t = `<a href="#t-${esc(n.post_id)}">${esc(title[n.post_id] || "a post")}</a>`, a = n.actor ? userLink(who[n.actor] || "[deleted member]") : "";
-    const line = n.kind === "approved" ? `Your post ${t} was approved and is now live.`
-      : n.kind === "try" ? `${a} tried your workflow ${t}: <b>${esc(TRY_TXT[n.detail] || n.detail)}</b>.`
-      : n.kind === "fork" ? `${a} forked ${t} as "${esc(n.detail)}".`
+    const line = n.kind === "approved" ? `Your story ${t} was approved and is now live. <a href="#t-${esc(n.post_id)}">See it</a>.`
+      : n.kind === "try" ? `${a} rated your recipe ${t}: <b>${esc(TRY_TXT[n.detail] || n.detail)}</b>.`
+      : n.kind === "fork" ? `${a} reused ${t} as "${esc(n.detail)}".`
       : `${a} replied to ${t}: <span class="small">"${esc(n.detail)}${n.detail.length >= 140 ? "..." : ""}"</span>`;
     return `<div class="noterow${n.read_at ? "" : " unread"}"><span class="notedot" aria-hidden="true"></span><div>${line}<div class="small">${esc(ago(n.created_at))}${n.read_at ? "" : ' · <span class="sr">unread</span>New'}</div></div></div>`;
   };
-  V.innerHTML = `${pageHead("Notifications", "Replies, tries and forks on your posts, and approvals. Kept for 120 days.")}
-    ${list.length ? `<div class="card notelist">${list.map(row).join("")}</div>` : `<div class="empty">Nothing yet. When colleagues reply to, try or fork your posts, you'll see it here.</div>`}`;
+  V.innerHTML = `${pageHead("Notifications", "Replies to your stories, and approvals. Kept for 120 days.")}
+    ${list.length ? `<div class="card notelist">${list.map(row).join("")}</div>` : `<div class="empty">Nothing yet. When someone replies to your story, or a moderator approves it, you'll see it here.</div>`}`;
   if (list.some(n => !n.read_at)) { await sb.from("notifications").update({ read_at: new Date().toISOString() }).is("read_at", null); loadNotifCount(); }
 }
-function cpdRecord(posts, tries) {
-  const lines = [`# Townhall contributions: ${S.me.handle}`, "", `Record generated ${day(new Date())}. Townhall is a community where UK higher education staff share what they have built with AI, with the time it took before and after, and colleagues record whether it worked for them.`, ""];
-  const tot = { w: 0, p: 0, f: 0 }; posts.forEach(p => { tot.w += p.tries_worked; tot.p += p.tries_partly; tot.f += p.tries_failed; });
-  lines.push("## Summary", "", `- Published posts: ${posts.length}`, `- Colleagues who tried my workflows: ${tot.w + tot.p + tot.f} (${tot.w} worked, ${tot.p} partly, ${tot.f} did not work)`, `- Workflows I tried and reported on: ${tries.length}`, `- Forks of my posts by colleagues: ${posts.reduce((a, p) => a + (p.forks || 0), 0)}`, "");
-  if (posts.length) {
-    lines.push("## My posts", "");
-    posts.forEach(p => {
-      const sv = saving(p);
-      lines.push(`### ${p.title}`, `- ${p.type}, ${board(p.board_id) ? spaceName(board(p.board_id)) : p.board_id}, published ${day(p.created_at)}`, `- Link: ${SITE()}#t-${p.id}`);
-      if (TYPES_BUILD.includes(p.type)) lines.push(`- Task: ${p.task}`, `- Tool: ${p.tool}`, `- Time: ${p.minutes_before} minutes before, ${p.minutes_after} after${sv != null ? ` (${sv}% less, self-reported)` : ""}`, `- What went wrong: ${p.what_wrong}`);
-      if (TRYABLE.includes(p.type)) lines.push(`- Tried by colleagues: ${p.tries_worked} worked, ${p.tries_partly} partly, ${p.tries_failed} did not work`);
-      lines.push(`- Replies: ${p.replies}, likes: ${p.likes}, forks: ${p.forks || 0}`, "");
-    });
-  }
-  if (tries.length) { lines.push("## Workflows I tried", ""); tries.forEach(t => lines.push(`- ${day(t.created_at)}: ${TRY_TXT[t.result] || t.result}${t.note ? ` (${t.note})` : ""} - ${SITE()}#t-${t.post_id}`)); lines.push(""); }
-  lines.push("## Reflection (fill in)", "", "- What I learned about using AI in my role:", "- How this changed my practice or my team's practice:", "- What I would do differently:", "");
-  return lines.join("\n");
-}
 async function loadMetrics() {
-  const box = document.getElementById("metrics"); if (!box || !S.me || S.me.role !== "admin") return;
+  const box = document.getElementById("metrics"); if (!box || !isAdmin()) return;
   const { data, error } = await sb.rpc("admin_metrics");
   if (error || !data) { box.innerHTML = `<div class="small">Weekly figures unavailable: ${esc(error ? errMsg(error) : "no data")}</div>`; return; }
   const w = (data.weeks || []).slice().reverse();
   box.innerHTML = `<div class="box"><h2 class="h3">How it's going (admins only)</h2><div class="in">
-    <div class="small" style="margin-bottom:8px">The main measure is <b>tries per week</b>: colleagues reusing a workflow, not just reading it. Visits are counted per page type per day, with no cookies and nothing that identifies a person.</div>
-    <table class="fl"><thead><tr><th scope="col">Week from</th><th scope="col">Tries</th><th scope="col">Posts</th><th scope="col">Replies</th><th scope="col">New members</th><th scope="col">Visits</th></tr></thead>
-    <tbody>${w.map(r => `<tr><td>${esc(r.week)}</td><td><b>${r.tries}</b></td><td>${r.posts}</td><td>${r.replies}</td><td>${r.members}</td><td>${r.views}</td></tr>`).join("")}</tbody></table>
+    <div class="small" style="margin-bottom:8px">"Share" and "Browse" count clicks on the two buttons at the top of the home page. Visits are counted per page type per day. None of these figures store anything that identifies a person.</div>
+    <table class="fl"><thead><tr><th scope="col">Week from</th><th scope="col">Recipe ratings</th><th scope="col">Posts</th><th scope="col">Replies</th><th scope="col">New members</th><th scope="col">Share clicks</th><th scope="col">Browse clicks</th><th scope="col">Visits</th></tr></thead>
+    <tbody>${w.map(r => `<tr><td>${esc(r.week)}</td><td><b>${r.tries}</b></td><td>${r.posts}</td><td>${r.replies}</td><td>${r.members}</td><td>${r.share_clicks ?? 0}</td><td>${r.browse_clicks ?? 0}</td><td>${r.views}</td></tr>`).join("")}</tbody></table>
     ${(data.top_pages || []).length ? `<div class="small" style="margin-top:10px">Most visited, last 4 weeks: ${data.top_pages.map(t => `${esc(t.path)} (${t.views})`).join(", ")}</div>` : ""}
   </div></div>`;
 }
 
 // ================= my library =================
-const LIB_COLS = "id,kind,source_post,published_post,type,title,body,prompt,notes,tool_key,knowledge_sources,tags,snapshot_at,created_at,updated_at";
-const LIB_TYPES = ["WORKFLOW", "AGENT", "TOOL", "FAIL", "QUESTION"];
-const PRIVATE_NOTE = `<b>Only you can see your library.</b> Private still means no real data. Townhall blocks personal details here as well, so keep using dummy data in prompts, notes and knowledge sources.`;
+const LIB_COLS = "id,kind,source_post,published_post,type,title,body,prompt,notes,tool_key,tags,snapshot_at,created_at,updated_at";
+const LIB_TYPES = ["STORY", "RECIPE"];
+const PRIVATE_NOTE = `<b>Only you can see your library.</b> Even so, ${esc(APP_NAME)} doesn't store personal details here. Keep using placeholders like [my postcode] in your own prompts and notes.`;
 let libTab = "all";
 const isUpdated = (it, src) => !!(src && it.snapshot_at && new Date(src.updated_at) > new Date(it.snapshot_at));
 function download(name, text, type) {
@@ -898,14 +904,13 @@ function download(name, text, type) {
 }
 function libMarkdown(items) {
   const fence = t => "```text\n" + t.replace(/```/g, "'''") + "\n```";
-  return `# My Townhall library\n\nExported ${day(new Date())}. ${items.length} items.\n\n` + items.map(i => [
+  return `# My ${APP_NAME} library\n\nExported ${day(new Date())}. ${items.length} items.\n\n` + items.map(i => [
     `## ${i.title}`,
-    `- ${i.kind === "saved" ? `Saved from ${SITE()}#t-${i.source_post || "(removed)"}` : "Draft"}`,
-    `- Type: ${i.type}${i.tool_key ? `, tool: ${TOOLS[i.tool_key] || i.tool_key}` : ""}`,
+    `- ${i.kind === "saved" ? `Saved from ${SITE()}#t-${i.source_post || "(removed)"}` : "My own prompt"}`,
+    `- Type: ${TYPE_LABEL[i.type] || i.type}${i.tool_key ? `, tool: ${TOOLS[i.tool_key] || i.tool_key}` : ""}`,
     (i.tags || []).length ? `- Tags: ${i.tags.map(t => "#" + t).join(" ")}` : "",
     i.body ? `\n### Description\n\n${i.body}` : "",
-    i.prompt ? `\n### ${i.type === "AGENT" ? "Agent instructions" : "Prompt"}\n\n${fence(i.prompt)}` : "",
-    (i.knowledge_sources || []).length ? `\n### Knowledge sources\n\n${i.knowledge_sources.map(k => `- ${KS[k.kind] || k.kind}: ${k.note || ""}`).join("\n")}` : "",
+    i.prompt ? `\n### Prompt\n\n${fence(i.prompt)}` : "",
     i.notes ? `\n### My notes\n\n${i.notes}` : ""
   ].filter(Boolean).join("\n")).join("\n\n---\n\n") + "\n";
 }
@@ -921,87 +926,78 @@ async function viewLibrary() {
   const card = i => {
     const src = srcMap[i.source_post], upd = isUpdated(i, src);
     return `<article class="post"><div class="post-main">
-      <div class="post-head"><span class="tg ${i.kind === "draft" ? "PENDING" : "SAMPLE"}">${i.kind === "draft" ? "Draft" : "Saved"}</span>${typeTag(i.type)}${upd ? '<span class="tg STALE">Updated since you saved</span>' : ""}${i.kind === "saved" && !i.source_post ? '<span class="tg REMOVED">Original removed</span>' : ""}${i.published_post ? '<span class="tg WORKFLOW">Published</span>' : ""}<span class="when">Edited ${esc(ago(i.updated_at))}</span></div>
+      <div class="post-head"><span class="tg ${i.kind === "draft" ? "PENDING" : "SAMPLE"}">${i.kind === "draft" ? "My prompt" : "Saved"}</span>${typeTag(i.type)}${upd ? '<span class="tg STALE">Updated since you saved</span>' : ""}${i.kind === "saved" && !i.source_post ? '<span class="tg REMOVED">Original removed</span>' : ""}${i.published_post ? '<span class="tg WORKFLOW">Shared as a story</span>' : ""}<span class="when">Edited ${esc(ago(i.updated_at))}</span></div>
       <a class="post-title" href="#lib-${esc(i.id)}">${esc(i.title)}</a>
       ${i.body ? `<p class="post-sum">${esc(i.body.slice(0, 300))}</p>` : ""}
-      <div class="post-foot">${i.tool_key ? `<span class="toolchip">${esc(TOOLS[i.tool_key] || i.tool_key)}</span>` : ""}${src ? `<span>From ${userLink(authorName(src))}</span>${TRYABLE.includes(src.type) ? tryMeter(src) : ""}` : ""}${i.notes ? `<span>Your notes: ${esc(i.notes.slice(0, 60))}${i.notes.length > 60 ? "..." : ""}</span>` : ""}</div>
+      <div class="post-foot">${i.tool_key ? `<span class="toolchip">${esc(TOOLS[i.tool_key] || i.tool_key)}</span>` : ""}${src ? `<span>From ${userLink(authorName(src))}</span>${src.type === "RECIPE" ? workedMeter(src) : ""}` : ""}${i.notes ? `<span>Your notes: ${esc(i.notes.slice(0, 60))}${i.notes.length > 60 ? "..." : ""}</span>` : ""}</div>
     </div></article>`;
   };
   const draw = () => {
     const list = items.filter(i => libTab === "all" || i.kind === libTab);
-    V.innerHTML = `${pageHead("My library", "Prompts, agents and workflows you've saved or are drafting. Saving a post keeps your own editable copy, linked to the original so you see when the author updates it.", `<button class="btn" id="exJson">Export JSON</button><button class="btn" id="exMd">Export Markdown</button><a class="btn blue" href="#lib-new">New draft</a>`)}
+    V.innerHTML = `${pageHead("My library", "Recipes and stories you've saved, and your own prompts. Saving keeps your own editable copy, linked to the original so you see when we update it.", `<button class="btn" id="exJson">Export JSON</button><button class="btn" id="exMd">Export Markdown</button><a class="btn blue" href="#lib-new">New prompt</a>`)}
       <div class="notice dummy small">${PRIVATE_NOTE}</div>
-      <div class="feedbar"><div class="tabs" role="tablist">${[["all", "All"], ["saved", "Saved"], ["draft", "Drafts"]].map(([k, l]) => `<a href="#" role="tab" data-lt="${k}" class="${libTab === k ? "on" : ""}" aria-selected="${libTab === k}">${l} <span class="small">${counts[k]}</span></a>`).join("")}</div></div>
-      ${list.length ? `<div class="feed">${list.map(card).join("")}</div>` : `<div class="empty">${libTab === "draft" ? `No drafts yet. <a href="#lib-new">Start one</a>.` : `Nothing saved yet. Press <b>Save to library</b> on any post you want to keep.`}</div>`}`;
+      <div class="feedbar"><div class="tabs" role="tablist">${[["all", "All"], ["saved", "Saved"], ["draft", "My prompts"]].map(([k, l]) => `<a href="#" role="tab" data-lt="${k}" class="${libTab === k ? "on" : ""}" aria-selected="${libTab === k}">${l} <span class="small">${counts[k]}</span></a>`).join("")}</div></div>
+      ${list.length ? `<div class="feed">${list.map(card).join("")}</div>` : `<div class="empty">${libTab === "draft" ? `No prompts of your own yet. <a href="#lib-new">Add one</a>.` : `Nothing saved yet. Press <b>Save to library</b> on any recipe or story you want to keep.`}</div>`}`;
     V.querySelectorAll("[data-lt]").forEach(a => a.onclick = e => { e.preventDefault(); libTab = a.dataset.lt; draw(); });
-    document.getElementById("exJson").onclick = () => download("townhall-library.json", JSON.stringify(items.map(({ id, ...r }) => r), null, 2), "application/json");
-    document.getElementById("exMd").onclick = () => download("townhall-library.md", libMarkdown(items), "text/markdown");
+    document.getElementById("exJson").onclick = () => download("boring-bits-library.json", JSON.stringify(items.map(({ id, ...r }) => r), null, 2), "application/json");
+    document.getElementById("exMd").onclick = () => download("boring-bits-library.md", libMarkdown(items), "text/markdown");
   };
   draw();
 }
 async function viewLibItem(id) {
   if (!S.me) { V.innerHTML = crumb("My library") + needLogin("Your library"); return; }
   const isNew = id === "new";
-  const it = isNew ? { kind: "draft", type: "WORKFLOW", title: "", body: "", prompt: "", notes: "", tool_key: "", knowledge_sources: [], tags: [] }
+  const it = isNew ? { kind: "draft", type: "STORY", title: "", body: "", prompt: "", notes: "", tool_key: "", tags: [] }
     : (await sb.from("library_items").select(LIB_COLS).eq("id", id).maybeSingle()).data;
   if (!it) return viewNotFound("That library item doesn't exist, or it isn't yours.");
   const src = it.source_post ? (await sb.from("post_feed").select("*").eq("id", it.source_post).maybeSingle()).data : null;
   const upd = isUpdated(it, src);
-  const ks = (it.knowledge_sources || []).map(k => ({ ...k }));
   document.getElementById("crumbbar").innerHTML = `<a href="#library">My library</a>`;
-  document.title = (isNew ? "New draft" : it.title) + " · Townhall";
-  V.innerHTML = `${pageHead(isNew ? "New draft" : esc(it.title), it.kind === "saved"
+  document.title = (isNew ? "New prompt" : it.title) + " · " + APP_NAME;
+  V.innerHTML = `${pageHead(isNew ? "New prompt" : esc(it.title), it.kind === "saved"
       ? (src ? `Your copy of <a href="#t-${esc(src.id)}">${esc(src.title)}</a> by ${userLink(authorName(src))}. Edit it freely: the original doesn't change.` : "The original post has been removed. Your copy is still here.")
-      : "A private draft. Publish it to a space when it's ready.", `<a class="btn" href="#library">Back to library</a>`)}
+      : "A private prompt. Share it as a story when you've used it.", `<a class="btn" href="#library">Back to library</a>`)}
     <div class="notice dummy small">${PRIVATE_NOTE}</div>
-    ${upd ? `<div class="okmsg trybar">The author has updated or re-tested this since you saved it. <button type="button" class="btn" id="libRefresh">Replace my copy with the latest version</button><a href="#t-${esc(src.id)}">See the original</a></div>` : ""}
-    ${it.published_post ? `<div class="okmsg">You published this draft as <a href="#t-${esc(it.published_post)}">a post</a>.</div>` : ""}
+    ${upd ? `<div class="okmsg trybar">This has been updated or re-tested since you saved it. <button type="button" class="btn" id="libRefresh">Replace my copy with the latest version</button><a href="#t-${esc(src.id)}">See the original</a></div>` : ""}
+    ${it.published_post ? `<div class="okmsg">You shared this as <a href="#t-${esc(it.published_post)}">a story</a>.</div>` : ""}
     <form id="lf" novalidate><section class="card card-pad fsec">
      <div class="fgrid">
       ${fld("lT", "Title", `<input type="text" id="lT" maxlength="120" value="${esc(it.title)}">`, "", "full")}
-      ${fld("lY", "Type", `<select id="lY">${LIB_TYPES.map(t => `<option${it.type === t ? " selected" : ""}>${t}</option>`).join("")}</select>`)}
-      ${fld("lTool", "Tool", `<select id="lTool"><option value="">Not set</option>${Object.entries(TOOLS).map(([k, v]) => `<option value="${k}"${it.tool_key === k ? " selected" : ""}>${esc(v)}</option>`).join("")}</select>`)}
+      ${fld("lY", "Type", `<select id="lY">${LIB_TYPES.map(t => `<option value="${t}"${it.type === t ? " selected" : ""}>${TYPE_LABEL[t]}</option>`).join("")}</select>`)}
+      ${fld("lTool", "AI tool", `<select id="lTool"><option value="">Not set</option>${Object.entries(TOOLS).map(([k, v]) => `<option value="${k}"${it.tool_key === k ? " selected" : ""}>${esc(v)}</option>`).join("")}</select>`)}
      </div>
      ${fld("lB", "Description", `<textarea id="lB" maxlength="8000">${esc(it.body)}</textarea>`)}
-     ${fld("lP", `<span id="lPl">${it.type === "AGENT" ? "Agent instructions" : "Prompt"}</span>`, `<textarea id="lP" maxlength="8000" style="min-height:200px;font-family:ui-monospace,Menlo,monospace;font-size:14px">${esc(it.prompt)}</textarea>`)}
-     <div class="fld"><label>Knowledge sources</label><div class="hint">Describe each in words. No internal links, file paths or site names.</div><div id="lKs"></div><button type="button" class="btn" id="lKsAdd" style="margin-top:8px">+ Add a source</button></div>
-     ${fld("lN", "My notes <span class='small'>(private)</span>", `<textarea id="lN" maxlength="4000" placeholder="What you changed, what to try next, where you use it.">${esc(it.notes)}</textarea>`)}
-     ${fld("lH", "Tags", `<input type="text" id="lH" value="${esc((it.tags || []).map(t => "#" + t).join(" "))}" placeholder="#rubrics #minutes">`)}
+     ${fld("lP", "Prompt", `<textarea id="lP" maxlength="8000" style="min-height:200px;font-family:ui-monospace,Menlo,monospace;font-size:14px">${esc(it.prompt)}</textarea>`)}
+     ${fld("lN", "My notes <span class='small'>(private)</span>", `<textarea id="lN" maxlength="4000" placeholder="What you changed, what to try next.">${esc(it.notes)}</textarea>`)}
+     ${fld("lH", "Tags", `<input type="text" id="lH" value="${esc((it.tags || []).map(t => "#" + t).join(" "))}" placeholder="#energy #letters">`)}
      <div id="lPii" class="small"></div>
-     <div class="trybar"><button class="btn blue" type="submit" id="lSave">${isNew ? "Save draft" : "Save"}</button>
-      ${!isNew && it.kind === "draft" ? `<button type="button" class="btn" id="lPub">Publish to a space</button>` : ""}
-      ${it.kind === "saved" && src && TYPES_BUILD.includes(src.type) ? `<a class="btn" href="#fork-${esc(src.id)}">Fork publicly</a>` : ""}
+     <div class="trybar"><button class="btn blue" type="submit" id="lSave">${isNew ? "Save prompt" : "Save"}</button>
+      ${!isNew && it.kind === "draft" ? `<button type="button" class="btn" id="lPub">Share as a story</button>` : ""}
       ${!isNew ? `<button type="button" class="btn danger" id="lDel">Delete</button>` : ""}<span id="lMsg" role="status"></span></div>
     </section></form>`;
   const g = x => document.getElementById(x).value.trim();
   const out = (t, ok) => { const el = document.getElementById("lMsg"); el.className = ok ? "tries" : "err"; el.textContent = t; };
-  const ksEl = document.getElementById("lKs");
-  const drawKs = () => { ksEl.innerHTML = ks.map((k, i) => `<div class="ksrow"><select data-ksk="${i}" aria-label="Source type">${Object.entries(KS).map(([v, l]) => `<option value="${v}"${k.kind === v ? " selected" : ""}>${esc(l)}</option>`).join("")}</select><input type="text" data-ksn="${i}" maxlength="300" value="${esc(k.note || "")}" aria-label="Describe this source"><button type="button" class="btn" data-ksr="${i}">Remove</button></div>`).join("") || `<div class="small">None.</div>`; document.getElementById("lKsAdd").disabled = ks.length >= 10; };
-  ksEl.addEventListener("input", e => { if (e.target.dataset.ksn) ks[+e.target.dataset.ksn].note = e.target.value; });
-  ksEl.addEventListener("change", e => { if (e.target.dataset.ksk) ks[+e.target.dataset.ksk].kind = e.target.value; });
-  ksEl.addEventListener("click", e => { const b = e.target.closest("[data-ksr]"); if (b) { ks.splice(+b.dataset.ksr, 1); drawKs(); } });
-  document.getElementById("lKsAdd").onclick = () => { if (ks.length < 10) { ks.push({ kind: "website", note: "" }); drawKs(); } };
-  drawKs();
-  document.getElementById("lY").onchange = () => document.getElementById("lPl").textContent = g("lY") === "AGENT" ? "Agent instructions" : "Prompt";
-  const piiCheck = () => { const w = piiWarnings([g("lT"), g("lB"), g("lP"), g("lN"), ks.map(k => k.note).join(" ")].join(" ")); document.getElementById("lPii").innerHTML = w.length ? `<div class="notice">This may contain ${w.map(esc).join("; ")}. Swap it for dummy data.</div>` : ""; };
+  const fromRecipe = it.kind === "saved" && src && src.type === "RECIPE";
+  const scanText = () => fromRecipe ? g("lN") : [g("lT"), g("lB"), g("lP"), g("lN")].join(" ");
+  const piiCheck = () => { const w = piiWarnings(scanText()); document.getElementById("lPii").innerHTML = w.length ? `<div class="notice">This may contain ${w.map(esc).join("; ")}. Use a placeholder like [my postcode] instead.</div>` : ""; };
   V.querySelectorAll("#lf input[type=text], #lf textarea").forEach(el => el.addEventListener("input", piiCheck));
-  const payload = () => ({ title: g("lT"), type: g("lY"), tool_key: g("lTool"), body: g("lB"), prompt: g("lP"), notes: g("lN"), tags: parseTags(g("lH")), knowledge_sources: ks.map(k => ({ kind: k.kind, note: (k.note || "").trim() })).filter(k => k.note || k.kind === "instructions-only") });
+  const payload = () => ({ title: g("lT"), type: g("lY"), tool_key: g("lTool"), body: g("lB"), prompt: g("lP"), notes: g("lN"), tags: parseTags(g("lH")) });
   const save = async () => {
     const row = payload();
     if (!row.title) { out("Add a title."); return null; }
-    const blocked = piiWarnings([row.title, row.body, row.prompt, row.notes, row.knowledge_sources.map(k => k.note).join(" ")].join(" ")).filter(x => x.includes("blocked"));
-    if (blocked.length) { out("Remove " + blocked.join(", ").replace(/ \(this will be blocked\)/g, "") + " first."); return null; }
+    const blocked = blockedOnly(piiWarnings(scanText()));
+    if (blocked) { out("Remove " + blocked + " first."); return null; }
     if (isNew) { const { data, error } = await sb.from("library_items").insert({ kind: "draft", ...row }).select("id").single(); if (error) { out(errMsg(error)); return null; } return data.id; }
     const { error } = await sb.from("library_items").update(row).eq("id", it.id); if (error) { out(errMsg(error)); return null; } return it.id;
   };
-  document.getElementById("lf").onsubmit = async e => { e.preventDefault(); const b = document.getElementById("lSave"); busy(b, true); const nid = await save(); busy(b, false); if (!nid) return; if (isNew) { pendingToast("Draft saved"); location.hash = "lib-" + nid; } else toast("Saved"); };
+  document.getElementById("lf").onsubmit = async e => { e.preventDefault(); const b = document.getElementById("lSave"); busy(b, true); const nid = await save(); busy(b, false); if (!nid) return; if (isNew) { pendingToast("Prompt saved"); location.hash = "lib-" + nid; } else toast("Saved"); };
   const pub = document.getElementById("lPub");
   if (pub) pub.onclick = async () => { const nid = await save(); if (!nid) return; S.prefill = { libId: nid, ...payload() }; location.hash = "post"; };
   const del = document.getElementById("lDel");
   if (del) del.onclick = () => confirmTwice(del, async () => { const { error } = await sb.from("library_items").delete().eq("id", it.id); if (error) out(errMsg(error)); else location.hash = "library"; });
   const rf = document.getElementById("libRefresh");
   if (rf) rf.onclick = () => confirmTwice(rf, async () => {
-    const { error } = await sb.from("library_items").update({ title: src.title, type: LIB_TYPES.includes(src.type) ? src.type : it.type, body: src.body || "", prompt: src.prompt || "", tool_key: src.tool_key || "", knowledge_sources: src.knowledge_sources || [], tags: src.tags || [], snapshot_at: src.updated_at || new Date().toISOString() }).eq("id", it.id);
+    const { error } = await sb.from("library_items").update({ ...libCopy(src), snapshot_at: src.updated_at || new Date().toISOString() }).eq("id", it.id);
     if (error) out(errMsg(error)); else viewLibItem(it.id);
   });
 }
@@ -1014,10 +1010,9 @@ function viewLogin(mode = "login") {
   <div class="split"><div class="box"><h2 class="h3">${join ? "Create an account" : "Log in"}</h2><div class="in">
    <form id="af" novalidate>
     ${join ? `<label for="aH">Username</label><input type="text" id="aH" maxlength="20" autocomplete="username" placeholder="3 to 20 letters, numbers or _">
-    <label for="aP" style="display:block;margin-top:6px">Job title <span class="small">(optional, shown on your posts)</span></label><input type="text" id="aP" maxlength="60" placeholder="e.g. Learning technologist">
-    <label for="aA" style="display:block;margin-top:6px">Area of work</label><select id="aA"><option value="">Choose...</option>${AREAS.map(x => `<option>${esc(x)}</option>`).join("")}</select>
-    <label for="aI" style="display:block;margin-top:6px">Institution <span class="small">(optional, shown publicly; leave blank to stay unnamed)</span></label><input type="text" id="aI" maxlength="80">` : ""}
-    <label for="aE" style="display:block;margin-top:6px">Email</label><input type="email" id="aE" autocomplete="email">${join ? `<div class="hint">Any email works. Use your university email (.ac.uk) to get the verified "ac.uk" badge. Your email is never shown.</div>` : ""}
+    <div class="hint">Shown on your posts. Don't use your real name if you'd rather not.</div>
+    <label for="aP" style="display:block;margin-top:6px">About you <span class="small">(optional, shown on your posts)</span></label><input type="text" id="aP" maxlength="60" placeholder="e.g. Library volunteer, or helping my mum with forms">` : ""}
+    <label for="aE" style="display:block;margin-top:6px">Email</label><input type="email" id="aE" autocomplete="email">${join ? `<div class="hint">Any email works. Your email is never shown.</div>` : ""}
     <label for="aW" style="display:block;margin-top:6px">Password</label><input type="password" id="aW" autocomplete="${join ? "new-password" : "current-password"}" minlength="8">
     ${join ? `<label style="display:block;margin-top:4px"><input type="checkbox" id="aR"> I'm 18 or over and I agree to the <a href="#terms">terms</a> and <a href="#rules">house rules</a>, including sharing my posts under CC BY 4.0. I've read the <a href="#privacy">privacy notice</a>.</label>` : ""}
     <div style="margin-top:8px"><button class="btn" type="submit">${join ? "Join" : "Log in"}</button></div>
@@ -1025,7 +1020,7 @@ function viewLogin(mode = "login") {
    </form>
    ${join ? `<div class="small" style="margin-top:6px">Already a member? <a href="#login">Log in</a></div>` : `<div class="small" style="margin-top:6px">New here? <a href="#join">Join</a> | <a href="#" id="forgot">Forgot password</a> | <a href="#" id="magic">Email me a login link</a></div>`}
   </div></div>
-  <div class="box"><h2 class="h3">Why join?</h2><div class="in">See what staff at other universities have built with AI, record whether their workflows worked for you, share your own, follow the categories you work in, and vote on motions about how the site is run.<br><br>Anyone can join with any email address. Members who use a university email (.ac.uk) get an "ac.uk" badge on their posts, so readers can see who works in the sector. We store your email to log you in and your posts to show them. Nothing is sold. See the <a href="#privacy">privacy notice</a>.</div></div></div>`;
+  <div class="box"><h2 class="h3">Why join?</h2><div class="in">Share how a free AI tool helped you with a boring job, say whether our recipes worked for you, save recipes and your own prompts to a private library, and follow the topics you care about.<br><br>You need to be 18 or over. We store your email to log you in and your posts to show them. Nothing is sold, and there are no adverts. See the <a href="#privacy">privacy notice</a>.</div></div></div>`;
   const out = (t, ok) => { const el = document.getElementById("aMsg"); el.className = ok ? "okmsg" : "err"; el.textContent = t; };
   const g = id => (document.getElementById(id) || {}).value?.trim() || "";
   document.getElementById("af").onsubmit = async e => {
@@ -1036,9 +1031,8 @@ function viewLogin(mode = "login") {
     if (join) {
       const handle = g("aH").toLowerCase();
       if (!/^[a-z0-9_]{3,20}$/.test(handle)) return out("Usernames are 3 to 20 letters, numbers or underscores.");
-      if (!g("aA")) return out("Choose your area of work.");
       if (!document.getElementById("aR").checked) return out("Please confirm you're 18 or over and agree to the terms and house rules.");
-      const { data, error } = await sb.auth.signUp({ email, password: pw, options: { data: { handle, profession: g("aP"), staff_area: g("aA"), institution: g("aI") }, emailRedirectTo: SITE() } });
+      const { data, error } = await sb.auth.signUp({ email, password: pw, options: { data: { handle, profession: g("aP") }, emailRedirectTo: SITE() } });
       if (error) return out(errMsg(error));
       if (data.session) { await loadMe(); await afterLogin(); }
       else out("Check your email for a link to confirm your account. The link brings you back to where you were.", true);
@@ -1059,8 +1053,8 @@ async function afterLogin() {
   const back = recall("th-return"); remember("th-return", null);
   const pend = recall("th-pendtry"); remember("th-pendtry", null);
   if (pend && S.me) {
-    const { error } = await sb.from("tries").upsert({ post_id: pend.post_id, user_id: S.me.id, result: pend.result, note: pend.note || "" });
-    pendingToast(error ? "We couldn't save your try. " + errMsg(error) : "Your try is recorded");
+    const { error } = await sb.from("tries").upsert({ post_id: pend.post_id, user_id: S.me.id, result: pend.result, note: pend.note || "", tool_key: pend.tool_key || "" });
+    pendingToast(error ? "We couldn't save your answer. " + errMsg(error) : "Your answer is recorded");
     location.hash = "t-" + pend.post_id; return;
   }
   if (back) pendingToast("Welcome back");
@@ -1098,13 +1092,10 @@ async function viewMe() {
   V.innerHTML = `${crumb("Settings")}
   <div class="split">
    <div class="box"><h2 class="h3">Your profile</h2><div class="in">
-     Rank: <b>${rankOf(rep ? rep.rep : 0, S.me.role)}</b> (reputation ${rep ? rep.rep : 0})<br><span class="small">You earn 3 for each "it worked" on your posts, 1 for "partly", and 1 per published post.</span><br><br>
+     Rank: <b>${rankOf(rep ? rep.rep : 0, S.me.role)}</b> (reputation ${rep ? rep.rep : 0})<br><span class="small">You earn 1 reputation for each published story. Links in stories unlock at 5.</span><br><br>
      <label for="sH">Username</label><input type="text" id="sH" maxlength="20" value="${esc(S.me.handle)}">
-     <label for="sP" style="display:block;margin-top:6px">Job title</label><input type="text" id="sP" maxlength="60" value="${esc(S.me.profession)}">
-     <label for="sA" style="display:block;margin-top:6px">Area of work</label><select id="sA"><option value="">Not given</option>${AREAS.map(x => `<option${S.me.staff_area === x ? " selected" : ""}>${esc(x)}</option>`).join("")}</select>
-     <label for="sI" style="display:block;margin-top:6px">Institution</label><input type="text" id="sI" maxlength="80" value="${esc(S.me.institution)}">
-     <label class="chk"><input type="checkbox" id="sHide"${S.me.hide_institution ? " checked" : ""}> Hide my institution from other people. Your posts show your area of work only.</label>
-     <label style="display:block;margin-top:6px"><input type="checkbox" id="sD"${prefs.digest ? " checked" : ""}> Send me a weekly email digest of the categories I follow</label>
+     <label for="sP" style="display:block;margin-top:6px">About you</label><input type="text" id="sP" maxlength="60" value="${esc(S.me.profession)}" placeholder="e.g. Library volunteer">
+     <label style="display:block;margin-top:6px"><input type="checkbox" id="sD"${prefs.digest ? " checked" : ""}> Send me a weekly email digest of the spaces I follow</label>
      <div class="small">Digest emails start once the mail service is connected.</div>
      <div style="margin-top:6px"><button class="btn" id="sGo">Save</button> <span id="sMsg" role="alert"></span></div>
    </div></div>
@@ -1112,51 +1103,47 @@ async function viewMe() {
   </div>
   <div class="box"><h2 class="h3">Following</h2><div class="in">${S.myFollows.length ? S.myFollows.map(f => f.kind === "tag" ? `<a class="ht" href="#tag-${esc(f.target)}">#${esc(f.target)}</a>` : `<a class="ht" href="${spaceHref(f.target)}">${esc(board(f.target) ? spaceName(board(f.target)) : f.target)}</a>`).join(" ") : "Nothing yet."}</div></div>
   <div class="box"><h2 class="h3">Your data</h2><div class="in">
-    <button class="btn" id="cpd">Download my contributions (CPD record)</button> <button class="btn" id="exp">Show a copy of my data</button> <button class="btn danger" id="delAcc">Delete my account</button>
-    <div class="small" style="margin-top:4px">The CPD record lists your posts, how colleagues got on with them, and the workflows you tried, ready to use as evidence of practice (for example in a Fellowship application). Deleting removes your login, profile, library, notifications, likes, tries, votes and follows. Your posts stay up as "[deleted member]" unless you delete them first.</div>
+    <button class="btn" id="exp">Show a copy of my data</button> <button class="btn danger" id="delAcc">Delete my account</button>
+    <div class="small" style="margin-top:4px">Deleting removes your login, profile, library, notifications, likes, recipe ratings and follows. Your stories stay up as "[deleted member]" unless you delete them first.</div>
     <pre id="expOut" class="small" style="margin-top:6px"></pre></div></div>`;
   bindDisplay();
   document.getElementById("sGo").onclick = async () => {
-    const m = document.getElementById("sMsg"), h = document.getElementById("sH").value.trim().toLowerCase(), sb2 = document.getElementById("sGo");
+    const m = document.getElementById("sMsg"), h = document.getElementById("sH").value.trim().toLowerCase();
     if (!/^[a-z0-9_]{3,20}$/.test(h)) { m.className = "err"; m.textContent = "Usernames are 3 to 20 letters, numbers or underscores."; return; }
-    const { error } = await sb.from("profiles").update({ handle: h, profession: document.getElementById("sP").value.trim(), staff_area: document.getElementById("sA").value, institution: document.getElementById("sI").value.trim(), hide_institution: document.getElementById("sHide").checked, prefs: { ...prefs, digest: document.getElementById("sD").checked } }).eq("id", S.me.id);
+    const { error } = await sb.from("profiles").update({ handle: h, profession: document.getElementById("sP").value.trim(), prefs: { ...prefs, digest: document.getElementById("sD").checked } }).eq("id", S.me.id);
     m.className = "err"; m.textContent = error ? (/duplicate|unique/i.test(error.message) ? "That username is taken." : errMsg(error)) : "";
     if (!error) { await loadMe(); toast("Settings saved"); }
   };
-  document.getElementById("cpd").onclick = async () => {
-    const [po, tr] = await Promise.all([fetchPosts(publishedPosts().eq("author", S.me.id)), sb.from("tries").select("post_id,result,note,created_at").eq("user_id", S.me.id).order("created_at", { ascending: false })]);
-    download(`townhall-cpd-${S.me.handle}.md`, cpdRecord(sorted(po, "new"), tr.data || []), "text/markdown");
-  };
   document.getElementById("exp").onclick = async () => {
     const id = S.me.id;
-    const [po, re, tr, li, vo, lb] = await Promise.all([sb.from("posts").select("*").eq("author", id), sb.from("replies").select("*").eq("author", id), sb.from("tries").select("*").eq("user_id", id), sb.from("likes").select("*").eq("user_id", id), sb.from("motion_votes").select("*").eq("user_id", id), sb.from("library_items").select("*").eq("owner", id)]);
-    document.getElementById("expOut").textContent = JSON.stringify({ account: { email: S.session.user.email, ...S.me }, posts: po.data, replies: re.data, tries: tr.data, likes: li.data, votes: vo.data, follows: S.myFollows, library: lb.data }, null, 2);
+    const [po, re, tr, li, lb] = await Promise.all([sb.from("posts").select("*").eq("author", id), sb.from("replies").select("*").eq("author", id), sb.from("tries").select("*").eq("user_id", id), sb.from("likes").select("*").eq("user_id", id), sb.from("library_items").select("*").eq("owner", id)]);
+    document.getElementById("expOut").textContent = JSON.stringify({ account: { email: S.session.user.email, ...S.me }, posts: po.data, replies: re.data, recipe_ratings: tr.data, likes: li.data, follows: S.myFollows, library: lb.data }, null, 2);
   };
   const da = document.getElementById("delAcc");
   da.onclick = () => confirmTwice(da, async () => { const { error } = await sb.rpc("delete_my_account"); if (error) { da.textContent = errMsg(error); return; } await sb.auth.signOut(); location.hash = "index"; });
 }
 
-// ================= people & stats =================
+// ================= people =================
 async function viewProfile(handle) {
   const { data: u } = await sb.from("member_directory").select("*").eq("handle", handle).maybeSingle();
   if (!u) return viewNotFound("No member with that name.");
   const [posts, wd, tr] = await Promise.all([fetchPosts(publishedPosts().eq("author", u.id)), sb.from("board_mods").select("board_id").eq("user_id", u.id), sb.from("tries").select("post_id", { count: "exact", head: true }).eq("user_id", u.id)]);
   const wards = wd.data || [], triedN = tr.count || 0;
   const active = [...new Set(posts.map(p => p.board_id))].map(board).filter(Boolean);
-  const isClerk = S.me && S.me.role === "admin" && u.role !== "admin";
+  const canAdmin = isAdmin() && u.role !== "admin";
   V.innerHTML = `<div class="grid2"><div class="colmain">
    <section class="card card-pad" style="margin-bottom:16px">
     <div class="post-head" style="align-items:flex-start;gap:16px"><img class="av" src="${identicon(u.id, u.handle)}" width="72" height="72" alt=""><div style="min-width:0"><h1 class="h-page">${esc(u.handle)}</h1>
-      <div class="small" style="margin-top:2px">${[u.profession, u.staff_area, u.institution].filter(Boolean).map(esc).join(" · ") || "Job title not given"}</div>
-      <div class="trybar" style="margin-top:6px">${verified(u.ac_verified)}<span class="small">Member since ${esc(day(u.created_at))} · ${rankOf(u.rep, u.role)}</span></div></div></div>
-    <div class="stats3"><div><b>${posts.length}</b><span>Posts</span></div><div><b>${triedN}</b><span>Tries recorded</span></div><div><b>${u.rep}</b><span>Reputation</span></div></div>
+      <div class="small" style="margin-top:2px">${esc(u.profession || "")}</div>
+      <div class="trybar" style="margin-top:6px"><span class="small">Member since ${esc(day(u.created_at))} · ${rankOf(u.rep, u.role)}</span></div></div></div>
+    <div class="stats3"><div><b>${posts.length}</b><span>Posts</span></div><div><b>${triedN}</b><span>Recipes rated</span></div><div><b>${u.rep}</b><span>Reputation</span></div></div>
     ${active.length ? `<div class="small" style="margin-bottom:6px">Posts in</div>${active.map(b => `<a class="ht" href="${spaceHref(b.id)}">${esc(spaceName(b))}</a>`).join("")}` : ""}
-    ${wards.length ? `<div class="small" style="margin:8px 0 6px">Ward moderator for</div>${wards.map(w => `<a class="ht" href="${spaceHref(w.board_id)}">${esc(board(w.board_id) ? spaceName(board(w.board_id)) : w.board_id)}</a>`).join("")}` : ""}
-    ${isClerk ? `<div class="notice trybar small" style="margin-top:12px">Clerk tools: <button class="btn danger" id="ban">Suspend</button><button class="btn" id="unban">Restore</button><select id="wardB" style="width:auto" aria-label="Category to moderate">${S.boards.map(b => `<option value="${esc(b.id)}">${esc(spaceName(b))}</option>`).join("")}</select><button class="btn" id="wardAdd">Make ward moderator</button><button class="btn" id="wardDel">Remove as moderator</button><span id="admMsg"></span></div>` : ""}
+    ${wards.length ? `<div class="small" style="margin:8px 0 6px">Space moderator for</div>${wards.map(w => `<a class="ht" href="${spaceHref(w.board_id)}">${esc(board(w.board_id) ? spaceName(board(w.board_id)) : w.board_id)}</a>`).join("")}` : ""}
+    ${canAdmin ? `<div class="notice trybar small" style="margin-top:12px">Admin tools: <button class="btn danger" id="ban">Suspend</button><button class="btn" id="unban">Restore</button><select id="wardB" style="width:auto" aria-label="Space to moderate">${S.boards.map(b => `<option value="${esc(b.id)}">${esc(spaceName(b))}</option>`).join("")}</select><button class="btn" id="wardAdd">Make space moderator</button><button class="btn" id="wardDel">Remove as moderator</button><span id="admMsg"></span></div>` : ""}
    </section>
    <h2 style="font-size:22px;margin:8px 0 0">Posts</h2>${feed(sorted(posts, "new"), true, "No published posts yet.")}
   </div>
-  <aside class="colrail rail"><div class="card card-pad"><h2 class="h3">Reputation</h2><div class="small">Earned when colleagues say a workflow worked for them: 3 for "it worked", 1 for "partly", 1 per published post. Ranks: Resident (0-4), Citizen (5-19), Councillor (20-59), Alderman (60+).</div></div></aside></div>`;
+  <aside class="colrail rail"><div class="card card-pad"><h2 class="h3">Reputation</h2><div class="small">1 for each published story. Ranks: New member (0 to 4), Member (5 to 19), Regular (20 to 59), Trusted member (60 and over). Admins show as Admin.</div></div></aside></div>`;
   const am = t => { const el = document.getElementById("admMsg"); if (el) el.textContent = t; };
   const call = async (fn, args) => { const { error } = await sb.rpc(fn, args); am(error ? errMsg(error) : "Done."); };
   const bb = id => document.getElementById(id);
@@ -1167,21 +1154,14 @@ async function viewProfile(handle) {
     bb("wardDel").onclick = () => call("set_board_mod", { target_handle: u.handle, board: bb("wardB").value, make: false });
   }
 }
-async function viewStats() {
-  const { data } = await sb.from("tag_savings").select("*").order("posts", { ascending: false }).limit(200);
-  const list = data || [];
-  V.innerHTML = `${crumb("Time saved")}<div class="notice">These figures come from authors' own before and after times. Nobody has checked them. Treat them as a rough guide, and look at the "I tried this" counts on each post for a second opinion.</div>
-  <table class="fl"><tr><th>Hashtag</th><th class="ctr">Build posts</th><th class="ctr">Median saving</th><th class="ctr hide-s">Total time saved</th></tr>
-  ${list.map((s, i) => `<tr><td class="${i % 2 ? "r2" : "r1"}"><a class="ht" href="#tag-${esc(s.tag)}">#${esc(s.tag)}</a></td><td class="${i % 2 ? "r2" : "r1"} ctr">${s.posts}</td><td class="${i % 2 ? "r2" : "r1"} ctr"><b>${s.median_saving_pct}%</b></td><td class="${i % 2 ? "r2" : "r1"} ctr hide-s">${fmtMins(s.minutes_saved_total)}</td></tr>`).join("") || `<tr><td class="r1" colspan="4">No build posts yet.</td></tr>`}</table>`;
-}
 async function viewSearch() {
   const all = await fetchPosts(publishedPosts());
-  V.innerHTML = `${crumb("Search")}<div class="box"><div class="in" style="padding-top:18px"><label class="sr" for="q">Search</label><input type="text" id="q" placeholder="Words or #hashtags, e.g. rota #copilot">
-  <div style="margin-top:6px"><label for="qt">Type:</label> <select id="qt" style="width:auto"><option value="">Any</option>${TYPES_ALL.map(t => `<option>${t}</option>`).join("")}</select></div></div></div><div id="res"></div>`;
+  V.innerHTML = `${crumb("Search")}<div class="box"><div class="in" style="padding-top:18px"><label class="sr" for="q">Search</label><input type="text" id="q" placeholder="Words or #hashtags, e.g. parking appeal #complaint">
+  <div style="margin-top:6px"><label for="qt">Type:</label> <select id="qt" style="width:auto"><option value="">Any</option>${TYPES.map(t => `<option value="${t}">${TYPE_LABEL[t]}</option>`).join("")}</select></div></div></div><div id="res"></div>`;
   const run = () => {
     const raw = document.getElementById("q").value.toLowerCase(), ty = document.getElementById("qt").value;
     const tags = (raw.match(/#[a-z0-9-]+/g) || []).map(cleanTag), words = raw.replace(/#[a-z0-9-]+/g, " ").split(/\s+/).filter(Boolean);
-    const r = all.filter(p => (!ty || p.type === ty) && tags.every(t => (p.tags || []).includes(t)) && words.every(w => (p.title + " " + (p.tags || []).join(" ")).toLowerCase().includes(w)));
+    const r = all.filter(p => (!ty || p.type === ty) && tags.every(t => (p.tags || []).includes(t)) && words.every(w => [p.title, p.task, p.body, (p.tags || []).join(" ")].join(" ").toLowerCase().includes(w)));
     document.getElementById("res").innerHTML = feed(sorted(r), true, "No posts match that search.");
   };
   if (S.pendingQuery) { document.getElementById("q").value = S.pendingQuery; S.pendingQuery = ""; }
@@ -1191,22 +1171,27 @@ async function viewSearch() {
 // ================= moderation =================
 async function viewMod() {
   if (!S.isMod) return viewNotFound();
-  const [pend, reps] = await Promise.all([
+  const [pend, reps, drafts] = await Promise.all([
     sb.from("post_feed").select(FEED_COLS + ",body").eq("status", "pending").order("created_at"),
-    sb.from("reports").select("id,reason,created_at,post_id,reply_id,status,posts(title,board_id),replies(body,post_id)").eq("status", "open").order("created_at")
+    sb.from("reports").select("id,reason,created_at,post_id,reply_id,status,posts(title,board_id),replies(body,post_id)").eq("status", "open").order("created_at"),
+    isAdmin() ? sb.from("post_feed").select("id,title,board_id,created_at,type").eq("status", "draft").order("created_at") : Promise.resolve({ data: [] })
   ]);
   const pp = (pend.data || []).filter(p => isModOf(p.board_id));
+  const rc = i => i % 2 ? "r2" : "r1";
   V.innerHTML = `${crumb("Moderation")}<div id="metrics"></div>
   <table class="fl"><tr><th colspan="3">Waiting for approval (${pp.length})</th></tr>
-  ${pp.map((p, i) => `<tr><td class="${i % 2 ? "r2" : "r1"}">${typeTag(p.type)}<a class="b" href="#t-${esc(p.id)}">${esc(p.title)}</a><br><span class="small">${userLink(p.author_handle)} in ${esc((board(p.board_id) || {}).name || p.board_id)}, ${esc(when(p.created_at))}</span><pre class="small">${esc((p.body || "").slice(0, 300))}</pre></td>
-   <td class="${i % 2 ? "r2" : "r1"} ctr"><button class="btn" data-ap="${esc(p.id)}">Approve</button></td><td class="${i % 2 ? "r2" : "r1"} ctr"><button class="btn danger" data-rm="${esc(p.id)}">Remove</button></td></tr>`).join("") || `<tr><td class="r1" colspan="3">Nothing waiting.</td></tr>`}
+  ${pp.map((p, i) => `<tr><td class="${rc(i)}">${typeTag(p.type)}<a class="b" href="#t-${esc(p.id)}">${esc(p.title)}</a><br><span class="small">${userLink(p.author_handle)} in /${esc(p.board_id)}, ${esc(when(p.created_at))}${HELD.includes(p.board_id) ? " · always checked in this space" : ""}</span><pre class="small">${esc((p.body || "").slice(0, 300))}</pre></td>
+   <td class="${rc(i)} ctr"><button class="btn" data-ap="${esc(p.id)}">Approve</button></td><td class="${rc(i)} ctr"><button class="btn danger" data-rm="${esc(p.id)}">Take down</button></td></tr>`).join("") || `<tr><td class="r1" colspan="3">Nothing waiting.</td></tr>`}
   </table>
+  ${isAdmin() ? `<table class="fl"><tr><th colspan="2">Draft recipes (${(drafts.data || []).length})</th></tr>
+  ${(drafts.data || []).map((p, i) => `<tr><td class="${rc(i)}"><a class="b" href="#t-${esc(p.id)}">${esc(p.title)}</a><br><span class="small">/${esc(p.board_id)}, started ${esc(day(p.created_at))}</span></td><td class="${rc(i)} ctr"><a class="btn" href="#recipe-edit-${esc(p.id)}">Edit</a></td></tr>`).join("") || `<tr><td class="r1" colspan="2">No drafts.</td></tr>`}
+  </table>` : ""}
   <table class="fl"><tr><th colspan="3">Open reports (${(reps.data || []).length})</th></tr>
-  ${(reps.data || []).map((r, i) => `<tr><td class="${i % 2 ? "r2" : "r1"}">"${esc(r.reason)}"<br><span class="small">${r.post_id ? `Post: <a href="#t-${esc(r.post_id)}">${esc(r.posts ? r.posts.title : "")}</a>` : `Reply on <a href="#t-${esc(r.replies ? r.replies.post_id : "")}">this topic</a>: ${esc(r.replies ? r.replies.body.slice(0, 120) : "")}`} | ${esc(when(r.created_at))}</span></td>
-   <td class="${i % 2 ? "r2" : "r1"} ctr"><button class="btn danger" data-act="${esc(r.id)}">Remove content</button></td><td class="${i % 2 ? "r2" : "r1"} ctr"><button class="btn" data-dis="${esc(r.id)}">Dismiss</button></td></tr>`).join("") || `<tr><td class="r1" colspan="3">No open reports.</td></tr>`}
+  ${(reps.data || []).map((r, i) => `<tr><td class="${rc(i)}">"${esc(r.reason)}"<br><span class="small">${r.post_id ? `Post: <a href="#t-${esc(r.post_id)}">${esc(r.posts ? r.posts.title : "")}</a>` : `Reply on <a href="#t-${esc(r.replies ? r.replies.post_id : "")}">this post</a>: ${esc(r.replies ? r.replies.body.slice(0, 120) : "")}`} | ${esc(when(r.created_at))}</span></td>
+   <td class="${rc(i)} ctr"><button class="btn danger" data-act="${esc(r.id)}">Take down</button></td><td class="${rc(i)} ctr"><button class="btn" data-dis="${esc(r.id)}">Dismiss</button></td></tr>`).join("") || `<tr><td class="r1" colspan="3">No open reports.</td></tr>`}
   </table>
-  <div class="small">Keep a short note of serious reports and what you did. Under the Online Safety Act you should be able to show how you handle illegal content.</div>`;
-  const re = () => viewMod();
+  <div class="small">Keep a short note of serious reports and what you did. Under the Online Safety Act you should be able to show how you handle illegal content and complaints.</div>`;
+  const re = () => viewMod().then(loadMetrics);
   V.querySelectorAll("[data-ap]").forEach(b => b.onclick = async () => { await sb.from("posts").update({ status: "published" }).eq("id", b.dataset.ap); re(); });
   V.querySelectorAll("[data-rm]").forEach(b => b.onclick = async () => { await sb.from("posts").update({ status: "removed" }).eq("id", b.dataset.rm); re(); });
   V.querySelectorAll("[data-dis]").forEach(b => b.onclick = async () => { await sb.from("reports").update({ status: "dismissed" }).eq("id", b.dataset.dis); re(); });
@@ -1221,30 +1206,31 @@ async function viewMod() {
 // ================= static pages =================
 function viewBadge() {
   const site = SITE();
-  const code = `<a href="${site}"><img src="${site.replace(/[^/]*$/, "")}badge.png" width="88" height="31" alt="Featured on Townhall"></a>`;
-  V.innerHTML = `${crumb("Get a badge")}<div class="box"><h2 class="h3">Featured on Townhall</h2><div class="in">
-    <img src="badge.png" width="88" height="31" alt="Featured on Townhall badge" style="image-rendering:pixelated"><br><br>
-    Paste this into your own site to link back to Townhall:
+  const code = `<a href="${site}"><img src="${site.replace(/[^/]*$/, "")}badge.png" width="88" height="31" alt="Featured on ${APP_NAME}"></a>`;
+  V.innerHTML = `${crumb("Get a badge")}<div class="box"><h2 class="h3">Featured on ${esc(APP_NAME)}</h2><div class="in">
+    <img src="badge.png" width="88" height="31" alt="Featured on ${esc(APP_NAME)} badge" style="image-rendering:pixelated"><br><br>
+    Paste this into your own site to link back to ${esc(APP_NAME)}:
     <textarea id="bc" readonly style="min-height:60px">${esc(code)}</textarea>
     <button class="btn" id="cp">Copy</button> <span id="cpm" class="small"></span></div></div>`;
   document.getElementById("cp").onclick = async () => { try { await navigator.clipboard.writeText(code); document.getElementById("cpm").textContent = "Copied."; } catch (_) { document.getElementById("bc").select(); document.getElementById("cpm").textContent = "Press Ctrl+C to copy."; } };
 }
 function viewFaq() {
-  V.innerHTML = `${crumb("FAQ")}<table class="fl"><tr><th>Frequently asked questions</th></tr>
-  <tr><td class="r1"><b>Who is Townhall for?</b><br>Staff at UK universities and colleges: academics, professional services, researchers, learning technologists, library and IT teams. Anyone can read. Anyone can join with any email address. Accounts that use a .ac.uk email show an "ac.uk" badge, so readers can see who is verified as working at a UK university or college.</td></tr>
-  <tr><td class="r2"><b>Is this run by my university?</b><br>No. Townhall is independent. Post as yourself, and only share what your institution would be happy to see in public.</td></tr>
-  <tr><td class="r1"><b>What's the difference between Like and "I tried this"?</b><br>Like means you found it interesting. "I tried this" means you used the workflow or agent yourself and say whether it worked at your institution. Tries count for far more in rankings and reputation.</td></tr>
-  <tr><td class="r2"><b>Can I share a Copilot agent?</b><br>Yes: post it as AGENT. Put the agent's instructions in "Prompt or setup" and describe its knowledge sources and actions in words. Never paste internal links, file paths or anything from your tenant.</td></tr>
-  <tr><td class="r1"><b>Can I share a prompt or agent that uses real data?</b><br>Not as it is. Townhall is public. Replace anything real in the prompt, agent instructions, knowledge sources, examples and screenshots with dummy data first: made-up names, fake student IDs, sample figures, "Module ABC123". The workflow is what colleagues need, not your data.</td></tr>
-  <tr><td class="r2"><b>What does "Data that went in" mean?</b><br>Every build post says whether it used no data, internal information, or personal data in a tool your institution approved. It helps colleagues judge whether they could do the same under their own policies.</td></tr>
-  <tr><td class="r2"><b>What does "may be out of date" mean?</b><br>The post hasn't been re-tested for 6 months. AI tools change fast. Authors can press "I've re-tested this" to clear it.</td></tr>
-  <tr><td class="r1"><b>What's a fork?</b><br>A copy of someone's setup that you changed for your context. Your post links back to theirs, so they get credit.</td></tr>
-  <tr><td class="r2"><b>Why was my post held?</b><br>Posts from accounts without a university email (.ac.uk) are checked by a moderator until three have been approved. After that, yours go live straight away. Accounts with a .ac.uk email go live straight away from the start. Everyone's posts still pass the automatic personal-data checks, and anyone can report a post.</td></tr>
-  <tr><td class="r1"><b>The text is hard to read.</b><br>Open <a href="#display">Text &amp; display</a> and pick Readable or Large &amp; high contrast.</td></tr></table>`;
+  const qa = [
+    ["Who is this for?", `Adults in the UK who want help with everyday paperwork using free AI tools such as ChatGPT, Microsoft Copilot, Google Gemini and Claude. It's also for people who help others: library volunteers, support workers and family members.`],
+    ["What's the difference between a story and a recipe?", `A story is a member saying what they needed to do, which tool they used, roughly what they typed and what happened. A recipe is a step-by-step guide that we write from the best stories and test ourselves. Recipes have prompts you can copy, what never to paste, and links to official sources to check the answer.`],
+    ["Is this advice?", `No. ${esc(NOT_ADVICE)} AI tools make mistakes. Always check the answer with the official sources each recipe links to, such as GOV.UK, Citizens Advice or the relevant ombudsman.`],
+    ["What does \"Worked for me\" do?", `It tells us and other readers that the recipe worked when you tried it. If it didn't, tell us which tool you used and what went wrong, so we can fix it. Recipes are sorted by how many people say they worked.`],
+    ["What does \"May be out of date\" mean?", `Every recipe has a re-test date. AI tools change fast. Once that date passes, the recipe shows this label until we test it again.`],
+    ["What shouldn't I paste into an AI tool?", `Your full name and address, National Insurance number, bank or card details, passwords, and reference numbers you don't need. Each recipe lists what to keep out. See <a href="#safe-sharing">What you can safely share</a>.`],
+    ["Why was my story held?", `A moderator checks the first three stories from each new member. After that yours go live straight away, except in /money, /health-admin and /complaints, where every story is checked. Everyone's posts pass an automatic check for personal details, and anyone can report a post.`],
+    ["Can I get medical advice here?", `No. /health-admin is only for appointments, forms and NHS paperwork. For health worries, contact your GP or NHS 111. In an emergency, call 999.`],
+    ["The text is hard to read.", `Open <a href="#display">Text &amp; display</a> and pick Readable or Large &amp; high contrast.`]
+  ];
+  V.innerHTML = `${crumb("FAQ")}<table class="fl"><tr><th>Frequently asked questions</th></tr>${qa.map(([q, a], i) => `<tr><td class="${i % 2 ? "r2" : "r1"}"><b>${q}</b><br>${a}</td></tr>`).join("")}</table>`;
 }
 // ================= legal and guidance pages =================
-const OPERATOR = { name: "Ahmad Ismail", email: "ahmadismailcv@gmail.com" }; // fill in before launch: who runs Townhall and how to contact them
-const LAST_UPDATED = "7 November 2026";
+const OPERATOR = { name: "Ahmad Ismail", email: "ahmadismailcv@gmail.com" }; // who runs the site and how to contact them (shown publicly on purpose)
+const LAST_UPDATED = "20 November 2026";
 const opName = () => OPERATOR.name ? esc(OPERATOR.name) : `<mark>[operator name: add before launch]</mark>`;
 const opEmail = () => OPERATOR.email ? `<a href="mailto:${esc(OPERATOR.email)}">${esc(OPERATOR.email)}</a>` : `<mark>[contact email: add before launch]</mark>`;
 function docPage(title, intro, sections) {
@@ -1254,73 +1240,87 @@ function docPage(title, intro, sections) {
    <p class="small" style="margin-top:20px">Last updated ${LAST_UPDATED}.</p></article>`;
   V.querySelectorAll("[data-sec]").forEach(a => a.onclick = e => { e.preventDefault(); const t = document.getElementById("sec-" + a.dataset.sec); t.scrollIntoView({ behavior: "smooth" }); t.querySelector("h2").setAttribute("tabindex", "-1"); t.querySelector("h2").focus({ preventScroll: true }); });
 }
+const notAdviceSec = ["Not advice", `<p><b>${esc(NOT_ADVICE)}</b> Stories are members' own experiences. Recipes are our best attempt at a reliable method, tested on the dates shown, but AI tools change and make mistakes. Check every answer against the official sources linked, and get proper advice for anything important, for example from Citizens Advice, a solicitor, your GP or NHS 111.</p>`];
 function viewRules() {
-  docPage("House rules", "Short version: share what you actually did, use dummy data, and be decent to each other.", [
-    ["Who Townhall is for", `<p>People who work in or with UK higher and further education and use AI in their jobs. Anyone can read. Anyone can join; accounts with a university email show an "ac.uk" badge.</p>`],
-    ["Post what you actually did", `<p>Report real times and real results, including what went wrong. Don't invent or round up savings. If you haven't re-tested something in six months, it will be marked as possibly out of date.</p>`],
-    ["No real data, anywhere", `<p>Townhall is public. Before you post, replace anything real in your prompt, agent instructions, knowledge sources, examples and screenshots with dummy data. That means no names, emails, student or staff IDs, marks, cases, health or financial details, or anything that could identify a person. See <a href="#safe-sharing">What you can safely share</a>.</p>`],
-    ["Nothing confidential to your institution", `<p>No internal documents, internal links, file paths, SharePoint or Teams site names, tenant or system details, credentials, API keys, contract terms or unpublished policy.</p>`],
-    ["Post as yourself", `<p>You speak for yourself, not your institution, unless you have permission. Check your institution's AI and data policies before sharing how you use a tool at work.</p>`],
-    ["Be honest about interests", `<p>If you sell, built or are paid to promote the tool you're posting about, say so in the post. No undisclosed selling, spam or affiliate links.</p>`],
-    ["Respect people", `<p>Disagree with the work, not the person. No harassment, hate, threats, or illegal content of any kind.</p>`],
-    ["Moderation", `<p>Use the Report button on anything that breaks these rules. Moderators can hold, remove or edit-lock posts and suspend accounts. Posts from accounts without a university email are checked by a moderator until three have been approved. If you think a decision was wrong, contact ${opEmail()}.</p>`]
+  docPage("House rules", "Short version: share what really happened, keep personal details out, and be decent to each other.", [
+    ["Who it's for", `<p>Adults (18 and over) in the UK who use, or want to use, free AI tools for everyday jobs, and the people who help them. Anyone can read. Anyone 18 or over can join.</p>`],
+    ["Share what really happened", `<p>Say what you needed to do, which tool you used and what happened, including what went wrong. Don't invent results.</p>`],
+    ["Nothing personal, anywhere", `<p>Everything here is public. Leave out names, addresses, postcodes, phone numbers, email addresses, bank and card details, National Insurance numbers, and account or reference numbers, about you or anyone else. Write [my postcode] or [account number] instead. The site blocks the most common ones automatically. See <a href="#safe-sharing">What you can safely share</a>.</p>`],
+    ["No diagnosis or treatment advice", `<p>/health-admin is for appointments, forms and paperwork only. Don't post or ask for medical diagnosis or treatment advice.</p>`],
+    ["Be honest about interests", `<p>If you sell, built or are paid to promote a tool you mention, say so. No selling, spam or affiliate links.</p>`],
+    ["Respect people", `<p>No harassment, hate, threats, scams or illegal content of any kind.</p>`],
+    ["Moderation", `<p>Press Report on any post or reply that breaks these rules. Moderators can hold or take down posts and suspend accounts. The first three stories from each new member, and every story in /money, /health-admin and /complaints, are checked before they go live. To complain about a decision, see <a href="#complaints">Reports and complaints</a>.</p>`],
+    notAdviceSec
   ]);
 }
 function viewSafeSharing() {
-  docPage("What you can safely share", "Colleagues need your method, not your data. Use this checklist before you post or upload a screenshot.", [
-    ["Share freely", `<ul><li>What the task was and roughly how long it took before and after.</li><li>The tool, plan and model version.</li><li>Your prompt or agent instructions, once any real details are swapped out.</li><li>Knowledge sources described in words, e.g. "published regulations pages" or "a sample rubric".</li><li>What went wrong and how you fixed it.</li></ul>`],
-    ["Swap for dummy data", `<table class="fl small"><thead><tr><th scope="col">Real</th><th scope="col">Use instead</th></tr></thead><tbody>
-      <tr><td>Student or staff names</td><td>Student A, Lecturer B, "Sam Example"</td></tr>
-      <tr><td>Student or staff ID numbers</td><td>U0000001, 1234567</td></tr>
-      <tr><td>Module or course codes</td><td>ABC123, "Module X"</td></tr>
-      <tr><td>Marks, grades, cases</td><td>Invented values that show the format</td></tr>
-      <tr><td>Emails, phone numbers</td><td>name@example.ac.uk, 01234 567890</td></tr>
-      <tr><td>Internal links and file paths</td><td>"the team SharePoint site", "a shared Excel file"</td></tr>
-      <tr><td>Committee papers, minutes</td><td>A short made-up example in the same layout</td></tr></tbody></table>`],
-    ["Screenshots", `<ul><li>Take them from a test run that uses dummy data.</li><li>Crop to the part that matters. Check browser tabs, bookmarks, notification pop-ups, your name and photo in the corner, and email previews.</li><li>Hide tenant names, site addresses and account details.</li><li>Townhall resizes images and removes hidden metadata such as location, but it can't read what's in the picture. You're responsible for what it shows.</li></ul>`],
-    ["Check you're allowed to", `<ul><li>Work you create in your job may belong to your employer. Most institutions are happy for staff to share good practice, but check if you're unsure.</li><li>Follow your institution's AI policy and data protection rules. If a workflow used personal data, say so in "Data that went in", and say whether the tool was approved for it.</li><li>Don't share material that belongs to someone else, such as a supplier's documentation or a paid course.</li></ul>`],
-    ["If you make a mistake", `<p>Delete or edit the post straight away, or press Report on your own post so a moderator can remove it. If real personal data was shared, tell your institution's data protection officer: they may need to assess it.</p>`]
+  docPage("What you can safely share", "Use this checklist before you post, upload a screenshot or paste anything into an AI tool.", [
+    ["Share freely", `<ul><li>What you needed to do, in general terms.</li><li>Which AI tool you used.</li><li>Roughly what you typed, once anything personal is taken out.</li><li>What the AI got right and wrong, and what you checked.</li></ul>`],
+    ["Swap for placeholders", `<table class="fl small"><thead><tr><th scope="col">Real</th><th scope="col">Write instead</th></tr></thead><tbody>
+      <tr><td>Your name, or anyone else's</td><td>[my name], [my landlord]</td></tr>
+      <tr><td>Address and postcode</td><td>[my address], [my postcode]</td></tr>
+      <tr><td>Phone number, email</td><td>[my phone], [my email]</td></tr>
+      <tr><td>Bank, sort code, card</td><td>[account number], [sort code]</td></tr>
+      <tr><td>National Insurance number</td><td>[NI number]</td></tr>
+      <tr><td>Account or reference numbers</td><td>[reference number]</td></tr>
+      <tr><td>Amounts and dates</td><td>Fine to include if they don't identify you</td></tr></tbody></table>`],
+    ["Screenshots", `<ul><li>Crop to the part that matters.</li><li>Check for your name, address, email previews, account numbers and profile photos.</li><li>We resize images and remove hidden metadata such as location, but we can't read what's in the picture. You're responsible for what it shows.</li></ul>`],
+    ["What never to paste into an AI tool", `<ul><li>Passwords, PINs and security codes.</li><li>Full bank or card details.</li><li>Your National Insurance number or passport number.</li><li>Anything about someone else that they wouldn't want shared.</li></ul><p>Free AI tools may store what you type and use it to improve their service. Check the tool's own settings and privacy notice.</p>`],
+    ["If you make a mistake", `<p>Delete the post straight away, or press Report on it so a moderator can take it down. If you shared bank or card details, contact your bank.</p>`]
   ]);
 }
 function viewTerms() {
-  docPage("Terms of use", "The agreement between you and Townhall. Plain English, kept short.", [
-    ["Who runs Townhall", `<p>Townhall is run by ${opName()} as an independent, non-commercial community. It is not run by, or speaking for, any university, college or sector body. Contact: ${opEmail()}.</p>`],
-    ["Your account", `<p>You need to be 18 or over. Keep your login to yourself. You're responsible for what you post from your account. You can delete your account at any time in <a href="#me">Settings</a>.</p>`],
-    ["What you post and the licence", `<p>You keep the copyright in what you post. By posting, you license it to everyone under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons Attribution 4.0 (CC BY 4.0)</a>. That covers titles, descriptions, prompts, agent instructions, knowledge-source descriptions, screenshots and replies. Anyone can reuse and adapt it, including by forking or saving it to their library, as long as they credit you. This is what makes sharing and forking work.</p><p>Only post material you have the right to share. Items in your private library aren't published or licensed to anyone until you publish them.</p>`],
-    ["Rules", `<p>Follow the <a href="#rules">house rules</a>. In particular, never post personal data or confidential institutional information. Use dummy data.</p>`],
-    ["Moderation and removal", `<p>We can hold, remove or restrict content, and suspend or close accounts, if they break these terms or the house rules, or if we must by law. We'll explain why where we can. You can ask for a decision to be reviewed by contacting ${opEmail()}.</p>`],
-    ["No guarantees", `<p>Workflows, prompts and agents are shared by colleagues as they are. They may be wrong, out of date or unsuitable for your institution. Test with dummy data, check your own policies, and check AI output before relying on it. Time savings are reported by authors and aren't independently checked. Townhall is provided without any warranty, and we aren't liable for losses from using content posted here, except where the law doesn't allow us to exclude that liability.</p>`],
-    ["Changes", `<p>We may update these terms. If a change matters, we'll say so on the site before it takes effect. Carrying on using Townhall means you accept the updated terms.</p>`],
+  docPage("Terms of use", `The agreement between you and ${esc(APP_NAME)}. Plain English, kept short.`, [
+    ["Who runs it", `<p>${esc(APP_NAME)} is run by ${opName()} as an independent, non-commercial site. Contact: ${opEmail()}.</p>`],
+    ["Your account", `<p>You must be 18 or over. Keep your login to yourself. You're responsible for what you post from your account. You can delete your account at any time in <a href="#me">Settings</a>.</p>`],
+    ["What you post and the licence", `<p>You keep the copyright in what you post. By posting, you license it to everyone under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons Attribution 4.0 (CC BY 4.0)</a>, so others can reuse it with credit to you. We may use stories to write recipes, and we credit and link the stories we use. Only post material you have the right to share. Items in your private library aren't published.</p>`],
+    ["Rules", `<p>Follow the <a href="#rules">house rules</a>. In particular, never post personal details about you or anyone else.</p>`],
+    notAdviceSec,
+    ["Moderation, reports and complaints", `<p>We can hold, take down or restrict content, and suspend or close accounts, if they break these terms or the house rules, or if the law requires it. We'll explain why where we can. To report content, press Report on it. To complain, including about a moderation decision, see <a href="#complaints">Reports and complaints</a>.</p>`],
+    ["Online safety", `<p>We take steps to protect users from illegal content, as the Online Safety Act 2023 requires: automatic checks, moderation before publishing for new members and sensitive spaces, a Report button on every post and reply, and a complaints route.</p><p><mark>TODO before launch: add a summary of the Online Safety Act illegal content risk assessment here (risks found, and what we do about each).</mark></p>`],
+    ["No guarantees", `<p>Stories and recipes are provided as they are. They may be wrong, out of date or unsuitable for your situation. ${esc(APP_NAME)} is provided without any warranty, and we aren't liable for losses from using content posted here, except where the law doesn't allow us to exclude that liability.</p>`],
+    ["Changes", `<p>We may update these terms. If a change matters, we'll say so on the site before it takes effect.</p>`],
     ["Law", `<p>These terms are governed by the law of England and Wales.</p>`]
   ]);
 }
+function viewComplaints() {
+  docPage("Reports and complaints", "How to report a post, and how to complain if you're unhappy with us.", [
+    ["Report a post or reply", `<p>Press <b>Report</b> under any post or reply and say what's wrong. You need to be logged in. A moderator looks at every report, usually within 2 working days, and takes content down if it breaks the <a href="#rules">house rules</a> or the law.</p>`],
+    ["Something urgent or illegal", `<p>If content puts someone in danger, contact the police first (999 in an emergency). Then report it here, or email ${opEmail()} with a link to the post.</p>`],
+    ["Complain about a decision", `<p>If we took down your post, held it, or suspended your account and you think we got it wrong, email ${opEmail()}. Say which post or account, and why. We'll reply within 10 working days and explain what we decided.</p>`],
+    ["Personal data", `<p>If you think your personal details have been posted, report the post and email ${opEmail()}. You can also complain to the <a href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noopener">Information Commissioner's Office</a>.</p>`],
+    ["If you're not happy with our answer", `<p>Online safety complaints can also go to Ofcom, the online safety regulator. See <a href="https://www.ofcom.org.uk/online-safety" target="_blank" rel="noopener">Ofcom: online safety</a>.</p>`]
+  ]);
+}
 function viewPrivacy() {
-  docPage("Privacy notice", "What Townhall collects, why, and what you can do about it.", [
-    ["Who is responsible", `<p>${opName()} is the data controller for Townhall. Contact: ${opEmail()}.</p>`],
-    ["What we collect", `<ul><li><b>Account:</b> your email address and password (the password is stored as a secure hash), your username, area of work, and optionally your job title and institution.</li><li><b>What you do:</b> your posts, screenshots, replies, likes, tries, votes, follows, reports, library items and display settings.</li><li><b>Notifications</b> about activity on your posts, kept for 120 days.</li><li><b>Visit counts:</b> one number per page type per day (for example "post pages: 140"). No cookies, IP addresses or anything that identifies you is stored for this.</li></ul>`],
-    ["Why, and the lawful basis", `<ul><li>To run your account and show your contributions: legitimate interests in running a professional community you've chosen to join.</li><li>To show the "ac.uk" badge: we check whether your email ends in .ac.uk. The email itself is never shown.</li><li>To keep the site safe: moderation, reports and automatic checks for personal data.</li><li>Weekly digest emails, only if you switch them on: consent, which you can withdraw in Settings.</li></ul><p>We don't sell data, show adverts or use your content to train AI models.</p>`],
-    ["Who can see what", `<p><b>Public:</b> your username, area of work, posts, replies, tries and, if you give them, your job title and institution. You can hide your institution in <a href="#me">Settings</a>.</p><p><b>Private:</b> your email address, display settings, library, follows, notifications and reports.</p>`],
-    ["Where it's stored and who processes it", `<p>Data is stored by Supabase in its London (UK) region. The website is served by a hosting provider, and, once switched on, emails are sent by an email delivery service. These providers process data only to run the service. A full list is available on request.</p>`],
-    ["How long we keep it", `<p>Until you delete your account. When you do, your login, profile, library, notifications, likes, tries, votes and follows are deleted. Posts you didn't delete stay up as "[deleted member]". Notifications are deleted after 120 days. Daily visit counts are deleted after about 13 months.</p>`],
-    ["Your rights", `<p>You can see a copy of your data, download a record of your contributions, correct your profile and delete your account at any time from <a href="#me">Settings</a>. You can also ask for access, correction, deletion or restriction, or object to processing, by contacting ${opEmail()}. If you're unhappy with how we've handled your data, you can complain to the <a href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noopener">Information Commissioner's Office</a>.</p>`],
-    ["Cookies and browser storage", `<p>Townhall stores your login session and display choice in your browser so the site works. When you log in from a post, it also keeps the page you were on, and any try you recorded before logging in, for up to a day so it can take you back there. There are no advertising, tracking or analytics cookies, so there's no cookie banner.</p>`],
-    ["Children", `<p>Townhall is for adults working in education. You must be 18 or over to join.</p>`]
+  docPage("Privacy notice", `What ${esc(APP_NAME)} collects, why, and what you can do about it.`, [
+    ["Who is responsible", `<p>${opName()} is the data controller for ${esc(APP_NAME)}. Contact: ${opEmail()}.</p>`],
+    ["What we collect", `<ul><li><b>Account:</b> your email address and password (stored as a secure hash), your username and, if you give it, a short line about you.</li><li><b>What you do:</b> your stories, screenshots, replies, likes, recipe ratings, follows, reports, library items and display settings.</li><li><b>Notifications</b> about activity on your posts, kept for 120 days.</li><li><b>Counts:</b> one number per page type per day, and a count of clicks on the two home page buttons. No cookies, IP addresses or anything that identifies you is stored for these.</li></ul>`],
+    ["Why, and the lawful basis", `<ul><li>To run your account and show your posts: legitimate interests in running a community you've chosen to join.</li><li>To keep the site safe: moderation, reports and automatic checks for personal details.</li><li>Weekly digest emails, only if you switch them on: consent, which you can withdraw in Settings.</li></ul><p>We don't sell data, show adverts or use your content to train AI models.</p>`],
+    ["Who can see what", `<p><b>Public:</b> your username, the line about you, your posts, replies and recipe ratings.</p><p><b>Private:</b> your email address, display settings, library, follows, notifications and reports.</p>`],
+    ["AI tools you use", `<p>We don't send anything you type here to an AI tool. When you use ChatGPT, Copilot, Gemini or Claude yourself, that company's own privacy notice applies.</p>`],
+    ["Where it's stored and who processes it", `<p>Data is stored by Supabase in its London (UK) region. The website is served by a hosting provider, and, once switched on, emails are sent by an email delivery service. These providers process data only to run the service.</p>`],
+    ["How long we keep it", `<p>Until you delete your account. When you do, your login, profile, library, notifications, likes, ratings and follows are deleted. Stories you didn't delete stay up as "[deleted member]". Notifications are deleted after 120 days. Daily counts are deleted after about 13 months.</p>`],
+    ["Your rights", `<p>You can see a copy of your data, correct your profile and delete your account at any time from <a href="#me">Settings</a>. You can also ask for access, correction, deletion or restriction, or object to processing, by contacting ${opEmail()}. If you're unhappy with how we've handled your data, you can complain to the <a href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noopener">Information Commissioner's Office</a>.</p>`],
+    ["Cookies and browser storage", `<p>We store your login session and display choice in your browser so the site works. When you log in from a recipe, we also keep the page you were on, and any answer you gave before logging in, for up to a day. There are no advertising, tracking or analytics cookies, so there's no cookie banner.</p>`],
+    ["Children", `<p>${esc(APP_NAME)} is for adults. You must be 18 or over to join.</p>`]
   ]);
 }
 function viewAccessibility() {
-  docPage("Accessibility statement", "We want everyone who works in higher and further education to be able to use Townhall.", [
+  docPage("Accessibility statement", `We want everyone to be able to use ${esc(APP_NAME)}.`, [
     ["How accessible the site is", `<p>We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA. We test every page with an automated checker (axe-core) and fix what it finds, and the site can be used with a keyboard alone.</p>`],
-    ["Ways to adjust the site", `<ul><li><a href="#display">Text &amp; display</a> offers a Readable mode with a dyslexia-friendly font, and a Large &amp; high-contrast mode.</li><li>You can zoom to 200% without losing content, and the layout works on phones.</li><li>Press <kbd>/</kbd> to jump to any category, and use Back and Forward in the top bar or Alt and the arrow keys.</li></ul>`],
+    ["Ways to adjust the site", `<ul><li><a href="#display">Text &amp; display</a> offers a Readable mode with an easy-to-read font, and a Large &amp; high-contrast mode.</li><li>You can zoom to 200% without losing content, and the layout works on phones.</li><li>Every recipe has a print button that gives a clean one-page copy.</li><li>Press <kbd>/</kbd> to jump to any space, and use Back and Forward in the top bar or Alt and the arrow keys.</li></ul>`],
     ["Known limitations", `<ul><li>Screenshots in posts are uploaded by members and usually have no text description.</li><li>Automated testing finds many but not all problems. We haven't yet had a full manual audit with assistive-technology users.</li><li>News headlines link to other organisations' sites, which have their own accessibility.</li></ul>`],
     ["Reporting a problem", `<p>If something doesn't work for you, contact ${opEmail()} and say which page and what happened. We'll aim to reply within 5 working days.</p>`]
   ]);
 }
 function viewAbout() {
-  docPage("About Townhall", "A place for staff in UK higher and further education to share what they've built with AI, honestly, including what went wrong.", [
-    ["Why it exists", `<p>Staff across the sector are building the same AI workflows in parallel, often alone and often without knowing what works. Townhall puts the real details in one place: the task, the tool, the time before and after, the data used and what went wrong. Colleagues then say whether it worked for them too.</p>`],
-    ["Who runs it", `<p>Townhall is run by ${opName()} in a personal capacity. It's independent and non-commercial: no adverts, no data sales, no paid placements, and it isn't connected to any commercial service. It isn't run by, or endorsed by, any university, college or sector body.</p>`],
-    ["How it works", `<ul><li>Every post sits in one <a href="#categories">category</a>, named after the task it helps with.</li><li>"I tried this" counts for more than likes, and reputation comes from colleagues saying your workflow worked.</li><li>Everything posted is shared under CC BY 4.0, so anyone can fork and adapt it with credit. See the <a href="#terms">terms</a>.</li></ul>`],
-    ["Get involved", `<p><a href="#join">Join</a>, share one thing you've built, and record a try when you use someone else's workflow. Suggestions for how the site is run go in <a href="#b-townhall">Motions &amp; meetings</a>.</p>`]
+  docPage(`About ${esc(APP_NAME)}`, esc(TAGLINE), [
+    ["Why it exists", `<p>Free AI tools can help with the boring bits of life: bills, letters, complaints and forms. But most people don't know what to type, what to keep private, or how to check the answer. Here, members share what worked for them, and we turn the best into tested, step-by-step recipes.</p>`],
+    ["Who runs it", `<p>${esc(APP_NAME)} is run by ${opName()} in a personal capacity. It's independent and non-commercial: no adverts, no data sales, no paid placements. It isn't connected to any AI company.</p>`],
+    ["How it works", `<ul><li><b>Stories</b> come from members: what they needed to do, the tool, roughly what they typed, and what happened.</li><li><b>Recipes</b> are written and tested by us. Each shows the prompts, what never to paste, how to check the answer, and when it was last tested.</li><li>Readers say whether a recipe worked for them, so the best rise to the top.</li></ul>`],
+    notAdviceSec,
+    ["Get involved", `<p><a href="#join">Join</a> and share one thing AI helped you with. If you try a recipe, say whether it worked.</p>`]
   ]);
 }
 function viewNotFound(msg) { V.innerHTML = crumb("") + `<div class="notice">${esc(msg || "That page doesn't exist.")}</div>`; }
@@ -1336,12 +1336,16 @@ async function route() {
   try { sb.rpc("track_view", { p: location.hash || "#index" }).then(() => {}, () => {}); } catch (_) { }
   try {
     if (h === "index") await viewIndex();
+    else if (h === "recipes") await viewRecipes();
+    else if (h === "recipe-new") await viewRecipeForm(null, null);
+    else if (h.startsWith("recipe-edit-")) await viewRecipeForm(h.slice(12), null);
+    else if (h.startsWith("recipe-from-")) await viewRecipeForm(null, h.slice(12));
     else if (h.startsWith("b-")) await viewBoard(h.slice(2));
     else if (h.startsWith("tag-")) await viewTag(h.slice(4));
     else if (h.startsWith("t-")) await viewTopic(h.slice(2));
     else if (h.startsWith("u-")) await viewProfile(decodeURIComponent(h.slice(2)));
     else if (h.startsWith("/")) await viewBoard(h.slice(1));
-    else if (h.startsWith("fork-")) await viewPost(null, h.slice(5));
+    else if (h.startsWith("fork-")) { location.replace("#t-" + h.slice(5)); return; }
     else if (h === "post" || h.startsWith("post-")) await viewPost(h.slice(5) || null);
     else if (h === "categories") await viewCategories();
     else if (h === "news") await viewNews();
@@ -1354,11 +1358,12 @@ async function route() {
     else if (h === "me") await viewMe();
     else if (h === "display") viewDisplay();
     else if (h === "members") { location.replace("#index"); return; }
-    else if (h === "stats") await viewStats();
+    else if (h === "stats") { location.replace("#recipes"); return; }
     else if (h === "search") await viewSearch();
     else if (h === "mod") { await viewMod(); await loadMetrics(); }
     else if (h === "notifications") await viewNotifications();
     else if (h === "terms") viewTerms();
+    else if (h === "complaints") viewComplaints();
     else if (h === "about") viewAbout();
     else if (h === "accessibility") viewAccessibility();
     else if (h === "safe-sharing") viewSafeSharing();
@@ -1400,6 +1405,6 @@ document.querySelector(".sbox").addEventListener("click", e => { e.preventDefaul
     if (ev === "PASSWORD_RECOVERY") { location.hash = "newpass"; return; }
     if (ev === "SIGNED_IN" || ev === "SIGNED_OUT" || ev === "USER_UPDATED") { await loadMe(); if (/^#?(access_token|error)/.test(location.hash.slice(1))) { if (ev === "SIGNED_IN") await afterLogin(); else location.hash = "index"; } }
   });
-  try { await Promise.all([loadMe(), loadBoards()]); } catch (e) { setStatus(`<div class="notice err">Can't reach Townhall's database right now. Try again in a minute.</div>`); }
+  try { await Promise.all([loadMe(), loadBoards()]); } catch (e) { setStatus(`<div class="notice err">Can't reach the ${esc(APP_NAME)} database right now. Try again in a minute.</div>`); }
   syncHist(); route();
 })();

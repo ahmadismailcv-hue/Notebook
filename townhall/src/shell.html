@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Townhall</title>
-<meta name="description" content="What UK university and college staff actually built with AI. Workflows, Copilot agents, and the bits that broke.">
+<title>__APP_NAME__</title>
+<meta name="description" content="AI help for everyday life. Shared by people, tested by us. Stories and tested recipes for bills, letters, complaints and forms using free AI tools.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="alternate icon" href="badge-icon.png">
 <style>
 @font-face{font-family:"Inter";font-weight:400;src:url(data:font/woff2;base64,__INTER400__) format("woff2");font-display:swap}
@@ -379,6 +379,29 @@ pre{font:inherit;white-space:pre-wrap;margin:0;overflow-wrap:anywhere}
 @keyframes pulse{50%{transform:scale(1.3)}}
 .btn,.composer,.snav a,.sboards a,.ht,.qs-item{transition:background-color .15s,border-color .15s,color .15s}
 ::placeholder{color:#76767d}
+.printonly{display:none}
+@media print{
+  html,body{background:#fff}
+  .side,.topbar,footer.foot,#toasts,#status,.colrail,#view>.grid2>.colmain>section.card,.topic-card .box,.topic-card .trybar,.prompt .copy,.sr{display:none!important}
+  .layout,.main{display:block;margin:0;padding:0;box-shadow:none;border-radius:0;min-height:0!important;height:auto!important}
+  html,body{min-height:0!important;height:auto!important}
+  #view{padding:0}
+  .grid2{display:block}
+  .topic-card{border:0;margin:0;padding:0}
+  .prompt{background:#fff;color:#000;border:1px solid #999;break-inside:avoid}
+  .prompt .lbl{color:#000}
+  .notice,.okmsg{break-inside:avoid}
+  .kslist a::after{content:" (" attr(href) ")";font-size:12px}
+  .printonly{display:block;margin-top:10px}
+  @page{margin:12mm}
+  body,body.f-read,body.f-large{font-size:12px;line-height:1.4}
+  .topic-title{font-size:22px;margin:4px 0}
+  .topic-card .post-head{display:none}
+  .facts{margin:8px 0}.facts div{padding:3px 0}.facts .k{font-size:11px}
+  .prompt{font-size:11.5px;padding:6px 10px;margin:6px 0}
+  .notice,.okmsg{padding:6px 10px;margin:0 0 8px}
+  .lead{font-size:13px}
+}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 
 @media (max-width:900px){
@@ -419,7 +442,7 @@ pre{font:inherit;white-space:pre-wrap;margin:0;overflow-wrap:anywhere}
 <div class="layout">
   <aside class="side" id="side" aria-label="Site navigation">
     <div class="brand">
-      <a href="#index" style="color:#fff;text-decoration:none"><span class="wm" aria-hidden="true" style="display:inline-flex;align-items:center;gap:10px"><svg width="28" height="28" viewBox="8 8 48 48" focusable="false"><rect x="12" y="10" width="17" height="44" rx="4" fill="#d3dee0"/><rect x="35" y="36" width="17" height="18" rx="4" fill="#c6ff3d"/></svg>Townhall</span><span class="sr">Townhall home</span></a>
+      <a href="#index" style="color:#fff;text-decoration:none"><span class="wm" aria-hidden="true" style="display:inline-flex;align-items:center;gap:10px"><svg width="28" height="28" viewBox="8 8 48 48" focusable="false"><rect x="12" y="10" width="17" height="44" rx="4" fill="#d3dee0"/><rect x="35" y="36" width="17" height="18" rx="4" fill="#c6ff3d"/></svg>__APP_NAME__</span><span class="sr">__APP_NAME__, home</span></a>
       <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="side">Menu</button>
     </div>
     <a class="sbox collapsible" href="#search"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>Search or jump</span><span class="kbd">/</span></a>
@@ -440,9 +463,9 @@ pre{font:inherit;white-space:pre-wrap;margin:0;overflow-wrap:anywhere}
     <div id="toasts" role="status" aria-live="polite"></div>
     <main id="view" tabindex="-1"></main>
     <footer class="foot">
-      <span>Townhall, for staff at UK universities and colleges</span>
-      <a href="#about">About</a><a href="#rules">House rules</a><a href="#safe-sharing">Safe sharing</a><a href="#terms">Terms</a><a href="#privacy">Privacy</a><a href="#accessibility">Accessibility</a><a href="#faq">FAQ</a><a href="#display">Text &amp; display</a>
-      <span style="margin-left:auto">Posts labelled Example are illustrations, not real reports.</span>
+      <span>__APP_NAME__. AI help for everyday life.</span>
+      <a href="#about">About</a><a href="#rules">House rules</a><a href="#safe-sharing">Safe sharing</a><a href="#terms">Terms</a><a href="#privacy">Privacy</a><a href="#accessibility">Accessibility</a><a href="#faq">FAQ</a><a href="#complaints">Reports and complaints</a><a href="#display">Text &amp; display</a>
+      <span style="margin-left:auto">This is general information, not legal, financial or medical advice.</span>
     </footer>
   </div>
 </div>

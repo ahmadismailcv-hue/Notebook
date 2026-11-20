@@ -2,7 +2,7 @@ import asyncio, json, sys
 from playwright.async_api import async_playwright
 import pathlib; U=pathlib.Path("dist/index.html").resolve().as_uri()
 AXE=open("node_modules/axe-core/axe.min.js").read()
-PAGES=["index","categories","/exams-timetabling","b-townhall","news","library","lib-new","post","notifications","me","display","mod","stats","search","about","terms","privacy","accessibility","safe-sharing","rules","faq","tag-copilot","u-registry_jo","TOPIC","AGENT"]
+PAGES=["index","categories","recipes","/money","/health-admin","news","library","lib-new","post","recipe-new","RECIPE_EDIT","notifications","me","display","mod","search","about","terms","complaints","privacy","accessibility","safe-sharing","rules","faq","tag-letters","u-jo_reads","TOPIC","AGENT","DRAFT"]
 async def main():
     async with async_playwright() as p:
         b=await p.chromium.launch()
@@ -14,10 +14,10 @@ async def main():
             if mode=="logged-out": await pg.add_init_script("window.__setSession && window.__setSession(null)")
             await pg.goto(U); await pg.wait_for_timeout(600)
             if mode=="f-large": await pg.evaluate("document.body.classList.add('f-large')")
-            tid=await pg.evaluate("__db.posts[0].id"); aid=await pg.evaluate("__db.posts.find(p=>p.type==='AGENT').id")
-            pages=PAGES if mode!="logged-out" else ["index","join","login","post","categories","news"]
+            tid=await pg.evaluate("__db.posts[0].id"); aid=await pg.evaluate("__db.posts.find(p=>p.type==='RECIPE').id"); did=await pg.evaluate("__db.posts.find(p=>p.status==='draft').id")
+            pages=PAGES if mode!="logged-out" else ["index","join","login","post","categories","recipes","news","TOPIC","AGENT"]
             for h in pages:
-                hh="t-"+tid if h=="TOPIC" else ("t-"+aid if h=="AGENT" else h)
+                hh={"TOPIC":"t-"+tid,"AGENT":"t-"+aid,"DRAFT":"t-"+did,"RECIPE_EDIT":"recipe-edit-"+aid}.get(h,h)
                 await pg.evaluate(f"location.hash={json.dumps(hh)}"); await pg.wait_for_timeout(350)
                 if mode=="f-large": await pg.evaluate("document.body.classList.add('f-large')")
                 await pg.add_script_tag(content=AXE) if not await pg.evaluate("!!window.axe") else None
