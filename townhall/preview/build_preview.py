@@ -21,7 +21,7 @@ banner = ('<div class="notice" role="note" style="margin:0;border-radius:0;text-
           '<b>Preview with example data.</b> Nothing here is real or saved: reload to reset. '
           'Press Log in and use any email and password to try it as an admin.</div>')
 s = s.replace('<body class="f-tech">', '<body class="f-tech">' + banner)
-s = s.replace('</style>', 'html,body{background:var(--page)}#printBtn,#exJson,#exMd{display:none!important}\n</style>', 1)
+s = s.replace('</style>', 'html,body{background:var(--bg)}#printBtn,#exJson,#exMd{display:none!important}\n</style>', 1)
 # Drop the document skeleton and the icon links; keep title, style and body content.
 title = re.search(r'<title>.*?</title>', s).group(0)
 style = re.search(r'<style>.*?</style>', s, re.S).group(0)

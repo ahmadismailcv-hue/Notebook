@@ -2,7 +2,7 @@
 
 AI help for everyday life. Shared by people, tested by us.
 
-UK adults share how a free AI tool helped them with a boring job: a bill, a letter, a complaint, a form. Admins turn the best stories into step-by-step recipes, test them, and say when they were last tested. Readers say whether a recipe worked for them. Formerly "Townhall"; see PIVOT_PLAN.md.
+UK adults share how a free AI tool helped them with a boring job: a bill, a letter, a complaint, a form. Admins turn the best tips into step-by-step guides, test them, and say when they were last tested. Readers say whether a guide worked for them. (In the database, tips are STORY posts and guides are RECIPE posts.) Formerly "Townhall"; see PIVOT_PLAN.md.
 
 Product decisions and writing rules are in CLAUDE.md. Read that before changing anything.
 

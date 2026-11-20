@@ -7,10 +7,10 @@ The live database still has the higher education schema. Apply the pivot before 
 1. Check the database is still empty of posts: `select count(*) from public.posts;` (the migration refuses to run if any old-type posts exist).
 2. Supabase > SQL Editor > paste `supabase/migrations/20261120120000_boring_bits_pivot.sql` > Run. It runs as one transaction. (Or apply it through the Supabase CLI or MCP as a migration named `boring_bits_pivot`, so it is recorded in the migration history.)
 3. Run `sql/security_tests.sql` and `sql/library_tests.sql`. Each ends with an error starting "RESULTS:". It must contain no "FAIL". Both roll back.
-4. Run `sql/seed_recipes.sql` once to add the 5 draft recipes. They are visible to admins only (Moderation > Draft recipes). Test each one, check every fact and link, then edit it: set the tested date, tested tools and re-test date, remove "DRAFT, NOT TESTED: " from the title, and press Publish.
-5. After the next news run (within 6 hours), check the new feeds: `select id, active, last_status, last_items, last_error from private.news_sources where active;` Only the three GOV.UK safety searches are switched on. Every higher education feed is switched off, and its old headlines are hidden.
+4. Run `sql/seed_recipes.sql` once to add the 5 draft guides. They are visible to admins only (Admin > Draft guides). Test each one, check every fact and link, then edit it: set the tested date, tested tools and re-test date, remove "DRAFT, NOT TESTED: " from the title, and press Publish.
+5. The news page is gone. The migration switches every news feed off, so the 6-hourly news jobs fetch nothing.
 
-What the pivot changes in the database: HE spaces archived and 9 new spaces added; post types Story and Recipe; a draft status only admins can see; recipe columns; only admins write or edit recipes; "Worked for me" and "Didn't work for me" reuse the tries table, with the tool used; recipe_sources links recipes to stories; a click log for the two home page buttons (`log_entry`, no identifiers; shown on the Moderation page); a wider personal-data block on stories (postcodes, sort codes, 8-digit account numbers, card numbers, landline numbers); new approval rules (3 approved stories, and /money, /health-admin and /complaints always held); the ac.uk badge is no longer used. Nothing is dropped.
+What the pivot changes in the database: HE spaces archived and 9 new spaces added; post types Story and Recipe; a draft status only admins can see; recipe columns; only admins write or edit recipes; "Worked for me" and "Didn't work for me" reuse the tries table, with the tool used; recipe_sources links recipes to stories; a click log for the two home page buttons (`log_entry`, no identifiers; shown on the Moderation page); a wider personal-data block on stories (postcodes, sort codes, 8-digit account numbers, card numbers, landline numbers); new approval rules (3 approved stories, and /money, /health-admin and /complaints always held); the ac.uk badge is no longer used; all news feeds switched off. Nothing is dropped.
 
 ## 1. Host the site (free, about 5 minutes)
 Cloudflare Pages: dash.cloudflare.com > Workers & Pages > Create > Pages > Upload assets.
@@ -33,7 +33,6 @@ Supabase dashboard > SQL Editor > New query: paste sql/security_tests.sql and Ru
 - Email: Supabase's built-in email sender only allows a few emails an hour. Connect your own (e.g. Resend) under Authentication > SMTP Settings. This also lets the weekly digest work later.
 - Free-plan Supabase projects pause after a week with no traffic. Upgrade to Pro ($25/month) once real people use it.
 - Complete Ofcom's illegal-content risk assessment and put its summary in the Terms page (search app.js for "TODO before launch"). Check whether you need to pay the ICO data protection fee.
-- More safety news feeds: NCSC, Which?, the ICO, Action Fraud and BBC Technology could not be checked from the build environment. Check each URL responds, then add it with filter 'safety'.
 - Custom domain: register a domain of your choice or similar and attach it in Cloudflare Pages > Custom domains, then update the Supabase URLs in step 2.
 
 ## Not built yet
