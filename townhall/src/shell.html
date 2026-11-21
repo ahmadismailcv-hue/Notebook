@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>__APP_NAME__</title>
 <meta name="description" content="Step-by-step help for bills, letters, complaints and forms, using free AI tools. Tips shared by people, guides tested by us.">
-<link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="alternate icon" href="badge-icon.png">
+<link rel="icon" type="image/png" href="data:image/png;base64,__FAVICON__"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
 @font-face{font-family:"Atkinson";font-weight:400;src:url(data:font/woff2;base64,__ATK400__) format("woff2");font-display:swap}
 @font-face{font-family:"Atkinson";font-weight:700;src:url(data:font/woff2;base64,__ATK700__) format("woff2");font-display:swap}
@@ -47,8 +47,10 @@ p{margin:0}
 /* top bar */
 .top{background:var(--surface);border-bottom:1px solid var(--line)}
 .topin{display:flex;align-items:center;gap:var(--s4);min-height:68px;flex-wrap:wrap;padding-block:6px}
-.logo{display:inline-flex;align-items:center;gap:10px;font-family:var(--head);font-weight:400;font-size:1.3rem;color:var(--ink);text-decoration:none;margin-right:auto}
-.logo svg{flex:none}
+.logo{display:inline-flex;align-items:center;margin-right:auto;border-radius:8px}
+.logo img{display:block;height:54px;width:auto}
+.footlogo{display:block;height:auto;width:min(300px,100%)}
+@media (max-width:640px){.logo img{height:44px}}
 .nav{display:flex;gap:var(--s1);flex-wrap:wrap}
 .nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;color:var(--ink);text-decoration:none;font-weight:700}
 .nav a:hover{background:var(--sunk)}
@@ -261,7 +263,7 @@ th{font-weight:700;color:var(--muted)}
 <a class="skip" href="#view">Skip to content</a>
 <header class="top">
   <div class="wrap topin">
-    <a class="logo" href="#index"><svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><rect width="64" height="64" rx="14" fill="#173129"/><rect x="13" y="12" width="16" height="40" rx="3.5" fill="#7f9aa0"/><rect x="35" y="35" width="16" height="17" rx="3.5" fill="#c6ff3d"/></svg><span>__APP_NAME__</span></a>
+    <a class="logo" href="#index"><img src="data:image/webp;base64,__LOGO_HEADER__" width="202" height="54" alt="__APP_NAME__, home"></a>
     <nav class="nav" id="nav" aria-label="Main"></nav>
     <div class="acct" id="acct"></div>
   </div>
@@ -271,6 +273,7 @@ th{font-weight:700;color:var(--muted)}
 <main id="view" class="wrap" tabindex="-1"></main>
 <footer class="foot">
   <div class="wrap">
+    <img class="footlogo" src="data:image/webp;base64,__LOGO_FULL__" width="300" height="81" alt="__APP_NAME__: a community guide to AI life admin" loading="lazy">
     <p><b>__APP_NAME__</b>. Help with everyday paperwork, using free AI tools. This is general information, not legal, financial or medical advice.</p>
     <nav aria-label="Footer"><a href="#help">Help</a><a href="#about">About</a><a href="#safe-sharing">What you can safely share</a><a href="#rules">House rules</a><a href="#terms">Terms</a><a href="#privacy">Privacy</a><a href="#accessibility">Accessibility</a><a href="#complaints">Reports and complaints</a><a href="#display">Text size</a></nav>
   </div>
