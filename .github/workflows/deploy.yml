@@ -25,6 +25,14 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      # The Boring Bits (townhall/) is a separate static site, published at /boring-bits/
+      - name: Build The Boring Bits
+        working-directory: townhall
+        run: |
+          npm ci
+          python3 build.py
+          mkdir -p ../dist/boring-bits
+          cp -r dist/. ../dist/boring-bits/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

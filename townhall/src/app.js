@@ -49,7 +49,7 @@ const board = id => S.boards.find(b => b.id === id);
 const toolList = keys => (keys || []).map(k => TOOLS[k] || k).join(", ");
 const isStale = p => p.type === "RECIPE" && !!p.retest_due && new Date(p.retest_due + "T23:59:59") < new Date();
 const isTested = p => p.type === "RECIPE" && (p.tested_tools || []).length > 0;
-const authorName = p => !p.author && (p.is_sample || p.type === "RECIPE") ? APP_NAME + " team" : (p.author_handle || (p.profiles && p.profiles.handle) || "a former member");
+const authorName = p => p.is_sample && p.sample_author ? p.sample_author : !p.author && (p.is_sample || p.type === "RECIPE") ? APP_NAME + " team" : (p.author_handle || (p.profiles && p.profiles.handle) || "a former member");
 const userLink = h => h && h !== "a former member" && h !== APP_NAME + " team" ? `<a href="#u-${esc(h)}">${esc(h)}</a>` : esc(h);
 const plural = (n, one, many) => `${n.toLocaleString("en-GB")} ${n === 1 ? one : many}`;
 // The same checks as private.pii_problem in the database. "(this will be blocked)" marks the ones the database refuses on tips.
@@ -179,7 +179,7 @@ async function loadBoards() {
   S.boards = (data || []).filter(b => !b.archived);
   renderShell();
 }
-const FEED_COLS = "id,author,task,body,tool_key,screenshots,author_profession,board_id,type,title,tags,status,pinned,is_sample,tested_on,created_at,author_handle,likes,tries_worked,tries_failed,replies,tools,tested_tools,retest_due,outcome_before,outcome_after";
+const FEED_COLS = "id,author,task,body,tool_key,screenshots,author_profession,board_id,type,title,tags,status,pinned,is_sample,tested_on,created_at,author_handle,likes,tries_worked,tries_failed,replies,tools,tested_tools,retest_due,outcome_before,outcome_after,sample_author";
 async function fetchPosts(q) { const { data, error } = await q; if (error) throw error; return data || []; }
 const publishedPosts = () => sb.from("post_feed").select(FEED_COLS).eq("status", "published").order("created_at", { ascending: false }).limit(300);
 const isAdmin = () => !!(S.me && S.me.role === "admin");
@@ -375,9 +375,10 @@ async function viewTopicPost(id) {
     <header class="page-head">
       <div class="row"><span class="badge ${recipe ? "guide" : "tip"}">${recipe ? "Guide" : "Tip from a member"}</span>${status}${p.is_sample ? '<span class="badge">Example</span>' : ""}${p.status === "draft" ? '<span class="badge warn">Draft: only admins can see this</span>' : p.status === "pending" ? '<span class="badge warn">Waiting for a moderator</span>' : p.status === "removed" ? '<span class="badge stop">Taken down</span>' : ""}</div>
       <h1 class="topic-title">${esc(p.title)}</h1>
-      <p class="byline">${recipe ? "Written and tested by our team" : `Shared by ${userLink(authorName(p))}${p.author_profession ? `, ${esc(p.author_profession)}` : ""}`} · ${esc(day(p.created_at))}</p>
+      <p class="byline">${recipe ? "Written and tested by our team" : `Shared by ${p.is_sample ? esc(authorName(p)) : userLink(authorName(p))}${p.author_profession ? `, ${esc(p.author_profession)}` : ""}`} · ${esc(day(p.created_at))}</p>
       ${recipe ? `<div class="counts" aria-label="What people said"><span class="y">${svg(IC.check)} Worked for ${plural(p.tries_worked, "person", "people")}</span><span class="n">Didn't work for ${plural(p.tries_failed, "person", "people")}</span></div>` : ""}
     </header>
+    ${p.is_sample ? `<div class="notice plain"><b>This is an example.</b>It shows what a tip looks like. It isn't a real person's story, and the name is made up.</div>` : ""}
     ${p.status === "pending" ? `<div class="notice">A moderator checks tips from new members, and every tip about money, health or complaints, before they go live. This usually takes up to 2 working days.${mine ? " We'll tell you under the bell when it's live." : ""}</div>` : ""}
     ${S.justPosted === p.id && mine && p.status === "published" ? justPostedPanel(p) : ""}
     ${recipe ? guideBody(p, linked) : `

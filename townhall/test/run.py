@@ -38,6 +38,10 @@ async def main():
         for h in ["/money","/health-admin","news","categories","recipes","help","faq","about","terms","complaints","privacy","accessibility","safe-sharing","rules","mod","badge","me","display","u-jo_reads","login","join","library","notifications"]:
             t=await go(h); print(h, "->", await pg.evaluate("location.hash"), "|", t[:60].replace("\n"," | "))
         check(errs, "appointments, forms and paperwork only" in await go("/health-admin"), "health topic says it isn't medical advice")
+        await go("/staying-safe"); ex=await pg.inner_text(".items")
+        check(errs, "by ken_retired" in ex and "Example" in ex, "example tip shows its display name and the Example label")
+        await go("t-"+await pg.evaluate("__db.posts.find(p=>p.is_sample).id")); pv=await pg.inner_text("#view")
+        check(errs, "This is an example" in pv and "the name is made up" in pv and await pg.locator('.byline a[href^="#u-"]').count()==0, "example tip says it's an example and doesn't link to a profile")
         # ---- topic page: guides sorted by "worked for me", drafts hidden
         await pg.evaluate("""(()=>{const r=__db.posts.find(p=>p.title.startsWith('Appeal'));__db.tries.push({post_id:r.id,user_id:'u_b',result:'worked',note:'',tool_key:'gemini',created_at:new Date().toISOString()},{post_id:r.id,user_id:'u_new',result:'worked',note:'',tool_key:'',created_at:new Date().toISOString()})})()""")
         await go("search"); titles=await pg.evaluate("[...document.querySelectorAll('section:first-of-type .item .t')].map(a=>a.textContent)")

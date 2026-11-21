@@ -1,0 +1,98 @@
+-- 10 example tips for The Boring Bits, so the site doesn't open empty.
+-- They are not real people's stories: each is marked is_sample, shows an "Example" label,
+-- and has a display name only (sample_author). No accounts are created.
+-- Needs migration 20261121120000_example_author.sql first.
+-- Remove them all once real tips arrive:
+--   delete from public.posts where is_sample;
+
+insert into public.posts (author, board_id, type, status, is_sample, sample_author, title, task, tool_key, tool, body, prompt, checks, outcome_before, outcome_after, tags, created_at, updated_at)
+values
+ (null,'letters','STORY','published',true,'carer_mo',
+  $t$ChatGPT turned my dad's council tax letter into three plain sentences$t$,
+  $t$Understand a council tax letter for my dad$t$, 'chatgpt', 'ChatGPT',
+  $t$The letter was two pages of reference numbers and legal wording. I typed out the main paragraphs, leaving out his name and account number, and asked for it in plain English. It said what the letter was for, what he owed and the date to pay by. I then rang the council to check the date, which matched.$t$,
+  $t$Explain this council letter in plain English for someone who finds official letters stressful. What is it about, what do they need to do, and by when? [paste the letter with names and reference numbers removed]$t$,
+  $t$I rang the council to confirm the payment date.$t$,
+  $t$Two pages my dad couldn't follow$t$, $t$Three sentences he understood$t$,
+  '{council-tax,letters}', now() - interval '2 hours', now() - interval '2 hours'),
+
+ (null,'complaints','STORY','published',true,'sam_r',
+  $t$Copilot helped me write a calm complaint about a broadband outage$t$,
+  $t$Complain about a week without broadband$t$, 'copilot', 'Microsoft Copilot',
+  $t$I was too annoyed to write anything sensible. I listed what happened, the dates and what I wanted, and asked Copilot for a short, polite complaint. The first draft was too long, so I asked it to halve it. I sent it through the provider's online form.$t$,
+  $t$Write a short, polite complaint to my broadband provider. My internet was down from [date] to [date]. I called on [date] and was told [what they said]. I would like [what you want, for example a refund for the days without service]. Keep it under 150 words.$t$,
+  $t$I checked Ofcom's page on automatic compensation before asking for money back.$t$,
+  $t$Angry and stuck on what to write$t$, $t$A complaint sent in 15 minutes$t$,
+  '{broadband,complaint}', now() - interval '5 hours', now() - interval '5 hours'),
+
+ (null,'work','STORY','published',true,'priya_k',
+  $t$Gemini helped me match my CV to a job advert$t$,
+  $t$Update my CV for a part-time admin job$t$, 'gemini', 'Google Gemini',
+  $t$I pasted the job advert and my CV with my contact details removed, and asked which of my experience matched what they wanted. It pointed out I'd buried my spreadsheet work at the bottom. I moved it up and rewrote two bullet points myself. It also suggested skills I don't have, so I ignored those.$t$,
+  $t$Here is a job advert and my CV. Which parts of my experience match what they're asking for? Suggest how to reorder my CV to put those first. Don't add any skills I haven't listed. [paste advert] [paste CV without name, address, phone or email]$t$,
+  $t$I made sure every line on the CV was still true.$t$,
+  $t$A CV that hid my most relevant work$t$, $t$Relevant experience at the top$t$,
+  '{cv,jobs}', now() - interval '1 day', now() - interval '1 day'),
+
+ (null,'home','STORY','published',true,'tenant_tom',
+  $t$Asking my landlord to fix the boiler, written in five minutes$t$,
+  $t$Ask my landlord to repair the boiler$t$, 'chatgpt', 'ChatGPT',
+  $t$Texts to the letting agent weren't getting answers, so I wanted something more formal in writing. ChatGPT drafted an email listing when I first reported the problem and asking for a repair date. I added the real dates and sent it by email so there's a record.$t$,
+  $t$Write a polite but firm email to my letting agent asking for a repair. The boiler has not worked properly since [date] and I first reported it on [date]. Ask them to confirm in writing when an engineer will come. Keep it factual.$t$,
+  $t$I read Shelter's page on repairs before sending it.$t$,
+  $t$Texts ignored for weeks$t$, $t$A clear written request with dates$t$,
+  '{renting,repairs}', now() - interval '1 day 4 hours', now() - interval '1 day 4 hours'),
+
+ (null,'money','STORY','published',true,'jen_budgets',
+  $t$Claude helped me set up a simple monthly budget$t$,
+  $t$Work out where my money goes each month$t$, 'claude', 'Claude',
+  $t$I listed my regular bills and roughly what I spend on food and travel, with no bank details. Claude put them into a table with totals and showed what was left at the end of the month. I asked it to suggest which costs might be worth checking for a better deal. I copied the table into a notes app.$t$,
+  $t$Make a simple monthly budget table from these figures. Show the total going out and what's left from my income of [monthly income]. Then list the three biggest costs I could look at reducing. [list your bills and rough spending]$t$,
+  $t$I added up the totals myself to check the maths.$t$,
+  $t$No idea where the money went$t$, $t$A one-page budget I can update$t$,
+  '{budget,money}', now() - interval '2 days', now() - interval '2 days'),
+
+ (null,'family','STORY','published',true,'dad_of_two',
+  $t$Writing to my son's school about missed homework, without sounding cross$t$,
+  $t$Email a teacher about a homework problem$t$, 'gemini', 'Google Gemini',
+  $t$My son kept missing homework because he didn't understand the online system. I asked Gemini for a short, friendly email to his teacher explaining this and asking for help. It was a bit formal, so I asked for a warmer tone. The teacher replied the next day.$t$,
+  $t$Write a short, friendly email to my child's teacher. My child has been missing homework because they find [the online homework system] confusing. Ask if there's a way to help them get set up. Warm tone, not complaining.$t$,
+  $t$I removed my son's name from what I typed and added it back in the email.$t$,
+  $t$Worried the email would sound like a complaint$t$, $t$A friendly note and a quick reply$t$,
+  '{school,family}', now() - interval '2 days 6 hours', now() - interval '2 days 6 hours'),
+
+ (null,'health-admin','STORY','published',true,'margaret_e',
+  $t$Getting my thoughts in order before a GP phone call$t$,
+  $t$Prepare for a GP telephone appointment$t$, 'claude', 'Claude',
+  $t$I always forget things on GP calls. I typed my own notes about what had been happening and asked Claude to turn them into a short list of what to say and questions to ask. I told it not to guess what was wrong, and it didn't. I had the list in front of me during the call.$t$,
+  $t$Turn my notes into a short list for a 10-minute GP phone call: a one-line summary, when it started, and up to four questions to ask. Don't suggest what might be wrong or any treatment. [your own notes, with no name, date of birth or NHS number]$t$,
+  $t$Nothing to check: it only reorganised my own notes.$t$,
+  $t$Forgot half of what I meant to say$t$, $t$Covered everything on the call$t$,
+  '{gp,appointments}', now() - interval '3 days', now() - interval '3 days'),
+
+ (null,'getting-started','STORY','published',true,'library_lou',
+  $t$How I show library visitors their first AI chat$t$,
+  $t$Help a library visitor try an AI tool for the first time$t$, 'copilot', 'Microsoft Copilot',
+  $t$I volunteer at a library computer session. For first-timers I open Copilot and suggest something low stakes, like asking for a recipe from what's in their cupboard. Then we talk about what not to type in, like bank details. Most people relax once they see it's just typing a question.$t$,
+  $t$I have [list a few ingredients]. Suggest one simple meal I could make in under 30 minutes, with short steps.$t$,
+  $t$We talk about checking anything important with an official website.$t$,
+  $t$Visitors nervous to try it$t$, $t$A first chat in a few minutes$t$,
+  '{beginners,library}', now() - interval '4 days', now() - interval '4 days'),
+
+ (null,'staying-safe','STORY','published',true,'ken_retired',
+  $t$Asking ChatGPT whether a text message looked like a scam$t$,
+  $t$Check a suspicious text claiming to be from a delivery company$t$, 'chatgpt', 'ChatGPT',
+  $t$I got a text saying a parcel couldn't be delivered and asking me to pay a small fee through a link. I copied the wording, without clicking the link, and asked if it looked like a scam. It listed the warning signs. I deleted the text and reported it by forwarding it to 7726, which is free.$t$,
+  $t$Does this text message look like a scam? Explain the warning signs in plain English. Don't visit any links in it. [paste the message text, without clicking anything]$t$,
+  $t$I checked the delivery company's own website for their scam warning.$t$,
+  $t$Unsure if a text was genuine$t$, $t$Spotted it was a scam and reported it$t$,
+  '{scams,texts}', now() - interval '5 days', now() - interval '5 days'),
+
+ (null,'money','STORY','published',true,'aisha_h',
+  $t$Understanding the jargon on my energy bill$t$,
+  $t$Make sense of my gas and electricity bill$t$, 'gemini', 'Google Gemini',
+  $t$My bill had standing charges, unit rates and an estimated reading. I typed in the figures without my account number and asked what each line meant. It explained the bill was based on an estimate, so I sent an actual meter reading through the supplier's app. The next bill was lower.$t$,
+  $t$Explain each line of this energy bill in plain English. Is it based on an actual or estimated meter reading? [type the figures from the bill, without your account number or address]$t$,
+  $t$I checked Citizens Advice's page on estimated bills.$t$,
+  $t$A bill full of terms I didn't know$t$, $t$Sent a real meter reading$t$,
+  '{energy,bills}', now() - interval '6 days', now() - interval '6 days');
