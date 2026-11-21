@@ -12,6 +12,12 @@ Operator: Ahmad Ismail. The contact email in `src/app.js` (`OPERATOR`) is shown 
 - Back end: Supabase project `dlqltqsojkjygzzehvjk` ("aitownhall", eu-west-2 London). Postgres with RLS. Security-definer helpers and trigger functions live in the `private` schema. Triggers enforce the posting rules. Views use `security_invoker`. Storage bucket `shots` (public, 1.5 MB, webp/png/jpeg, members write only to `uid/`).
 - Scheduled jobs (pg_cron): `news-request` and `news-collect` every 6 hours (pg_net fetches RSS feeds; all switched off by the pivot migration), `housekeeping` weekly.
 
+## Where it lives
+
+Published by GitHub Pages at https://ahmadismailcv-hue.github.io/Notebook/boring-bits/ . The workflow `.github/workflows/deploy.yml` builds `townhall/` into `dist/boring-bits/` alongside the Notebook app on every push to `claude/notebook-connection-8j2v8w` (the repo's default branch). Supabase Authentication > URL Configuration needs that address as Site URL, plus the same address followed by `**` in Redirect URLs.
+
+Example tips: 10 rows with `is_sample` true and a `sample_author` display name (no accounts), from `sql/seed_examples.sql`. Remove with `delete from public.posts where is_sample;`.
+
 ## Commands
 
 ```
