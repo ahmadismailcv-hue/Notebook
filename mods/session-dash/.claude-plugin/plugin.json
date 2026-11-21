@@ -1,0 +1,1 @@
+{ "name": "session-dash", "version": "0.1.0", "description": "A side pane with live session stats: prompts, tool calls by tool, failures, files touched", "types": "./types/index.d.ts" }
