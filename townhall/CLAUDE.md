@@ -1,6 +1,6 @@
 # The Boring Bits
 
-AI help for everyday life for UK adults using free AI tools (ChatGPT, Copilot, Gemini, Claude), and the people who help them (library volunteers, support workers, family members). Tagline: "AI help for everyday life. Shared by people, tested by us." Public and non-commercial. The goal is traction, not revenue.
+AI help for everyday life for UK adults using free AI tools (ChatGPT, Copilot, Gemini, Claude), and the people who help them (library volunteers, support workers, family members). Tagline: "AI help for everyday life, shared by the people who use it." Public and non-commercial. The goal is traction, not revenue.
 
 Formerly "Townhall", a forum for UK higher education staff. The pivot brief is `PIVOT_PLAN.md` (approved 19 Nov 2026). The name lives in one constant, `APP_NAME` in `src/app.js`; `build.py` copies it into the page shell. It may change again.
 
@@ -24,7 +24,7 @@ Example tips: 10 rows with `is_sample` true and a `sample_author` display name (
 npm install                       # fonts, supabase-js, axe-core
 pip install playwright==1.63.0    # match the installed Chromium; newer versions look for a different browser build
 npm run build                     # writes dist/index.html; prints the em dash count, which must be 0
-npm test                          # rebuilds, then test/run.py (the plan's "Done when" flow and more, against test/mock.js) and test/return.py (login returns to the right page; a logged-out recipe answer is kept)
+npm test                          # rebuilds, then test/run.py (the plan's "Done when" flow and more, against test/mock.js) and test/return.py (login returns to the right page, including after pressing Like while logged out)
 npm run a11y                      # rebuilds, then test/a11y.py: axe-core over every page in 4 display modes
 PGHOST=<socket dir> PGPORT=<port> bash test/db/replay.sh   # replays every migration on a local, empty Postgres with Supabase stubs, then checks the pivot rules. Never touches live.
 ```
@@ -45,21 +45,20 @@ Test risky SQL locally with `test/db/replay.sh`, or inside a `DO` block that rai
 
 ## Product rules already decided
 
-- Two post types. People see them as **tips** and **guides**; the database keeps the names STORY and RECIPE. **Tip** (STORY, anyone): title, space, what I needed to do (`task`), AI tool (`tool_key`), roughly what I typed (`prompt`, optional, behind "See more"), what happened (`body`), what I checked (`checks`, optional), screenshots. **Guide** (RECIPE, admins only): task, recommended tools, prompts with copy buttons, never paste, how to check (https links), failure points, deadline warning, last tested date and tools, re-test due ("May be out of date" once passed), linked source stories, printable one-page view. Guides ask "Did this guide work for you?" (yes or no, with the tool used) and sort by how many said yes. Tips have a Like button (21 Nov 2026; the database only allows likes on published tips, so guides use "It worked" instead). Every tip and guide has comments underneath.
+- One post type on the site: the **tip** (database type STORY): title, space, what I needed to do (`task`), AI tool (`tool_key`), roughly what I typed (`prompt`, optional, behind "See more"), what happened (`body`), what I checked (`checks`, optional), screenshots. Members can like, comment on and save tips. **Guides (RECIPE) were removed from the site on 21 Nov 2026** at Ahmad's request: they are never listed, `#t-` links to one say not found, and the guide editor, "Did this work?" answers, printing and "Turn into a guide" are gone. The database still has the RECIPE type, `tries`, `recipe_sources` and the 5 draft guides; nothing reads them now.
 - Share a tip asks an optional "What changed?" (outcome_before and outcome_after, 200 characters each). It shows on the tip as the member's own account ("Your result may be different"), never as a verified saving. No site-wide totals of money or time saved.
 - Pressing Share my tip raises a bar reminding people to remove personal data before anything is sent. It blocks the send when the database would refuse it.
 - [Square bracket] placeholders in words to copy are highlighted. The home page has "3 rules for staying safe".
-- Guides start as drafts titled "DRAFT, NOT TESTED: ...", visible to admins only. A guide can't be published with that prefix. "Turn into a guide" on a tip pre-fills a draft and links the tip.
 - Spaces: /money, /home, /complaints, /letters, /work, /health-admin (no diagnosis or treatment advice), /family, /getting-started, /staying-safe. The HE spaces are archived, not deleted.
 - Moderation: a new member's stories are held until 3 are approved, then go live straight away. Stories in /money, /health-admin and /complaints are always held. No .ac.uk rule or badge. Report on every post and reply; Take down in the moderation queue.
 - Personal data: emails, UK phone numbers, postcodes (real postcode areas only), National Insurance numbers, sort codes, 8-digit account numbers and card numbers are blocked on stories, replies, ratings and private library drafts, in the browser and in the database. On recipes they only warn (official addresses). Saved copies of recipes are checked on the member's notes only.
-- Every recipe, and the footer, says: "This is general information, not legal, financial or medical advice."
-- Interface (rebuilt 20 Nov 2026 for ordinary users, made forum style 21 Nov): a top bar with three links, Find help, Share a tip and Saved, plus the bell, Admin (for moderators) and the account. Home asks "What do you need help with?", then a row of AI tool links (ChatGPT, Copilot, Gemini, Claude, another tool), then the 9 categories as a forum list (post count and latest post each), then latest posts. No search bar and no "Popular guides". Category pages (`#/money`) list threads, guides pinned first, and filter by tool (`#/money/chatgpt`). Tool pages are `#ai/chatgpt`. Thread rows show tool, author, time, likes and comments. Guide pages are numbered steps with a Copy button for each set of words. No sidebar, hashtags, sort tabs, reputation, ranks, news page or back/forward buttons.
+- Every tip page, and the footer, says: "This is general information, not legal, financial or medical advice."
+- Interface (rebuilt 20 Nov 2026 for ordinary users, made forum style 21 Nov): a top bar with three links, Find help, Share a tip and Saved, plus the bell, Admin (for moderators) and the account. Home asks "What do you need help with?", then a row of AI tool links (ChatGPT, Copilot, Gemini, Claude, another tool), then the 9 categories as a forum list (post count and latest post each), then latest posts. No search bar and no "Popular guides". Category pages (`#/money`) list tips newest first and filter by tool (`#/money/chatgpt`). Tool pages are `#ai/chatgpt`. Thread rows show tool, author, time, likes and comments. No sidebar, hashtags, sort tabs, reputation, ranks, news page or back/forward buttons.
 - Home has two buttons, "Share how AI helped you" and "Browse all posts". Clicks are logged through `log_entry('share' | 'browse')` with no identifiers.
-- Saved (the library) is private: saved guides and tips, and the member's own prompts, downloadable as Markdown.
+- Saved (the library) is private: saved tips and the member's own prompts, downloadable as Markdown.
 - No news page. Ahmad dropped it on 20 Nov 2026: it didn't fit. The migration switches every feed off; the tables stay.
 - Posts are CC BY 4.0. Users must be 18 or over.
-- Never invent users, posts, counts or activity. Example posts must be labelled "Example". Seed recipes are marked "DRAFT, NOT TESTED".
+- Never invent users, posts, counts or activity. Example posts must be labelled "Example".
 - Look (approved 20 Nov 2026, updated 21 Nov): light and calm, one reading column, Lexend for text and Young Serif for headings (Atkinson Hyperlegible in Larger mode), colours taken from the logo: deep teal accent #0e6f6a (the logo's own teal #1da09a is too light for text), navy #364353, orange #f28c28 for highlights. 48px minimum touch targets. Logo files are in `logo/brand/`, cut from `src-fixed.png`. Tokens are at the top of src/shell.html. Text size has Standard and Larger, higher contrast.
 
 ## Writing style for any UI text or docs
@@ -68,4 +67,4 @@ British English. No em dashes, anywhere. Plain words, short sentences, answer fi
 
 ## Open items
 
-Test and publish the seed guides. Online Safety Act risk assessment summary (TODO marked in the Terms page). Name and domain; SMTP (Resend) for confirmation emails; Supabase Pro; deploy; owner joins first; second admin and moderators; founding members.
+Decide whether to delete the 5 draft guides and the guide tables from the database. Online Safety Act risk assessment summary (TODO marked in the Terms page). Name and domain; SMTP (Resend) for confirmation emails; Supabase Pro; owner joins first; second admin and moderators; founding members.

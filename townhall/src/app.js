@@ -1,7 +1,7 @@
 "use strict";
 // ================= config =================
 const APP_NAME = "The Boring Bits"; // the product name lives here only (build.py copies it into shell.html)
-const TAGLINE = "AI help for everyday life. Shared by people, tested by us.";
+const TAGLINE = "AI help for everyday life, shared by the people who use it.";
 const NOT_ADVICE = "This is general information, not legal, financial or medical advice.";
 const SUPABASE_URL = "https://dlqltqsojkjygzzehvjk.supabase.co";
 const SUPABASE_KEY = "sb_publishable_cjOiFDs528cpWXSYkWa7fw_J5w0xas5";
@@ -19,8 +19,8 @@ const S = { session: null, me: null, boards: [], myFollows: [], isMod: false, mo
 const V = document.getElementById("view");
 const HELD = ["money", "health-admin", "complaints"]; // tips here always wait for a moderator
 const TOOLS = { chatgpt: "ChatGPT", copilot: "Microsoft Copilot", gemini: "Google Gemini", claude: "Claude", other: "Another tool" };
-// Database types stay STORY and RECIPE; people see "tip" and "guide".
-const KIND = { STORY: "Tip", RECIPE: "Guide" };
+// Every post is a tip (database type STORY). Guides (RECIPE) were removed from the site on 21 Nov 2026; any left in the database are never shown.
+const KIND = { STORY: "Tip" };
 const svg = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const TOPICS = {
   money: ["Bills and money", "Energy bills, benefits, refunds and banks", '<circle cx="12" cy="12" r="9"/><path d="M14.5 8.5a2.5 2.5 0 00-4.5 1.5v5.5M8.5 13h4.5M8.5 16h7"/>'],
@@ -47,10 +47,7 @@ const cleanTag = t => String(t).toLowerCase().replace(/^#/, "").replace(/[^a-z0-
 const parseTags = s => [...new Set(String(s).split(/[\s,]+/).map(cleanTag).filter(Boolean))].slice(0, 8);
 const board = id => S.boards.find(b => b.id === id);
 const toolList = keys => (keys || []).map(k => TOOLS[k] || k).join(", ");
-const isStale = p => p.type === "RECIPE" && !!p.retest_due && new Date(p.retest_due + "T23:59:59") < new Date();
-const isTested = p => p.type === "RECIPE" && (p.tested_tools || []).length > 0;
-const authorName = p => p.is_sample && p.sample_author ? p.sample_author : !p.author && (p.is_sample || p.type === "RECIPE") ? APP_NAME + " team" : (p.author_handle || (p.profiles && p.profiles.handle) || "a former member");
-const byName = p => p.type === "RECIPE" ? APP_NAME + " team" : authorName(p); // guides are always shown as written by the team
+const authorName = p => p.is_sample && p.sample_author ? p.sample_author : !p.author && p.is_sample ? APP_NAME + " team" : (p.author_handle || (p.profiles && p.profiles.handle) || "a former member");
 const userLink = h => h && h !== "a former member" && h !== APP_NAME + " team" ? `<a href="#u-${esc(h)}">${esc(h)}</a>` : esc(h);
 const plural = (n, one, many) => `${n.toLocaleString("en-GB")} ${n === 1 ? one : many}`;
 // The same checks as private.pii_problem in the database. "(this will be blocked)" marks the ones the database refuses on tips.
@@ -101,7 +98,7 @@ const IC = {
   chat: '<path d="M4 5h16v11H9l-5 4z"/>',
   ext: '<path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/>'
 };
-const LABELS = { index: "Find help", post: "Share a tip", library: "Saved", login: "Log in", join: "Create an account", newpass: "New password", me: "Your account", display: "Text size", mod: "Admin", notifications: "Notifications", search: "All posts", help: "Help", about: "About", rules: "House rules", terms: "Terms of use", privacy: "Privacy", accessibility: "Accessibility", "safe-sharing": "What you can safely share", complaints: "Reports and complaints", "guide-new": "New guide", badge: "Badge" };
+const LABELS = { index: "Find help", post: "Share a tip", library: "Saved", login: "Log in", join: "Create an account", newpass: "New password", me: "Your account", display: "Text size", mod: "Admin", notifications: "Notifications", search: "All posts", help: "Help", about: "About", rules: "House rules", terms: "Terms of use", privacy: "Privacy", accessibility: "Accessibility", "safe-sharing": "What you can safely share", complaints: "Reports and complaints", badge: "Badge" };
 function routeLabel(h) {
   if (LABELS[h]) return LABELS[h];
   if (h.startsWith("/")) { const [t, k] = h.slice(1).split("/"); return topicName(t) + (TOOLS[k] ? " · " + TOOLS[k] : ""); }
@@ -109,7 +106,6 @@ function routeLabel(h) {
   if (h.startsWith("u-")) return h.slice(2);
   if (h.startsWith("lib-")) return "Saved";
   if (h.startsWith("post-")) return "Share a tip";
-  if (h.startsWith("guide-")) return "Guide editor";
   return "";
 }
 function renderShell() {
@@ -125,37 +121,28 @@ function renderShell() {
   document.title = (lbl && h !== "index" ? lbl + " · " : "") + APP_NAME;
 }
 function topicIcon(id) { const t = TOPICS[id]; return t ? svg(t[2]) : svg('<circle cx="12" cy="12" r="8"/>'); }
-// One line in a list of guides or tips
+// One line in a list of tips
 function itemRow(p, showTopic = true) {
-  const recipe = p.type === "RECIPE";
   const meta = [
-    `<span class="badge ${recipe ? "guide" : "tip"}">${KIND[p.type]}</span>`,
-    recipe ? (isStale(p) ? '<span class="badge warn">May be out of date</span>' : isTested(p) ? `<span class="badge ok">${svg(IC.check)}Tested</span>` : '<span class="badge warn">Not tested yet</span>') : "",
-    p.status === "draft" ? '<span class="badge warn">Draft</span>' : "",
+    p.status === "pending" ? '<span class="badge warn">Waiting for a moderator</span>' : "",
     p.is_sample ? '<span class="badge">Example</span>' : "",
-    recipe && (p.tries_worked || p.tries_failed) ? `<span>Worked for ${plural(p.tries_worked, "person", "people")}</span>` : "",
-    !recipe ? `<span class="toolname">${esc(TOOLS[p.tool_key] || "Another tool")}</span>` : (p.tools || []).length ? `<span class="toolname">${esc(toolList(p.tools))}</span>` : "",
-    `<span>by ${esc(byName(p))}</span>`,
+    `<span class="toolname">${esc(TOOLS[p.tool_key] || "Another tool")}</span>`,
+    `<span>by ${esc(authorName(p))}</span>`,
     showTopic && board(p.board_id) ? `<span>${esc(topicName(p.board_id))}</span>` : "",
     `<span>${esc(ago(p.created_at))}</span>`,
-    !recipe ? `<span class="stat" aria-label="${plural(p.likes || 0, "like", "likes")}">${svg(IC.heart)}${p.likes || 0}</span>` : "",
+    `<span class="stat" aria-label="${plural(p.likes || 0, "like", "likes")}">${svg(IC.heart)}${p.likes || 0}</span>`,
     `<span class="stat" aria-label="${plural(p.replies || 0, "comment", "comments")}">${svg(IC.chat)}${p.replies || 0}</span>`
   ].filter(Boolean).join("");
-  const sum = recipe ? p.task : (p.body || p.task);
-  const ba = !recipe && (p.outcome_before || p.outcome_after) ? `<span class="d ba-line">${p.outcome_before ? `<b>Before:</b> ${esc(p.outcome_before)}` : ""}${p.outcome_before && p.outcome_after ? " · " : ""}${p.outcome_after ? `<b>After:</b> ${esc(p.outcome_after)}` : ""}</span>` : "";
+  const sum = p.body || p.task;
+  const ba = p.outcome_before || p.outcome_after ? `<span class="d ba-line">${p.outcome_before ? `<b>Before:</b> ${esc(p.outcome_before)}` : ""}${p.outcome_before && p.outcome_after ? " · " : ""}${p.outcome_after ? `<b>After:</b> ${esc(p.outcome_after)}` : ""}</span>` : "";
   return `<li><a class="item" href="#t-${esc(p.id)}"><span class="t">${esc(p.title)}</span>${ba || (sum ? `<span class="d">${esc(sum.slice(0, 180))}${sum.length > 180 ? "..." : ""}</span>` : "")}<span class="m">${meta}</span></a></li>`;
 }
 function itemList(list, empty, showTopic = true) {
   return list.length ? `<ul class="items">${list.map(p => itemRow(p, showTopic)).join("")}</ul>` : `<div class="empty">${empty}</div>`;
 }
-// Guides first, most "worked for me" first; tips newest first
-const byWorked = (a, b) => (b.tries_worked - a.tries_worked) || (a.tries_failed - b.tries_failed) || (new Date(b.created_at) - new Date(a.created_at));
 const byNew = (a, b) => new Date(b.created_at) - new Date(a.created_at);
-// Which AI tools a post is about: a tip names one, a guide can recommend several
-const postTools = p => p.type === "RECIPE" ? (p.tools || []) : [p.tool_key || "other"];
-const onTool = (list, k) => k ? list.filter(p => postTools(p).includes(k)) : list;
-// A thread list: guides pinned at the top, then everything else newest first
-const threads = list => [...list.filter(p => p.type === "RECIPE").sort(byWorked), ...list.filter(p => p.type !== "RECIPE").sort(byNew)];
+const onTool = (list, k) => k ? list.filter(p => (p.tool_key || "other") === k) : list;
+const threads = list => [...list].sort(byNew);
 // The row of AI tool links. base(k) gives the link for tool k, or for all tools when k is ""
 function toolBar(active, base, label = "Filter by AI tool") {
   const keys = ["", ...Object.keys(TOOLS)];
@@ -196,9 +183,9 @@ async function loadBoards() {
   S.boards = (data || []).filter(b => !b.archived);
   renderShell();
 }
-const FEED_COLS = "id,author,task,body,tool_key,screenshots,author_profession,board_id,type,title,tags,status,pinned,is_sample,tested_on,created_at,author_handle,likes,tries_worked,tries_failed,replies,tools,tested_tools,retest_due,outcome_before,outcome_after,sample_author";
+const FEED_COLS = "id,author,task,body,tool_key,screenshots,author_profession,board_id,type,title,tags,status,pinned,is_sample,tested_on,created_at,author_handle,likes,replies,outcome_before,outcome_after,sample_author";
 async function fetchPosts(q) { const { data, error } = await q; if (error) throw error; return data || []; }
-const publishedPosts = () => sb.from("post_feed").select(FEED_COLS).eq("status", "published").order("created_at", { ascending: false }).limit(300);
+const publishedPosts = () => sb.from("post_feed").select(FEED_COLS).eq("status", "published").eq("type", "STORY").order("created_at", { ascending: false }).limit(300);
 const isAdmin = () => !!(S.me && S.me.role === "admin");
 const isModOf = b => S.me && (S.me.role === "admin" || S.modBoards.has(b));
 function needLogin(what) { return `<div class="notice plain read"><b>${esc(what)} needs a free account.</b> <a href="#login">Log in</a> or <a href="#join">create an account</a>. It takes a minute.</div>`; }
@@ -266,7 +253,7 @@ async function viewIndex() {
     return `<li><a class="cat" href="${topicHref(id)}"><span class="ic">${topicIcon(id)}</span>
       <span class="cname"><b>${esc(topicName(id))}</b><span>${esc((TOPICS[id] || [])[1] || (board(id) || {}).descr || "")}</span></span>
       <span class="ccount">${plural(here.length, "post", "posts")}</span>
-      <span class="clast">${last ? `<span class="lt">${esc(last.title)}</span><span>${esc(byName(last))} · ${esc(ago(last.created_at))}</span>` : `<span>No posts yet</span>`}</span></a></li>`;
+      <span class="clast">${last ? `<span class="lt">${esc(last.title)}</span><span>${esc(authorName(last))} · ${esc(ago(last.created_at))}</span>` : `<span>No posts yet</span>`}</span></a></li>`;
   }).join("");
   V.innerHTML = `
     <section class="hero">
@@ -283,8 +270,8 @@ async function viewIndex() {
       <h2 id="rulesH">3 rules for staying safe</h2>
       <ol class="rulelist">
         <li><b>Swap private details for [brackets].</b> Write [account number] or [my postcode] instead of the real thing.</li>
-        <li><b>Fill in only what the AI needs.</b> Replace the <mark class="ph">[highlighted parts]</mark> in a guide, but never with passwords, bank details or your National Insurance number.</li>
-        <li><b>Check before you send.</b> AI makes mistakes. Check dates, amounts and rules with the official source each guide links to.</li>
+        <li><b>Fill in only what the AI needs.</b> Replace the <mark class="ph">[highlighted parts]</mark> in someone's words, but never with passwords, bank details or your National Insurance number.</li>
+        <li><b>Check before you send.</b> AI makes mistakes. Check dates, amounts and rules with the official source, such as GOV.UK or Citizens Advice.</li>
       </ol>
       <a class="small" href="#safe-sharing">More on what you can safely share</a>
     </section>`;
@@ -296,7 +283,7 @@ async function viewSearch() {
     <a class="crumb" href="#index">Home</a>
     <h1>All posts</h1>
     ${toolBar("", k => k ? "#ai/" + k : "#search")}
-    <p class="muted small">${plural(all.length, "post", "posts")}. Guides from our team are pinned at the top.</p>
+    <p class="muted small">${plural(all.length, "post", "posts")}, newest first.</p>
     ${itemList(all, "Nothing yet.")}
   </div>`;
 }
@@ -330,104 +317,51 @@ async function viewTopic(id, tool) {
   </div>`;
 }
 
-// ================= guide and tip pages =================
-const TRY_LBL = { worked: ["It worked for me", "ok"], failed: ["It didn't work for me", "stop"] };
-function guideBody(p, sources) {
-  const prompts = p.prompts || [], checks = p.how_to_check || [];
-  const tools = (p.tools || []).length ? toolList(p.tools) : "any free AI tool";
-  let n = 0;
-  const steps = [];
-  steps.push(`<li><div class="stack" style="gap:8px"><h2>Open a free AI tool</h2><p>This guide works with ${esc(tools)}. You don't need to pay.</p></div></li>`);
-  prompts.forEach((x, i) => steps.push(`<li><div class="stack" style="gap:8px"><h2>${esc(x.label || (prompts.length > 1 ? "Copy and paste this, part " + (i + 1) : "Copy and paste this"))}</h2>
-    <p class="muted small">Copy these words into the AI tool. Then replace the <mark class="ph">[highlighted parts]</mark> with your own details, but keep private details out.</p>
-    <div class="copybox"><pre id="prompt${i}">${phText(x.text)}</pre><div class="bar"><span>Words to copy</span><button type="button" class="btn sm primary" data-copy="${esc(x.text)}">${svg(IC.copy)}Copy</button></div></div></div></li>`));
-  if (checks.length) steps.push(`<li><div class="stack" style="gap:8px"><h2>Check the answer</h2><p>AI tools make mistakes. Before you use the answer, check it against these official sources:</p><ul style="margin:0;padding-left:1.2em">${checks.map(c => `<li><a href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">${esc(c.label)}<span class="sr"> (opens in a new tab)</span></a></li>`).join("")}</ul></div></li>`);
-  return `
-    ${p.deadline_warning ? `<div class="notice stop"><b>Watch the deadline</b>${esc(p.deadline_warning)}</div>` : ""}
-    <p style="font-size:1.1rem">${esc(p.task)}</p>
-    ${p.never_paste ? `<div class="notice"><b>Don't put these into the AI tool</b><span class="prose">${esc(p.never_paste)}</span></div>` : ""}
-    <ol class="steps">${steps.join("")}</ol>
-    ${p.failure_points ? `<details class="more" open><summary>Things that can go wrong</summary><div class="prose">${esc(p.failure_points)}</div></details>` : ""}
-    <p class="small muted">${esc(NOT_ADVICE)}</p>
-    ${sources.length ? `<p class="small">Based on tips from: ${sources.map(s => `<a href="#t-${esc(s.id)}">${esc(s.title)}</a>`).join(", ")}</p>` : ""}
-    <p class="small printonly">From ${esc(APP_NAME)}: ${esc(SITE())}#t-${esc(p.id)}. Printed ${esc(day(new Date()))}.</p>`;
-}
-function feedbackBox(p, myTry) {
-  const radios = [["worked", "Yes, it worked"], ["failed", "No, it didn't"]].map(([k, l]) => `<label><input type="radio" name="tr" value="${k}"${myTry && myTry.result === k ? " checked" : ""}> ${l}</label>`).join("");
-  return `<section class="feedback" aria-labelledby="fbH"><h2 id="fbH">Did this guide work for you?</h2>
-    <div class="choice" role="radiogroup" aria-labelledby="fbH">${radios}</div>
-    <div class="row">
-      ${fld("trTool", "Which AI tool did you use?", `<select id="trTool"><option value="">Choose...</option>${Object.entries(TOOLS).map(([k, v]) => `<option value="${k}"${myTry && myTry.tool_key === k ? " selected" : ""}>${esc(v)}</option>`).join("")}</select>`)}
-    </div>
-    ${fld("trNote", `What happened? <span class="muted" style="font-weight:400">(optional)</span>`, `<input type="text" id="trNote" maxlength="500" value="${esc(myTry ? myTry.note : "")}">`, `<span id="trNoteHint">${myTry && myTry.result === "failed" ? "Tell us where it went wrong so we can fix the guide." : "Leave out anything personal."}</span>`)}
-    <div class="row">${S.me ? `<button class="btn primary" id="trSave">${myTry ? "Update my answer" : "Send my answer"}</button>${myTry ? `<button class="btn quiet" id="trDel">Remove my answer</button>` : ""}`
-      : `<button class="btn primary" data-trygo="join">Create an account to send</button><button class="btn" data-trygo="login">Log in to send</button>`}<span id="trMsg" class="err" role="alert"></span></div>
-    ${S.me ? "" : `<p class="small muted">We'll keep your answer while you log in.</p>`}
-  </section>`;
-}
+// ================= tip pages =================
 function justPostedPanel(p) {
   const link = SITE() + "#t-" + p.id;
-  return `<div class="notice ok" role="status"><b>Your tip is live. Thank you.</b>The most useful tips become tested guides. You'll see comments under the bell.
+  return `<div class="notice ok" role="status"><b>Your tip is live. Thank you.</b>You'll see comments and likes under the bell.
     <div class="row" style="margin-top:10px"><button type="button" class="btn sm" id="jpCopy">Copy the link</button><span class="small" id="jpMsg" aria-live="polite"></span></div><p class="small muted" style="margin-top:6px">${esc(link)}</p></div>`;
 }
 async function viewTopicPost(id) {
   const { data: p, error } = await sb.from("post_feed").select("*").eq("id", id).maybeSingle();
-  if (error || !p) return viewNotFound("This page doesn't exist, is waiting for a moderator, or was taken down.");
-  const recipe = p.type === "RECIPE";
-  const [reps, tries, src] = await Promise.all([
-    sb.from("replies").select("id,body,status,created_at,author,profiles(handle,profession)").eq("post_id", id).order("created_at"),
-    recipe ? sb.from("tries").select("result,note,tool_key,created_at,user_id,profiles(handle)").eq("post_id", id).order("created_at", { ascending: false }) : Promise.resolve({ data: [] }),
-    sb.from("recipe_sources").select("recipe_id,story_id").eq(recipe ? "recipe_id" : "story_id", id)
-  ]);
-  const linkIds = (src.data || []).map(r => recipe ? r.story_id : r.recipe_id);
-  const linked = linkIds.length ? ((await sb.from("post_feed").select("id,title,status").in("id", linkIds)).data || []).filter(x => x.status === "published" || isAdmin()) : [];
+  if (error || !p || p.type !== "STORY") return viewNotFound("This page doesn't exist, is waiting for a moderator, or was taken down.");
+  const reps = await sb.from("replies").select("id,body,status,created_at,author,profiles(handle,profession)").eq("post_id", id).order("created_at");
   const b = board(p.board_id), mine = S.me && p.author === S.me.id, mod = isModOf(p.board_id), admin = isAdmin();
-  const myLike = S.me && !recipe && p.status === "published" ? (await sb.from("likes").select("post_id").eq("post_id", p.id).eq("user_id", S.me.id).maybeSingle()).data : null;
+  const myLike = S.me && p.status === "published" ? (await sb.from("likes").select("post_id").eq("post_id", p.id).eq("user_id", S.me.id).maybeSingle()).data : null;
   const mySaved = S.me && p.status === "published" ? (await sb.from("library_items").select("id").eq("source_post", p.id).maybeSingle()).data : null;
-  const myTry = S.me ? (tries.data || []).find(t => t.user_id === S.me.id) : null;
-  const status = recipe ? (isStale(p) ? `<span class="badge warn">May be out of date: re-test was due ${esc(day(p.retest_due))}</span>` : isTested(p) ? `<span class="badge ok">${svg(IC.check)}Tested ${esc(day(p.tested_on))} with ${esc(toolList(p.tested_tools))}</span>` : `<span class="badge warn">Not tested yet</span>`) : "";
-  const notes = (tries.data || []).filter(t => t.note);
   const comments = (reps.data || []);
   let h = `<article class="page stack" style="gap:20px">
     ${b ? `<a class="crumb noprint" href="${topicHref(b.id)}">${esc(topicName(b.id))}</a>` : ""}
     <header class="page-head">
-      <div class="row"><span class="badge ${recipe ? "guide" : "tip"}">${recipe ? "Guide" : "Tip from a member"}</span>${status}${p.is_sample ? '<span class="badge">Example</span>' : ""}${p.status === "draft" ? '<span class="badge warn">Draft: only admins can see this</span>' : p.status === "pending" ? '<span class="badge warn">Waiting for a moderator</span>' : p.status === "removed" ? '<span class="badge stop">Taken down</span>' : ""}</div>
+      <div class="row"><span class="badge tip">Tip from a member</span>${p.is_sample ? '<span class="badge">Example</span>' : ""}${p.status === "pending" ? '<span class="badge warn">Waiting for a moderator</span>' : p.status === "removed" ? '<span class="badge stop">Taken down</span>' : ""}</div>
       <h1 class="topic-title">${esc(p.title)}</h1>
-      <p class="byline">${recipe ? "Written and tested by our team" : `Shared by ${p.is_sample ? esc(authorName(p)) : userLink(authorName(p))}${p.author_profession ? `, ${esc(p.author_profession)}` : ""}`} · ${esc(day(p.created_at))}</p>
-      ${recipe ? `<div class="counts" aria-label="What people said"><span class="y">${svg(IC.check)} Worked for ${plural(p.tries_worked, "person", "people")}</span><span class="n">Didn't work for ${plural(p.tries_failed, "person", "people")}</span></div>` : ""}
+      <p class="byline">Shared by ${p.is_sample ? esc(authorName(p)) : userLink(authorName(p))}${p.author_profession ? `, ${esc(p.author_profession)}` : ""} · ${esc(day(p.created_at))}</p>
     </header>
     ${p.is_sample ? `<div class="notice plain"><b>This is an example.</b>It shows what a tip looks like. It isn't a real person's story, and the name is made up.</div>` : ""}
     ${p.status === "pending" ? `<div class="notice">A moderator checks tips from new members, and every tip about money, health or complaints, before they go live. This usually takes up to 2 working days.${mine ? " We'll tell you under the bell when it's live." : ""}</div>` : ""}
     ${S.justPosted === p.id && mine && p.status === "published" ? justPostedPanel(p) : ""}
-    ${recipe ? guideBody(p, linked) : `
-      <dl class="facts"><dt>What they needed to do</dt><dd>${esc(p.task)}</dd><dt>AI tool</dt><dd>${esc(TOOLS[p.tool_key] || p.tool || "Not said")}</dd>${p.checks ? `<dt>What they checked</dt><dd>${esc(p.checks)}</dd>` : ""}</dl>
-      ${p.outcome_before || p.outcome_after ? `<div class="ba" aria-label="What changed"><div><span class="lbl">Before</span><p>${esc(p.outcome_before || "Not said")}</p></div><div class="after"><span class="lbl">After</span><p>${esc(p.outcome_after || "Not said")}</p></div><p class="small muted ba-note">In their own words. Your result may be different.</p></div>` : ""}
-      <section class="stack" style="gap:8px"><h2>What happened</h2><p class="prose">${esc(p.body)}</p></section>
-      ${p.prompt ? `<details class="more" id="promptBox"><summary>What they typed</summary><div><div class="copybox"><pre id="promptText">${phText(p.prompt)}</pre><div class="bar"><span>Their words</span><button type="button" class="btn sm" data-copy="${esc(p.prompt)}">${svg(IC.copy)}Copy</button></div></div></div></details>` : ""}
-      <p class="small muted">This is one person's experience. ${esc(NOT_ADVICE)}</p>
-      ${linked.length ? `<div class="notice ok"><b>This tip helped us write a guide</b>${linked.map(x => `<a href="#t-${esc(x.id)}">${esc(x.title)}</a>`).join(", ")}</div>` : ""}`}
+    <dl class="facts"><dt>What they needed to do</dt><dd>${esc(p.task)}</dd><dt>AI tool</dt><dd>${esc(TOOLS[p.tool_key] || p.tool || "Not said")}</dd>${p.checks ? `<dt>What they checked</dt><dd>${esc(p.checks)}</dd>` : ""}</dl>
+    ${p.outcome_before || p.outcome_after ? `<div class="ba" aria-label="What changed"><div><span class="lbl">Before</span><p>${esc(p.outcome_before || "Not said")}</p></div><div class="after"><span class="lbl">After</span><p>${esc(p.outcome_after || "Not said")}</p></div><p class="small muted ba-note">In their own words. Your result may be different.</p></div>` : ""}
+    <section class="stack" style="gap:8px"><h2>What happened</h2><p class="prose">${esc(p.body)}</p></section>
+    ${p.prompt ? `<details class="more" id="promptBox"><summary>What they typed</summary><div><div class="copybox"><pre id="promptText">${phText(p.prompt)}</pre><div class="bar"><span>Their words</span><button type="button" class="btn sm" data-copy="${esc(p.prompt)}">${svg(IC.copy)}Copy</button></div></div></div></details>` : ""}
+    <p class="small muted">This is one person's experience. ${esc(NOT_ADVICE)}</p>
     ${(p.screenshots || []).length ? `<div class="shots">${p.screenshots.map((s, i) => `<a href="${esc(shotUrl(s))}" target="_blank" rel="noopener"><img src="${esc(shotUrl(s))}" alt="Screenshot ${i + 1} from the author" loading="lazy"></a>`).join("")}</div>` : ""}
-    ${recipe && p.status === "published" && !mine ? feedbackBox(p, myTry) : ""}
     <div class="actions">
-      ${!recipe && p.status === "published" ? (S.me ? `<button class="btn likebtn${myLike ? " on" : ""}" id="likeBtn" aria-pressed="${myLike ? "true" : "false"}">${svg(IC.heart)}<span>${myLike ? "Liked" : "Like"}</span> <span class="n">${p.likes || 0}</span></button>` : `<a class="btn likebtn" href="#login">${svg(IC.heart)}<span>Like</span> <span class="n">${p.likes || 0}</span></a>`) : ""}
-      ${recipe ? `<button class="btn" id="printBtn">Print this guide</button>` : ""}
+      ${p.status === "published" ? (S.me ? `<button class="btn likebtn${myLike ? " on" : ""}" id="likeBtn" aria-pressed="${myLike ? "true" : "false"}">${svg(IC.heart)}<span>${myLike ? "Liked" : "Like"}</span> <span class="n">${p.likes || 0}</span></button>` : `<a class="btn likebtn" href="#login">${svg(IC.heart)}<span>Like</span> <span class="n">${p.likes || 0}</span></a>`) : ""}
       ${S.me && p.status === "published" ? (mySaved ? `<a class="btn on" href="#lib-${esc(mySaved.id)}">${svg(IC.save)}Saved</a>` : `<button class="btn" id="libSave">${svg(IC.save)}Save</button>`) : ""}
       ${!mine ? (S.me ? `<button class="btn quiet" id="reportPost">Report a problem</button>` : `<a class="btn quiet" href="#login">Report a problem</a>`) : ""}
       <span id="actMsg" role="status"></span>
     </div>
     ${mod || mine ? `<div class="admin noprint"><b>${mod ? "Admin" : "Your tip"}</b>
-      ${admin && !recipe && p.status === "published" ? `<a class="btn sm" href="#guide-from-${esc(p.id)}" id="toRecipe">Turn into a guide</a>` : ""}
-      ${admin && recipe ? `<a class="btn sm" href="#guide-edit-${esc(p.id)}">Edit guide</a>` : ""}
       ${mod && (p.status === "pending" || p.status === "removed") ? `<button class="btn sm" data-modset="published">Approve</button>` : ""}
-      ${admin && p.status === "draft" ? `<button class="btn sm primary" data-modset="published">Publish</button>` : ""}
       ${mod && p.status !== "removed" ? `<button class="btn sm danger" data-modset="removed">Take down</button>` : ""}
       ${mine || admin ? `<button class="btn sm danger" id="delPost">Delete</button>` : ""}</div>` : ""}
-    <section class="comments stack" style="gap:8px" id="comments"><h2>${recipe ? "What people said" : "Comments"} (${notes.length + comments.filter(c => c.status !== "removed").length})</h2>
-      ${notes.map(t => { const [lbl, cls] = TRY_LBL[t.result] || TRY_LBL.failed, hd = t.profiles && t.profiles.handle; return `<div class="comment"><div class="meta"><b>${userLink(hd || "a former member")}</b><span class="badge ${cls}">${lbl}</span>${t.tool_key ? `<span>${esc(TOOLS[t.tool_key] || t.tool_key)}</span>` : ""}<span>${esc(day(t.created_at))}</span></div><pre>${esc(t.note)}</pre></div>`; }).join("")}
+    <section class="comments stack" style="gap:8px" id="comments"><h2>Comments (${comments.filter(c => c.status !== "removed").length})</h2>
       ${comments.map(rr => { const pr = rr.profiles || {}; return `<div class="comment"><div class="meta"><b>${userLink(pr.handle || "a former member")}</b><span>${esc(ago(rr.created_at))}</span>${rr.status === "removed" ? '<span class="badge stop">Taken down</span>' : ""}
         ${!S.me ? `<a href="#login">Report</a>` : rr.author !== S.me.id ? `<button class="btn quiet sm" data-repr="${esc(rr.id)}">Report</button>` : ""}${S.me && (rr.author === S.me.id || S.me.role === "admin") ? `<button class="btn quiet sm" data-delr="${esc(rr.id)}">Delete</button>` : ""}${mod && rr.status !== "removed" ? `<button class="btn quiet sm" data-remr="${esc(rr.id)}">Take down</button>` : ""}</div><pre>${esc(rr.body)}</pre></div>`; }).join("")}
-      ${!notes.length && !comments.length ? `<p class="muted">Nothing yet.</p>` : ""}
-      ${!S.me ? needLogin("Commenting") : p.status === "published" ? `<div class="field" style="margin-top:8px"><label for="rtext">Add a comment</label><textarea id="rtext" maxlength="4000" placeholder="${recipe ? "Did you try it? What would make it clearer?" : "Has this happened to you? What did you do?"}"></textarea><div class="row"><button class="btn primary" id="rsend">Post comment</button><span class="err" id="rmsg" role="alert"></span></div></div>` : ""}
+      ${!comments.length ? `<p class="muted">No comments yet.</p>` : ""}
+      ${!S.me ? needLogin("Commenting") : p.status === "published" ? `<div class="field" style="margin-top:8px"><label for="rtext">Add a comment</label><textarea id="rtext" maxlength="4000" placeholder="Has this happened to you? What did you do?"></textarea><div class="row"><button class="btn primary" id="rsend">Post comment</button><span class="err" id="rmsg" role="alert"></span></div></div>` : ""}
     </section>
   </article>`;
   V.innerHTML = h;
@@ -438,7 +372,6 @@ async function viewTopicPost(id) {
     if (jc) jc.onclick = async () => { const m = document.getElementById("jpMsg"); try { await navigator.clipboard.writeText(SITE() + "#t-" + p.id); m.textContent = "Link copied."; } catch (_) { m.textContent = "Select the link below and copy it."; } trackEv("ev-share-copy"); };
   }
   bindCopy();
-  const pb2 = document.getElementById("printBtn"); if (pb2) pb2.onclick = () => window.print();
   const msg = (mid, t, ok) => { const el = document.getElementById(mid); if (el) { el.className = ok ? "okmsg" : "err"; el.textContent = t; } };
   const reload = () => viewTopicPost(id);
   const ls = document.getElementById("libSave");
@@ -447,20 +380,6 @@ async function viewTopicPost(id) {
     if (error) { msg("actMsg", errMsg(error)); busy(ls, false); return; }
     toast("Saved. Find it under Saved.");
     const a = document.createElement("a"); a.className = "btn on"; a.href = "#lib-" + data.id; a.innerHTML = svg(IC.save) + "Saved"; ls.replaceWith(a); };
-  V.querySelectorAll('input[name="tr"]').forEach(x => x.addEventListener("change", () => { const m = document.getElementById("trMsg"); if (m) m.textContent = ""; const hn = document.getElementById("trNoteHint"); if (hn) hn.textContent = x.value === "failed" ? "Tell us where it went wrong so we can fix the guide." : "Leave out anything personal."; }));
-  const tryRow = () => { const sel = V.querySelector('input[name="tr"]:checked'); return sel ? { result: sel.value, note: document.getElementById("trNote").value.trim(), tool_key: document.getElementById("trTool").value } : null; };
-  V.querySelectorAll("[data-trygo]").forEach(bt => bt.onclick = () => {
-    const t = tryRow(); if (!t) { msg("trMsg", "Choose yes or no first."); return; }
-    remember("th-pendtry", { post_id: p.id, ...t });
-    location.hash = bt.dataset.trygo;
-  });
-  const ts = document.getElementById("trSave");
-  if (ts) ts.onclick = async () => { const t = tryRow(); if (!t) { msg("trMsg", "Choose yes or no first."); return; }
-    const w = blockedOnly(piiWarnings(t.note)); if (w) { msg("trMsg", "Take out " + w + " first."); return; }
-    busy(ts, true); const { error } = await sb.from("tries").upsert({ post_id: p.id, user_id: S.me.id, ...t });
-    if (error) { msg("trMsg", errMsg(error)); busy(ts, false); return; } await reload(); toast("Thanks. Your answer helps other people."); };
-  const td = document.getElementById("trDel");
-  if (td) td.onclick = async () => { await sb.from("tries").delete().eq("post_id", p.id).eq("user_id", S.me.id); reload(); };
   const lb = document.getElementById("likeBtn");
   if (lb) lb.onclick = async () => {
     const on = lb.getAttribute("aria-pressed") === "true"; busy(lb, true);
@@ -491,10 +410,9 @@ async function viewTopicPost(id) {
     if (error) { msg("rmsg", errMsg(error)); busy(rs, false); return; } await reload(); toast("Comment posted");
   };
 }
-// What goes into Saved when you save a guide or tip
+// What goes into Saved when you save a tip
 function libCopy(p) {
-  const prompt = p.type === "RECIPE" ? (p.prompts || []).map(x => (x.label ? x.label + ":\n" : "") + x.text).join("\n\n") : (p.prompt || "");
-  return { type: p.type, title: p.title, body: p.type === "RECIPE" ? p.task || "" : p.body || "", prompt, tool_key: p.type === "RECIPE" ? "" : p.tool_key || "", tags: p.tags || [] };
+  return { type: p.type, title: p.title, body: p.body || "", prompt: p.prompt || "", tool_key: p.tool_key || "", tags: p.tags || [] };
 }
 
 // ================= share a tip =================
@@ -520,7 +438,6 @@ async function viewPost(boardId) {
   V.innerHTML = `<div class="read stack" style="gap:24px">
    <div class="stack" style="gap:8px"><h1>Share a tip</h1><p class="muted">Tell other people how a free AI tool helped you with a boring job. It takes about 5 minutes.</p></div>
    ${pre ? `<div class="notice ok">We've filled this in from your saved prompt. Check each part before you share it.</div>` : ""}
-   ${isAdmin() ? `<p class="small">You're an admin. To write a tested guide instead, <a href="#guide-new">start a guide</a>.</p>` : ""}
    <div class="notice"><b>Leave out anything personal</b>Everything you share is public. Don't include names, addresses, postcodes, phone numbers, emails, bank or card details, or reference numbers. Write [my postcode] or [account number] instead. <a href="#safe-sharing">What you can safely share</a></div>
    <form id="pf" class="formcard" novalidate>
     ${q(1, fld("pfB", "What is it about?", `<select id="pfB"><option value="">Choose a topic...</option>${S.boards.map(b => `<option value="${esc(b.id)}"${b.id === boardId ? " selected" : ""}>${esc(topicName(b.id))}</option>`).join("")}</select>`))}
@@ -600,90 +517,6 @@ async function viewPost(boardId) {
   };
 }
 
-// ================= guide editor (admins) =================
-async function viewRecipeForm(editId, fromStory) {
-  if (!isAdmin()) return viewNotFound("Only admins can write guides.");
-  let p = null, story = null, sources = [];
-  if (editId) {
-    p = (await sb.from("post_feed").select("*").eq("id", editId).maybeSingle()).data;
-    if (!p || p.type !== "RECIPE") return viewNotFound("That guide doesn't exist.");
-    const ids = ((await sb.from("recipe_sources").select("story_id").eq("recipe_id", editId)).data || []).map(r => r.story_id);
-    if (ids.length) sources = (await sb.from("post_feed").select("id,title").in("id", ids)).data || [];
-  } else if (fromStory) {
-    story = (await sb.from("post_feed").select("*").eq("id", fromStory).maybeSingle()).data;
-    if (!story || story.type !== "STORY") return viewNotFound("That tip doesn't exist.");
-    sources = [{ id: story.id, title: story.title }];
-  }
-  const v = p || (story ? { title: story.title, board_id: story.board_id, task: story.task, tools: story.tool_key && story.tool_key !== "other" ? [story.tool_key] : [], prompts: story.prompt ? [{ label: "Copy and paste this", text: story.prompt }] : [], tags: story.tags || [] } : {});
-  const prompts = (v.prompts || []).map(x => ({ ...x })), checks = (v.how_to_check || []).map(x => ({ ...x }));
-  if (!prompts.length) prompts.push({ label: "", text: "" });
-  const toolBoxes = (name, on) => `<div class="choice">${Object.entries(TOOLS).filter(([k]) => k !== "other").map(([k, l]) => `<label><input type="checkbox" name="${name}" value="${k}"${(on || []).includes(k) ? " checked" : ""}> ${esc(l)}</label>`).join("")}</div>`;
-  V.innerHTML = `<div class="read stack" style="gap:20px">
-   <a class="crumb" href="#mod">Admin</a>
-   <h1>${p ? "Edit guide" : "New guide"}</h1>
-   ${story ? `<div class="notice ok">Turning <a href="#t-${esc(story.id)}">${esc(story.title)}</a> into a guide. It stays a draft until you test it and press Publish.</div>` : ""}
-   <div class="notice plain small">Personal-data checks only warn here, because guides quote official addresses. Don't include anyone's real details. Every guide shows: ${esc(NOT_ADVICE)}</div>
-   <form id="rf" class="formcard" novalidate>
-     ${fld("rS", "Title", `<input type="text" id="rS" maxlength="120" value="${esc(v.title || "")}">`, 'Untested guides start with "DRAFT, NOT TESTED: "')}
-     ${fld("rB", "Topic", `<select id="rB"><option value="">Choose a topic...</option>${S.boards.map(b => `<option value="${esc(b.id)}"${b.id === v.board_id ? " selected" : ""}>${esc(topicName(b.id))}</option>`).join("")}</select>`)}
-     ${fld("rT", "What this guide helps with, in one sentence", `<input type="text" id="rT" maxlength="300" value="${esc(v.task || "")}">`)}
-     <fieldset style="border:0;padding:0;margin:0"><legend style="font-weight:700;margin-bottom:6px">Recommended free tools</legend>${toolBoxes("rTools", v.tools)}</fieldset>
-     ${fld("rD", `Deadline warning <span class="muted" style="font-weight:400">(optional, shown in red at the top)</span>`, `<input type="text" id="rD" maxlength="400" value="${esc(v.deadline_warning || "")}">`)}
-     <div class="stack" style="gap:8px"><b>Words to copy</b><span class="small muted">Each gets its own numbered step and Copy button.</span><div class="repeat" id="rPrompts"></div><div><button type="button" class="btn sm" id="rPromptAdd">Add more words to copy</button></div></div>
-     ${fld("rN", "Don't put these into the AI tool", `<textarea id="rN" maxlength="2000" style="min-height:80px">${esc(v.never_paste || "")}</textarea>`)}
-     <div class="stack" style="gap:8px"><b>Check the answer here</b><span class="small muted">Official sources: GOV.UK, Citizens Advice, the right ombudsman. Links must start with https://.</span><div class="repeat" id="rChecks"></div><div><button type="button" class="btn sm" id="rCheckAdd">Add a source</button></div></div>
-     ${fld("rF", "Things that can go wrong", `<textarea id="rF" maxlength="3000" style="min-height:80px">${esc(v.failure_points || "")}</textarea>`)}
-     ${fld("rH", `Search words <span class="muted" style="font-weight:400">(optional, separated by spaces)</span>`, `<input type="text" id="rH" value="${esc((v.tags || []).join(" "))}">`)}
-     <div class="row" style="align-items:flex-start">${fld("rTd", "Last tested on", `<input type="date" id="rTd" value="${esc((v.tested_tools || []).length ? (v.tested_on || "") : "")}">`, "Leave blank if not tested yet.")}${fld("rR", "Re-test by", `<input type="date" id="rR" value="${esc(v.retest_due || "")}">`, 'After this the guide shows "May be out of date".')}</div>
-     <fieldset style="border:0;padding:0;margin:0"><legend style="font-weight:700;margin-bottom:6px">Tested with</legend>${toolBoxes("rTested", v.tested_tools)}</fieldset>
-     <div class="stack" style="gap:6px"><b>Based on tips</b><div id="rSrc"></div></div>
-     <div id="rPii"></div>
-     <div class="row"><button class="btn" type="button" id="rDraft">Save as draft</button><button class="btn primary" type="button" id="rPub">Publish</button><span class="err" id="rMsg" role="alert"></span></div>
-   </form></div>`;
-  const g = id => document.getElementById(id).value.trim();
-  const picked = name => [...V.querySelectorAll(`input[name="${name}"]:checked`)].map(x => x.value);
-  const rowList = (elId, list, fields, addId, blank) => {
-    const el = document.getElementById(elId);
-    const draw = () => { el.innerHTML = list.map((x, i) => `<div class="r"><div>${fields.map(([k, l]) => k === "text" ? `<textarea data-k="${k}" data-i="${i}" aria-label="${l} ${i + 1}" placeholder="${l}">${esc(x[k] || "")}</textarea>` : `<input type="text" data-k="${k}" data-i="${i}" aria-label="${l} ${i + 1}" placeholder="${l}" value="${esc(x[k] || "")}">`).join("")}</div><button type="button" class="btn sm quiet" data-rm="${i}">Remove</button></div>`).join("") || `<div class="small muted">None yet.</div>`; };
-    el.addEventListener("input", e => { const t = e.target; if (t.dataset.k) { list[+t.dataset.i][t.dataset.k] = t.value; piiCheck(); } });
-    el.addEventListener("click", e => { const t = e.target.closest("[data-rm]"); if (t) { list.splice(+t.dataset.rm, 1); draw(); } });
-    document.getElementById(addId).onclick = () => { if (list.length < 12) { list.push({ ...blank }); draw(); } };
-    draw();
-  };
-  rowList("rPrompts", prompts, [["label", "Step heading, e.g. Draft the letter"], ["text", "The words to copy"]], "rPromptAdd", { label: "", text: "" });
-  rowList("rChecks", checks, [["label", "Source name, e.g. Citizens Advice"], ["url", "https://..."]], "rCheckAdd", { label: "", url: "" });
-  const srcEl = document.getElementById("rSrc");
-  const drawSrc = () => { srcEl.innerHTML = sources.length ? sources.map((s, i) => `<div class="row"><a href="#t-${esc(s.id)}">${esc(s.title)}</a><button type="button" class="btn sm quiet" data-rms="${i}">Unlink</button></div>`).join("") : `<span class="small muted">None. Use "Turn into a guide" on a tip to link it.</span>`; };
-  srcEl.onclick = e => { const t = e.target.closest("[data-rms]"); if (t) { sources.splice(+t.dataset.rms, 1); drawSrc(); } };
-  drawSrc();
-  const allText = () => [g("rS"), g("rT"), g("rN"), g("rF"), g("rD"), prompts.map(x => x.label + " " + x.text).join(" ")].join(" ");
-  const piiCheck = () => { const w = piiWarnings(allText()).map(x => x.replace(" (this will be blocked)", "")); document.getElementById("rPii").innerHTML = w.length ? `<div class="notice">This guide contains ${w.map(esc).join("; ")}. That's fine for official addresses, but make sure none of it is a real person's details.</div>` : ""; };
-  V.querySelectorAll("#rf input[type=text], #rf textarea").forEach(el => el.addEventListener("input", piiCheck)); piiCheck();
-  const save = async status => {
-    const m = document.getElementById("rMsg"); m.textContent = "";
-    const ps = prompts.map(x => ({ label: (x.label || "").trim(), text: (x.text || "").trim() })).filter(x => x.text);
-    const cs = checks.map(x => ({ label: (x.label || "").trim(), url: (x.url || "").trim() })).filter(x => x.label || x.url);
-    if (g("rS").length < 3) { m.textContent = "Add a title."; return; }
-    if (!g("rB")) { m.textContent = "Choose a topic."; return; }
-    if (!g("rT")) { m.textContent = "Say what the guide helps with."; return; }
-    if (status === "published" && !ps.length) { m.textContent = "Add at least one set of words to copy before publishing."; return; }
-    if (cs.some(c => !c.label || !/^https:\/\/\S+$/.test(c.url))) { m.textContent = "Each source needs a name and a link that starts with https://."; return; }
-    if (status === "published" && /^DRAFT, NOT TESTED/i.test(g("rS"))) { m.textContent = 'Test it first, then remove "DRAFT, NOT TESTED" from the title.'; return; }
-    const row = { board_id: g("rB"), title: g("rS"), task: g("rT"), tags: parseTags(g("rH")), tools: picked("rTools"), prompts: ps, never_paste: g("rN"), how_to_check: cs, failure_points: g("rF"), deadline_warning: g("rD"), tested_tools: picked("rTested"), tested_on: g("rTd") || isoDay(new Date()), retest_due: g("rR") || null, status };
-    const btn = document.getElementById(status === "draft" ? "rDraft" : "rPub"); busy(btn, true);
-    let rid2 = editId, error;
-    if (editId) ({ error } = await sb.from("posts").update(row).eq("id", editId));
-    else { const r = await sb.from("posts").insert({ ...row, type: "RECIPE" }).select("id,status").single(); error = r.error; if (r.data) rid2 = r.data.id; }
-    if (error) { m.textContent = errMsg(error); busy(btn, false); return; }
-    if (editId) await sb.from("recipe_sources").delete().eq("recipe_id", editId);
-    if (sources.length) { const r2 = await sb.from("recipe_sources").insert(sources.map(s => ({ recipe_id: rid2, story_id: s.id }))); if (r2.error) { m.textContent = "Saved, but linking the tips failed: " + errMsg(r2.error); busy(btn, false); return; } }
-    pendingToast(status === "draft" ? "Guide saved as a draft" : "Guide published");
-    location.hash = "t-" + rid2;
-  };
-  document.getElementById("rDraft").onclick = () => save("draft");
-  document.getElementById("rPub").onclick = () => save("published");
-}
-
 // ================= notifications, metrics =================
 async function loadNotifCount() {
   const bell = document.getElementById("bell"); if (!bell || !S.me) return;
@@ -692,7 +525,6 @@ async function loadNotifCount() {
   dot.textContent = n > 99 ? "99+" : n; dot.hidden = !n;
   bell.setAttribute("aria-label", n ? `Notifications, ${n} new` : "Notifications");
 }
-const TRY_TXT = { worked: "it worked", failed: "it didn't work" };
 async function viewNotifications() {
   if (!S.me) { V.innerHTML = `<div class="read stack"><h1>Notifications</h1>${needLogin("Notifications")}</div>`; return; }
   const { data, error } = await sb.from("notifications").select("id,kind,post_id,actor,detail,read_at,created_at").order("created_at", { ascending: false }).limit(100);
@@ -704,7 +536,6 @@ async function viewNotifications() {
   const row = n => {
     const t = `<a href="#t-${esc(n.post_id)}">${esc(title[n.post_id] || "your post")}</a>`, a = n.actor ? esc(who[n.actor] || "Someone") : "";
     const line = n.kind === "approved" ? `Your tip ${t} is now live.`
-      : n.kind === "try" ? `${a} said ${esc(TRY_TXT[n.detail] || n.detail)} for ${t}.`
       : n.kind === "fork" ? `${a} reused ${t}.`
       : `${a} commented on ${t}: "${esc(n.detail)}${n.detail.length >= 140 ? "..." : ""}"`;
     return `<li class="comment"><div>${n.read_at ? "" : '<span class="badge ok">New</span> '}${line}</div><div class="meta">${esc(ago(n.created_at))}</div></li>`;
@@ -719,8 +550,8 @@ async function loadMetrics() {
   if (error || !data) { box.innerHTML = `<p class="small muted">Weekly figures unavailable: ${esc(error ? errMsg(error) : "no data")}</p>`; return; }
   const w = (data.weeks || []).slice().reverse();
   box.innerHTML = `<section class="stack" style="gap:8px"><h2>How it's going</h2><p class="small muted">"Share" and "Browse" count clicks on the two buttons on the home page. Nothing here identifies a person.</p>
-    <div class="tablewrap" tabindex="0" role="region" aria-label="Weekly figures"><table><thead><tr><th scope="col">Week from</th><th scope="col">Guide answers</th><th scope="col">Posts</th><th scope="col">Comments</th><th scope="col">New members</th><th scope="col">Share clicks</th><th scope="col">Browse clicks</th><th scope="col">Visits</th></tr></thead>
-    <tbody>${w.map(r => `<tr><td>${esc(r.week)}</td><td><b>${r.tries}</b></td><td>${r.posts}</td><td>${r.replies}</td><td>${r.members}</td><td>${r.share_clicks ?? 0}</td><td>${r.browse_clicks ?? 0}</td><td>${r.views}</td></tr>`).join("")}</tbody></table></div></section>`;
+    <div class="tablewrap" tabindex="0" role="region" aria-label="Weekly figures"><table><thead><tr><th scope="col">Week from</th><th scope="col">Posts</th><th scope="col">Comments</th><th scope="col">New members</th><th scope="col">Share clicks</th><th scope="col">Browse clicks</th><th scope="col">Visits</th></tr></thead>
+    <tbody>${w.map(r => `<tr><td>${esc(r.week)}</td><td><b>${r.posts}</b></td><td>${r.replies}</td><td>${r.members}</td><td>${r.share_clicks ?? 0}</td><td>${r.browse_clicks ?? 0}</td><td>${r.views}</td></tr>`).join("")}</tbody></table></div></section>`;
 }
 
 // ================= saved (library) =================
@@ -737,7 +568,7 @@ function libMarkdown(items) {
   ].filter(Boolean).join("\n")).join("\n\n---\n\n") + "\n";
 }
 async function viewLibrary() {
-  if (!S.me) { V.innerHTML = `<div class="read stack"><h1>Saved</h1><p>Keep the guides and tips you want to come back to, and your own prompts, in one private place.</p>${needLogin("Saving")}</div>`; return; }
+  if (!S.me) { V.innerHTML = `<div class="read stack"><h1>Saved</h1><p>Keep the tips you want to come back to, and your own prompts, in one private place.</p>${needLogin("Saving")}</div>`; return; }
   const { data, error } = await sb.from("library_items").select(LIB_COLS).order("updated_at", { ascending: false }).limit(300);
   if (error) throw error;
   const items = data || [];
@@ -746,10 +577,10 @@ async function viewLibrary() {
   if (ids.length) ((await sb.from("post_feed").select(FEED_COLS + ",updated_at").in("id", ids)).data || []).forEach(p => srcMap[p.id] = p);
   const saved = items.filter(i => i.kind === "saved"), own = items.filter(i => i.kind === "draft");
   const row = i => { const src = srcMap[i.source_post];
-    return `<li><a class="item" href="#lib-${esc(i.id)}"><span class="t">${esc(i.title)}</span>${i.notes ? `<span class="d">Your notes: ${esc(i.notes.slice(0, 100))}</span>` : ""}<span class="m"><span class="badge ${i.type === "RECIPE" ? "guide" : "tip"}">${i.kind === "draft" ? "My prompt" : KIND[i.type] || "Saved"}</span>${isUpdated(i, src) ? '<span class="badge warn">Updated since you saved it</span>' : ""}${i.kind === "saved" && !i.source_post ? '<span class="badge stop">Original removed</span>' : ""}${i.published_post ? '<span class="badge ok">Shared as a tip</span>' : ""}<span>Changed ${esc(ago(i.updated_at))}</span></span></a></li>`; };
+    return `<li><a class="item" href="#lib-${esc(i.id)}"><span class="t">${esc(i.title)}</span>${i.notes ? `<span class="d">Your notes: ${esc(i.notes.slice(0, 100))}</span>` : ""}<span class="m"><span class="badge tip">${i.kind === "draft" ? "My prompt" : "Tip"}</span>${isUpdated(i, src) ? '<span class="badge warn">Updated since you saved it</span>' : ""}${i.kind === "saved" && !i.source_post ? '<span class="badge stop">Original removed</span>' : ""}${i.published_post ? '<span class="badge ok">Shared as a tip</span>' : ""}<span>Changed ${esc(ago(i.updated_at))}</span></span></a></li>`; };
   V.innerHTML = `<div class="read stack" style="gap:24px">
     <div class="stack" style="gap:8px"><h1>Saved</h1><p class="muted">Only you can see this page. Keep using placeholders like [my postcode] in your own prompts and notes.</p></div>
-    <section class="stack" style="gap:8px"><h2>Guides and tips you saved</h2>${saved.length ? `<ul class="items">${saved.map(row).join("")}</ul>` : `<div class="empty">Nothing saved yet. Press <b>Save</b> on any guide or tip.</div>`}</section>
+    <section class="stack" style="gap:8px"><h2>Tips you saved</h2>${saved.length ? `<ul class="items">${saved.map(row).join("")}</ul>` : `<div class="empty">Nothing saved yet. Press <b>Save</b> on any tip.</div>`}</section>
     <section class="stack" style="gap:8px"><div class="row" style="justify-content:space-between"><h2>My own prompts</h2><a class="btn sm" href="#lib-new">Add a prompt</a></div>${own.length ? `<ul class="items">${own.map(row).join("")}</ul>` : `<div class="empty">Keep the words that work for you here.</div>`}</section>
     ${items.length ? `<div><button class="btn sm" id="exMd">Download a copy</button></div>` : ""}</div>`;
   const ex = document.getElementById("exMd"); if (ex) ex.onclick = () => download("boring-bits-saved.md", libMarkdown(items), "text/markdown");
@@ -761,7 +592,7 @@ async function viewLibItem(id) {
     : (await sb.from("library_items").select(LIB_COLS).eq("id", id).maybeSingle()).data;
   if (!it) return viewNotFound("That doesn't exist, or it isn't yours.");
   const src = it.source_post ? (await sb.from("post_feed").select("*").eq("id", it.source_post).maybeSingle()).data : null;
-  const upd = isUpdated(it, src), fromGuide = it.kind === "saved" && src && src.type === "RECIPE";
+  const upd = isUpdated(it, src);
   document.title = (isNew ? "New prompt" : it.title) + " · " + APP_NAME;
   V.innerHTML = `<div class="read stack" style="gap:20px">
     <a class="crumb" href="#library">Saved</a>
@@ -782,7 +613,7 @@ async function viewLibItem(id) {
     </form></div>`;
   const g = x => document.getElementById(x).value.trim();
   const out = (t, ok) => { const el = document.getElementById("lMsg"); el.className = ok ? "okmsg" : "err"; el.textContent = t; };
-  const scanText = () => fromGuide ? g("lN") : [g("lT"), g("lB"), g("lP"), g("lN")].join(" ");
+  const scanText = () => [g("lT"), g("lB"), g("lP"), g("lN")].join(" ");
   const piiCheck = () => { const w = piiWarnings(scanText()); document.getElementById("lPii").innerHTML = w.length ? `<div class="notice stop">This may contain ${w.map(x => esc(x.replace(" (this will be blocked)", ""))).join("; ")}. Use a placeholder like [my postcode] instead.</div>` : ""; };
   V.querySelectorAll("#lf input[type=text], #lf textarea").forEach(el => el.addEventListener("input", piiCheck));
   const payload = () => ({ title: g("lT"), type: it.type || "STORY", tool_key: g("lTool"), body: g("lB"), prompt: g("lP"), notes: g("lN"), tags: it.tags || [] });
@@ -812,7 +643,7 @@ function viewLogin(mode = "login") {
   const join = mode === "join";
   V.innerHTML = `<div class="read stack" style="gap:20px;max-width:520px">
    <h1>${join ? "Create an account" : "Log in"}</h1>
-   <p class="muted">${join ? "It's free. You need an account to share a tip, save guides, or say whether a guide worked." : `New here? <a href="#join">Create an account</a>.`}</p>
+   <p class="muted">${join ? "It's free. You need an account to share a tip, like, comment or save." : `New here? <a href="#join">Create an account</a>.`}</p>
    <form id="af" class="formcard" novalidate>
     ${join ? fld("aH", "Choose a username", `<input type="text" id="aH" maxlength="20" autocomplete="username" placeholder="3 to 20 letters, numbers or _">`, "Shown on your tips. It doesn't have to be your real name.") : ""}
     ${fld("aE", "Email", `<input type="email" id="aE" autocomplete="email">`, join ? "We never show your email." : "")}
@@ -852,12 +683,6 @@ function viewLogin(mode = "login") {
 }
 async function afterLogin() {
   const back = recall("th-return"); remember("th-return", null);
-  const pend = recall("th-pendtry"); remember("th-pendtry", null);
-  if (pend && S.me) {
-    const { error } = await sb.from("tries").upsert({ post_id: pend.post_id, user_id: S.me.id, result: pend.result, note: pend.note || "", tool_key: pend.tool_key || "" });
-    pendingToast(error ? "We couldn't send your answer. " + errMsg(error) : "Thanks. Your answer is saved.");
-    location.hash = "t-" + pend.post_id; return;
-  }
   if (back) pendingToast("You're logged in");
   location.hash = back || "index";
 }
@@ -915,7 +740,7 @@ async function viewProfile(handle) {
     <h1>${esc(u.handle)}</h1>
     <p class="muted">${u.role === "admin" ? "Admin · " : ""}${u.profession ? esc(u.profession) + " · " : ""}Member since ${esc(day(u.created_at))}</p>
     ${canAdmin ? `<div class="admin"><b>Admin</b><button class="btn sm danger" id="ban">Suspend</button><button class="btn sm" id="unban">Restore</button><label class="sr" for="wardB">Topic</label><select id="wardB" style="width:auto">${S.boards.map(b => `<option value="${esc(b.id)}">${esc(topicName(b.id))}</option>`).join("")}</select><button class="btn sm" id="wardAdd">Make moderator</button><button class="btn sm" id="wardDel">Remove as moderator</button><span id="admMsg" role="status"></span></div>` : ""}
-    <section class="stack" style="gap:8px"><h2>Their tips and guides</h2>${itemList(posts.sort(byNew), "Nothing published yet.")}</section></div>`;
+    <section class="stack" style="gap:8px"><h2>Their tips</h2>${itemList(posts.sort(byNew), "Nothing published yet.")}</section></div>`;
   const am = t => { const el = document.getElementById("admMsg"); if (el) el.textContent = t; };
   const call = async (fn, args) => { const { error } = await sb.rpc(fn, args); am(error ? errMsg(error) : "Done."); };
   const bb = id => document.getElementById(id);
@@ -930,17 +755,15 @@ async function viewProfile(handle) {
 // ================= admin =================
 async function viewMod() {
   if (!S.isMod) return viewNotFound();
-  const [pend, reps, drafts] = await Promise.all([
+  const [pend, reps] = await Promise.all([
     sb.from("post_feed").select(FEED_COLS + ",body").eq("status", "pending").order("created_at"),
-    sb.from("reports").select("id,reason,created_at,post_id,reply_id,status,posts(title,board_id),replies(body,post_id)").eq("status", "open").order("created_at"),
-    isAdmin() ? sb.from("post_feed").select("id,title,board_id,created_at,type").eq("status", "draft").order("created_at") : Promise.resolve({ data: [] })
+    sb.from("reports").select("id,reason,created_at,post_id,reply_id,status,posts(title,board_id),replies(body,post_id)").eq("status", "open").order("created_at")
   ]);
-  const pp = (pend.data || []).filter(p => isModOf(p.board_id)), dr = drafts.data || [], rp = reps.data || [];
+  const pp = (pend.data || []).filter(p => isModOf(p.board_id) && p.type === "STORY"), rp = reps.data || [];
   V.innerHTML = `<div class="stack" style="gap:32px">
-   <div class="row" style="justify-content:space-between"><h1>Admin</h1>${isAdmin() ? `<a class="btn primary" href="#guide-new">Write a guide</a>` : ""}</div>
+   <div class="row" style="justify-content:space-between"><h1>Admin</h1></div>
    <section class="stack" style="gap:8px"><h2>Tips waiting for approval (${pp.length})</h2>
     ${pp.length ? `<div class="tablewrap" tabindex="0" role="region" aria-label="Tips waiting for approval"><table><tbody>${pp.map(p => `<tr><td><a href="#t-${esc(p.id)}"><b>${esc(p.title)}</b></a><br><span class="small muted">${esc(p.author_handle || "")} · ${esc(topicName(p.board_id))} · ${esc(ago(p.created_at))}${HELD.includes(p.board_id) ? " · always checked in this topic" : ""}</span><p class="small" style="margin-top:4px">${esc((p.body || "").slice(0, 300))}</p></td><td style="white-space:nowrap"><button class="btn sm primary" data-ap="${esc(p.id)}">Approve</button> <button class="btn sm danger" data-rm="${esc(p.id)}">Take down</button></td></tr>`).join("")}</tbody></table></div>` : `<div class="empty">Nothing waiting.</div>`}</section>
-   ${isAdmin() ? `<section class="stack" style="gap:8px"><h2>Draft guides (${dr.length})</h2>${dr.length ? `<div class="tablewrap" tabindex="0" role="region" aria-label="Draft guides"><table><tbody>${dr.map(p => `<tr><td><a href="#t-${esc(p.id)}"><b>${esc(p.title)}</b></a><br><span class="small muted">${esc(topicName(p.board_id))} · started ${esc(day(p.created_at))}</span></td><td><a class="btn sm" href="#guide-edit-${esc(p.id)}">Edit</a></td></tr>`).join("")}</tbody></table></div>` : `<div class="empty">No drafts.</div>`}</section>` : ""}
    <section class="stack" style="gap:8px"><h2>Reports (${rp.length})</h2>
     ${rp.length ? `<div class="tablewrap" tabindex="0" role="region" aria-label="Reports"><table><tbody>${rp.map(r => `<tr><td>"${esc(r.reason)}"<br><span class="small muted">${r.post_id ? `About <a href="#t-${esc(r.post_id)}">${esc(r.posts ? r.posts.title : "a post")}</a>` : `About a comment on <a href="#t-${esc(r.replies ? r.replies.post_id : "")}">this page</a>: ${esc(r.replies ? r.replies.body.slice(0, 120) : "")}`} · ${esc(ago(r.created_at))}</span></td><td style="white-space:nowrap"><button class="btn sm danger" data-act="${esc(r.id)}">Take down</button> <button class="btn sm" data-dis="${esc(r.id)}">Dismiss</button></td></tr>`).join("")}</tbody></table></div>` : `<div class="empty">No open reports.</div>`}
     <p class="small muted">Keep a short note of serious reports and what you did. Under the Online Safety Act you should be able to show how you handle illegal content and complaints.</p></section>
@@ -959,7 +782,7 @@ async function viewMod() {
 
 // ================= help and legal pages =================
 const OPERATOR = { name: "Ahmad Ismail", email: "ahmadismailcv@gmail.com" }; // who runs the site and how to contact them (shown publicly on purpose)
-const LAST_UPDATED = "20 November 2026";
+const LAST_UPDATED = "21 November 2026";
 const opName = () => esc(OPERATOR.name);
 const opEmail = () => `<a href="mailto:${esc(OPERATOR.email)}">${esc(OPERATOR.email)}</a>`;
 function docPage(title, intro, sections) {
@@ -967,14 +790,13 @@ function docPage(title, intro, sections) {
    ${sections.map(([h, b]) => `<section><h2>${esc(h)}</h2>${b}</section>`).join("")}
    <p class="small muted" style="margin-top:32px">Last updated ${LAST_UPDATED}.</p></article>`;
 }
-const notAdviceSec = ["This is not advice", `<p><b>${esc(NOT_ADVICE)}</b> Tips are people's own experiences. Guides are our best attempt at a reliable method, tested on the dates shown, but AI tools change and make mistakes. Check every answer against the official sources linked, and get proper advice for anything important, for example from Citizens Advice, a solicitor, your GP or NHS 111.</p>`];
+const notAdviceSec = ["This is not advice", `<p><b>${esc(NOT_ADVICE)}</b> Tips are people's own experiences, and AI tools change and make mistakes. Check every answer against an official source such as GOV.UK or Citizens Advice, and get proper advice for anything important, for example from Citizens Advice, a solicitor, your GP or NHS 111.</p>`];
 function viewHelp() {
   docPage("Help", "Answers to common questions.", [
     ["What is this site?", `<p>Free help with everyday paperwork using free AI tools such as ChatGPT, Microsoft Copilot, Google Gemini and Claude. It's for adults in the UK, and for people who help others, like library volunteers, support workers and family members.</p>`],
-    ["What's the difference between a guide and a tip?", `<p>A <b>guide</b> is step by step. We write it and test it ourselves. It tells you what to type, what to keep private, and where to check the answer.</p><p>A <b>tip</b> is shared by a member. It says what they needed to do, which tool they used and what happened.</p>`],
-    ["Do I need to pay for an AI tool?", `<p>No. Every guide works with the free versions.</p>`],
-    ["What should I never type into an AI tool?", `<p>Passwords, PINs, bank or card details, your National Insurance number, and anything about someone else they wouldn't want shared. Each guide lists what to leave out. See <a href="#safe-sharing">What you can safely share</a>.</p>`],
-    ["What does \"May be out of date\" mean?", `<p>Every guide has a date to test it again, because AI tools change. After that date it shows this label until we've tested it again.</p>`],
+    ["What is a tip?", `<p>A <b>tip</b> is shared by a member. It says what they needed to do, which AI tool they used, roughly what they typed and what happened. You can like it, comment on it and save it.</p>`],
+    ["Do I need to pay for an AI tool?", `<p>No. The tools people write about all have free versions.</p>`],
+    ["What should I never type into an AI tool?", `<p>Passwords, PINs, bank or card details, your National Insurance number, and anything about someone else they wouldn't want shared. See <a href="#safe-sharing">What you can safely share</a>.</p>`],
     ["Why is my tip waiting?", `<p>A moderator checks the first three tips from each new member. After that yours go live straight away, except tips about money, health or complaints, which are always checked. This usually takes up to 2 working days.</p>`],
     ["Can I get medical advice here?", `<p>No. The health topic is only for appointments, forms and NHS paperwork. For health worries, contact your GP or NHS 111. In an emergency, call 999.</p>`],
     ["The text is hard to read.", `<p>Go to <a href="#display">Text size</a> and choose the larger option.</p>`],
@@ -1012,19 +834,19 @@ function viewTerms() {
   docPage("Terms of use", "The agreement between you and us, kept short.", [
     ["Who runs it", `<p>${esc(APP_NAME)} is run by ${opName()} as an independent, non-commercial site. Contact: ${opEmail()}.</p>`],
     ["Your account", `<p>You must be 18 or over. Keep your login to yourself. You're responsible for what you post. You can delete your account at any time in <a href="#me">Your account</a>.</p>`],
-    ["What you post", `<p>You keep the copyright in what you post. By posting, you license it to everyone under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons Attribution 4.0 (CC BY 4.0)</a>, so others can reuse it with credit to you. We may use tips to write guides, and we credit and link the tips we use. Only post material you have the right to share. Your saved items are private.</p>`],
+    ["What you post", `<p>You keep the copyright in what you post. By posting, you license it to everyone under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons Attribution 4.0 (CC BY 4.0)</a>, so others can reuse it with credit to you. Only post material you have the right to share. Your saved items are private.</p>`],
     ["Rules", `<p>Follow the <a href="#rules">house rules</a>. Never post personal details about you or anyone else.</p>`],
     notAdviceSec,
     ["Moderation, reports and complaints", `<p>We can hold, take down or restrict content, and suspend or close accounts, if they break these terms or the house rules, or if the law requires it. To report something, press "Report a problem" on it. To complain, see <a href="#complaints">Reports and complaints</a>.</p>`],
     ["Online safety", `<p>We take steps to protect users from illegal content, as the Online Safety Act 2023 requires: automatic checks, moderation before publishing for new members and sensitive topics, a report option on every post and comment, and a complaints route.</p><p><mark>TODO before launch: add a summary of the Online Safety Act illegal content risk assessment here (risks found, and what we do about each).</mark></p>`],
-    ["No guarantees", `<p>Guides and tips are provided as they are. They may be wrong, out of date or not right for your situation. We aren't liable for losses from using them, except where the law doesn't allow us to exclude that.</p>`],
+    ["No guarantees", `<p>Tips are provided as they are. They may be wrong, out of date or not right for your situation. We aren't liable for losses from using them, except where the law doesn't allow us to exclude that.</p>`],
     ["Changes", `<p>We may update these terms. If a change matters, we'll say so on the site first.</p>`],
     ["Law", `<p>These terms are governed by the law of England and Wales.</p>`]
   ]);
 }
 function viewComplaints() {
   docPage("Reports and complaints", "How to report a post, and how to complain if you're unhappy with us.", [
-    ["Report a post or comment", `<p>Press <b>Report a problem</b> on any guide or tip, or <b>Report</b> on a comment, and say what's wrong. You need to be logged in. A moderator looks at every report, usually within 2 working days.</p>`],
+    ["Report a post or comment", `<p>Press <b>Report a problem</b> on any tip, or <b>Report</b> on a comment, and say what's wrong. You need to be logged in. A moderator looks at every report, usually within 2 working days.</p>`],
     ["Something urgent or illegal", `<p>If content puts someone in danger, contact the police first (999 in an emergency). Then report it here, or email ${opEmail()} with a link to the page.</p>`],
     ["Complain about a decision", `<p>If we took down your post or suspended your account and you think we got it wrong, email ${opEmail()}. Say which post or account, and why. We'll reply within 10 working days.</p>`],
     ["Personal data", `<p>If your personal details have been posted, report the post and email ${opEmail()}. You can also complain to the <a href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noopener">Information Commissioner's Office</a>.</p>`],
@@ -1034,14 +856,14 @@ function viewComplaints() {
 function viewPrivacy() {
   docPage("Privacy notice", "What we collect, why, and what you can do about it.", [
     ["Who is responsible", `<p>${opName()} is the data controller for ${esc(APP_NAME)}. Contact: ${opEmail()}.</p>`],
-    ["What we collect", `<ul><li><b>Account:</b> your email address, password (stored as a secure hash), username and, if you give it, a short line about you.</li><li><b>What you do:</b> your tips, pictures, comments, answers to "Did this guide work?", reports, saved items and text size.</li><li><b>Notifications</b> about your tips, kept for 120 days.</li><li><b>Counts:</b> one number per page type per day, and a count of clicks on two home page buttons. Nothing that identifies you.</li></ul>`],
+    ["What we collect", `<ul><li><b>Account:</b> your email address, password (stored as a secure hash), username and, if you give it, a short line about you.</li><li><b>What you do:</b> your tips, pictures, comments, likes, reports, saved items and text size.</li><li><b>Notifications</b> about your tips, kept for 120 days.</li><li><b>Counts:</b> one number per page type per day, and a count of clicks on two home page buttons. Nothing that identifies you.</li></ul>`],
     ["Why", `<ul><li>To run your account and show your posts: legitimate interests in running a community you've chosen to join.</li><li>To keep the site safe: moderation, reports and automatic checks for personal details.</li></ul><p>We don't sell data, show adverts or use your content to train AI.</p>`],
     ["Who can see what", `<p><b>Public:</b> your username, the line about you, your tips, comments and answers.</p><p><b>Private:</b> your email address, saved items, notifications, reports and text size.</p>`],
     ["AI tools you use", `<p>We don't send anything you type here to an AI tool. When you use ChatGPT, Copilot, Gemini or Claude yourself, that company's privacy notice applies.</p>`],
     ["Where it's stored", `<p>Data is stored by Supabase in its London region. Our hosting and email providers process data only to run the service.</p>`],
     ["How long we keep it", `<p>Until you delete your account. Then your login, profile, saved items, notifications and answers are deleted. Tips you didn't delete stay up as "a former member".</p>`],
     ["Your rights", `<p>You can see a copy of your data, correct it and delete your account from <a href="#me">Your account</a>. You can also contact ${opEmail()}. If you're unhappy, you can complain to the <a href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noopener">Information Commissioner's Office</a>.</p>`],
-    ["Cookies", `<p>We store your login and text size in your browser so the site works. When you log in from a guide, we briefly remember the page and any answer you gave. There are no advertising or tracking cookies.</p>`],
+    ["Cookies", `<p>We store your login and text size in your browser so the site works. When you log in from a page, we briefly remember it so we can take you back. There are no advertising or tracking cookies.</p>`],
     ["Children", `<p>You must be 18 or over to join.</p>`]
   ]);
 }
@@ -1055,10 +877,10 @@ function viewAccessibility() {
 }
 function viewAbout() {
   docPage(`About ${esc(APP_NAME)}`, esc(TAGLINE), [
-    ["Why it exists", `<p>Free AI tools can help with the boring bits of life: bills, letters, complaints and forms. But most people don't know what to type, what to keep private, or how to check the answer. Here, people share what worked for them, and we turn the best into tested, step-by-step guides.</p>`],
+    ["Why it exists", `<p>Free AI tools can help with the boring bits of life: bills, letters, complaints and forms. But most people don't know what to type, what to keep private, or how to check the answer. Here, people share what worked for them, so others can try it too.</p>`],
     ["Who runs it", `<p>${esc(APP_NAME)} is run by ${opName()}. It's independent and non-commercial: no adverts, no selling data, no paid placements, and no link to any AI company.</p>`],
     notAdviceSec,
-    ["Get involved", `<p><a href="#join">Create an account</a> and share one thing AI helped you with. If you try a guide, tell us whether it worked.</p>`]
+    ["Get involved", `<p><a href="#join">Create an account</a> and share one thing AI helped you with. If someone's tip helped you, like it or leave a comment.</p>`]
   ]);
 }
 function viewBadge() {
@@ -1077,14 +899,11 @@ async function route() {
   setStatus(""); renderShell(); loadNotifCount();
   clearTimeout(loadTimer); loadTimer = setTimeout(showSkeleton, 150);
   try { sb.rpc("track_view", { p: location.hash || "#index" }).then(() => {}, () => {}); } catch (_) { }
-  const redirect = { categories: "index", feed: "index", news: "index", members: "index", stats: "index", recipes: "search", faq: "help" };
+  const redirect = { categories: "index", feed: "index", news: "index", members: "index", stats: "index", recipes: "search", "guide-new": "index", "recipe-new": "index", faq: "help" };
   try {
     if (redirect[h]) { location.replace("#" + redirect[h]); return; }
     if (h === "index") await viewIndex();
     else if (h === "search") await viewSearch();
-    else if (h === "guide-new" || h === "recipe-new") await viewRecipeForm(null, null);
-    else if (h.startsWith("guide-edit-")) await viewRecipeForm(h.slice(11), null);
-    else if (h.startsWith("guide-from-")) await viewRecipeForm(null, h.slice(11));
     else if (h.startsWith("t-")) await viewTopicPost(h.slice(2));
     else if (h.startsWith("u-")) await viewProfile(decodeURIComponent(h.slice(2)));
     else if (h.startsWith("/")) { const [t, k] = h.slice(1).split("/"); await viewTopic(t, k || ""); }
