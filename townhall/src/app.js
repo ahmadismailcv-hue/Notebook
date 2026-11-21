@@ -508,7 +508,7 @@ async function viewPost(boardId) {
       <p class="small muted">Crop out anything personal. We shrink the picture and remove hidden details like location before it's uploaded.</p>
       <div class="row"><label class="btn sm" for="shotIn">Choose a picture</label><input type="file" id="shotIn" accept="image/png,image/jpeg,image/webp" multiple class="sr"><span class="small" id="shotMsg"></span></div>
       <div class="shotprev" id="shotPrev"></div>
-      <label class="check" id="shotOkRow" style="display:none"><input type="checkbox" id="shotOk"> These pictures show nothing personal: no names, addresses or reference numbers.</label></div></details>
+      <label class="check" id="shotOkRow" style="display:none"><input type="checkbox" id="shotOk"><span>These pictures show nothing personal: no names, addresses or reference numbers.</span></label></div></details>
     <div id="pii"></div>
     <div class="stack" style="gap:8px"><div class="row"><button class="btn primary big" type="submit" id="pfGo">Share my tip</button><span class="err" id="pfMsg" role="alert"></span></div>
     <p class="small muted">Tips are shared under <a href="#terms">CC BY 4.0</a>, so others can reuse them with credit to you. ${isAdmin() ? "" : "A moderator checks your first three tips before they go live, usually within 2 working days."}</p></div>
@@ -790,7 +790,7 @@ function viewLogin(mode = "login") {
     ${join ? fld("aH", "Choose a username", `<input type="text" id="aH" maxlength="20" autocomplete="username" placeholder="3 to 20 letters, numbers or _">`, "Shown on your tips. It doesn't have to be your real name.") : ""}
     ${fld("aE", "Email", `<input type="email" id="aE" autocomplete="email">`, join ? "We never show your email." : "")}
     ${fld("aW", "Password", `<input type="password" id="aW" autocomplete="${join ? "new-password" : "current-password"}" minlength="8">`, join ? "At least 8 characters." : "")}
-    ${join ? `<label class="check"><input type="checkbox" id="aR"> I'm 18 or over, and I agree to the <a href="#terms">terms</a> and <a href="#rules">house rules</a>. I've read the <a href="#privacy">privacy notice</a>.</label>` : ""}
+    ${join ? `<label class="check"><input type="checkbox" id="aR"><span>I'm 18 or over, and I agree to the <a href="#terms">terms</a> and <a href="#rules">house rules</a>. I've read the <a href="#privacy">privacy notice</a>.</span></label>` : ""}
     <div class="row"><button class="btn primary big" type="submit">${join ? "Create my account" : "Log in"}</button></div>
     <div id="aMsg" role="alert"></div>
     ${join ? `<p class="small">Already have an account? <a href="#login">Log in</a></p>` : `<p class="small"><a href="#" id="forgot">I forgot my password</a> · <a href="#" id="magic">Email me a login link</a></p>`}
