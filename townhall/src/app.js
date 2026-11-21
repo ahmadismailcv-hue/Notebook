@@ -240,10 +240,6 @@ function confirmTwice(btn, fn) {
 const fld = (id, label, input, hint = "") => `<div class="field"><label for="${id}">${label}</label>${hint ? `<div class="hint">${hint}</div>` : ""}${input}</div>`;
 
 // ================= home =================
-function searchBox(q = "") {
-  return `<form class="search" id="sf" role="search"><label class="sr" for="q">Search guides and tips, then press Enter</label>${svg(IC.search)}<input type="search" id="q" placeholder="Search, for example: parking fine or council tax" value="${esc(q)}" autocomplete="off" enterkeyhint="search"></form>`;
-}
-function bindSearch() { const f = document.getElementById("sf"); if (f) f.onsubmit = e => { e.preventDefault(); S.pendingQuery = document.getElementById("q").value.trim(); if (location.hash === "#search") route(); else location.hash = "search"; }; }
 async function viewIndex() {
   const posts = await fetchPosts(publishedPosts());
   const guides = posts.filter(p => p.type === "RECIPE").sort(byWorked).slice(0, 5);
@@ -253,7 +249,6 @@ async function viewIndex() {
     <section class="hero">
       <h1>What do you need help with?</h1>
       <p class="lead">See how other people use free AI tools for bills, letters and forms, and share what worked for you.</p>
-      ${searchBox()}
     </section>
     <section aria-labelledby="topicsH"><h2 class="sr" id="topicsH">Topics</h2>
       <div class="tiles">${topics.map(id => `<a class="tile" href="${topicHref(id)}"><span class="ic">${topicIcon(id)}</span><span><b>${esc(topicName(id))}</b><span>${esc((TOPICS[id] || [])[1] || (board(id) || {}).descr || "")}</span></span></a>`).join("")}</div>
@@ -279,23 +274,16 @@ async function viewIndex() {
       </ol>
       <div class="row" style="margin-top:24px"><a class="btn primary big" href="#post" data-entry="share">Share how AI helped you</a><a class="btn big" href="#search" data-entry="browse">Browse all guides</a></div>
     </section>`;
-  bindSearch();
-  V.querySelectorAll("[data-entry]").forEach(a => a.addEventListener("click", () => { logEntry(a.dataset.entry); if (a.dataset.entry === "browse") S.pendingQuery = ""; }));
+  V.querySelectorAll("[data-entry]").forEach(a => a.addEventListener("click", () => logEntry(a.dataset.entry)));
 }
 async function viewSearch() {
   const all = await fetchPosts(publishedPosts());
-  const q = (S.pendingQuery || "").trim(); S.pendingQuery = "";
-  const words = q.toLowerCase().split(/\s+/).filter(Boolean);
-  const hit = p => words.every(w => [p.title, p.task, p.body, topicName(p.board_id), (p.tags || []).join(" ")].join(" ").toLowerCase().includes(w));
-  const res = all.filter(hit);
-  const guides = res.filter(p => p.type === "RECIPE").sort(byWorked), tips = res.filter(p => p.type === "STORY").sort(byNew);
+  const guides = all.filter(p => p.type === "RECIPE").sort(byWorked), tips = all.filter(p => p.type === "STORY").sort(byNew);
   V.innerHTML = `<div class="read stack">
-    <h1>${q ? `Results for "${esc(q)}"` : "All guides and tips"}</h1>
-    ${searchBox(q)}
-    <section class="stack"><h2>Guides (${guides.length})</h2>${itemList(guides, q ? "No guides match. Try fewer or different words." : "No guides yet.")}</section>
-    <section class="stack"><h2>Tips (${tips.length})</h2>${itemList(tips, q ? "No tips match." : "No tips yet.")}</section>
+    <h1>All guides and tips</h1>
+    <section class="stack"><h2>Guides (${guides.length})</h2>${itemList(guides, "No guides yet. We're testing the first ones now.")}</section>
+    <section class="stack"><h2>Tips (${tips.length})</h2>${itemList(tips, "No tips yet.")}</section>
   </div>`;
-  bindSearch();
 }
 async function viewTopic(id) {
   const b = board(id); if (!b) return viewNotFound("That topic doesn't exist.");
