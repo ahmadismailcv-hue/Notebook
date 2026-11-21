@@ -50,6 +50,7 @@ const toolList = keys => (keys || []).map(k => TOOLS[k] || k).join(", ");
 const isStale = p => p.type === "RECIPE" && !!p.retest_due && new Date(p.retest_due + "T23:59:59") < new Date();
 const isTested = p => p.type === "RECIPE" && (p.tested_tools || []).length > 0;
 const authorName = p => p.is_sample && p.sample_author ? p.sample_author : !p.author && (p.is_sample || p.type === "RECIPE") ? APP_NAME + " team" : (p.author_handle || (p.profiles && p.profiles.handle) || "a former member");
+const byName = p => p.type === "RECIPE" ? APP_NAME + " team" : authorName(p); // guides are always shown as written by the team
 const userLink = h => h && h !== "a former member" && h !== APP_NAME + " team" ? `<a href="#u-${esc(h)}">${esc(h)}</a>` : esc(h);
 const plural = (n, one, many) => `${n.toLocaleString("en-GB")} ${n === 1 ? one : many}`;
 // The same checks as private.pii_problem in the database. "(this will be blocked)" marks the ones the database refuses on tips.
@@ -96,12 +97,15 @@ const IC = {
   save: '<path d="M6 3h12v18l-6-4-6 4z"/>',
   bell: '<path d="M6 9a6 6 0 0112 0c0 5 2 6.5 2 6.5H4S6 14 6 9"/><path d="M10 19a2 2 0 004 0"/>',
   search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>',
+  heart: '<path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z"/>',
+  chat: '<path d="M4 5h16v11H9l-5 4z"/>',
   ext: '<path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/>'
 };
-const LABELS = { index: "Find help", post: "Share a tip", library: "Saved", login: "Log in", join: "Create an account", newpass: "New password", me: "Your account", display: "Text size", mod: "Admin", notifications: "Notifications", search: "Search", help: "Help", about: "About", rules: "House rules", terms: "Terms of use", privacy: "Privacy", accessibility: "Accessibility", "safe-sharing": "What you can safely share", complaints: "Reports and complaints", "guide-new": "New guide", badge: "Badge" };
+const LABELS = { index: "Find help", post: "Share a tip", library: "Saved", login: "Log in", join: "Create an account", newpass: "New password", me: "Your account", display: "Text size", mod: "Admin", notifications: "Notifications", search: "All posts", help: "Help", about: "About", rules: "House rules", terms: "Terms of use", privacy: "Privacy", accessibility: "Accessibility", "safe-sharing": "What you can safely share", complaints: "Reports and complaints", "guide-new": "New guide", badge: "Badge" };
 function routeLabel(h) {
   if (LABELS[h]) return LABELS[h];
-  if (h.startsWith("/")) return topicName(h.slice(1));
+  if (h.startsWith("/")) { const [t, k] = h.slice(1).split("/"); return topicName(t) + (TOOLS[k] ? " · " + TOOLS[k] : ""); }
+  if (h.startsWith("ai/")) return TOOLS[h.slice(3)] || "AI tool";
   if (h.startsWith("u-")) return h.slice(2);
   if (h.startsWith("lib-")) return "Saved";
   if (h.startsWith("post-")) return "Share a tip";
@@ -130,9 +134,12 @@ function itemRow(p, showTopic = true) {
     p.status === "draft" ? '<span class="badge warn">Draft</span>' : "",
     p.is_sample ? '<span class="badge">Example</span>' : "",
     recipe && (p.tries_worked || p.tries_failed) ? `<span>Worked for ${plural(p.tries_worked, "person", "people")}</span>` : "",
-    !recipe ? `<span>Used ${esc(TOOLS[p.tool_key] || "an AI tool")}</span>` : "",
-    !recipe ? `<span>by ${esc(authorName(p))}</span>` : "",
-    showTopic && board(p.board_id) ? `<span>${esc(topicName(p.board_id))}</span>` : ""
+    !recipe ? `<span class="toolname">${esc(TOOLS[p.tool_key] || "Another tool")}</span>` : (p.tools || []).length ? `<span class="toolname">${esc(toolList(p.tools))}</span>` : "",
+    `<span>by ${esc(byName(p))}</span>`,
+    showTopic && board(p.board_id) ? `<span>${esc(topicName(p.board_id))}</span>` : "",
+    `<span>${esc(ago(p.created_at))}</span>`,
+    !recipe ? `<span class="stat" aria-label="${plural(p.likes || 0, "like", "likes")}">${svg(IC.heart)}${p.likes || 0}</span>` : "",
+    `<span class="stat" aria-label="${plural(p.replies || 0, "comment", "comments")}">${svg(IC.chat)}${p.replies || 0}</span>`
   ].filter(Boolean).join("");
   const sum = recipe ? p.task : (p.body || p.task);
   const ba = !recipe && (p.outcome_before || p.outcome_after) ? `<span class="d ba-line">${p.outcome_before ? `<b>Before:</b> ${esc(p.outcome_before)}` : ""}${p.outcome_before && p.outcome_after ? " · " : ""}${p.outcome_after ? `<b>After:</b> ${esc(p.outcome_after)}` : ""}</span>` : "";
@@ -144,6 +151,16 @@ function itemList(list, empty, showTopic = true) {
 // Guides first, most "worked for me" first; tips newest first
 const byWorked = (a, b) => (b.tries_worked - a.tries_worked) || (a.tries_failed - b.tries_failed) || (new Date(b.created_at) - new Date(a.created_at));
 const byNew = (a, b) => new Date(b.created_at) - new Date(a.created_at);
+// Which AI tools a post is about: a tip names one, a guide can recommend several
+const postTools = p => p.type === "RECIPE" ? (p.tools || []) : [p.tool_key || "other"];
+const onTool = (list, k) => k ? list.filter(p => postTools(p).includes(k)) : list;
+// A thread list: guides pinned at the top, then everything else newest first
+const threads = list => [...list.filter(p => p.type === "RECIPE").sort(byWorked), ...list.filter(p => p.type !== "RECIPE").sort(byNew)];
+// The row of AI tool links. base(k) gives the link for tool k, or for all tools when k is ""
+function toolBar(active, base, label = "Filter by AI tool") {
+  const keys = ["", ...Object.keys(TOOLS)];
+  return `<nav class="toolbar" aria-label="${esc(label)}">${keys.map(k => `<a class="chip${k === (active || "") ? " on" : ""}" href="${base(k)}"${k === (active || "") ? ' aria-current="page"' : ""}>${esc(k ? TOOLS[k] : "All tools")}</a>`).join("")}</nav>`;
+}
 
 // ================= feedback: loading, busy buttons, toasts =================
 let loadTimer = null;
@@ -242,17 +259,26 @@ const fld = (id, label, input, hint = "") => `<div class="field"><label for="${i
 // ================= home =================
 async function viewIndex() {
   const posts = await fetchPosts(publishedPosts());
-  const guides = posts.filter(p => p.type === "RECIPE").sort(byWorked).slice(0, 5);
-  const tips = posts.filter(p => p.type === "STORY").sort(byNew).slice(0, 5);
   const topics = S.boards.length ? S.boards.map(b => b.id) : Object.keys(TOPICS);
+  const latest = [...posts].sort(byNew).slice(0, 8);
+  const cats = topics.map(id => {
+    const here = posts.filter(p => p.board_id === id), last = [...here].sort(byNew)[0];
+    return `<li><a class="cat" href="${topicHref(id)}"><span class="ic">${topicIcon(id)}</span>
+      <span class="cname"><b>${esc(topicName(id))}</b><span>${esc((TOPICS[id] || [])[1] || (board(id) || {}).descr || "")}</span></span>
+      <span class="ccount">${plural(here.length, "post", "posts")}</span>
+      <span class="clast">${last ? `<span class="lt">${esc(last.title)}</span><span>${esc(byName(last))} · ${esc(ago(last.created_at))}</span>` : `<span>No posts yet</span>`}</span></a></li>`;
+  }).join("");
   V.innerHTML = `
     <section class="hero">
       <h1>What do you need help with?</h1>
       <p class="lead">See how other people use free AI tools for bills, letters and forms, and share what worked for you.</p>
+      <div class="row" style="margin-top:16px"><a class="btn primary big" href="#post" data-entry="share">Share how AI helped you</a><a class="btn big" href="#search" data-entry="browse">Browse all posts</a></div>
     </section>
-    <section aria-labelledby="topicsH"><h2 class="sr" id="topicsH">Topics</h2>
-      <div class="tiles">${topics.map(id => `<a class="tile" href="${topicHref(id)}"><span class="ic">${topicIcon(id)}</span><span><b>${esc(topicName(id))}</b><span>${esc((TOPICS[id] || [])[1] || (board(id) || {}).descr || "")}</span></span></a>`).join("")}</div>
+    <section class="section" aria-labelledby="toolsH"><h2 id="toolsH" style="margin-bottom:10px">Browse by AI tool</h2>${toolBar("", k => k ? "#ai/" + k : "#search", "Browse by AI tool")}</section>
+    <section class="section" aria-labelledby="topicsH"><h2 id="topicsH" style="margin-bottom:10px">Categories</h2>
+      <ul class="forum">${cats}</ul>
     </section>
+    <section class="section" aria-labelledby="latestH"><h2 id="latestH" style="margin-bottom:10px">Latest posts</h2>${itemList(latest, `Nothing yet. <a href="#post">Be the first to share a tip.</a>`, true)}<p style="margin-top:12px"><a href="#search">See all posts</a></p></section>
     <section class="rules section" aria-labelledby="rulesH">
       <h2 id="rulesH">3 rules for staying safe</h2>
       <ol class="rulelist">
@@ -261,43 +287,46 @@ async function viewIndex() {
         <li><b>Check before you send.</b> AI makes mistakes. Check dates, amounts and rules with the official source each guide links to.</li>
       </ol>
       <a class="small" href="#safe-sharing">More on what you can safely share</a>
-    </section>
-    <div class="two section">
-      <section><h2>Popular guides</h2><p class="muted small" style="margin-bottom:12px">Written and tested by us. Sorted by how many people said they worked.</p>${itemList(guides, "No guides yet. We're testing the first ones now.", true)}</section>
-      <section><h2>Latest tips from people</h2><p class="muted small" style="margin-bottom:12px">How others used AI for a boring job, in their own words.</p>${itemList(tips, `No tips yet. <a href="#post">Be the first to share one.</a>`, true)}</section>
-    </div>
-    <section class="section"><h2 style="margin-bottom:16px">How it works</h2>
-      <ol class="howto">
-        <li><span><b>Pick what you need to do.</b><br><span class="muted">A letter, a bill, a complaint, a form.</span></span></li>
-        <li><span><b>Follow the guide.</b><br><span class="muted">Copy the words into a free AI tool. Leave out anything private.</span></span></li>
-        <li><span><b>Check the answer.</b><br><span class="muted">Each guide links to GOV.UK, Citizens Advice or the right ombudsman.</span></span></li>
-      </ol>
-      <div class="row" style="margin-top:24px"><a class="btn primary big" href="#post" data-entry="share">Share how AI helped you</a><a class="btn big" href="#search" data-entry="browse">Browse all guides</a></div>
     </section>`;
   V.querySelectorAll("[data-entry]").forEach(a => a.addEventListener("click", () => logEntry(a.dataset.entry)));
 }
 async function viewSearch() {
-  const all = await fetchPosts(publishedPosts());
-  const guides = all.filter(p => p.type === "RECIPE").sort(byWorked), tips = all.filter(p => p.type === "STORY").sort(byNew);
+  const all = threads(await fetchPosts(publishedPosts()));
   V.innerHTML = `<div class="read stack">
-    <h1>All guides and tips</h1>
-    <section class="stack"><h2>Guides (${guides.length})</h2>${itemList(guides, "No guides yet. We're testing the first ones now.")}</section>
-    <section class="stack"><h2>Tips (${tips.length})</h2>${itemList(tips, "No tips yet.")}</section>
+    <a class="crumb" href="#index">Home</a>
+    <h1>All posts</h1>
+    ${toolBar("", k => k ? "#ai/" + k : "#search")}
+    <p class="muted small">${plural(all.length, "post", "posts")}. Guides from our team are pinned at the top.</p>
+    ${itemList(all, "Nothing yet.")}
   </div>`;
 }
-async function viewTopic(id) {
-  const b = board(id); if (!b) return viewNotFound("That topic doesn't exist.");
-  const posts = await fetchPosts(publishedPosts().eq("board_id", id));
-  const guides = posts.filter(p => p.type === "RECIPE").sort(byWorked), tips = posts.filter(p => p.type === "STORY").sort(byNew);
+async function viewTool(k) {
+  if (!TOOLS[k]) return viewNotFound("We don't have a page for that AI tool.");
+  const list = threads(onTool(await fetchPosts(publishedPosts()), k));
+  const topics = S.boards.length ? S.boards.map(b => b.id) : Object.keys(TOPICS);
+  const used = topics.filter(id => list.some(p => p.board_id === id));
   V.innerHTML = `<div class="read stack">
-    <a class="crumb" href="#index">All topics</a>
+    <a class="crumb" href="#index">Home</a>
+    <h1>${esc(TOOLS[k])}</h1>
+    ${toolBar(k, x => x ? "#ai/" + x : "#search")}
+    <p class="muted small">${plural(list.length, "post", "posts")} about ${esc(TOOLS[k])}.</p>
+    ${used.length ? `<nav class="chips" aria-label="Categories with ${esc(TOOLS[k])} posts">${used.map(id => `<a class="chip" href="${topicHref(id)}/${esc(k)}">${esc(topicName(id))}</a>`).join("")}</nav>` : ""}
+    ${itemList(list, `No posts about ${esc(TOOLS[k])} yet. <a href="#post">Share one.</a>`)}
+  </div>`;
+}
+async function viewTopic(id, tool) {
+  const b = board(id); if (!b) return viewNotFound("That topic doesn't exist.");
+  if (tool && !TOOLS[tool]) tool = "";
+  const list = threads(onTool(await fetchPosts(publishedPosts().eq("board_id", id)), tool));
+  V.innerHTML = `<div class="read stack">
+    <a class="crumb" href="#index">All categories</a>
     <div class="row" style="gap:14px"><span class="tile" style="padding:0;border:0;min-height:0;background:none"><span class="ic">${topicIcon(id)}</span></span><h1>${esc(topicName(id))}</h1></div>
     <p class="muted">${esc((TOPICS[id] || [])[1] || b.descr)}</p>
     ${id === "health-admin" ? `<div class="notice stop"><b>This topic is for appointments, forms and paperwork only.</b> Nothing here is medical advice. For health worries, contact your GP or NHS 111. In an emergency, call 999.</div>` : ""}
-    <section class="stack section" style="margin-top:24px"><h2>Guides</h2>${itemList(guides, "No guides in this topic yet.", false)}</section>
-    <section class="stack section" style="margin-top:32px"><div class="row" style="justify-content:space-between"><h2>Tips from people</h2><a class="btn sm" href="#post-${esc(id)}">Share a tip about this</a></div>
-      ${HELD.includes(id) ? `<p class="small muted">A moderator checks every tip in this topic before it goes live.</p>` : ""}
-      ${itemList(tips, "No tips here yet.", false)}</section>
+    <div class="row" style="justify-content:space-between"><span class="muted small">${plural(list.length, "post", "posts")}${tool ? " about " + esc(TOOLS[tool]) : ""}</span><a class="btn sm primary" href="#post-${esc(id)}">Share a tip here</a></div>
+    ${toolBar(tool, k => topicHref(id) + (k ? "/" + k : ""))}
+    ${HELD.includes(id) ? `<p class="small muted">A moderator checks every tip in this topic before it goes live.</p>` : ""}
+    ${itemList(list, tool ? `No posts about ${esc(TOOLS[tool])} here yet.` : "No posts here yet.", false)}
   </div>`;
 }
 
@@ -353,6 +382,7 @@ async function viewTopicPost(id) {
   const linkIds = (src.data || []).map(r => recipe ? r.story_id : r.recipe_id);
   const linked = linkIds.length ? ((await sb.from("post_feed").select("id,title,status").in("id", linkIds)).data || []).filter(x => x.status === "published" || isAdmin()) : [];
   const b = board(p.board_id), mine = S.me && p.author === S.me.id, mod = isModOf(p.board_id), admin = isAdmin();
+  const myLike = S.me && !recipe && p.status === "published" ? (await sb.from("likes").select("post_id").eq("post_id", p.id).eq("user_id", S.me.id).maybeSingle()).data : null;
   const mySaved = S.me && p.status === "published" ? (await sb.from("library_items").select("id").eq("source_post", p.id).maybeSingle()).data : null;
   const myTry = S.me ? (tries.data || []).find(t => t.user_id === S.me.id) : null;
   const status = recipe ? (isStale(p) ? `<span class="badge warn">May be out of date: re-test was due ${esc(day(p.retest_due))}</span>` : isTested(p) ? `<span class="badge ok">${svg(IC.check)}Tested ${esc(day(p.tested_on))} with ${esc(toolList(p.tested_tools))}</span>` : `<span class="badge warn">Not tested yet</span>`) : "";
@@ -379,6 +409,7 @@ async function viewTopicPost(id) {
     ${(p.screenshots || []).length ? `<div class="shots">${p.screenshots.map((s, i) => `<a href="${esc(shotUrl(s))}" target="_blank" rel="noopener"><img src="${esc(shotUrl(s))}" alt="Screenshot ${i + 1} from the author" loading="lazy"></a>`).join("")}</div>` : ""}
     ${recipe && p.status === "published" && !mine ? feedbackBox(p, myTry) : ""}
     <div class="actions">
+      ${!recipe && p.status === "published" ? (S.me ? `<button class="btn likebtn${myLike ? " on" : ""}" id="likeBtn" aria-pressed="${myLike ? "true" : "false"}">${svg(IC.heart)}<span>${myLike ? "Liked" : "Like"}</span> <span class="n">${p.likes || 0}</span></button>` : `<a class="btn likebtn" href="#login">${svg(IC.heart)}<span>Like</span> <span class="n">${p.likes || 0}</span></a>`) : ""}
       ${recipe ? `<button class="btn" id="printBtn">Print this guide</button>` : ""}
       ${S.me && p.status === "published" ? (mySaved ? `<a class="btn on" href="#lib-${esc(mySaved.id)}">${svg(IC.save)}Saved</a>` : `<button class="btn" id="libSave">${svg(IC.save)}Save</button>`) : ""}
       ${!mine ? (S.me ? `<button class="btn quiet" id="reportPost">Report a problem</button>` : `<a class="btn quiet" href="#login">Report a problem</a>`) : ""}
@@ -391,7 +422,7 @@ async function viewTopicPost(id) {
       ${admin && p.status === "draft" ? `<button class="btn sm primary" data-modset="published">Publish</button>` : ""}
       ${mod && p.status !== "removed" ? `<button class="btn sm danger" data-modset="removed">Take down</button>` : ""}
       ${mine || admin ? `<button class="btn sm danger" id="delPost">Delete</button>` : ""}</div>` : ""}
-    <section class="comments stack" style="gap:8px"><h2>${recipe ? "What people said" : "Comments"}</h2>
+    <section class="comments stack" style="gap:8px" id="comments"><h2>${recipe ? "What people said" : "Comments"} (${notes.length + comments.filter(c => c.status !== "removed").length})</h2>
       ${notes.map(t => { const [lbl, cls] = TRY_LBL[t.result] || TRY_LBL.failed, hd = t.profiles && t.profiles.handle; return `<div class="comment"><div class="meta"><b>${userLink(hd || "a former member")}</b><span class="badge ${cls}">${lbl}</span>${t.tool_key ? `<span>${esc(TOOLS[t.tool_key] || t.tool_key)}</span>` : ""}<span>${esc(day(t.created_at))}</span></div><pre>${esc(t.note)}</pre></div>`; }).join("")}
       ${comments.map(rr => { const pr = rr.profiles || {}; return `<div class="comment"><div class="meta"><b>${userLink(pr.handle || "a former member")}</b><span>${esc(ago(rr.created_at))}</span>${rr.status === "removed" ? '<span class="badge stop">Taken down</span>' : ""}
         ${!S.me ? `<a href="#login">Report</a>` : rr.author !== S.me.id ? `<button class="btn quiet sm" data-repr="${esc(rr.id)}">Report</button>` : ""}${S.me && (rr.author === S.me.id || S.me.role === "admin") ? `<button class="btn quiet sm" data-delr="${esc(rr.id)}">Delete</button>` : ""}${mod && rr.status !== "removed" ? `<button class="btn quiet sm" data-remr="${esc(rr.id)}">Take down</button>` : ""}</div><pre>${esc(rr.body)}</pre></div>`; }).join("")}
@@ -430,6 +461,14 @@ async function viewTopicPost(id) {
     if (error) { msg("trMsg", errMsg(error)); busy(ts, false); return; } await reload(); toast("Thanks. Your answer helps other people."); };
   const td = document.getElementById("trDel");
   if (td) td.onclick = async () => { await sb.from("tries").delete().eq("post_id", p.id).eq("user_id", S.me.id); reload(); };
+  const lb = document.getElementById("likeBtn");
+  if (lb) lb.onclick = async () => {
+    const on = lb.getAttribute("aria-pressed") === "true"; busy(lb, true);
+    const { error } = on ? await sb.from("likes").delete().eq("post_id", p.id).eq("user_id", S.me.id) : await sb.from("likes").insert({ post_id: p.id, user_id: S.me.id });
+    busy(lb, false); if (error) { toast(errMsg(error), "err"); return; }
+    const n = lb.querySelector(".n"); n.textContent = Math.max(0, (+n.textContent) + (on ? -1 : 1));
+    lb.setAttribute("aria-pressed", on ? "false" : "true"); lb.classList.toggle("on", !on); lb.querySelector("span").textContent = on ? "Like" : "Liked";
+  };
   const rp = document.getElementById("reportPost");
   if (rp) rp.onclick = () => inlinePrompt(rp, "What's wrong with it?", "", async v => {
     const { error } = await sb.from("reports").insert({ post_id: p.id, reason: v.slice(0, 300) });
@@ -1048,7 +1087,8 @@ async function route() {
     else if (h.startsWith("guide-from-")) await viewRecipeForm(null, h.slice(11));
     else if (h.startsWith("t-")) await viewTopicPost(h.slice(2));
     else if (h.startsWith("u-")) await viewProfile(decodeURIComponent(h.slice(2)));
-    else if (h.startsWith("/")) await viewTopic(h.slice(1));
+    else if (h.startsWith("/")) { const [t, k] = h.slice(1).split("/"); await viewTopic(t, k || ""); }
+    else if (h.startsWith("ai/")) await viewTool(h.slice(3));
     else if (h.startsWith("b-")) await viewTopic(h.slice(2));
     else if (h === "post" || h.startsWith("post-")) await viewPost(h.slice(5) || null);
     else if (h === "library") await viewLibrary();

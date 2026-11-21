@@ -142,6 +142,30 @@ p{margin:0}
 .copybox pre{margin:0;padding:14px 16px;white-space:pre-wrap;word-break:break-word;font-family:var(--body);font-size:1rem;line-height:1.5}
 .copybox .bar{display:flex;justify-content:space-between;align-items:center;gap:var(--s2);padding:8px 8px 8px 16px;background:var(--sunk);border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px}
+.toolbar .chip{min-height:44px;padding:8px 16px;color:var(--ink);text-decoration:none;font-weight:600}
+.toolbar .chip:hover{border-color:var(--accent);color:var(--accent)}
+.toolbar .chip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.chips a.chip{min-height:44px;color:var(--ink);text-decoration:none}
+.chips a.chip:hover{border-color:var(--accent);color:var(--accent)}
+.forum{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);overflow:hidden}
+.forum li+li{border-top:1px solid var(--line)}
+.cat{display:grid;grid-template-columns:40px minmax(0,1fr) 90px minmax(0,34%);gap:6px 16px;align-items:center;padding:14px 16px;color:var(--ink);text-decoration:none;min-height:48px}
+.cat:hover{background:var(--accent-soft);color:var(--ink)}
+.cat .ic{width:40px;height:40px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center}
+.cat:hover .ic{background:var(--surface)}
+.cat .ic svg{width:22px;height:22px}
+.cat .cname b{display:block;font-size:1.05rem;color:var(--accent)}
+.cat .cname span,.cat .clast span{display:block;color:var(--muted);font-size:.86rem;line-height:1.4}
+.cat .ccount{font-size:.9rem;color:var(--muted);white-space:nowrap}
+.cat .clast .lt{color:var(--ink);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:720px){.cat{grid-template-columns:40px minmax(0,1fr)}.cat .ccount,.cat .clast{grid-column:2}.cat .clast .lt{white-space:normal}}
+.item .m .stat{display:inline-flex;align-items:center;gap:4px}
+.item .m .stat svg,.likebtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}
+.item .m .toolname{font-weight:700;color:var(--muted)}
+.likebtn .n{font-variant-numeric:tabular-nums;color:var(--muted)}
+.likebtn.on{border-color:var(--mark);color:var(--ink)}
+.likebtn.on svg{fill:var(--mark);stroke:var(--mark)}
 .chip{display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;border:1px solid var(--line2);background:var(--surface);font-size:.92rem}
 .facts{display:grid;grid-template-columns:minmax(150px,220px) minmax(0,1fr);gap:0;border-top:1px solid var(--line);margin:0}
 .facts dt,.facts dd{margin:0;padding:10px 0;border-bottom:1px solid var(--line)}

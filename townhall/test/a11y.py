@@ -2,7 +2,7 @@ import asyncio, json, sys
 from playwright.async_api import async_playwright
 import pathlib; U=pathlib.Path("dist/index.html").resolve().as_uri()
 AXE=open("node_modules/axe-core/axe.min.js").read()
-PAGES=["index","search","/money","/health-admin","library","lib-new","post","guide-new","RECIPE_EDIT","notifications","me","display","mod","help","about","terms","complaints","privacy","accessibility","safe-sharing","rules","u-jo_reads","TOPIC","AGENT","DRAFT","login","join"]
+PAGES=["index","search","/money","/health-admin","/letters/chatgpt","ai/gemini","library","lib-new","post","guide-new","RECIPE_EDIT","notifications","me","display","mod","help","about","terms","complaints","privacy","accessibility","safe-sharing","rules","u-jo_reads","TOPIC","AGENT","DRAFT","login","join"]
 async def main():
     async with async_playwright() as p:
         b=await p.chromium.launch()
