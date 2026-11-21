@@ -27,9 +27,9 @@ Expected results: `ERRORS: []` from both flow tests, `NO VIOLATIONS` from a11y. 
 
 ## Database
 
-The migrations applied to the live project are in `supabase/migrations/`, one file per row of `supabase_migrations.schema_migrations`. Applied so far, in order: core_schema, rls_views_rpcs, move_helpers_private, higher_education_focus, spaces_tools_screenshots_knowledge, my_library, open_signup_and_trust_ac_uk, he_ai_news, he_ai_news_parse_fix, notifications_privacy_metrics.
+The migrations applied to the live project are in `supabase/migrations/`, one file per row of `supabase_migrations.schema_migrations`. Applied so far, in order: core_schema, rls_views_rpcs, move_helpers_private, higher_education_focus, spaces_tools_screenshots_knowledge, my_library, open_signup_and_trust_ac_uk, he_ai_news, he_ai_news_parse_fix, notifications_privacy_metrics, boring_bits_pivot.
 
-**Not yet applied:** `20261120120000_boring_bits_pivot.sql`. Apply only with Ahmad's go-ahead. It archives the HE spaces, adds 9 new ones, Story and Recipe types, draft status, recipe fields, `recipe_sources`, `tries.tool_key`, `private.entry_events` with `public.log_entry`, the wider personal-data scan, new approval rules, and switches the news feeds off. Nothing is dropped. It refuses to run if any posts of an old type exist.
+**Applied 21 Nov 2026** (by Ahmad in the SQL Editor, then recorded in the migration history): `20261120120000_boring_bits_pivot.sql`. Afterwards `sql/security_tests.sql` (41 ok, no FAIL) and `sql/library_tests.sql` (10 ok) passed on live, and `sql/seed_recipes.sql` added the 5 draft guides (no author yet).
 
 `supabase/schema_snapshot.md`, `advisors.md` and `live_check.md` are read-only reports from 16 Nov 2026, before the pivot.
 
@@ -62,4 +62,4 @@ British English. No em dashes, anywhere. Plain words, short sentences, answer fi
 
 ## Open items
 
-Apply the pivot migration (with Ahmad's go-ahead), then run `sql/security_tests.sql`, `sql/library_tests.sql` and `sql/seed_recipes.sql`. Test and publish the seed guides. Online Safety Act risk assessment summary (TODO marked in the Terms page). Name and domain; SMTP (Resend) for confirmation emails; Supabase Pro; deploy; owner joins first; second admin and moderators; founding members.
+Test and publish the seed guides. Online Safety Act risk assessment summary (TODO marked in the Terms page). Name and domain; SMTP (Resend) for confirmation emails; Supabase Pro; deploy; owner joins first; second admin and moderators; founding members.

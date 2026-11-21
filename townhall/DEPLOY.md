@@ -2,8 +2,8 @@
 
 The site is one file (index.html) plus three images, all in `dist/` after `npm run build`. The database is your Supabase project "aitownhall" (London).
 
-## 0. The Boring Bits pivot (written 20 Nov 2026, NOT YET APPLIED)
-The live database still has the higher education schema. Apply the pivot before deploying the new site, in this order:
+## 0. The Boring Bits pivot (applied 21 Nov 2026; steps 1 to 4 done, self-tests passed)
+Done on 21 Nov 2026. Kept for the record:
 1. Check the database is still empty of posts: `select count(*) from public.posts;` (the migration refuses to run if any old-type posts exist).
 2. Supabase > SQL Editor > paste `supabase/migrations/20261120120000_boring_bits_pivot.sql` > Run. It runs as one transaction. (Or apply it through the Supabase CLI or MCP as a migration named `boring_bits_pivot`, so it is recorded in the migration history.)
 3. Run `sql/security_tests.sql` and `sql/library_tests.sql`. Each ends with an error starting "RESULTS:". It must contain no "FAIL". Both roll back.
