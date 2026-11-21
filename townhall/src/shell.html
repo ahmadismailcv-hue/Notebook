@@ -12,12 +12,13 @@
 @font-face{font-family:"Young Serif";font-weight:400;src:url(data:font/woff2;base64,__YS400__) format("woff2");font-display:swap}
 @font-face{font-family:"Lexend";font-weight:400;src:url(data:font/woff2;base64,__LEX400__) format("woff2");font-display:swap}
 @font-face{font-family:"Lexend";font-weight:700;src:url(data:font/woff2;base64,__LEX700__) format("woff2");font-display:swap}
-/* Layout: one calm reading column (max 760px) under a plain top bar; home uses a tile grid. Light only, with a Large text mode.
+/* Colours come from the logo: deep teal for actions (the logo teal #1da09a is too light for text), navy, and the orange sparkle.
+   Layout: one calm reading column (max 760px) under a plain top bar; home uses a tile grid. Light only, with a Large text mode.
    Type: Young Serif for headings (one weight, warm and solid), Lexend for text (built for reading fluency); Large mode uses Atkinson Hyperlegible. */
 :root{
   --bg:#f6f7f4;--surface:#ffffff;--sunk:#eef1ec;--line:#d9dfd8;--line2:#b9c3bb;
   --ink:#1b231f;--muted:#4f5a54;--faint:#5c665f;
-  --accent:#16654b;--accent-hover:#0f4f3a;--accent-ink:#ffffff;--accent-soft:#e4f1ea;--mark:#c6ff3d;--brand:#173129;
+  --accent:#0e6f6a;--accent-hover:#0a5551;--accent-ink:#ffffff;--accent-soft:#e2f2f0;--mark:#f28c28;--brand:#364353;--logo-teal:#1da09a;
   --warn-bg:#fff5d6;--warn-line:#e7cf82;--warn-ink:#6b4a00;
   --stop-bg:#fdeeec;--stop-line:#eec0ba;--stop-ink:#9a2318;
   --good:#1a7438;--bad:#b42318;
@@ -26,7 +27,7 @@
   --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;
   color-scheme:light
 }
-body.f-large{--body:"Atkinson",Verdana,sans-serif;--ink:#000;--muted:#222;--faint:#333;--line:#888;--line2:#555;--bg:#fff;--sunk:#f2f2f2;--accent:#0b4a35;font-size:21px}
+body.f-large{--body:"Atkinson",Verdana,sans-serif;--ink:#000;--muted:#222;--faint:#333;--line:#888;--line2:#555;--bg:#fff;--sunk:#f2f2f2;--accent:#0a4f4b;font-size:21px}
 *{box-sizing:border-box}
 html{background:var(--bg)}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -85,7 +86,7 @@ p{margin:0}
 /* notices */
 .notice{border:1px solid var(--warn-line);background:var(--warn-bg);color:var(--ink);border-radius:var(--r-sm);padding:12px 16px}
 .notice.stop{border-color:var(--stop-line);background:var(--stop-bg)}
-.notice.ok{border-color:#b5dcc4;background:var(--accent-soft)}
+.notice.ok{border-color:#a9d9d4;background:var(--accent-soft)}
 .notice.plain{border-color:var(--line);background:var(--sunk)}
 .notice b:first-child{display:block;margin-bottom:2px}
 .err{color:var(--bad);font-weight:700}
@@ -204,7 +205,7 @@ mark.ph{background:#ffe98a;color:var(--ink);border-radius:4px;padding:0 3px;font
 .rulelist li::marker{font-weight:700;color:var(--accent)}
 .ba{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3)}
 .ba>div{border:1px solid var(--line);border-radius:var(--r-sm);padding:12px 14px;background:var(--surface)}
-.ba>div.after{border-color:#b5dcc4;background:var(--accent-soft)}
+.ba>div.after{border-color:#a9d9d4;background:var(--accent-soft)}
 .ba .lbl{display:block;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
 .ba .after .lbl{color:var(--accent)}
 .ba-note{grid-column:1/-1}
