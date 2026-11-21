@@ -60,7 +60,7 @@ Test risky SQL locally with `test/db/replay.sh`, or inside a `DO` block that rai
 - No news page. Ahmad dropped it on 20 Nov 2026: it didn't fit. The migration switches every feed off; the tables stay.
 - Posts are CC BY 4.0. Users must be 18 or over.
 - Never invent users, posts, counts or activity. Example posts must be labelled "Example". Seed recipes are marked "DRAFT, NOT TESTED".
-- Look (approved 20 Nov 2026): light and calm, one reading column, Atkinson Hyperlegible for text and Newsreader for headings, deep green accent, 48px minimum touch targets. Tokens are at the top of src/shell.html. Text size has Standard and Larger, higher contrast.
+- Look (approved 20 Nov 2026, updated 21 Nov): light and calm, one reading column, Lexend for text and Young Serif for headings (Atkinson Hyperlegible in Larger mode), colours taken from the logo: deep teal accent #0e6f6a (the logo's own teal #1da09a is too light for text), navy #364353, orange #f28c28 for highlights. 48px minimum touch targets. Logo files are in `logo/brand/`, cut from `src-fixed.png`. Tokens are at the top of src/shell.html. Text size has Standard and Larger, higher contrast.
 
 ## Writing style for any UI text or docs
 
