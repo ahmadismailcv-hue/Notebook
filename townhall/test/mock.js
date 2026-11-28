@@ -12,11 +12,8 @@
     boards: [["money", 10], ["home", 20], ["complaints", 30], ["letters", 40], ["work", 50], ["health-admin", 60], ["family", 70], ["getting-started", 80], ["staying-safe", 90]]
       .map(([id, sort]) => ({ id, cat: "space", name: id, descr: "Description of " + id, sort, is_private: false, archived: false }))
       .concat([{ id: "marking-feedback", cat: "space", name: "marking-feedback", descr: "Old higher education space", sort: 5, is_private: false, archived: true }]),
-    uploads: [], board_mods: [], library_items: [], notifications: [], recipe_sources: [], entry_events: [],
-    news_items: [
-      { source_id: "govuk-scam", source: "GOV.UK", title: "Pensioners urged to be alert to Winter Fuel Payment scams", url: "https://example.org/a", published_at: new Date(Date.now() - 4 * 864e5).toISOString() },
-      { source_id: "govuk-deepfake", source: "GOV.UK", title: "New guidance on spotting deepfake videos", url: "https://example.org/b", published_at: new Date(Date.now() - 8 * 864e5).toISOString() }],
-    posts: [], replies: [], likes: [], tries: [], follows: [], reports: []
+    uploads: [], board_mods: [], library_items: [], notifications: [], entry_events: [],
+    posts: [], replies: [], likes: [], tries: [], reports: []
   };
   const P = (o) => Object.assign({ id: uuid(), author: OTHER.id, board_id: "letters", type: "STORY", tool_key: "chatgpt", screenshots: [], knowledge_sources: [], data_class: "", title: "Sample", body: "ChatGPT explained the letter in plain words. I still rang the council to check the date.", prompt: "", task: "Understand a council letter", tool: "ChatGPT", model_version: "", minutes_before: null, minutes_after: null, what_wrong: "", checks: "", tools: [], prompts: [], never_paste: "", how_to_check: [], failure_points: "", deadline_warning: "", tested_tools: [], retest_due: null, outcome_before: "", outcome_after: "", sample_author: "", tags: ["letters"], forked_from: null, status: "published", pinned: false, is_sample: false, tested_on: daysAgo(0), created_at: now(), updated_at: now() }, o);
   db.posts.push(P({ title: "ChatGPT turned my council tax letter into plain English", tool_key: "chatgpt", screenshots: ["u_b/abcdefgh.webp"], prompt: "Explain this letter in plain English. What do I need to do, and by when? [letter text pasted, with my name and address taken out]", checks: "I checked the deadline on the council website.", outcome_before: "A council tax letter I could not make sense of", outcome_after: "Knew what to pay and replied the same evening", tags: ["council-tax", "letters"] }));
@@ -46,7 +43,6 @@
     if (name === "post_feed") return feed();
     if (name === "boards") return db.boards.filter(b => !b.archived);
     if (name === "member_directory") return db.profiles.map(p => ({ ...p, rep: db.posts.filter(x => x.author === p.id && x.status === "published").length }));
-    if (name === "news_items") return db.news_items.filter(n => n.source_id.startsWith("govuk-"));
     return db[name];
   }
   function embed(name, row, sel) {
@@ -89,8 +85,7 @@
       if (name === "posts") row = insertPost(payload);
       if (name === "library_items") { if (row.kind === "saved" && T.some(r => r.source_post === row.source_post && r.kind === "saved")) throw new Error("Already saved."); const src = db.posts.find(p => p.id === row.source_post); const pr = pii(src && src.type === "RECIPE" ? row.notes || "" : [row.notes, row.prompt, row.body].join(" ")); if (pr) throw new Error(pr); Object.assign(row, { id: uuid(), owner: session.user.id, published_post: null, created_at: now(), updated_at: now(), snapshot_at: now(), source_post: row.source_post || null }); }
       if (name === "replies") { const pr = pii(row.body); if (pr) throw new Error(pr); Object.assign(row, { id: uuid(), author: session.user.id, status: "published", created_at: now() }); }
-      if (name === "recipe_sources") { if (!meAdmin()) throw new Error("new row violates row-level security policy"); row.created_at = now(); }
-      if (["likes", "follows", "reports"].includes(name)) {
+      if (["likes", "reports"].includes(name)) {
         if (name === "likes") { const p = db.posts.find(x => x.id === row.post_id); if (!p || p.type !== "STORY") throw new Error("You can only like published stories."); }
         Object.assign(row, { user_id: session.user.id, reporter: session.user.id, id: uuid(), status: "open", created_at: now() });
       }

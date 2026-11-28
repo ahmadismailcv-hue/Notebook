@@ -2,7 +2,7 @@
 
 AI help for everyday life for UK adults using free AI tools (ChatGPT, Copilot, Gemini, Claude), and the people who help them (library volunteers, support workers, family members). Tagline: "AI help for everyday life, shared by the people who use it." Public and non-commercial. The goal is traction, not revenue.
 
-Formerly "Townhall", a forum for UK higher education staff. The pivot brief is `PIVOT_PLAN.md` (approved 19 Nov 2026). The name lives in one constant, `APP_NAME` in `src/app.js`; `build.py` copies it into the page shell. It may change again.
+Formerly "Townhall", a forum for UK higher education staff; the pivot was approved on 19 Nov 2026. The name lives in one constant, `APP_NAME` in `src/app.js`; `build.py` copies it into the page shell. It may change again.
 
 Operator: Ahmad Ismail. The contact email in `src/app.js` (`OPERATOR`) is shown publicly on purpose. Do not send it to any other service.
 
@@ -39,7 +39,7 @@ The migrations applied to the live project are in `supabase/migrations/`, one fi
 
 `supabase/schema_snapshot.md`, `advisors.md` and `live_check.md` are read-only reports from 16 Nov 2026, before the pivot.
 
-`sql/` holds scripts the owner runs by hand in the SQL editor: `seed_recipes.sql` (5 draft recipes, after the migration), `security_tests.sql` and `library_tests.sql` (rolled-back self-tests for the pivoted schema; expect "RESULTS:" with no "FAIL"), `move_pg_net.sql` (optional). `seed_samples.sql` is obsolete.
+`sql/` holds scripts the owner runs by hand in the SQL editor: `security_tests.sql` and `library_tests.sql` (rolled-back self-tests for the pivoted schema; expect "RESULTS:" with no "FAIL"), `move_pg_net.sql` (optional). `seed_samples.sql` is obsolete.
 
 Test risky SQL locally with `test/db/replay.sh`, or inside a `DO` block that raises at the end so it rolls back.
 

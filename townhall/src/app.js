@@ -15,12 +15,11 @@ const sb = (window.__mockSupabase || window.supabase).createClient(SUPABASE_URL,
 });
 
 // ================= state =================
-const S = { session: null, me: null, boards: [], myFollows: [], isMod: false, modBoards: new Set() };
+const S = { session: null, me: null, boards: [], isMod: false, modBoards: new Set() };
 const V = document.getElementById("view");
 const HELD = ["money", "health-admin", "complaints"]; // tips here always wait for a moderator
 const TOOLS = { chatgpt: "ChatGPT", copilot: "Microsoft Copilot", gemini: "Google Gemini", claude: "Claude", other: "Another tool" };
 // Every post is a tip (database type STORY). Guides (RECIPE) were removed from the site on 21 Nov 2026; any left in the database are never shown.
-const KIND = { STORY: "Tip" };
 const svg = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const TOPICS = {
   money: ["Bills and money", "Energy bills, benefits, refunds and banks", '<circle cx="12" cy="12" r="9"/><path d="M14.5 8.5a2.5 2.5 0 00-4.5 1.5v5.5M8.5 13h4.5M8.5 16h7"/>'],
@@ -41,12 +40,8 @@ const shotUrl = p => sb.storage.from("shots").getPublicUrl(p).data.publicUrl;
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const MON = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const day = t => { const d = new Date(t); return `${d.getDate()} ${MON[d.getMonth()]} ${d.getFullYear()}`; };
-const isoDay = d => new Date(d).toISOString().slice(0, 10);
 const ago = t => { const s = (Date.now() - new Date(t)) / 1000; if (s < 3600) { const m = Math.max(1, Math.round(s / 60)); return m + (m === 1 ? " minute ago" : " minutes ago"); } if (s < 86400) { const h = Math.round(s / 3600); return h + (h === 1 ? " hour ago" : " hours ago"); } if (s < 7 * 86400) { const d = Math.round(s / 86400); return d + (d === 1 ? " day ago" : " days ago"); } return day(t); };
-const cleanTag = t => String(t).toLowerCase().replace(/^#/, "").replace(/[^a-z0-9-]/g, "").slice(0, 30);
-const parseTags = s => [...new Set(String(s).split(/[\s,]+/).map(cleanTag).filter(Boolean))].slice(0, 8);
 const board = id => S.boards.find(b => b.id === id);
-const toolList = keys => (keys || []).map(k => TOOLS[k] || k).join(", ");
 const authorName = p => p.is_sample && p.sample_author ? p.sample_author : !p.author && p.is_sample ? APP_NAME + " team" : (p.author_handle || (p.profiles && p.profiles.handle) || "a former member");
 const userLink = h => h && h !== "a former member" && h !== APP_NAME + " team" ? `<a href="#u-${esc(h)}">${esc(h)}</a>` : esc(h);
 const plural = (n, one, many) => `${n.toLocaleString("en-GB")} ${n === 1 ? one : many}`;
@@ -93,10 +88,8 @@ const IC = {
   copy: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 011-1h10"/>',
   save: '<path d="M6 3h12v18l-6-4-6 4z"/>',
   bell: '<path d="M6 9a6 6 0 0112 0c0 5 2 6.5 2 6.5H4S6 14 6 9"/><path d="M10 19a2 2 0 004 0"/>',
-  search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>',
   heart: '<path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z"/>',
-  chat: '<path d="M4 5h16v11H9l-5 4z"/>',
-  ext: '<path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/>'
+  chat: '<path d="M4 5h16v11H9l-5 4z"/>'
 };
 const LABELS = { index: "Find help", post: "Share a tip", library: "Saved", login: "Log in", join: "Create an account", newpass: "New password", me: "Your account", display: "Text size", mod: "Admin", notifications: "Notifications", search: "All posts", help: "Help", about: "About", rules: "House rules", terms: "Terms of use", privacy: "Privacy", accessibility: "Accessibility", "safe-sharing": "What you can safely share", complaints: "Reports and complaints", badge: "Badge" };
 function routeLabel(h) {
@@ -167,7 +160,7 @@ function flushToast() { if (S.toastNext) { toast(S.toastNext); S.toastNext = "";
 async function loadMe() {
   const { data } = await sb.auth.getSession();
   S.session = data.session;
-  S.me = null; S.myFollows = []; S.isMod = false; S.modBoards = new Set();
+  S.me = null; S.isMod = false; S.modBoards = new Set();
   if (S.session) {
     const uid = S.session.user.id;
     const [pr, md] = await Promise.all([sb.rpc("my_profile"), sb.from("board_mods").select("board_id").eq("user_id", uid)]);
@@ -183,7 +176,7 @@ async function loadBoards() {
   S.boards = (data || []).filter(b => !b.archived);
   renderShell();
 }
-const FEED_COLS = "id,author,task,body,tool_key,screenshots,author_profession,board_id,type,title,tags,status,pinned,is_sample,tested_on,created_at,author_handle,likes,replies,outcome_before,outcome_after,sample_author";
+const FEED_COLS = "id,author,task,body,tool_key,screenshots,author_profession,board_id,type,title,tags,status,is_sample,created_at,author_handle,likes,replies,outcome_before,outcome_after,sample_author";
 async function fetchPosts(q) { const { data, error } = await q; if (error) throw error; return data || []; }
 const publishedPosts = () => sb.from("post_feed").select(FEED_COLS).eq("status", "published").eq("type", "STORY").order("created_at", { ascending: false }).limit(300);
 const isAdmin = () => !!(S.me && S.me.role === "admin");
@@ -536,7 +529,6 @@ async function viewNotifications() {
   const row = n => {
     const t = `<a href="#t-${esc(n.post_id)}">${esc(title[n.post_id] || "your post")}</a>`, a = n.actor ? esc(who[n.actor] || "Someone") : "";
     const line = n.kind === "approved" ? `Your tip ${t} is now live.`
-      : n.kind === "fork" ? `${a} reused ${t}.`
       : `${a} commented on ${t}: "${esc(n.detail)}${n.detail.length >= 140 ? "..." : ""}"`;
     return `<li class="comment"><div>${n.read_at ? "" : '<span class="badge ok">New</span> '}${line}</div><div class="meta">${esc(ago(n.created_at))}</div></li>`;
   };

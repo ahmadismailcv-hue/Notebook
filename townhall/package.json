@@ -1,7 +1,7 @@
 {
-  "name": "townhall",
+  "name": "boring-bits",
   "version": "1.0.0",
-  "description": "Townhall: AI workflows from UK university staff",
+  "description": "The Boring Bits: tips on using free AI tools for everyday paperwork",
   "main": "index.js",
   "scripts": {
     "build": "python3 build.py",
@@ -15,12 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@fontsource/atkinson-hyperlegible": "^5.3.0",
-    "@fontsource/chakra-petch": "^5.3.0",
-    "@fontsource/ibm-plex-mono": "^5.3.0",
-    "@fontsource/ibm-plex-sans": "^5.3.0",
-    "@fontsource/inter": "^5.3.0",
     "@fontsource/lexend": "^5.3.0",
-    "@fontsource/newsreader": "^5.3.0",
     "@fontsource/young-serif": "^5.3.0",
     "@supabase/supabase-js": "^2.119.0"
   },

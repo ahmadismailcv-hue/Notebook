@@ -1,8 +1,8 @@
 # The Boring Bits
 
-AI help for everyday life. Shared by people, tested by us.
+AI help for everyday life, shared by the people who use it.
 
-UK adults share how a free AI tool helped them with a boring job: a bill, a letter, a complaint, a form. Admins turn the best tips into step-by-step guides, test them, and say when they were last tested. Readers say whether a guide worked for them. (In the database, tips are STORY posts and guides are RECIPE posts.) Formerly "Townhall"; see PIVOT_PLAN.md.
+A forum where UK adults share how a free AI tool helped them with a boring job: a bill, a letter, a complaint, a form. Tips are sorted by category and by AI tool, and members can like, comment on and save them. (In the database, tips are STORY posts. The old guide type, RECIPE, is no longer shown.) Formerly "Townhall", a forum for university staff.
 
 Product decisions and writing rules are in CLAUDE.md. Read that before changing anything.
 
@@ -15,7 +15,8 @@ Product decisions and writing rules are in CLAUDE.md. Read that before changing 
 - `supabase/schema_snapshot.md`, `advisors.md`, `live_check.md`: read-only reports on the live database.
 - `sql/`: scripts the owner runs by hand in the Supabase SQL editor.
 - `test/`: Playwright tests against a mock Supabase client (`test/mock.js`). `test/db/` replays the migrations on a local Postgres.
-- `logo/`: one-off image scripts. Not part of the build.
+- `logo/`: the logo files (`logo/brand/`) and the badge source (`badge.html`, rendered by `badge.py`).
+- `preview/`: builds a self-contained preview that runs on the mock instead of Supabase.
 
 ## Set up
 
@@ -47,10 +48,10 @@ Both npm scripts rebuild first, and exit 1 on any failure.
 
 ## Deploy
 
-The site is static. Upload the contents of `dist/` to any static host, for example Cloudflare Pages. It needs `index.html`, `badge.png`, `badge-icon.png` and `favicon.svg`; the build puts all four in `dist/`. To change the badge text, edit `logo/badge.html` and run `python3 logo/badge.py`.
+The site is static and lives on GitHub Pages at https://ahmadismailcv-hue.github.io/Notebook/boring-bits/. `.github/workflows/deploy.yml` builds it into `dist/boring-bits/` on every push to `claude/notebook-connection-8j2v8w`. To change the badge text, edit `logo/badge.html` and run `python3 logo/badge.py`.
 
 After the first deploy, add the site address to Supabase under Authentication, URL Configuration: set it as the Site URL, and add it followed by `/**` to the Redirect URLs. Otherwise confirmation and password reset emails point to the wrong place. DEPLOY.md has the full checklist.
 
 ## Database
 
-The live project is `dlqltqsojkjygzzehvjk` (London). Change it with a new file in `supabase/migrations/`. The pivot migration `20261120120000_boring_bits_pivot.sql` is written but not yet applied; see DEPLOY.md. Test risky SQL inside a `DO` block that raises at the end, so it rolls back.
+The live project is `dlqltqsojkjygzzehvjk` (London). Change it with a new file in `supabase/migrations/`. Every migration in that folder has been applied. Test risky SQL inside a `DO` block that raises at the end, so it rolls back.
